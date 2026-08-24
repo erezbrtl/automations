@@ -40,8 +40,9 @@
   --gutter:       clamp(18px, 5vw, 48px);
   --sect:         clamp(48px, 6.4vw, 88px);
 
+  /* one typeface across the whole site */
   --font-head: "Rubik", "Arial Hebrew", system-ui, sans-serif;
-  --font-body: "Assistant", "Rubik", system-ui, sans-serif;
+  --font-body: var(--font-head);
 }
 
 /* The page commits to one dark visual world in both themes. */
@@ -49,7 +50,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { font-family: var(--font-body); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
