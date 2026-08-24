@@ -41,6 +41,23 @@
     floatCta.appendChild(wa);
   }
 
+  /* ---------- background drifts slower than the page ---------- */
+  var bloomLayer = document.getElementById("bloomLayer");
+  if (bloomLayer && !reduced) {
+    var drifting = false;
+    var drift = function () {
+      bloomLayer.style.transform =
+        "translate3d(0," + ((window.scrollY || window.pageYOffset) * 0.06).toFixed(1) + "px,0)";
+      drifting = false;
+    };
+    window.addEventListener("scroll", function () {
+      if (drifting) { return; }
+      drifting = true;
+      window.requestAnimationFrame(drift);
+    }, { passive: true });
+    drift();
+  }
+
   /* ---------- reveal on scroll ---------- */
   var revealables = document.querySelectorAll(".rv");
   if ("IntersectionObserver" in window && !reduced) {
