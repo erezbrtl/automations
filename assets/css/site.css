@@ -272,16 +272,12 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 
 
 .hero-meta {
-  margin-top: 22px;
+  margin-top: 20px;
   color: var(--on-dark-soft);
   font-size: .95rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px;
+  max-width: 42ch;
 }
-.hero-meta b { color: #fff; font-family: var(--font-head); font-weight: 700; }
-.hero-meta i { color: var(--cta); font-style: normal; }
+.hero-meta b { color: #fff; font-weight: 700; }
 
 /* video */
 .video {
@@ -504,7 +500,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .about-lines { display: grid; gap: 10px; margin-top: 20px; }
 .about-lines li { display: flex; gap: 10px; color: var(--on-dark-soft); }
 .about-lines li::before { content: "—"; color: var(--cta); }
-.skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.skills-lead { margin-top: 20px; color: var(--on-dark-soft); font-size: .95rem; }
+.skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .skill { font-size: .84rem; padding: 6px 13px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid var(--hairline); color: var(--on-dark-soft); direction: ltr; }
 .quote { margin-top: 22px; padding-inline-start: 18px; border-inline-start: 3px solid var(--cta); font-size: 1.05rem; color: #fff; font-weight: 600; }
 
