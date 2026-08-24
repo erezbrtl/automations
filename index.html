@@ -120,21 +120,16 @@
   <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow rv">סדנת AI ואוטומציה לעסק</span>
+      <span class="eyebrow rv">סדנה מעשית לעסקים ולארגונים</span>
       <h1 class="rv">
-        <span class="nb">AI ואוטומציה לעסק.</span>
+        <span class="nb">סדנת AI ואוטומציה לעסק.</span>
         <span class="l2"><span class="nb">בלי קוד. בלי הייפ.</span> <span class="mark">עם תוצאות.</span></span>
       </h1>
-      <p class="hero-sub rv">3-4 שעות. תהליך אמיתי מהעסק שלכם. <b>אוטומציה שעובדת בסוף.</b></p>
+      <p class="hero-sub rv">3-4 שעות עבודה על תהליך אמיתי מהעסק שלכם. בסוף יוצאים עם <b>אוטומציה שעובדת</b>.</p>
       <div class="btn-row rv">
         <a class="btn btn--cta" href="#contact"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
-        <a class="btn btn--ghost" href="#steps">איך זה עובד</a>
       </div>
-      <ul class="chips rv">
-        <li class="chip-t"><b dir="ltr">16+</b> שנות הוראה</li>
-        <li class="chip-t">בלי ידע בתכנות</li>
-        <li class="chip-t">על התהליכים שלכם</li>
-      </ul>
+      <p class="hero-meta rv"><b dir="ltr">16+</b> שנות הוראה <i>·</i> בלי ידע בתכנות <i>·</i> על התהליכים שלכם</p>
     </div>
 
     <div class="video rv" id="video">
@@ -220,33 +215,59 @@
 <!-- ===== EXAMPLES ===== -->
 <section class="section bg-deep" id="examples">
   <div class="wrap">
-    <div class="rv">
-      <span class="eyebrow">דוגמאות</span>
+    <div class="center rv">
+      <span class="eyebrow">דוגמה</span>
       <h2 class="h-sect">מה בונים בסדנה?</h2>
+      <p class="h-sub">בוחרים תחום ורואים איך נראה תהליך שרץ לבד.</p>
     </div>
 
-    <div class="flows rv">
-      <article class="flow"><h3 class="flow-dom">מכירות</h3><div class="flow-chain">
-        <span class="pill">ליד חדש</span><span class="arw">←</span>
-        <span class="pill pill--ai">AI · סיווג</span><span class="arw">←</span>
-        <span class="pill">CRM</span><span class="arw">←</span>
-        <span class="pill">הודעה ללקוח</span><span class="arw">←</span>
-        <span class="pill">Follow-up</span></div></article>
-      <article class="flow"><h3 class="flow-dom">שירות</h3><div class="flow-chain">
-        <span class="pill">פנייה מלקוח</span><span class="arw">←</span>
-        <span class="pill pill--ai">AI · סיווג</span><span class="arw">←</span>
-        <span class="pill">תשובה ראשונית</span><span class="arw">←</span>
-        <span class="pill">נציג</span></div></article>
-      <article class="flow"><h3 class="flow-dom">ניהול</h3><div class="flow-chain">
-        <span class="pill">טפסים ומסמכים</span><span class="arw">←</span>
-        <span class="pill pill--ai">AI · חילוץ מידע</span><span class="arw">←</span>
-        <span class="pill">סיכום</span><span class="arw">←</span>
-        <span class="pill">עדכון מערכת</span></div></article>
-      <article class="flow"><h3 class="flow-dom">תוכן</h3><div class="flow-chain">
-        <span class="pill">פרויקט חדש</span><span class="arw">←</span>
-        <span class="pill pill--ai">AI · ניסוח</span><span class="arw">←</span>
-        <span class="pill">טקסט לאתר</span><span class="arw">←</span>
-        <span class="pill">רשתות</span></div></article>
+    <div class="demo rv">
+      <div class="demo-tabs" role="tablist" aria-label="תחומים">
+        <button class="demo-tab is-on" role="tab" id="tab-sales" aria-controls="panel-sales" aria-selected="true">מכירות</button>
+        <button class="demo-tab" role="tab" id="tab-service" aria-controls="panel-service" aria-selected="false" tabindex="-1">שירות</button>
+        <button class="demo-tab" role="tab" id="tab-ops" aria-controls="panel-ops" aria-selected="false" tabindex="-1">ניהול</button>
+        <button class="demo-tab" role="tab" id="tab-content" aria-controls="panel-content" aria-selected="false" tabindex="-1">תוכן</button>
+      </div>
+
+      <div class="demo-stage">
+        <div class="demo-panel is-on" id="panel-sales" role="tabpanel" aria-labelledby="tab-sales">
+          <div class="flow-chain">
+            <span class="pill">ליד חדש</span><span class="arw">←</span>
+            <span class="pill pill--ai">AI · סיווג</span><span class="arw">←</span>
+            <span class="pill">CRM</span><span class="arw">←</span>
+            <span class="pill">הודעה ללקוח</span><span class="arw">←</span>
+            <span class="pill">משימה למעקב</span>
+          </div>
+          <p class="demo-line">ליד נכנס, מקבל תשובה ראשונה ומשימת מעקב. בלי שאף אחד נגע.</p>
+        </div>
+        <div class="demo-panel" id="panel-service" role="tabpanel" aria-labelledby="tab-service" hidden>
+          <div class="flow-chain">
+            <span class="pill">פנייה מלקוח</span><span class="arw">←</span>
+            <span class="pill pill--ai">AI · זיהוי נושא</span><span class="arw">←</span>
+            <span class="pill">תשובה ראשונית</span><span class="arw">←</span>
+            <span class="pill">הנציג הנכון</span>
+          </div>
+          <p class="demo-line">כל פנייה מגיעה לאדם הנכון, עם תשובה ראשונה שכבר יצאה.</p>
+        </div>
+        <div class="demo-panel" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" hidden>
+          <div class="flow-chain">
+            <span class="pill">טופס או מסמך</span><span class="arw">←</span>
+            <span class="pill pill--ai">AI · חילוץ נתונים</span><span class="arw">←</span>
+            <span class="pill">סיכום</span><span class="arw">←</span>
+            <span class="pill">עדכון במערכת</span>
+          </div>
+          <p class="demo-line">מסמכים נכנסים למערכת מסודרים, בלי הקלדה ידנית.</p>
+        </div>
+        <div class="demo-panel" id="panel-content" role="tabpanel" aria-labelledby="tab-content" hidden>
+          <div class="flow-chain">
+            <span class="pill">פרויקט שהסתיים</span><span class="arw">←</span>
+            <span class="pill pill--ai">AI · ניסוח</span><span class="arw">←</span>
+            <span class="pill">טקסט לאתר</span><span class="arw">←</span>
+            <span class="pill">פוסט לרשתות</span>
+          </div>
+          <p class="demo-line">מה שנגמר אצלכם היום כבר כתוב באתר ובעמוד מחר.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>

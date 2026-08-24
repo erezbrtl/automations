@@ -130,6 +130,31 @@
     photo.addEventListener("load", function () { portrait.innerHTML = ""; portrait.appendChild(photo); });
   }
 
+  /* ---------- worked example tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".demo-tab"));
+  if (tabs.length) {
+    var showTab = function (tab, focus) {
+      tabs.forEach(function (other) {
+        var panel = document.getElementById(other.getAttribute("aria-controls"));
+        var on = other === tab;
+        other.classList.toggle("is-on", on);
+        other.setAttribute("aria-selected", on ? "true" : "false");
+        other.tabIndex = on ? 0 : -1;
+        if (panel) { panel.hidden = !on; panel.classList.toggle("is-on", on); }
+      });
+      if (focus) { tab.focus(); }
+    };
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () { showTab(tab); });
+      tab.addEventListener("keydown", function (event) {
+        var step = event.key === "ArrowLeft" ? 1 : event.key === "ArrowRight" ? -1 : 0;
+        if (!step) { return; }
+        event.preventDefault();
+        showTab(tabs[(index + step + tabs.length) % tabs.length], true);
+      });
+    });
+  }
+
   /* ---------- prefill from the organisation CTA ---------- */
   document.addEventListener("click", function (event) {
     var trigger = event.target.closest ? event.target.closest("[data-prefill]") : null;
