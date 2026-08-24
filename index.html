@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI ואוטומציה לעסקים בלי קוד | Erez B</title>
+<meta name="description" content="סדנאות והרצאות מעשיות לבעלי עסקים וארגונים: איך לזהות תהליכים, לשלב AI ולבנות אוטומציות ללא קוד.">
+<meta name="keywords" content="הדרכות AI לעסקים, סדנת AI לעסקים, אוטומציה לעסקים, AI לעסקים, אוטומציה עסקית, AI ללא קוד, No-Code, סדנת אוטומציה, הדרכת AI לארגונים, הרצאת AI לעסקים, AI ואוטומציה בצפון">
+<meta name="author" content="Erez Bartal">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://automations.erezb.pro/">
+<meta name="theme-color" content="#F7F6F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="Erez B — AI &amp; Automation">
+<meta property="og:url" content="https://automations.erezb.pro/">
+<meta property="og:title" content="AI ואוטומציה לעסקים בלי קוד | Erez B">
+<meta property="og:description" content="סדנאות והרצאות מעשיות לבעלי עסקים וארגונים: איך לזהות תהליכים, לשלב AI ולבנות אוטומציות ללא קוד.">
+<meta property="og:image" content="https://automations.erezb.pro/assets/img/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI ואוטומציה לעסקים בלי קוד | Erez B">
+<meta name="twitter:description" content="סדנאות והרצאות מעשיות לבעלי עסקים וארגונים: איך לזהות תהליכים, לשלב AI ולבנות אוטומציות ללא קוד.">
+<meta name="twitter:image" content="https://automations.erezb.pro/assets/img/og-cover.png">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/suez-one-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://automations.erezb.pro/#service",
+      "name": "Erez B — סדנאות AI ואוטומציה לעסקים",
+      "description": "סדנאות, הרצאות וייעוץ לבעלי עסקים, מנהלים וארגונים: זיהוי תהליכים חוזרים, תכנון Workflows, שילוב AI ובניית אוטומציות ללא קוד.",
+      "url": "https://automations.erezb.pro/",
+      "areaServed": { "@type": "Country", "name": "ישראל" },
+      "availableLanguage": ["he", "en"],
+      "provider": { "@id": "https://automations.erezb.pro/#erez" },
+      "serviceType": ["סדנת AI לעסקים", "הרצאת AI לעסקים", "אוטומציה עסקית", "הדרכת AI לארגונים"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "דרכי עבודה",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "הרצאה / סדנת מבוא", "description": "מפגש חד-פעמי לעובדים, מנהלים או קהילה." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "סדנה מעשית", "description": "3–4 שעות של עבודה מעשית על תהליכים עסקיים ואוטומציה." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "הדרכה מותאמת לארגון", "description": "תוכנית שנבנית סביב התהליכים, הכלים והצרכים של הארגון." } }
+        ]
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://automations.erezb.pro/#erez",
+      "name": "Erez Bartal",
+      "alternateName": "ארז ברטל",
+      "jobTitle": "מרצה, מעצב ומפתח פתרונות דיגיטליים",
+      "description": "יותר מ-16 שנות ניסיון בהוראה ובהדרכה. מתמחה בחיבור שבין AI, אוטומציה, No-Code ומוצרים דיגיטליים.",
+      "knowsAbout": ["AI", "Automation", "No-Code", "Workflow Design", "Digital Products", "Training"],
+      "url": "https://automations.erezb.pro/"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://automations.erezb.pro/#website",
+      "url": "https://automations.erezb.pro/",
+      "name": "AI ואוטומציה לעסקים | Erez B",
+      "inLanguage": "he-IL",
+      "publisher": { "@id": "https://automations.erezb.pro/#erez" }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">דילוג לתוכן הראשי</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">Erez<b>.</b>B</span>
+      <span class="brand-sub">AI &amp; Automation</span>
+    </a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="#pain">הבעיה</a>
+      <a href="#workshop">הסדנה</a>
+      <a href="#examples">דוגמאות</a>
+      <a href="#about">מי אני</a>
+      <a href="#offer">איך עובדים</a>
+    </nav>
+    <a class="btn btn--accent header-cta" href="#check"><span class="arw">←</span> בדקו מה אפשר לאוטמט</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">AI · Automation · No-Code</p>
+      <h1>
+        AI ואוטומציה לעסק.
+        <span class="line-2">בלי קוד. בלי הייפ. עם תוצאות.</span>
+      </h1>
+      <p class="hero-sub">
+        סדנאות מעשיות לבעלי עסקים ומנהלים שרוצים להפסיק לעשות ידנית דברים
+        שאפשר לגרום ל-AI לבצע עבורם.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--accent" href="#check"><span class="arw">←</span> בדקו מה אפשר לאוטמט בעסק שלכם</a>
+        <a class="btn btn--ghost" href="#b2b">לתיאום סדנה לעסק או לארגון</a>
+      </div>
+      <div class="trust">
+        <span class="trust-item"><span class="trust-num">16+</span> שנות ניסיון בהוראה</span>
+        <span class="trust-tags">AI • Automation • No-Code • Digital</span>
+      </div>
+    </div>
+
+    <div class="pipe" id="pipe" aria-hidden="true">
+      <div class="pipe-head">
+        <span><span class="dot"></span>WORKFLOW</span>
+        <span id="pipeCount">01 / 04</span>
+      </div>
+      <p class="pipe-label" id="pipeLabel">מכירות</p>
+      <ul class="pipe-flow" id="pipeFlow"></ul>
+      <div class="pipe-foot">
+        <span>ידנית: <b>כל פעם מחדש</b></span>
+        <span>אוטומטית: <b>מגדירים פעם אחת</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · PAIN ============ -->
+<section class="section" id="pain">
+  <div class="wrap">
+    <div class="section-head section-head--wide rv">
+      <p class="eyebrow">01 · המצב היום</p>
+      <h2 class="section-title">כמה זמן העסק שלכם מבזבז על עבודה שמחשב יכול לעשות?</h2>
+    </div>
+
+    <div class="grid grid--3 rv">
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1" y="3" width="11" height="14"/><rect x="20" y="9" width="11" height="14"/><path d="M13 8h6M13 8l-2-2M13 8l-2 2" transform="translate(0,2)"/></svg>
+        <h3>העתקת מידע בין מערכות</h3>
+        <p>אותו פרט נכתב שוב ושוב בטופס, בגיליון, במערכת ובמייל.</p>
+      </article>
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 3h18v11H9l-5 4v-4H2z"/><path d="M24 8h6v11h-2v4l-4-4h-5"/></svg>
+        <h3>מענה על שאלות שחוזרות על עצמן</h3>
+        <p>אותן חמש שאלות, כל יום, בוואטסאפ, במייל ובטלפון.</p>
+      </article>
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 4h28l-10 9v9l-8 4v-13z"/></svg>
+        <h3>מעקב אחרי לידים ולקוחות</h3>
+        <p>מי פנה, מי ענה, למי צריך לחזור — ומתי זה נפל בין הכיסאות.</p>
+      </article>
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 2h15l6 6v16H4z"/><path d="M19 2v6h6"/><path d="M8 13h11M8 17h8"/></svg>
+        <h3>כתיבת תוכן שוב ושוב</h3>
+        <p>תיאור מוצר, פוסט, ניוזלטר, תשובה ללקוח — כל פעם מאפס.</p>
+      </article>
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="26" height="18"/><path d="M3 3l13 9 13-9"/><path d="M7 24h18"/></svg>
+        <h3>סיכום מיילים ומסמכים</h3>
+        <p>קריאה של שרשור ארוך רק כדי להבין מה בעצם צריך לעשות.</p>
+      </article>
+      <article class="cell">
+        <svg class="cell-icon" viewBox="0 0 32 26" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M16 3a7 7 0 0 1 7 7v5l3 4H6l3-4v-5a7 7 0 0 1 7-7z"/><path d="M13 21a3 3 0 0 0 6 0"/></svg>
+        <h3>שליחת תזכורות ועדכונים</h3>
+        <p>עדכון סטטוס, תזכורת לפגישה, מעקב אחרי תשלום.</p>
+      </article>
+    </div>
+
+    <div class="after-note rv">
+      <p class="kicker">רוב העסקים כבר משתמשים ב-AI בצורה כזו או אחרת. אבל שימוש ב-ChatGPT כדי לכתוב מייל הוא רק ההתחלה.</p>
+      <p>הערך האמיתי מתחיל כשמחברים AI לתהליכי העבודה של העסק — לא כשפותחים עוד חלון צ'אט ומדביקים ממנו טקסט.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · DIFFERENTIATION ============ -->
+<section class="section section--band" id="approach">
+  <div class="wrap">
+    <div class="split">
+      <div class="prose rv">
+        <p class="eyebrow">02 · הגישה</p>
+        <h2 class="section-title">לא עוד קורס "100 כלי AI".</h2>
+        <p>אפשר ללמוד עשרות כלי AI. אפשר לשמור מאות פרומפטים. ואפשר לסיים קורס ולהישאר בדיוק באותו מקום.</p>
+        <p class="lead-strong">אני עושה את זה אחרת. אנחנו מתחילים מהעסק:</p>
+        <ul class="ask-list">
+          <li>מה אתם עושים שוב ושוב?</li>
+          <li>איפה אתם מבזבזים זמן?</li>
+          <li>איזה מידע עובר מיד ליד?</li>
+          <li>איפה יש צוואר בקבוק?</li>
+        </ul>
+        <p>רק אחר כך בוחרים את הכלי המתאים.</p>
+      </div>
+
+      <div class="order-panel rv">
+        <div class="order-block">
+          <h4>The right order</h4>
+          <div class="chain chain--good">
+            <span class="node">העסק</span><span class="sep">←</span>
+            <span class="node">התהליך</span><span class="sep">←</span>
+            <span class="node">הפתרון</span><span class="sep">←</span>
+            <span class="node">הכלי</span>
+          </div>
+        </div>
+        <div class="order-block">
+          <h4>Not this</h4>
+          <div class="chain chain--bad">
+            <span class="node">הכלי</span><span class="sep">←</span>
+            <span class="node">ואז נחפש מה לעשות איתו</span>
+          </div>
+          <p class="order-note">זו הסיבה שרוב הכלים שנלמדו בקורס לא נכנסו אף פעם לעבודה היומית.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · THE WORKSHOP ============ -->
+<section class="section" id="workshop">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">03 · המבנה</p>
+      <h2 class="section-title">מה קורה בסדנה?</h2>
+      <p class="section-lede">חמישה שלבים. מתחילים מהתהליכים שלכם ומסיימים עם אוטומציה שעובדת.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step rv">
+        <span class="step-num">01</span>
+        <h3>מזהים</h3>
+        <p>ממפים משימות ותהליכים שחוזרים על עצמם.</p>
+      </li>
+      <li class="step rv">
+        <span class="step-num">02</span>
+        <h3>מתכננים</h3>
+        <p>מבינים מה נכנס, מה קורה בדרך ומה צריך לצאת.</p>
+      </li>
+      <li class="step rv">
+        <span class="step-num">03</span>
+        <h3>מחברים AI</h3>
+        <p>מזהים איפה AI יכול להבין, לסווג, לכתוב, לסכם או לקבל החלטה.</p>
+      </li>
+      <li class="step rv">
+        <span class="step-num">04</span>
+        <h3>מאטמטים</h3>
+        <p>בונים <span class="ltr">Workflow</span> באמצעות כלים כמו <span class="ltr">Make</span>, <span class="ltr">n8n</span> וכלי <span class="ltr">No-Code</span>.</p>
+      </li>
+      <li class="step rv">
+        <span class="step-num">05</span>
+        <h3>מודדים</h3>
+        <p>בודקים כמה זמן, עבודה ומשאבים אפשר לחסוך.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 5 · WHAT THEY LEARN ============ -->
+<section class="section" id="learn">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">04 · התוצאה</p>
+      <h2 class="section-title">מה יוצאים מהסדנה יודעים לעשות?</h2>
+    </div>
+
+    <ul class="learn rv">
+      <li>לזהות תהליכים שמתאימים לאוטומציה</li>
+      <li>לתכנן Workflow נכון לפני שבוחרים כלי</li>
+      <li>להבין איפה AI באמת מוסיף ערך</li>
+      <li>להשתמש במודלי שפה כחלק מתהליך עסקי</li>
+      <li>לחבר בין מערכות וכלים</li>
+      <li>לבנות אוטומציות ללא כתיבת קוד</li>
+      <li>לחשוב על Data Validation ובקרת איכות</li>
+      <li>לזהות הזדמנויות נוספות לאוטומציה בעסק</li>
+    </ul>
+
+    <p class="pull rv">
+      המטרה היא לא שתכירו עוד כלי.
+      <span>המטרה היא שתדעו לזהות בעיה — ולבנות לה פתרון.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 6 · REAL EXAMPLES ============ -->
+<section class="section section--band" id="examples">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">05 · דוגמאות</p>
+      <h2 class="section-title">איפה זה יכול לעבוד בעסק שלכם?</h2>
+      <p class="section-lede">אותו עיקרון, תחומים שונים: מידע נכנס, AI מבין ומחליט, המערכת ממשיכה לבד.</p>
+    </div>
+
+    <div class="flows rv">
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>מכירות</h3>
+        <div class="flow-chain">
+          <span class="chip">ליד חדש</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · סיווג</span><span class="arrow">←</span>
+          <span class="chip">CRM</span><span class="arrow">←</span>
+          <span class="chip">הודעה ללקוח</span><span class="arrow">←</span>
+          <span class="chip">משימת Follow-up</span>
+        </div>
+      </article>
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>שיווק</h3>
+        <div class="flow-chain">
+          <span class="chip">מידע על מוצר</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · כתיבה</span><span class="arrow">←</span>
+          <span class="chip">תוכן לאתר</span><span class="arrow">←</span>
+          <span class="chip">פוסט</span><span class="arrow">←</span>
+          <span class="chip">Newsletter</span>
+        </div>
+      </article>
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>שירות</h3>
+        <div class="flow-chain">
+          <span class="chip">פנייה מלקוח</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · סיווג</span><span class="arrow">←</span>
+          <span class="chip">תשובה ראשונית</span><span class="arrow">←</span>
+          <span class="chip">נציג</span>
+        </div>
+      </article>
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>ניהול</h3>
+        <div class="flow-chain">
+          <span class="chip">טפסים ומסמכים</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · חילוץ מידע</span><span class="arrow">←</span>
+          <span class="chip">סיכום</span><span class="arrow">←</span>
+          <span class="chip">עדכון מערכת</span>
+        </div>
+      </article>
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>משאבי אנוש</h3>
+        <div class="flow-chain">
+          <span class="chip">קורות חיים</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · סינון ראשוני</span><span class="arrow">←</span>
+          <span class="chip">סיכום</span><span class="arrow">←</span>
+          <span class="chip">העברה למנהל</span>
+        </div>
+      </article>
+      <article class="flow">
+        <h3 class="flow-domain"><i class="tick"></i>תוכן</h3>
+        <div class="flow-chain">
+          <span class="chip">פרויקט חדש</span><span class="arrow">←</span>
+          <span class="chip chip--ai">AI · ניסוח</span><span class="arrow">←</span>
+          <span class="chip">טקסט לאתר</span><span class="arrow">←</span>
+          <span class="chip">פוסט</span><span class="arrow">←</span>
+          <span class="chip">תוכן לרשתות</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · FOR WHOM ============ -->
+<section class="section" id="audience">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">06 · קהל</p>
+      <h2 class="section-title">למי הסדנה מתאימה?</h2>
+    </div>
+    <ul class="tags rv">
+      <li class="tag">בעלי עסקים</li>
+      <li class="tag">מנהלים</li>
+      <li class="tag">צוותי שיווק ומכירות</li>
+      <li class="tag">נותני שירותים</li>
+      <li class="tag">ארגונים</li>
+      <li class="tag">צוותים שרוצים לעבוד חכם יותר</li>
+      <li class="tag">מועצות וקהילות עסקיות</li>
+      <li class="tag">מרכזי יזמות ופיתוח עסקי</li>
+    </ul>
+    <p class="no-code-note rv"><code>NO CODE</code> לא נדרש ידע בתכנות.</p>
+  </div>
+</section>
+
+<!-- ============ 8 · FACILITATOR ============ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="split">
+      <div class="prose rv">
+        <p class="eyebrow">07 · מי מעביר</p>
+        <h2 class="section-title">מי מעביר את הסדנה?</h2>
+        <p class="bio-name">Erez Bartal</p>
+        <p>מרצה, מעצב ומפתח פתרונות דיגיטליים עם יותר מ-16 שנות ניסיון בהוראה ובהדרכה.</p>
+        <p>ההתמחות שלי נמצאת בנקודת החיבור שבין:</p>
+        <ul class="skills">
+          <li class="skill">AI</li>
+          <li class="skill">Automation</li>
+          <li class="skill">No-Code</li>
+          <li class="skill">Digital Products</li>
+          <li class="skill">Design</li>
+          <li class="skill">Content</li>
+          <li class="skill">Training</li>
+        </ul>
+        <ul class="teach-note">
+          <li>הסבר של טכנולוגיה מורכבת בשפה פשוטה, בלי לעגל פינות.</li>
+          <li>עבודה עם קבוצות ברמות ידע שונות, באותו חדר.</li>
+          <li>למידה מעשית: יוצאים עם משהו שבנוי, לא עם מצגת.</li>
+        </ul>
+      </div>
+
+      <blockquote class="quote rv">
+        <span class="mark">"</span>
+        <p>אני לא מאמין שצריך לדעת את כל כלי ה-AI כדי לעבוד איתם. התחום משתנה כל הזמן.</p>
+        <p>מה שחשוב הוא לדעת איך ללמוד, איך לחשוב על תהליך ואיך להפוך טכנולוגיה לפתרון שימושי.</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · ALREADY TOOK A COURSE ============ -->
+<section class="section band-inv" id="already">
+  <div class="wrap">
+    <div class="split">
+      <div class="prose rv">
+        <p class="eyebrow">08 · נקודה חשובה</p>
+        <h2 class="section-title">כבר עשיתם קורס AI ולא יצא מזה כלום?</h2>
+        <p class="lead-strong">אתם ממש לא לבד.</p>
+        <p>יש היום המון קורסים, סרטונים וכלי AI. הבעיה היא שהרבה פעמים לומדים את הכלים — אבל לא יודעים איפה הם באמת משתלבים בעסק.</p>
+        <p>בסדנה אנחנו הופכים את הכיוון:</p>
+        <div class="flip">
+          <span class="muted">מתחילים מהכלי</span>
+          <span>מתחילים מהבעיה.</span>
+        </div>
+      </div>
+      <div class="rv" style="align-self:center">
+        <div class="btn-row">
+          <a class="btn btn--inv" href="#check"><span class="arw">←</span> אני רוצה לבדוק מה אפשר לאוטמט אצלי</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · OFFER ============ -->
+<section class="section" id="offer">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">09 · פורמטים</p>
+      <h2 class="section-title">איך אפשר לעבוד איתי?</h2>
+      <p class="section-lede">שלושה פורמטים, לפי גודל הקבוצה ועומק העבודה שאתם צריכים.</p>
+    </div>
+
+    <div class="offer rv">
+      <article class="offer-card">
+        <span class="offer-num">01</span>
+        <h3>הרצאה / סדנת מבוא</h3>
+        <p>מפגש חד-פעמי לעובדים, מנהלים או קהילה.</p>
+        <a class="go" href="#b2b">לתיאום <span class="arw">←</span></a>
+      </article>
+      <article class="offer-card">
+        <span class="offer-num">02</span>
+        <h3>סדנה מעשית</h3>
+        <p>3–4 שעות של עבודה מעשית על תהליכים עסקיים ואוטומציה.</p>
+        <a class="go" href="#check">לפרטים <span class="arw">←</span></a>
+      </article>
+      <article class="offer-card">
+        <span class="offer-num">03</span>
+        <h3>הדרכה מותאמת לארגון</h3>
+        <p>תוכנית שנבנית סביב התהליכים, הכלים והצרכים של הארגון.</p>
+        <a class="go" href="#b2b">לתיאום <span class="arw">←</span></a>
+      </article>
+    </div>
+
+    <p class="offer-note rv">ההצעה נבנית אחרי שיחה קצרה — לפי גודל הקבוצה, התחום והתהליכים שרוצים לשפר.</p>
+  </div>
+</section>
+
+<!-- ============ 11 · LEAD MAGNET ============ -->
+<section class="section section--band" id="list">
+  <div class="wrap form-block">
+    <div class="rv">
+      <p class="eyebrow">10 · להתחיל בקטן</p>
+      <h2 class="section-title">רוצים להתחיל בקטן?</h2>
+      <p class="section-lede">הורידו בחינם: <strong class="lead-strong">"10 תהליכים בעסק שאפשר לבדוק אם כדאי לאוטמט"</strong> — רשימת בדיקה קצרה, בלי תיאוריה.</p>
+      <ul class="magnet-list">
+        <li><span class="n">01</span> קליטת ליד חדש</li>
+        <li><span class="n">02</span> תשובות חוזרות ללקוחות</li>
+        <li><span class="n">03</span> הצעות מחיר</li>
+        <li><span class="n">04</span> מעקב אחרי תשלומים</li>
+        <li><span class="n">05</span> ...ועוד שישה שאפשר לבדוק כבר השבוע</li>
+      </ul>
+    </div>
+
+    <div>
+      <form class="form-card rv" id="magnetForm" novalidate>
+        <div class="form-grid">
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="m-name">שם <span class="req">*</span></label>
+              <input id="m-name" name="name" type="text" autocomplete="name" required>
+              <span class="err" data-err-for="m-name"></span>
+            </div>
+            <div class="field">
+              <label for="m-email">אימייל <span class="req">*</span></label>
+              <input id="m-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required>
+              <span class="err" data-err-for="m-email"></span>
+            </div>
+          </div>
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="m-business">שם העסק</label>
+              <input id="m-business" name="business" type="text" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="m-field">תחום הפעילות</label>
+              <input id="m-field" name="field" type="text" placeholder="שירות, מסחר, ייעוץ, ייצור...">
+            </div>
+          </div>
+        </div>
+        <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label></div>
+        <div class="form-actions">
+          <button class="btn btn--accent" type="submit"><span class="arw">←</span> שלחו לי את הרשימה</button>
+          <span class="form-fine">בלי דיוור מיותר. אפשר להסיר בכל רגע.</span>
+        </div>
+        <p class="form-status" role="status" data-status></p>
+      </form>
+
+      <div class="form-done" id="magnetDone" tabindex="-1">
+        <h3>הרשימה בדרך אליכם.</h3>
+        <p>עכשיו בחרו תהליך אחד שחוזר על עצמו אצלכם. אם תרצו, אפשר גם לדבר עליו איתי.</p>
+        <div class="btn-row">
+          <a class="btn btn--accent" href="/resources/10-processes.html" target="_blank" rel="noopener"><span class="arw">←</span> פתחו את הרשימה עכשיו</a>
+          <a class="btn btn--ghost" href="#check">תיאום שיחת היכרות</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 · MAIN CONVERSION ============ -->
+<section class="section" id="check">
+  <div class="wrap form-block">
+    <div class="rv">
+      <p class="eyebrow">11 · בדיקה</p>
+      <h2 class="section-title">יש לכם תהליך שמבזבז לכם זמן?</h2>
+      <p class="section-lede">ספרו לי עליו. אני אחזור אליכם עם מה שאני חושב שאפשר לעשות איתו — גם אם התשובה היא "זה לא שווה אוטומציה".</p>
+      <ul class="teach-note">
+        <li>שיחה קצרה, בלי התחייבות.</li>
+        <li>בלי מכירת "חבילת AI" מוכנה מראש.</li>
+        <li>מתחילים מהתהליך שלכם, לא מרשימת כלים.</li>
+      </ul>
+    </div>
+
+    <div>
+      <form class="form-card rv" id="checkForm" novalidate>
+        <div class="form-grid">
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="c-name">שם <span class="req">*</span></label>
+              <input id="c-name" name="name" type="text" autocomplete="name" required>
+              <span class="err" data-err-for="c-name"></span>
+            </div>
+            <div class="field">
+              <label for="c-business">עסק</label>
+              <input id="c-business" name="business" type="text" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label for="c-phone">טלפון <span class="req">*</span></label>
+              <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
+              <span class="err" data-err-for="c-phone"></span>
+            </div>
+            <div class="field">
+              <label for="c-email">אימייל <span class="req">*</span></label>
+              <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required>
+              <span class="err" data-err-for="c-email"></span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="c-msg">מה הייתם רוצים להפוך לאוטומטי?</label>
+            <textarea id="c-msg" name="message" placeholder="לדוגמה: כל ליד שנכנס מהאתר צריך להיכנס ידנית לאקסל ואז לשלוח לו הודעה."></textarea>
+          </div>
+        </div>
+        <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label></div>
+        <div class="form-actions">
+          <button class="btn btn--accent" type="submit"><span class="arw">←</span> בדקו איתי את האפשרויות</button>
+        </div>
+        <p class="form-fine" style="margin-top:14px">שיחה קצרה, בלי התחייבות ובלי מכירת "חבילת AI" מוכנה מראש.</p>
+        <p class="form-status" role="status" data-status></p>
+      </form>
+
+      <div class="form-done" id="checkDone" tabindex="-1">
+        <h3>הפרטים התקבלו.</h3>
+        <p>אחזור אליכם בהקדם. בינתיים — חשבו על תהליך אחד שחוזר על עצמו אצלכם כל שבוע. שם בדרך כלל מתחילים.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 · B2B ============ -->
+<section class="section band-inv" id="b2b">
+  <div class="wrap split">
+    <div class="prose rv">
+      <p class="eyebrow">12 · ארגונים</p>
+      <h2 class="section-title">מייצגים ארגון, מועצה, קהילה עסקית או מרכז יזמות?</h2>
+      <p>אני מעביר הרצאות וסדנאות מותאמות לקבוצות ולארגונים — מהרצאת מבוא לקהילה עסקית ועד תוכנית עבודה מלאה סביב התהליכים של הארגון.</p>
+    </div>
+    <div class="rv" style="align-self:center">
+      <div class="btn-row">
+        <a class="btn btn--inv" href="#check" data-prefill="אני מייצג/ת ארגון ומעוניין/ת בתיאום הרצאה או סדנה."><span class="arw">←</span> לתיאום הרצאה / סדנה</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="section final section--flush" style="border-top:1px solid var(--rule)">
+  <div class="wrap">
+    <h2 class="rv">
+      לא צריך לדעת הכול על AI.
+      <span class="soft">צריך לדעת מה AI יכול לעשות בשבילכם.</span>
+    </h2>
+    <div class="btn-row rv">
+      <a class="btn btn--accent" href="#check"><span class="arw">←</span> בדקו מה אפשר לשפר בעסק שלכם</a>
+      <a class="btn btn--ghost" href="#b2b">לתיאום סדנה לארגון</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">Erez<b>.</b>B</span>
+      <span class="brand-sub">AI &amp; Automation</span>
+    </a>
+    <nav class="footer-links" aria-label="ניווט תחתון">
+      <a href="#pain">הבעיה</a>
+      <a href="#workshop">הסדנה</a>
+      <a href="#examples">דוגמאות</a>
+      <a href="#offer">איך עובדים</a>
+      <a href="#check">יצירת קשר</a>
+    </nav>
+    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+  </div>
+</footer>
+
+<div class="mobile-cta" id="mobileCta">
+  <a class="btn btn--accent" href="#check">בדקו מה אפשר לאוטמט</a>
+  <a class="btn btn--ghost" href="#b2b">סדנה לארגון</a>
+</div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
