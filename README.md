@@ -12,10 +12,23 @@
 
 | שדה | למה זה משמש |
 |---|---|
+| `youtubeId` | מזהה הסרטון ביוטיוב (החלק אחרי `v=`). ריק = מוצג פלייסהולדר במקום הנגן. |
+| `videoCaption` | הכיתוב הקטן על גבי הסרטון. |
+| `portraitUrl` | נתיב לתמונת התדמית (יחס 4:5, למשל 800×1000). ריק = פלייסהולדר. |
 | `formEndpoint` | כתובת Webhook שמקבלת את הטפסים ב-POST/JSON (Make, n8n, Formspree, Zapier). |
 | `contactEmail` | כתובת מייל לגיבוי: אם אין `formEndpoint`, הטופס פותח מייל מוכן לשליחה. |
-| `whatsapp` | מספר בפורמט בינלאומי בלי `+`. כרגע לא מוצג באתר — שמור לשימוש עתידי. |
+| `whatsapp` | מספר בפורמט בינלאומי בלי `+`. אם ימולא — יתווסף כפתור וואטסאפ צף. |
 | `leadMagnetUrl` | הקובץ/דף שנפתח אחרי מילוי טופס הליד-מגנט. |
+
+### הסרטון והתמונה
+
+הסרטון נטען רק אחרי לחיצה (Facade) — יוטיוב לא נטען עם העמוד, כך שהוא לא מאט את הטעינה
+ולא שותל קוקיז למי שלא צפה. התמונה הממוזערת נמשכת אוטומטית מיוטיוב לפי ה-`youtubeId`.
+
+```js
+youtubeId: "abc123XYZ",              // מתוך https://youtu.be/abc123XYZ
+portraitUrl: "/assets/img/erez.jpg"  // צלמו לרוחב 4:5 והעלו לתיקייה
+```
 
 מבנה ה-JSON שנשלח ל-`formEndpoint`:
 
@@ -35,14 +48,14 @@
 ## מבנה
 
 ```
-index.html                    עמוד הנחיתה (13 סקשנים + Hero + CTA סוגר)
+index.html                    עמוד הנחיתה (Hero + 7 סקשנים + CTA סוגר)
 resources/10-processes.html   הליד-מגנט: רשימת 10 התהליכים (מותאם גם להדפסה)
 assets/css/site.css           כל העיצוב — Design Tokens בראש הקובץ
 assets/css/fonts.css          @font-face לפונטים המאוחסנים מקומית
 assets/fonts/                 subsets (hebrew + latin) של הפונטים
 assets/js/config.js           ההגדרות שצריך לערוך
-assets/js/site.js             אינטראקציות: Reveal, ניווט פעיל, Pipeline, טפסים
-assets/img/                   favicon + תמונת שיתוף (Open Graph)
+assets/js/site.js             אינטראקציות: Reveal, ניווט פעיל, נגן יוטיוב, טפסים
+assets/img/                   favicon, גלי רקע ותמונת שיתוף (Open Graph)
 tools/fetch-fonts.py          משיכה מחדש של הפונטים מ-Google Fonts
 tools/og-cover.html           המקור לתמונת השיתוף
 CNAME, robots.txt, sitemap.xml
@@ -58,10 +71,12 @@ CNAME, robots.txt, sitemap.xml
 
 ## עיצוב
 
-- **צבעים** — נייר `#F7F6F2`, דיו `#16181C`, אקסנט ירוק-פטרול `#0F5148`, קווי הפרדה `#D8D6CC`.
-  יש ערכת Dark Mode מלאה שמופעלת לפי העדפת המערכת. כל הצבעים הם CSS Variables בראש `site.css`.
-- **טיפוגרפיה** — `Suez One` לכותרות הגדולות (Hero + CTA סוגר), `IBM Plex Sans Hebrew` לכל השאר,
-  `IBM Plex Mono` למספרים, תוויות ומונחים באנגלית.
+- **צבעים** — רקע כהה `#0A0613` עם זוהר סגול/כחול/מג'נטה, כרטיסים לבנים,
+  CTA ורוד `#FF2E63 → #E0134E`. כל הצבעים הם CSS Variables בראש `site.css` —
+  החלפת פלטה = עריכת בלוק ה-`:root` בלבד.
+- **רקעים** — שלוש מחלקות: `.bg-night` (סגול-כחול), `.bg-deep` (כהה עם אדום),
+  `.bg-crimson` (קרימזון). מחליפים מחלקה בסקשן כדי לשנות את הקצב הצבעוני.
+- **טיפוגרפיה** — `Rubik` לכותרות ולכפתורים, `Assistant` לטקסט רץ.
 - **RTL** — כל הפריסה בנויה על מאפיינים לוגיים (`padding-inline`, `inset-inline`) ולא על ימין/שמאל פיזיים.
 - הפונטים מאוחסנים מקומית (176KB בסך הכול): טעינה מהירה יותר ובלי בקשות ל-Google.
   לרענון: `python3 tools/fetch-fonts.py` מתוך תיקיית השורש.

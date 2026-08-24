@@ -1,6 +1,5 @@
 /* =========================================================
    automations.erezb.pro — interactions
-   Keep it small, keep it quiet.
    ========================================================= */
 (function () {
   "use strict";
@@ -12,19 +11,38 @@
   var year = document.getElementById("year");
   if (year) { year.textContent = String(new Date().getFullYear()); }
 
-  /* ---------- sticky header ---------- */
+  /* ---------- sticky header + floating CTA ---------- */
   var header = document.getElementById("siteHeader");
-  var mobileCta = document.getElementById("mobileCta");
-  var onScroll = function () {
+  var floatCta = document.getElementById("floatCta");
+  var contact = document.getElementById("contact");
+
+  function onScroll() {
     var y = window.scrollY || window.pageYOffset;
     if (header) { header.classList.toggle("is-stuck", y > 8); }
-    if (mobileCta) { mobileCta.classList.toggle("is-on", y > 520); }
-  };
+    if (floatCta) {
+      var nearForm = contact && contact.getBoundingClientRect().top < window.innerHeight * 0.9;
+      floatCta.classList.toggle("is-on", y > 640 && !nearForm);
+    }
+  }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
+  /* ---------- whatsapp button (only when configured) ---------- */
+  if (CFG.whatsapp && floatCta) {
+    var wa = document.createElement("a");
+    wa.className = "btn btn--ghost";
+    wa.href = "https://wa.me/" + String(CFG.whatsapp).replace(/\D/g, "");
+    wa.target = "_blank";
+    wa.rel = "noopener";
+    wa.textContent = "וואטסאפ";
+    wa.style.background = "#128C7E";
+    wa.style.borderColor = "#128C7E";
+    wa.style.color = "#fff";
+    floatCta.appendChild(wa);
+  }
+
   /* ---------- reveal on scroll ---------- */
-  var revealables = document.querySelectorAll(".rv, .step");
+  var revealables = document.querySelectorAll(".rv");
   if ("IntersectionObserver" in window && !reduced) {
     var revealObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -32,7 +50,7 @@
         entry.target.classList.add("is-in");
         revealObs.unobserve(entry.target);
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.1 });
     Array.prototype.forEach.call(revealables, function (el) { revealObs.observe(el); });
   } else {
     Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-in"); });
@@ -43,82 +61,59 @@
   if (navLinks.length && "IntersectionObserver" in window) {
     var byId = {};
     Array.prototype.forEach.call(navLinks, function (link) {
-      var id = link.getAttribute("href").slice(1);
-      var section = document.getElementById(id);
-      if (section) { byId[id] = link; }
+      var section = document.getElementById(link.getAttribute("href").slice(1));
+      if (section) { byId[section.id] = link; }
     });
     var navObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         var link = byId[entry.target.id];
-        if (!link) { return; }
-        if (entry.isIntersecting) {
-          Array.prototype.forEach.call(navLinks, function (l) { l.classList.remove("is-active"); });
-          link.classList.add("is-active");
-        }
+        if (!link || !entry.isIntersecting) { return; }
+        Array.prototype.forEach.call(navLinks, function (l) { l.classList.remove("is-active"); });
+        link.classList.add("is-active");
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
     Object.keys(byId).forEach(function (id) { navObs.observe(document.getElementById(id)); });
   }
 
-  /* ---------- hero pipeline ---------- */
-  var FLOWS = [
-    { label: "מכירות",     steps: ["ליד חדש מהאתר", "AI מסווג ומתעדף", "נכנס ל-CRM", "הודעה ראשונה ללקוח", "משימת Follow-up"], ai: 1 },
-    { label: "שירות",      steps: ["פנייה מלקוח", "AI מזהה את הנושא", "תשובה ראשונית", "העברה לנציג הנכון"], ai: 1 },
-    { label: "ניהול",      steps: ["מסמך או טופס נכנס", "AI מחלץ את הנתונים", "סיכום קצר", "עדכון במערכת"], ai: 1 },
-    { label: "תוכן",       steps: ["פרויקט חדש הסתיים", "AI מנסח תיאור", "טקסט לאתר", "פוסט לרשתות"], ai: 1 }
-  ];
-
-  var pipeFlow = document.getElementById("pipeFlow");
-  var pipeLabel = document.getElementById("pipeLabel");
-  var pipeCount = document.getElementById("pipeCount");
-
-  function pad(n) { return (n < 10 ? "0" : "") + n; }
-
-  function renderFlow(index) {
-    if (!pipeFlow) { return; }
-    var flow = FLOWS[index];
-    pipeLabel.textContent = flow.label;
-    pipeCount.textContent = pad(index + 1) + " / " + pad(FLOWS.length);
-    pipeFlow.innerHTML = "";
-    flow.steps.forEach(function (text, i) {
-      var li = document.createElement("li");
-      li.className = "pipe-step" + (i === flow.ai ? " is-ai" : "");
-      var idx = document.createElement("span");
-      idx.className = "idx";
-      idx.textContent = pad(i + 1);
-      var span = document.createElement("span");
-      span.textContent = text;
-      li.appendChild(idx);
-      li.appendChild(span);
-      pipeFlow.appendChild(li);
-    });
-  }
-
-  if (pipeFlow) {
-    var flowIndex = 0;
-    renderFlow(flowIndex);
-
-    if (!reduced) {
-      var stepIndex = 0;
-      var tick = function () {
-        var items = pipeFlow.querySelectorAll(".pipe-step");
-        if (!items.length) { return; }
-        Array.prototype.forEach.call(items, function (el, i) {
-          el.classList.toggle("is-on", i === stepIndex);
-        });
-        stepIndex += 1;
-        if (stepIndex > items.length) {
-          stepIndex = 0;
-          flowIndex = (flowIndex + 1) % FLOWS.length;
-          renderFlow(flowIndex);
-        }
-      };
-      setInterval(tick, 1100);
-      tick();
+  /* ---------- youtube facade: no third-party script until clicked ---------- */
+  var facade = document.getElementById("videoFacade");
+  if (facade) {
+    var caption = facade.querySelector(".video-cap");
+    if (caption && CFG.videoCaption) {
+      caption.childNodes[0].nodeValue = CFG.videoCaption + " ";
+    }
+    if (CFG.youtubeId) {
+      facade.style.backgroundImage =
+        "url(https://i.ytimg.com/vi/" + CFG.youtubeId + "/maxresdefault.jpg)";
+      facade.addEventListener("click", function () {
+        var frame = document.createElement("iframe");
+        frame.src = "https://www.youtube-nocookie.com/embed/" + CFG.youtubeId +
+                    "?autoplay=1&rel=0&modestbranding=1&hl=he";
+        frame.title = "סרטון מהסדנה";
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture";
+        frame.allowFullscreen = true;
+        facade.parentNode.replaceChild(frame, facade);
+      });
+    } else {
+      facade.setAttribute("aria-label", "מקום לסרטון — יתווסף בקרוב");
+      facade.disabled = true;
+      facade.style.cursor = "default";
+      var hint = facade.querySelector(".video-cap");
+      if (hint) { hint.innerHTML = 'מקום לסרטון <small>· הוסיפו youtubeId ב-config.js</small>'; }
     }
   }
 
-  /* ---------- prefill from B2B button ---------- */
+  /* ---------- portrait ---------- */
+  var portrait = document.getElementById("portrait");
+  if (portrait && CFG.portraitUrl) {
+    var photo = new Image();
+    photo.src = CFG.portraitUrl;
+    photo.alt = "ארז ברטל מעביר סדנה";
+    photo.loading = "lazy";
+    photo.addEventListener("load", function () { portrait.innerHTML = ""; portrait.appendChild(photo); });
+  }
+
+  /* ---------- prefill from the organisation CTA ---------- */
   document.addEventListener("click", function (event) {
     var trigger = event.target.closest ? event.target.closest("[data-prefill]") : null;
     if (!trigger) { return; }
@@ -147,8 +142,8 @@
       var value = field.value.trim();
       var message = "";
       if (field.required && !value) { message = "שדה חובה"; }
-      else if (value && field.type === "email" && !EMAIL_RE.test(value)) { message = "כתובת אימייל לא תקינה"; }
-      else if (value && field.type === "tel" && !PHONE_RE.test(value)) { message = "מספר טלפון לא תקין"; }
+      else if (value && field.type === "email" && !EMAIL_RE.test(value)) { message = "אימייל לא תקין"; }
+      else if (value && field.type === "tel" && !PHONE_RE.test(value)) { message = "טלפון לא תקין"; }
       setError(field, message);
       if (message) { ok = false; if (!firstBad) { firstBad = field; } }
     });
@@ -158,7 +153,7 @@
 
   function collect(form) {
     var data = {};
-    Array.prototype.forEach.call(form.querySelectorAll("input, textarea, select"), function (field) {
+    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
       if (!field.name || field.name === "company_url") { return; }
       data[field.name] = field.value.trim();
     });
@@ -168,8 +163,8 @@
   }
 
   var LABELS = {
-    name: "שם", email: "אימייל", business: "עסק", field: "תחום הפעילות",
-    phone: "טלפון", message: "מה להפוך לאוטומטי", source: "מקור", page: "עמוד"
+    name: "שם", email: "אימייל", business: "עסק", phone: "טלפון",
+    message: "מה להפוך לאוטומטי", source: "מקור", page: "עמוד"
   };
 
   function mailtoFallback(data) {
@@ -190,6 +185,7 @@
 
   function finish(form, doneEl) {
     form.classList.add("is-hidden");
+    form.style.display = "none";
     if (doneEl) {
       doneEl.classList.add("is-visible");
       doneEl.focus();
@@ -235,17 +231,16 @@
         if (!response.ok) { throw new Error("HTTP " + response.status); }
         finish(form, done);
       }).catch(function () {
-        if (status) { status.textContent = "השליחה נכשלה. אפשר לנסות שוב או לפנות ישירות."; }
+        if (status) { status.textContent = "השליחה נכשלה. נסו שוב או פנו ישירות."; }
         if (button) { button.disabled = false; }
         mailtoFallback(data);
       });
     });
   }
 
-  wireForm("magnetForm", "magnetDone");
   wireForm("checkForm", "checkDone");
+  wireForm("magnetForm", "magnetDone");
 
-  /* ---------- lead magnet link from config ---------- */
   if (CFG.leadMagnetUrl) {
     var magnetLink = document.querySelector('#magnetDone a[href^="/resources"]');
     if (magnetLink) { magnetLink.setAttribute("href", CFG.leadMagnetUrl); }

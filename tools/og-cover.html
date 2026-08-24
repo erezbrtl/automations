@@ -1,35 +1,45 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <link rel="stylesheet" href="../assets/css/fonts.css">
 <style>
-:root{--paper:#F7F6F2;--ink:#16181C;--soft:#5A5F63;--rule:#D8D6CC;--accent:#0F5148;--accent-soft:#E1EAE5}
-*{box-sizing:border-box;margin:0}
-body{width:1200px;height:630px;background:var(--paper);color:var(--ink);
-  font-family:"IBM Plex Sans Hebrew",sans-serif;padding:52px 64px;display:flex;flex-direction:column;justify-content:center;gap:34px;overflow:hidden}
-.top{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
-.top .brand{font-size:22px;letter-spacing:-.02em;color:var(--ink);text-transform:none}
-.top .brand b{color:var(--accent);font-weight:500}
-h1{font-family:"Suez One",serif;font-weight:400;font-size:54px;line-height:1.16;letter-spacing:-.015em;max-width:22ch}
-h1 span{color:var(--soft);display:block}
-p{margin-top:18px;font-size:22px;color:var(--soft);max-width:34ch;line-height:1.5}
-.flow{display:flex;align-items:center;gap:9px;font-size:17px}
-.n{border:1px solid var(--rule);border-radius:3px;padding:9px 15px;background:#fff;white-space:nowrap}
-.n.ai{border-color:var(--accent);background:var(--accent-soft);font-family:"IBM Plex Mono",monospace;font-weight:500}
-.sep{font-family:"IBM Plex Mono",monospace;color:#8A8F93}
-.rule{height:1px;background:var(--rule);margin:22px 0}
+  *{box-sizing:border-box;margin:0}
+  body{width:1200px;height:630px;overflow:hidden;position:relative;
+    background:
+      radial-gradient(70% 90% at 88% 6%, rgba(31,70,216,.6) 0%, transparent 62%),
+      radial-gradient(65% 85% at 10% 22%, rgba(106,28,176,.62) 0%, transparent 60%),
+      radial-gradient(80% 70% at 50% 105%, rgba(176,18,82,.45) 0%, transparent 62%),
+      #0A0613;
+    color:#fff;font-family:"Assistant",sans-serif;
+    padding:56px 64px;display:flex;flex-direction:column;justify-content:center;gap:30px}
+  .top{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;font-family:"Rubik",sans-serif}
+  .logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#FF2E63,#8B31D8);
+    display:grid;place-items:center;font-weight:800;font-size:1.1rem}
+  .brand b{font-weight:700;font-size:1.25rem;display:block;line-height:1.2}
+  .brand span{color:#8E85A3;font-size:.92rem}
+  .tag{font-family:"Rubik",sans-serif;font-weight:500;font-size:.95rem;color:#FF7A9E;
+    background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.34);padding:9px 20px;border-radius:999px}
+  h1{font-family:"Rubik",sans-serif;font-weight:800;font-size:62px;line-height:1.14;letter-spacing:-.02em}
+  .mark{position:relative;white-space:nowrap}
+  .mark::after{content:"";position:absolute;inset-inline:-3px;bottom:.03em;height:.15em;background:#FF2E63;border-radius:3px;z-index:-1}
+  p.sub{font-size:24px;color:#C6BCD8;max-width:36ch}
+  .flow{display:flex;align-items:center;gap:9px;font-size:18px;flex-wrap:wrap}
+  .pill{background:rgba(255,255,255,.09);padding:10px 17px;border-radius:999px;white-space:nowrap}
+  .pill.ai{background:linear-gradient(120deg,#FF2E63,#8B31D8);font-family:"Rubik",sans-serif;font-weight:700}
+  .arw{color:#8E85A3}
 </style></head><body>
-<div class="top"><span class="brand">Erez<b>.</b>B</span><span>AI · Automation · No-Code</span></div>
-<div>
-  <h1>AI ואוטומציה לעסק.<span>בלי קוד. בלי הייפ. עם תוצאות.</span></h1>
-  <p>סדנאות מעשיות לבעלי עסקים ומנהלים.</p>
-</div>
-<div>
-  <div class="rule"></div>
-  <div class="flow">
-    <span class="n">ליד חדש</span><span class="sep">←</span>
-    <span class="n ai">AI · סיווג</span><span class="sep">←</span>
-    <span class="n">CRM</span><span class="sep">←</span>
-    <span class="n">הודעה ללקוח</span><span class="sep">←</span>
-    <span class="n">משימת Follow-up</span>
+  <div class="top">
+    <div class="brand"><span class="logo">EB</span><span><b>Erez Bartal</b><span>AI &amp; Automation</span></span></div>
+    <span class="tag">סדנאות AI ואוטומציה לעסקים</span>
   </div>
-</div>
+  <div>
+    <h1>AI ואוטומציה לעסק.<br>בלי קוד. בלי הייפ. <span class="mark">עם תוצאות.</span></h1>
+    <p class="sub" style="margin-top:18px">מתחילים מהעסק שלכם — לא מרשימת כלים.</p>
+  </div>
+  <div class="flow">
+    <span class="pill">ליד חדש</span><span class="arw">←</span>
+    <span class="pill ai">AI · סיווג</span><span class="arw">←</span>
+    <span class="pill">CRM</span><span class="arw">←</span>
+    <span class="pill">הודעה ללקוח</span><span class="arw">←</span>
+    <span class="pill">Follow-up</span>
+  </div>
 </body></html>

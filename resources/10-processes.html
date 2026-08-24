@@ -13,34 +13,44 @@
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
 <style>
-  .doc { max-width: 780px; }
-  .doc-head { padding-block: clamp(40px, 6vw, 72px) clamp(28px, 4vw, 44px); border-bottom: 1px solid var(--rule); }
-  .doc-head h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.2; }
-  .doc-head p { margin-top: 18px; color: var(--ink-soft); max-width: 56ch; }
-  .items { padding-block: clamp(28px, 4vw, 44px); display: grid; gap: 0; }
-  .item { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 18px; padding-block: 22px; border-bottom: 1px solid var(--rule); align-items: start; }
-  .item .n { font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent); font-variant-numeric: tabular-nums; direction: ltr; padding-top: 3px; }
-  .item h2 { font-size: 1.08rem; font-weight: 600; }
-  .item p { margin-top: 6px; color: var(--ink-soft); font-size: 0.95rem; }
-  .item .ask { margin-top: 10px; font-size: 0.88rem; color: var(--ink); border-inline-start: 2px solid var(--rule-strong); padding-inline-start: 12px; }
-  .doc-foot { padding-block: clamp(32px, 5vw, 56px); }
-  .doc-foot h2 { font-size: 1.25rem; }
-  .doc-foot p { margin-top: 12px; color: var(--ink-soft); max-width: 54ch; }
-  .doc-foot .btn-row { margin-top: 24px; }
-  .back { display: inline-flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); text-decoration: none; margin-top: 26px; }
-  .back:hover { color: var(--accent); }
+  .doc { max-width: 800px; }
+  .doc-head { padding-block: clamp(40px, 6vw, 76px) clamp(24px, 4vw, 38px); }
+  .doc-head h1 { font-size: clamp(1.7rem, 4.4vw, 2.7rem); }
+  .doc-head p { margin-top: 16px; color: var(--on-dark-soft); max-width: 54ch; }
+  .items { padding-block: clamp(20px, 3vw, 32px); display: grid; gap: 12px; }
+  .item {
+    display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start;
+    background: rgba(255,255,255,.06); border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm); padding: 18px 20px;
+  }
+  .item .n {
+    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+    background: linear-gradient(140deg, var(--cta), #8B31D8);
+    font-family: var(--font-head); font-weight: 800; font-size: .9rem; color: #fff; direction: ltr;
+  }
+  .item h2 { font-size: 1.08rem; font-weight: 700; }
+  .item p { margin-top: 6px; color: var(--on-dark-soft); font-size: .95rem; }
+  .item .ask { margin-top: 10px; font-size: .9rem; color: #fff; font-weight: 600; padding-inline-start: 12px; border-inline-start: 2px solid var(--cta); }
+  .doc-foot { padding-block: clamp(28px, 4vw, 52px); }
+  .doc-foot h2 { font-size: 1.4rem; }
+  .doc-foot p { margin-top: 10px; color: var(--on-dark-soft); max-width: 52ch; }
+  .doc-foot .btn-row { margin-top: 22px; }
+  .back { display: inline-block; margin-top: 24px; font-size: .9rem; color: var(--on-dark-faint); text-decoration: none; }
+  .back:hover { color: #fff; }
   @media print {
+    body { background: #fff !important; color: #000; font-size: 12pt; }
+    .item { background: #fff; border-color: #ccc; break-inside: avoid; }
+    .item p, .doc-head p, .item .ask { color: #333; }
+    .item .n { background: #eee; color: #000; }
     .doc-foot .btn-row, .back { display: none; }
-    body { background: #fff; color: #000; font-size: 12pt; }
-    .item { break-inside: avoid; }
   }
 </style>
 </head>
-<body>
+<body class="bg-night">
 <div class="wrap doc">
 
   <header class="doc-head">
-    <p class="eyebrow">Checklist · Erez B</p>
+    <span class="eyebrow">Checklist · Erez B</span>
     <h1>10 תהליכים בעסק שאפשר לבדוק אם כדאי לאוטמט</h1>
     <p>עברו על הרשימה וסמנו כל תהליך שקורה אצלכם לפחות פעם בשבוע. אם סימנתם שלושה ומעלה — יש כאן זמן שאפשר להחזיר.</p>
   </header>
@@ -102,7 +112,7 @@
     <h2>סימנתם כמה? בחרו אחד.</h2>
     <p>לא צריך להתחיל מהכול. בחרו את התהליך שחוזר הכי הרבה ושהכי מעצבן אתכם — שם בדרך כלל נמצא ההחזר המהיר ביותר.</p>
     <div class="btn-row">
-      <a class="btn btn--accent" href="/#check"><span class="arw">←</span> ספרו לי על התהליך שבחרתם</a>
+      <a class="btn btn--cta" href="/#contact"><span class="arw">←</span> ספרו לי על התהליך שבחרתם</a>
       <a class="btn btn--ghost" href="/#b2b">סדנה לארגון</a>
     </div>
     <a class="back" href="/">← חזרה לעמוד הראשי</a>
