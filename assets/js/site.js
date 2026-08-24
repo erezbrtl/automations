@@ -211,8 +211,8 @@
 
   function mailtoFallback(data) {
     if (!CFG.contactEmail) {
-      console.warn("[site] אין formEndpoint ואין contactEmail ב-assets/js/config.js - הפנייה לא נשלחה לשום מקום.");
-      return;
+      console.error("[site] לא מוגדר formEndpoint ולא contactEmail ב-assets/js/config.js - אי אפשר לקבל פניות.");
+      return false;
     }
     var subject = "פנייה מהאתר - בדיקת תהליך לאוטומציה";
     var body = Object.keys(data).map(function (key) {
@@ -221,6 +221,17 @@
     window.location.href = "mailto:" + CFG.contactEmail +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(body);
+    return true;
+  }
+
+  /* never tell someone their details arrived when nothing was sent */
+  function failVisibly(form, status, button) {
+    if (status) {
+      status.textContent = CFG.whatsapp
+        ? "השליחה נכשלה. אפשר לשלוח לי הודעה בוואטסאפ במקום."
+        : "השליחה נכשלה. אפשר לנסות שוב בעוד רגע.";
+    }
+    if (button) { button.disabled = false; }
   }
 
   function finish(form, doneEl) {
@@ -255,8 +266,8 @@
       var data = collect(form);
 
       if (!CFG.formEndpoint) {
-        mailtoFallback(data);
-        finish(form, done);
+        if (mailtoFallback(data)) { finish(form, done); }
+        else { failVisibly(form, status, button); }
         return;
       }
 
@@ -271,9 +282,8 @@
         if (!response.ok) { throw new Error("HTTP " + response.status); }
         finish(form, done);
       }).catch(function () {
-        if (status) { status.textContent = "השליחה נכשלה. נסו שוב או פנו ישירות."; }
+        if (!mailtoFallback(data)) { failVisibly(form, status, button); return; }
         if (button) { button.disabled = false; }
-        mailtoFallback(data);
       });
     });
   }
