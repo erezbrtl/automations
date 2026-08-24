@@ -195,7 +195,7 @@
           <h3>הטמעה בארגון</h3>
           <p>ממשיכים לתהליכים הבאים, עם הכלים והמערכות שכבר יש לכם.</p>
         </div>
-        <span class="track-meta">לפי היקף</span>
+        <span class="track-meta">נקבע בשיחה</span>
       </li>
     </ol>
 
@@ -318,7 +318,7 @@
             <span class="err" data-err-for="c-name"></span>
           </div>
           <div class="field">
-            <label for="c-business">עסק</label>
+            <label for="c-business">עסק <span class="opt">(לא חובה)</span></label>
             <input id="c-business" name="business" type="text" autocomplete="organization">
           </div>
         </div>
@@ -329,18 +329,19 @@
             <span class="err" data-err-for="c-phone"></span>
           </div>
           <div class="field">
-            <label for="c-email">אימייל</label>
-            <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required>
+            <label for="c-email">אימייל <span class="opt">(לא חובה)</span></label>
+            <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr">
             <span class="err" data-err-for="c-email"></span>
           </div>
         </div>
         <div class="field">
-          <label for="c-msg">התהליך שגוזל לכם זמן</label>
+          <label for="c-msg">התהליך שגוזל לכם זמן <span class="opt">(לא חובה)</span></label>
           <textarea id="c-msg" name="message" placeholder="לדוגמה: כל ליד מהאתר נכנס ידנית לאקסל ואז שולחים לו הודעה."></textarea>
         </div>
         <div class="hp"><label>אל תמלאו<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label></div>
         <button class="btn btn--cta btn--wide" type="submit">בדקו איתי את האפשרויות</button>
-        <p class="form-fine">שיחה קצרה, בלי התחייבות.</p>
+        <p class="form-alt" hidden>מעדיפים וואטסאפ? <a href="#" data-whatsapp>שלחו לי הודעה</a></p>
+        <p class="form-fine">שיחה קצרה, בלי התחייבות. בשליחת הפרטים אתם מאשרים שאחזור אליכם בטלפון או במייל.</p>
         <p class="form-status" role="status" data-status></p>
       </form>
 

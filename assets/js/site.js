@@ -27,18 +27,31 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  /* ---------- whatsapp button (only when configured) ---------- */
-  if (CFG.whatsapp && floatCta) {
+  /* ---------- whatsapp, wherever it is offered ---------- */
+  var waNumber = CFG.whatsapp ? String(CFG.whatsapp).replace(/\D/g, "") : "";
+  var waLink = waNumber
+    ? "https://wa.me/" + waNumber + "?text=" +
+      encodeURIComponent("היי ארז, הגעתי מהאתר. רציתי לשאול על הסדנה.")
+    : "";
+
+  if (waLink && floatCta) {
     var wa = document.createElement("a");
-    wa.className = "btn btn--ghost";
-    wa.href = "https://wa.me/" + String(CFG.whatsapp).replace(/\D/g, "");
+    wa.className = "btn btn--ghost btn--wa";
+    wa.href = waLink;
     wa.target = "_blank";
     wa.rel = "noopener";
     wa.textContent = "וואטסאפ";
-    wa.style.background = "#128C7E";
-    wa.style.borderColor = "#128C7E";
-    wa.style.color = "#fff";
     floatCta.appendChild(wa);
+  }
+
+  if (waLink) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-whatsapp]"), function (link) {
+      link.href = waLink;
+      link.target = "_blank";
+      link.rel = "noopener";
+      var holder = link.closest(".form-alt");
+      if (holder) { holder.hidden = false; }
+    });
   }
 
   /* ---------- background drifts slower than the page ---------- */
@@ -209,19 +222,34 @@
     message: "מה להפוך לאוטומטי", source: "מקור", page: "עמוד"
   };
 
-  function mailtoFallback(data) {
-    if (!CFG.contactEmail) {
-      console.error("[site] לא מוגדר formEndpoint ולא contactEmail ב-assets/js/config.js - אי אפשר לקבל פניות.");
-      return false;
-    }
-    var subject = "פנייה מהאתר - בדיקת תהליך לאוטומציה";
-    var body = Object.keys(data).map(function (key) {
+  /* human-readable lead: filled fields only, no internal bookkeeping */
+  function formatLead(data) {
+    return Object.keys(data).filter(function (key) {
+      return data[key] && key !== "source" && key !== "page";
+    }).map(function (key) {
       return (LABELS[key] || key) + ": " + data[key];
     }).join("\n");
-    window.location.href = "mailto:" + CFG.contactEmail +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(body);
-    return true;
+  }
+
+  /* No webhook yet: hand the filled details to WhatsApp, then email.
+     Returns false when there is nowhere to send - never fake a success. */
+  function handoffFallback(data) {
+    var body = formatLead(data);
+    if (waNumber) {
+      var waUrl = "https://wa.me/" + waNumber + "?text=" +
+        encodeURIComponent("פנייה מהאתר\n\n" + body);
+      var opened = window.open(waUrl, "_blank");
+      if (!opened) { window.location.href = waUrl; }
+      return true;
+    }
+    if (CFG.contactEmail) {
+      window.location.href = "mailto:" + CFG.contactEmail +
+        "?subject=" + encodeURIComponent("פנייה מהאתר - בדיקת תהליך לאוטומציה") +
+        "&body=" + encodeURIComponent(body);
+      return true;
+    }
+    console.error("[site] לא מוגדר formEndpoint, לא whatsapp ולא contactEmail ב-assets/js/config.js - אי אפשר לקבל פניות.");
+    return false;
   }
 
   /* never tell someone their details arrived when nothing was sent */
@@ -234,7 +262,16 @@
     if (button) { button.disabled = false; }
   }
 
+  function trackLead(form) {
+    var detail = { form: form.id, page: window.location.pathname };
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "lead_submit", form_id: form.id });
+    if (typeof window.gtag === "function") { window.gtag("event", "generate_lead", detail); }
+    document.dispatchEvent(new CustomEvent("lead:submit", { detail: detail }));
+  }
+
   function finish(form, doneEl) {
+    trackLead(form);
     form.classList.add("is-hidden");
     form.style.display = "none";
     if (doneEl) {
@@ -266,7 +303,7 @@
       var data = collect(form);
 
       if (!CFG.formEndpoint) {
-        if (mailtoFallback(data)) { finish(form, done); }
+        if (handoffFallback(data)) { finish(form, done); }
         else { failVisibly(form, status, button); }
         return;
       }
@@ -282,7 +319,7 @@
         if (!response.ok) { throw new Error("HTTP " + response.status); }
         finish(form, done);
       }).catch(function () {
-        if (!mailtoFallback(data)) { failVisibly(form, status, button); return; }
+        if (!handoffFallback(data)) { failVisibly(form, status, button); return; }
         if (button) { button.disabled = false; }
       });
     });

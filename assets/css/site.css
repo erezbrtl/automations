@@ -217,6 +217,8 @@ a { color: inherit; }
 }
 .btn--cta:hover { transform: translateY(-2px); box-shadow: 0 16px 38px -8px var(--cta-glow); }
 .btn--ghost { background: transparent; color: var(--on-dark); border: 1.5px solid var(--hairline); }
+.btn--wa { background: #128C7E; border-color: #128C7E; color: #fff; }
+.btn--wa:hover { background: #0E6F64; border-color: #0E6F64; color: #fff; }
 .btn--ghost:hover { border-color: rgba(255,255,255,.45); background: rgba(255,255,255,.06); }
 .bg-card .btn--ghost { color: var(--card-ink); border-color: var(--card-rule); }
 .bg-card .btn--ghost:hover { background: #fff; border-color: #C9CEDD; }
@@ -520,6 +522,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .field { display: grid; gap: 6px; }
 .field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2 { margin-top: 14px; }
 .field label { font-size: .85rem; font-weight: 700; color: var(--card-ink); font-family: var(--font-head); }
+.field label .opt { font-weight: 400; color: var(--card-soft); }
 .field input, .field textarea {
   font: inherit; font-size: 1rem; color: var(--card-ink);
   background: var(--card-2); border: 1.5px solid var(--card-rule);
@@ -536,7 +539,10 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .field .err { font-size: .8rem; color: #D92D20; font-weight: 600; }
 .hp { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 .form-card .btn { margin-top: 18px; }
-.form-fine { margin-top: 12px; font-size: .84rem; color: var(--card-soft); text-align: center; }
+.form-alt { margin-top: 14px; text-align: center; font-size: .95rem; color: var(--card-soft); }
+.form-alt a { color: #128C7E; font-weight: 700; text-decoration: none; }
+.form-alt a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.form-fine { margin-top: 12px; font-size: .82rem; color: var(--card-soft); text-align: center; line-height: 1.5; }
 .form-status { margin-top: 10px; font-size: .9rem; font-weight: 700; color: #D4114C; }
 .form-done { display: none; }
 .form-done.is-visible { display: block; }

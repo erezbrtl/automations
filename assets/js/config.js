@@ -20,11 +20,11 @@ window.SITE_CONFIG = {
   formEndpoint: "",
 
   /* כתובת המייל שאליה יגיעו פניות כשאין formEndpoint. */
-  contactEmail: "",
+  contactEmail: "erezbrtl@gmail.com",
 
   /* מספר וואטסאפ בפורמט בינלאומי ללא + (לדוגמה: 9725XXXXXXXX).
      אם ימולא - יתווסף כפתור וואטסאפ צף לצד ה-CTA. */
-  whatsapp: "",
+  whatsapp: "972528657748",
   /* הערה: דף רשימת 10 התהליכים נשאר בתיקיית resources אך אינו מקושר
      מהעמוד - כדי לשמור על הצעה אחת ברורה. */
 };
