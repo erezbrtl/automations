@@ -1,5 +1,5 @@
 /* =========================================================
-   automations.erezb.pro — interactions
+   automations.erezb.pro - interactions
    ========================================================= */
 (function () {
   "use strict";
@@ -112,7 +112,7 @@
         facade.parentNode.replaceChild(frame, facade);
       });
     } else {
-      facade.setAttribute("aria-label", "מקום לסרטון — יתווסף בקרוב");
+      facade.setAttribute("aria-label", "מקום לסרטון - יתווסף בקרוב");
       facade.disabled = true;
       facade.style.cursor = "default";
       var hint = facade.querySelector(".video-cap");
@@ -174,7 +174,7 @@
       if (!field.name || field.name === "company_url") { return; }
       data[field.name] = field.value.trim();
     });
-    data.source = form.id === "magnetForm" ? "lead-magnet" : "process-check";
+    data.source = "process-check";
     data.page = window.location.href;
     return data;
   }
@@ -186,12 +186,10 @@
 
   function mailtoFallback(data) {
     if (!CFG.contactEmail) {
-      console.warn("[site] אין formEndpoint ואין contactEmail ב-assets/js/config.js — הפנייה לא נשלחה לשום מקום.");
+      console.warn("[site] אין formEndpoint ואין contactEmail ב-assets/js/config.js - הפנייה לא נשלחה לשום מקום.");
       return;
     }
-    var subject = data.source === "lead-magnet"
-      ? "בקשה לרשימת 10 התהליכים"
-      : "פנייה מהאתר — בדיקת תהליך לאוטומציה";
+    var subject = "פנייה מהאתר - בדיקת תהליך לאוטומציה";
     var body = Object.keys(data).map(function (key) {
       return (LABELS[key] || key) + ": " + data[key];
     }).join("\n");
@@ -256,10 +254,4 @@
   }
 
   wireForm("checkForm", "checkDone");
-  wireForm("magnetForm", "magnetDone");
-
-  if (CFG.leadMagnetUrl) {
-    var magnetLink = document.querySelector('#magnetDone a[href^="/resources"]');
-    if (magnetLink) { magnetLink.setAttribute("href", CFG.leadMagnetUrl); }
-  }
 })();
