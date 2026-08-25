@@ -766,45 +766,60 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* ---------- Forms ---------- */
 .form-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(26px, 4vw, 56px); align-items: center; }
 @media (max-width: 900px) { .form-wrap { grid-template-columns: 1fr; } }
+/* a panel of the same night as the page, lifted just enough to read
+   as a surface - a white card here cut a hole in the journey */
 .form-card {
-  background: var(--card); color: var(--card-ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
+    rgba(17, 10, 32, .74);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  color: var(--on-dark);
+  border: 1px solid rgba(255, 255, 255, .13);
   border-radius: var(--radius); padding: clamp(22px, 3vw, 32px);
-  box-shadow: 0 30px 70px -34px rgba(6, 2, 16, .9);
+  box-shadow: 0 40px 90px -42px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .07);
 }
-.form-card h3 { font-size: 1.25rem; margin-bottom: 20px; }
-.form-card .lede { color: var(--card-soft); font-size: .95rem; margin-bottom: 18px; }
+.form-card h3 { font-size: 1.25rem; margin-bottom: 20px; color: #fff; }
+.form-card .lede { color: var(--on-dark-soft); font-size: .95rem; margin-bottom: 18px; }
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
-.field { display: grid; gap: 6px; }
+/* start, not stretch: a field with an error slot must not push its
+   label and input out of line with the field beside it */
+.field { display: grid; gap: 6px; align-content: start; }
 .field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2 { margin-top: 14px; }
-.field label { font-size: .85rem; font-weight: 700; color: var(--card-ink); font-family: var(--font-head); }
-.field label .opt { font-weight: 400; color: var(--card-soft); }
+/* inside a two-up row the fields are siblings, and that margin pushed
+   the second column half a line below the first - the row gap spaces
+   them, in both the two-column and the stacked layout */
+.grid2 > .field + .field { margin-top: 0; }
+.field label { font-size: .85rem; font-weight: 700; color: var(--on-dark); font-family: var(--font-head); }
+.field label .opt { font-weight: 400; color: var(--on-dark-faint); }
 .field input, .field textarea {
-  font: inherit; font-size: 1rem; color: var(--card-ink);
-  background: var(--card-2); border: 1.5px solid var(--card-rule);
+  font: inherit; font-size: 1rem; color: #fff;
+  background: rgba(255, 255, 255, .045); border: 1px solid rgba(255, 255, 255, .15);
   border-radius: 12px; padding: 13px 15px; width: 100%;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
-.field input::placeholder, .field textarea::placeholder { color: #9AA1B6; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(255, 255, 255, .34); }
 .field input:focus, .field textarea:focus {
-  outline: none; background: #fff; border-color: var(--cta);
-  box-shadow: 0 0 0 4px rgba(255,46,99,.14);
+  outline: none; background: rgba(255, 255, 255, .08); border-color: var(--cta);
+  box-shadow: 0 0 0 4px rgba(255, 46, 99, .2);
 }
 .field textarea { min-height: 96px; resize: vertical; }
-.field.has-error input, .field.has-error textarea { border-color: #D92D20; }
-.field .err { font-size: .8rem; color: #D92D20; font-weight: 600; }
+.field.has-error input, .field.has-error textarea { border-color: #FF5C7A; }
+.field .err { font-size: .8rem; color: #FF8FA6; font-weight: 600; }
 .hp { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 .form-card .btn { margin-top: 18px; }
-.form-alt { margin-top: 14px; text-align: center; font-size: .95rem; color: var(--card-soft); }
-.form-alt a { color: #128C7E; font-weight: 700; text-decoration: none; }
+.form-alt { margin-top: 14px; text-align: center; font-size: .95rem; color: var(--on-dark-soft); }
+.form-alt a { color: #6FE9B4; font-weight: 700; text-decoration: none; }
 .form-alt a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.form-fine { margin-top: 12px; font-size: .82rem; color: var(--card-soft); text-align: center; line-height: 1.5; }
-.form-status { margin-top: 10px; font-size: .9rem; font-weight: 700; color: #D4114C; }
+.form-fine { margin-top: 12px; font-size: .82rem; color: var(--on-dark-faint); text-align: center; line-height: 1.5; }
+.form-status { margin-top: 10px; font-size: .9rem; font-weight: 700; color: #FF8FA6; }
+.form-status:empty { margin-top: 0; }
 .form-done { display: none; }
 .form-done.is-visible { display: block; }
 .form-card.is-hidden { display: none; }
 .form-done h3 { font-size: 1.3rem; margin-bottom: 8px; }
-.form-done p { color: var(--card-soft); }
+.form-done p { color: var(--on-dark-soft); }
 .form-done .btn-row { margin-top: 18px; }
 
 /* ---------- Final CTA ---------- */
