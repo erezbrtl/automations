@@ -282,7 +282,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .nav a { text-decoration: none; font-size: .95rem; color: var(--on-dark-soft); transition: color .18s ease; }
 .nav a:hover, .nav a.is-active { color: #fff; }
 @media (max-width: 940px) { .nav { display: none; } }
-@media (max-width: 560px) { .header-inner .btn { padding: 11px 18px; font-size: .9rem; } }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(40px, 6vw, 76px) clamp(52px, 7vw, 92px); }
@@ -502,17 +501,17 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .story-step {
   position: relative;
   display: grid;
-  grid-template-columns: 74px minmax(0, 1fr);
-  gap: 18px;
-  padding-bottom: 26px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 34px;
+  padding-bottom: 30px;
 }
 .story-step:last-child { padding-bottom: 0; }
 /* the rail runs between the clock and what happened */
 .story-step::before {
   content: "";
   position: absolute;
-  top: 10px; bottom: -4px;
-  inset-inline-start: calc(74px + 9px);
+  top: 24px; bottom: -8px;
+  inset-inline-start: calc(52px + 16px);
   width: 2px;
   background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
 }
@@ -520,8 +519,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .story-step::after {
   content: "";
   position: absolute;
-  top: 6px;
-  inset-inline-start: calc(74px + 4px);
+  top: 8px;
+  inset-inline-start: calc(52px + 11px);
   width: 12px; height: 12px; border-radius: 50%;
   background: var(--night);
   border: 2px solid rgba(255,255,255,.32);
@@ -533,7 +532,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .story-time {
   font-family: var(--font-head); font-weight: 700; font-size: .92rem;
-  color: var(--on-dark-faint); direction: ltr; text-align: right; padding-top: 2px;
+  color: var(--on-dark-faint); direction: ltr; text-align: left; padding-top: 2px;
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .story-step.is-ai .story-time { color: #FF7A9E; }
@@ -563,9 +562,9 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 @media (max-width: 620px) {
-  .story-step { grid-template-columns: 58px minmax(0, 1fr); gap: 14px; }
-  .story-step::before { inset-inline-start: calc(58px + 5px); }
-  .story-step::after { inset-inline-start: calc(58px); }
+  .story-step { grid-template-columns: 48px minmax(0, 1fr); gap: 26px; }
+  .story-step::before { inset-inline-start: calc(48px + 12px); }
+  .story-step::after { inset-inline-start: calc(48px + 7px); }
   .story-time { font-size: .82rem; }
 }
 
