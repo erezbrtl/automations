@@ -1,0 +1,125 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>טלפרומפטר ההקלטה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#07040D;--fg:#fff;--soft:#A99BC0;--faint:#6C6280;--cta:#FF2E63;--ok:#3DDC97;--hair:rgba(255,255,255,.12)}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;direction:rtl;background:var(--bg);color:var(--fg);
+  font-family:"Rubik","Arial Hebrew",system-ui,sans-serif;overflow:hidden;
+  display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px clamp(16px,3vw,32px);border-bottom:1px solid var(--hair);flex:0 0 auto}
+.clock{font-weight:800;font-size:clamp(1.4rem,3vw,2rem);font-variant-numeric:tabular-nums;direction:ltr}
+.clock.over{color:var(--cta)}
+.target{color:var(--faint);font-size:.9rem;direction:ltr}
+.count{color:var(--soft);font-weight:600;font-size:.95rem}
+main{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3vh,36px);
+  padding:clamp(20px,4vw,64px);overflow:hidden}
+.see{display:flex;gap:14px;align-items:flex-start;color:var(--soft);font-size:clamp(1rem,1.9vw,1.35rem);line-height:1.5}
+.see b{flex:0 0 auto;font-size:.72em;letter-spacing:.06em;color:var(--faint);padding-top:.35em}
+.say{font-weight:700;font-size:clamp(1.7rem,4.6vw,3.6rem);line-height:1.28;text-wrap:balance}
+.say .hi{color:var(--cta)}
+.note{color:var(--faint);font-size:clamp(.95rem,1.6vw,1.15rem);border-inline-start:3px solid var(--hair);padding-inline-start:16px}
+footer{flex:0 0 auto;padding:14px clamp(16px,3vw,32px);border-top:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;color:var(--faint);font-size:.88rem}
+.keys b{color:var(--soft);background:rgba(255,255,255,.08);border:1px solid var(--hair);
+  border-radius:6px;padding:2px 8px;margin-inline-start:6px;font-weight:600}
+.bar{position:absolute;inset-inline:0;bottom:0;height:3px;background:rgba(255,255,255,.08)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cta),#8B31D8);width:0;transition:width .25s ease}
+.done main{justify-content:center;text-align:center}
+button.ghost{font:inherit;font-weight:600;color:var(--soft);background:transparent;border:1px solid var(--hair);
+  border-radius:999px;padding:7px 16px;cursor:pointer}
+button.ghost:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+@media(max-width:640px){.see b{display:none}}
+</style>
+
+<header>
+  <div><span class="clock" id="clock">0:00</span> <span class="target" id="target" dir="ltr"></span></div>
+  <div class="count" id="count" dir="ltr"></div>
+  <button class="ghost" id="reset">אפס</button>
+</header>
+
+<main>
+  <p class="see" id="see"><b>על המסך</b><span></span></p>
+  <p class="say" id="say"></p>
+  <p class="note" id="note"></p>
+</main>
+
+<footer>
+  <div class="keys">רווח<b>הבא</b> · חץ<b>אחורה</b> · R<b>אפס</b></div>
+  <div id="hint">מתחילים כשההקלטה רצה</div>
+</footer>
+<div class="bar"><i id="bar"></i></div>
+
+<script>
+var BEATS = [
+  { at:"0:00-0:08", see:"הטופס באתר. ממלא ליד לדוגמה ולוחץ שלח.",
+    say:"ליד נכנס לעסק. עכשיו מישהו צריך לקרוא אותו, להעתיק לאקסל, להחליט אם זה דחוף, ולחזור אליו.",
+    note:"טון יבש. כמו שמתארים משהו מובן מאליו.", end:8 },
+  { at:"0:08-0:15", see:"עובר לגיליון, מתחיל להעתיק ידנית - ועוצר באמצע.",
+    say:"ככה זה נעשה היום. וזה קורה כל יום, כמה פעמים ביום. <span class='hi'>בוא נגרום לזה לקרות לבד.</span>",
+    note:"העצירה באמצע ההעתקה היא הרגע הכי חזק. אל תמהר ממנו.", end:15 },
+  { at:"0:15-0:30", see:"Make, לוח ריק. גורר מודול ראשון: Webhook.",
+    say:"זה הכלי. הריבוע הראשון זה מאיפה המידע נכנס - הטופס שלי.",
+    note:"אל תסביר את Make. תסביר את התהליך.", end:30 },
+  { at:"0:30-0:50", see:"מוסיף מודול AI. מדביק את הפרומפט.",
+    say:"פה נכנס ה-AI. אני לא מבקש ממנו לכתוב שיר. אני מבקש שיקרא את הפנייה, יגיד לי על מה היא, כמה היא דחופה, ויכין תשובה ראשונה.",
+    note:"הפרומפט כבר מוכן ב-ai-prompt.md. רק להדביק.", end:50 },
+  { at:"0:50-1:05", see:"שורה ל-Google Sheets, ואז שליחת ההודעה.",
+    say:"עכשיו זה נכנס לגיליון, והלקוח מקבל תשובה. בלי שאני נגעתי.",
+    note:"התבלבלת בשדה ותיקנת? משאירים. זה מה שמאמת את הסרטון.", end:65 },
+  { at:"1:05-1:20", see:"Run once. שולח את הליד של רונית. ירוק. שורה בגיליון. ההודעה.",
+    say:"שולח ליד עכשיו... נכנס. מסווג. השורה בגיליון. וזאת ההודעה שהלקוח כבר קיבל.",
+    note:"זה הפאנץ'. שתי שניות שקט על כל מסך. אל תדבר מעליו.", end:80 },
+  { at:"1:20-1:30", see:"תצוגת התרחיש המלא. חמישה ריבועים מחוברים.",
+    say:"זה נבנה בכמה דקות, ומעכשיו זה רץ לבד. <span class='hi'>בסדנה אנחנו עושים את זה בדיוק על תהליך אחד שלכם.</span> תספרו לי מה גוזל לכם הכי הרבה זמן.",
+    note:"בלי 'הירשמו'. רק ההזמנה לספר.", end:90 }
+];
+
+var i = 0, t0 = null, tick = null;
+var $ = function (id) { return document.getElementById(id); };
+
+function fmt(s){ var m = Math.floor(s/60); var r = Math.floor(s%60); return m + ":" + (r<10?"0":"") + r; }
+
+function render(){
+  var b = BEATS[i];
+  $("see").querySelector("span").textContent = b.see;
+  $("say").innerHTML = b.say;
+  $("note").textContent = b.note;
+  $("target").textContent = "יעד " + b.at;
+  $("count").textContent = (i+1) + " / " + BEATS.length;
+  $("bar").style.width = ((i+1)/BEATS.length*100) + "%";
+}
+
+function start(){
+  if (t0) { return; }
+  t0 = Date.now();
+  $("hint").textContent = "מקליט";
+  tick = setInterval(function(){
+    var s = (Date.now()-t0)/1000;
+    $("clock").textContent = fmt(s);
+    $("clock").classList.toggle("over", s > BEATS[i].end + 3);
+  }, 200);
+}
+
+function next(){ start(); if (i < BEATS.length-1) { i++; render(); } }
+function prev(){ if (i > 0) { i--; render(); } }
+function reset(){
+  clearInterval(tick); tick = null; t0 = null; i = 0;
+  $("clock").textContent = "0:00"; $("clock").classList.remove("over");
+  $("hint").textContent = "מתחילים כשההקלטה רצה"; render();
+}
+
+document.addEventListener("keydown", function(e){
+  if (e.code === "Space" || e.code === "ArrowLeft" || e.code === "Enter") { e.preventDefault(); next(); }
+  else if (e.code === "ArrowRight") { e.preventDefault(); prev(); }
+  else if (e.key === "r" || e.key === "R") { e.preventDefault(); reset(); }
+});
+document.addEventListener("click", function(e){ if (e.target.id !== "reset") { next(); } });
+$("reset").addEventListener("click", function(e){ e.stopPropagation(); reset(); });
+render();
+</script>

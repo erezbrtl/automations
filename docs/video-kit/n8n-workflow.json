@@ -1,0 +1,101 @@
+{
+  "name": "ליד מהאתר - סיווג AI, גיליון והודעה",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-from-site",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-lead",
+      "name": "ליד מהאתר",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [-360, 300],
+      "webhookId": "lead-from-site"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": { "temperature": 0.3, "maxTokens": 400 },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "אתה עוזר של עסק ישראלי שמקבל פניות מלקוחות דרך טופס באתר.\nקיבלת פנייה גולמית. החזר JSON תקין בלבד, בלי טקסט לפניו או אחריו.\n\nמבנה התשובה:\n{\n  \"topic\": \"הצעת מחיר | שאלה כללית | תמיכה | שיתוף פעולה | לא ברור\",\n  \"urgency\": \"גבוהה | רגילה | נמוכה\",\n  \"urgency_reason\": \"משפט קצר: למה קבעת את הדחיפות הזו\",\n  \"summary\": \"משפט אחד: מה הלקוח רוצה\",\n  \"reply\": \"תשובה ראשונה ללקוח בעברית\"\n}\n\nכללים:\n1. urgency גבוהה רק אם צוינה מסגרת זמן קרובה או מילים כמו דחוף, מחר, השבוע.\n2. אם חסר מידע קריטי - reply חייב לשאול עליו.\n3. אל תמציא פרטים. אל תנקוב במחיר. אל תבטיח זמינות.\n4. reply: 2-3 משפטים, גוף ראשון, עברית פשוטה, בלי סימני קריאה ובלי אימוג'י, מסתיים בשאלה אחת.\n5. פנייה לא מובנת - topic הוא \"לא ברור\" ו-reply מבקש הבהרה."
+            },
+            {
+              "role": "user",
+              "content": "=שם: {{ $json.body.name }}\nטלפון: {{ $json.body.phone }}\nתוכן הפנייה: {{ $json.body.message }}"
+            }
+          ]
+        }
+      },
+      "id": "ai-classify",
+      "name": "AI - סיווג וניסוח",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [-140, 300]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "id": "parse-json",
+      "name": "פירוק ה-JSON",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [80, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "mode": "list", "value": "" },
+        "sheetName": { "__rl": true, "mode": "list", "value": "לידים" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "תאריך": "={{ $now.format('dd/MM/yyyy HH:mm') }}",
+            "שם": "={{ $('ליד מהאתר').item.json.body.name }}",
+            "טלפון": "={{ $('ליד מהאתר').item.json.body.phone }}",
+            "נושא": "={{ $json.topic }}",
+            "דחיפות": "={{ $json.urgency }}",
+            "סיכום": "={{ $json.summary }}",
+            "תשובה שנשלחה": "={{ $json.reply }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "sheet-append",
+      "name": "שורה בגיליון",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('ליד מהאתר').item.json.body.email }}",
+        "subject": "קיבלתי את הפנייה שלך",
+        "emailType": "text",
+        "message": "={{ $json.reply }}",
+        "options": {}
+      },
+      "id": "send-reply",
+      "name": "תשובה ללקוח",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [520, 300]
+    }
+  ],
+  "connections": {
+    "ליד מהאתר": { "main": [[{ "node": "AI - סיווג וניסוח", "type": "main", "index": 0 }]] },
+    "AI - סיווג וניסוח": { "main": [[{ "node": "פירוק ה-JSON", "type": "main", "index": 0 }]] },
+    "פירוק ה-JSON": { "main": [[{ "node": "שורה בגיליון", "type": "main", "index": 0 }]] },
+    "שורה בגיליון": { "main": [[{ "node": "תשובה ללקוח", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}
