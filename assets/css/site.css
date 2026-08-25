@@ -38,14 +38,12 @@
   --radius-sm:    12px;
   --measure:      1120px;
   --gutter:       clamp(18px, 5vw, 48px);
-  --sect:         clamp(76px, 10vw, 148px);
-  --spine:        clamp(44px, 9vw, 150px);
+  --sect:         clamp(54px, 7vw, 104px);
 
-  /* display face for the big statements - swap this one line to try another:
-     "Suez One" (brutalist slab) · "Secular One" · "Heebo" 900 · "Rubik" 800 */
-  --font-display: "Suez One", "Rubik", "Arial Hebrew", system-ui, sans-serif;
-  --font-head: "Rubik", "Arial Hebrew", system-ui, sans-serif;
-  --font-body: var(--font-head);
+  /* one family, weight does the work. swap this line to try another face. */
+  --font-display: "Noto Sans Hebrew", "Arial Hebrew", system-ui, sans-serif;
+  --font-head: var(--font-display);
+  --font-body: var(--font-display);
 }
 
 /* The page commits to one dark visual world in both themes. */
@@ -76,8 +74,8 @@ h1, h2, h3, h4 {
 }
 h1, h2, .h-sect, .final h2, .about-name {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  letter-spacing: -0.035em;
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.015em;
@@ -551,54 +549,49 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .demo-line b { color: #fff; font-weight: 700; }
 
 /* ---------------------------------------------------------
-   The journey spine: one curved line down the page that
-   fills as you scroll, with a stop at every section.
+   The journey runs between the sections: each gap holds a
+   curve that sweeps across the page and draws itself as you
+   arrive, so scrolling feels like travelling the route.
    --------------------------------------------------------- */
-.spine {
-  position: absolute;
-  inset-block: 0;
-  /* sits where the content column starts, so the page hangs off the line */
-  inset-inline-start: max(0px, calc((100% - var(--measure)) / 2));
-  width: calc(var(--spine) + var(--gutter) * .35);
+.junction {
+  position: relative;
+  height: clamp(150px, 19vw, 260px);
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
 }
-.spine svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.spine .track-line { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 2; stroke-linecap: round; }
-.spine .track-fill {
+.junction svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 9%, #000 91%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 9%, #000 91%, transparent 100%);
+}
+.j-base { fill: none; stroke: rgba(255,255,255,.13); stroke-width: 2; stroke-linecap: round; }
+.j-draw {
   fill: none;
-  stroke: url(#spineGrad);
+  stroke: url(#jGrad);
   stroke-width: 3;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 10px rgba(255,46,99,.45));
+  filter: drop-shadow(0 0 9px rgba(255,46,99,.5));
 }
-.spine .head {
-  fill: #fff;
-  filter: drop-shadow(0 0 12px rgba(255,46,99,.9));
-  opacity: 0;
-  transition: opacity .3s ease;
-}
-.spine.is-live .head { opacity: 1; }
+.j-head { fill: #fff; opacity: 0; filter: drop-shadow(0 0 12px rgba(255,46,99,.95)); transition: opacity .25s ease; }
+.junction.is-live .j-head { opacity: 1; }
 
-.stop-dot {
+.j-stop {
   position: absolute;
-  width: 13px; height: 13px;
-  margin: -6.5px 0 0 -6.5px;
+  top: 50%; left: 50%;
+  width: 15px; height: 15px; margin: -7.5px 0 0 -7.5px;
   border-radius: 50%;
   background: var(--night);
-  border: 2px solid rgba(255,255,255,.28);
-  transition: background .35s ease, border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+  border: 2px solid rgba(255,255,255,.26);
+  transition: transform .4s cubic-bezier(.22,.61,.36,1), background .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
-.stop-dot.is-on {
+.j-stop.is-on {
   background: linear-gradient(140deg, var(--cta), #8B31D8);
   border-color: transparent;
-  transform: scale(1.45);
-  box-shadow: 0 0 0 5px rgba(255,46,99,.16), 0 0 20px rgba(255,46,99,.55);
+  transform: scale(1.5);
+  box-shadow: 0 0 0 6px rgba(255,46,99,.14), 0 0 24px rgba(255,46,99,.6);
 }
-/* content clears the spine */
-main .wrap { padding-inline-start: calc(var(--gutter) + var(--spine) * .55); }
-@media (max-width: 700px) { main .wrap { padding-inline-start: calc(var(--gutter) + var(--spine) * .5); } }
-@media (prefers-reduced-motion: reduce) { .stop-dot, .spine .head { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .j-stop, .j-head { transition: none; } }
 
 /* ---------------------------------------------------------
    Flow: nodes joined by curved connectors with a travelling

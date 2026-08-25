@@ -8,8 +8,7 @@ import os
 import re
 import urllib.request
 
-CSS_URL = ("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800"
-           "&family=Suez+One&display=swap")
+CSS_URL = "https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800;900&display=swap"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 KEEP = {"hebrew", "latin"}
@@ -34,7 +33,7 @@ def main():
             fh.write(get(url))
         faces.append("/* {} {} — {} */\n{}".format(family, weight, subset,
                                                    block.replace(url, "/assets/fonts/" + name)))
-    header = ("/* Self-hosted subsets (hebrew + latin) of Rubik and Suez One.\n"
+    header = ("/* Self-hosted subsets (hebrew + latin) of Noto Sans Hebrew.\n"
               "   Source: Google Fonts (Open Font License). Regenerate with tools/fetch-fonts.py */\n\n")
     with open("assets/css/fonts.css", "w", encoding="utf-8") as fh:
         fh.write(header + "\n\n".join(faces) + "\n")

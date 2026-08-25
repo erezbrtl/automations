@@ -27,8 +27,8 @@
 
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
-<link rel="preload" href="/assets/fonts/suez-one-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/rubik-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/noto-sans-hebrew-900-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
 
@@ -113,20 +113,15 @@
 </header>
 
 <main id="main">
-<div class="spine" id="spine" aria-hidden="true">
-  <svg id="spineSvg" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FF2E63"/>
-        <stop offset="0.5" stop-color="#B23BE0"/>
-        <stop offset="1" stop-color="#2F6BFF"/>
-      </linearGradient>
-    </defs>
-    <path class="track-line" id="spineBase"></path>
-    <path class="track-fill" id="spineFill"></path>
-    <circle class="head" id="spineHead" r="5"></circle>
-  </svg>
-</div>
+<svg class="defs-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="jGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF2E63"/>
+      <stop offset="0.55" stop-color="#B23BE0"/>
+      <stop offset="1" stop-color="#2F6BFF"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 
 <!-- ===== HERO ===== -->
@@ -157,6 +152,11 @@
 </section>
 
 <!-- ===== PAIN ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-deep" id="pain" data-stop>
   <div class="wrap">
     <div class="rv">
@@ -178,6 +178,11 @@
 </section>
 
 <!-- ===== THE PRODUCT: 3 STEPS ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-crimson" id="steps" data-stop>
   <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <div class="wrap">
@@ -207,8 +212,8 @@
       <li class="track-step rv">
         <span class="track-n">03</span>
         <div class="track-body">
-          <h3>הטמעה בארגון</h3>
-          <p>ממשיכים לתהליכים הבאים, עם הכלים והמערכות שכבר יש לכם.</p>
+          <h3>הדרכה מותאמת לארגון</h3>
+          <p>תוכנית הדרכה שנבנית סביב התהליכים והמערכות שכבר יש לכם.</p>
         </div>
         <span class="track-meta">נקבע בשיחה</span>
       </li>
@@ -221,6 +226,11 @@
 </section>
 
 <!-- ===== EXAMPLES ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-deep" id="examples" data-stop>
   <div class="wrap">
     <div class="center rv">
@@ -274,6 +284,11 @@
 </section>
 
 <!-- ===== ABOUT ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-night" id="about" data-stop>
   <div class="wrap about-grid">
     <div class="portrait rv" id="portrait">
@@ -300,6 +315,11 @@
 </section>
 
 <!-- ===== CONTACT ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-crimson" id="contact" data-stop>
   <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <div class="wrap form-wrap">
@@ -355,9 +375,14 @@
 </section>
 
 <!-- ===== FINAL ===== -->
+<div class="junction" aria-hidden="true">
+  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
+  <span class="j-stop"></span>
+</div>
+
 <section class="section bg-night final center" id="b2b" data-stop>
   <div class="wrap">
-    <span class="eyebrow rv">מייצגים ארגון, מועצה או קהילה עסקית?</span>
+    <span class="eyebrow rv">הדרכות לארגונים, מועצות וקהילות עסקיות</span>
     <h2 class="rv"><span class="nb">לא צריך לדעת הכול על AI.</span> צריך לדעת <span class="mark">מה הוא יכול לעשות בשבילכם.</span></h2>
     <div class="btn-row rv">
       <a class="btn btn--cta" href="#contact"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
