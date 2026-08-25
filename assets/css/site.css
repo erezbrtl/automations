@@ -206,6 +206,7 @@ a { color: inherit; }
 /* the display face is large enough that forced phrases overflow narrow screens */
 @media (max-width: 760px) { .nb { white-space: normal; } }
 .mark { position: relative; white-space: nowrap; }
+@media (max-width: 760px) { .mark { white-space: normal; } }
 .mark::after {
   content: "";
   position: absolute;
@@ -467,8 +468,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .win li::before { content: "\2713"; color: #6FE9B4; font-weight: 700; }
 
-/* ---------- Worked example: what goes in, what comes out ---------- */
-.demo { margin-top: clamp(28px, 4vw, 44px); }
+/* ---------- Worked example: one real event, minute by minute ---------- */
+.demo { margin-top: clamp(26px, 3.6vw, 42px); }
 .demo-tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .demo-tab {
   font: inherit; font-family: var(--font-head); font-weight: 600; font-size: 1rem;
@@ -483,36 +484,93 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   box-shadow: 0 10px 26px -12px var(--cta-glow);
 }
 .demo-panel[hidden] { display: none; }
-.demo-panel { animation: demoIn .32s ease both; margin-top: 26px; }
+.demo-panel { animation: demoIn .32s ease both; margin-top: 30px; }
 @keyframes demoIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .demo-panel { animation: none; } }
 
-.sim {
+.story-head {
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.06rem;
+  color: var(--on-dark-soft);
+  margin-bottom: 26px;
+}
+.story-head b { color: #fff; }
+
+.story { position: relative; max-width: 660px; margin-inline: auto; display: grid; gap: 0; }
+.story-step {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.15fr);
-  gap: clamp(14px, 2vw, 26px);
-  align-items: center;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 18px;
+  padding-bottom: 26px;
 }
-@media (max-width: 900px) { .sim { grid-template-columns: minmax(0, 1fr); } }
-.sim-label {
-  font-family: var(--font-head); font-weight: 700; font-size: .78rem;
-  letter-spacing: .1em; color: var(--on-dark-faint); margin-bottom: 10px;
+.story-step:last-child { padding-bottom: 0; }
+/* the rail runs between the clock and what happened */
+.story-step::before {
+  content: "";
+  position: absolute;
+  top: 10px; bottom: -4px;
+  inset-inline-start: calc(74px + 9px);
+  width: 2px;
+  background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
 }
-.sim-out .sim-label { color: #6FE9B4; }
+.story-step:last-child::before { display: none; }
+.story-step::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  inset-inline-start: calc(74px + 4px);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--night);
+  border: 2px solid rgba(255,255,255,.32);
+}
+.story-step.is-ai::after {
+  background: linear-gradient(140deg, var(--cta), #8B31D8);
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(255,46,99,.7);
+}
+.story-time {
+  font-family: var(--font-head); font-weight: 700; font-size: .92rem;
+  color: var(--on-dark-faint); direction: ltr; text-align: right; padding-top: 2px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.story-step.is-ai .story-time { color: #FF7A9E; }
+.story-what { font-size: 1.02rem; font-weight: 600; }
+.story-what span { display: block; font-weight: 400; font-size: .92rem; color: var(--on-dark-soft); margin-top: 3px; }
+.story-art { margin-top: 12px; }
 
-/* the AI gate between input and output */
-.sim-gate { display: grid; place-items: center; gap: 10px; }
-@media (max-width: 900px) { .sim-gate { grid-auto-flow: column; padding: 4px 0; } }
-.sim-gate .chip {
-  font-family: var(--font-head); font-weight: 800; font-size: .82rem; color: #fff;
-  padding: 10px 16px; border-radius: 999px; white-space: nowrap;
-  background: linear-gradient(125deg, var(--cta), #8B31D8);
-  box-shadow: 0 12px 30px -14px rgba(255,46,99,.95);
+.ai-chip {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
+  font-family: var(--font-head); font-weight: 700; font-size: .86rem; color: #fff;
+  background: linear-gradient(125deg, rgba(255,46,99,.9), rgba(139,49,216,.9));
+  border-radius: 999px; padding: 8px 15px;
+  box-shadow: 0 12px 28px -16px rgba(255,46,99,.9);
 }
-.sim-gate .rail { width: 2px; height: 46px; background: linear-gradient(180deg, transparent, rgba(255,255,255,.35), transparent); }
-@media (max-width: 900px) { .sim-gate .rail { width: 46px; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); } }
+.ai-chip em { font-style: normal; opacity: .8; font-weight: 500; }
 
-/* a small window that looks like a real screen */
+.story-punch {
+  margin-top: 30px; text-align: center;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 600; color: var(--on-dark-soft);
+}
+.story-punch b { color: #fff; font-weight: 900; font-family: var(--font-display); letter-spacing: -.02em; }
+.demo-note {
+  max-width: 660px; margin: 34px auto 0; text-align: center;
+  font-size: .96rem; line-height: 1.75; color: var(--on-dark-faint);
+  border-top: 1px solid var(--hairline); padding-top: 22px;
+}
+
+@media (max-width: 620px) {
+  .story-step { grid-template-columns: 58px minmax(0, 1fr); gap: 14px; }
+  .story-step::before { inset-inline-start: calc(58px + 5px); }
+  .story-step::after { inset-inline-start: calc(58px); }
+  .story-time { font-size: .82rem; }
+}
+
+
+/* ---------- Mockup primitives used inside the story ---------- */
 .frame {
   background: #14101F;
   border: 1px solid rgba(255,255,255,.14);
@@ -520,7 +578,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   overflow: hidden;
   box-shadow: 0 26px 60px -32px rgba(0,0,0,.95);
 }
-.win + .frame { margin-top: 12px; }
 .frame-bar {
   display: flex; align-items: center; gap: 7px;
   padding: 9px 13px; background: rgba(255,255,255,.06);
@@ -564,9 +621,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .mini-card .t { font-size: .72rem; color: var(--on-dark-faint); margin-top: 3px; }
 .pill-done { display: inline-flex; align-items: center; gap: 5px; font-size: .72rem; font-weight: 700;
   color: #6FE9B4; background: rgba(111,233,180,.14); border-radius: 999px; padding: 3px 10px; margin-top: 8px; }
-
-.demo-line { margin-top: 26px; color: var(--on-dark-soft); font-size: 1.1rem; text-align: center; }
-.demo-line b { color: #fff; font-weight: 700; }
 
 /* ---------------------------------------------------------
    The journey runs between the sections: each gap holds a
@@ -678,6 +732,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 
 /* the order of work, as a rising path rather than a line of arrows */
 .order-flow { margin-top: clamp(26px, 3.5vw, 40px); }
+.order-flow .flow-row { justify-content: center; }
 .order-flow .node-card { font-size: 1.02rem; }
 .order-flow .step-i {
   font-family: var(--font-head); font-weight: 800; font-size: .78rem;

@@ -113,6 +113,14 @@
       draw.style.strokeDasharray = len;
       draw.style.strokeDashoffset = len;
 
+      /* park the head on the route: an unset circle sits at 0,0 and
+         pushes the page a few pixels wider than the viewport */
+      var headDot = j.querySelector(".j-head");
+      if (headDot) {
+        headDot.setAttribute("cx", x0.toFixed(1));
+        headDot.setAttribute("cy", "0");
+      }
+
       /* the stop marker sits on the curve, not floating beside it */
       var mid = draw.getPointAtLength(len / 2);
       var stop = j.querySelector(".j-stop");
