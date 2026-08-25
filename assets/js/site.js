@@ -71,6 +71,144 @@
     drift();
   }
 
+  /* ---------- the journey spine ---------- */
+  var spine = document.getElementById("spine");
+  var spineSvg = document.getElementById("spineSvg");
+  var spineBase = document.getElementById("spineBase");
+  var spineFill = document.getElementById("spineFill");
+  var spineHead = document.getElementById("spineHead");
+  var stops = Array.prototype.slice.call(document.querySelectorAll("[data-stop]"));
+  var dots = [];
+  var pathLength = 0;
+  var stopFractions = [];
+
+  /* smooth curve through the stop points (Catmull-Rom as cubic beziers) */
+  function curveThrough(points) {
+    if (points.length < 2) { return ""; }
+    var d = "M " + points[0][0].toFixed(1) + " " + points[0][1].toFixed(1);
+    for (var i = 0; i < points.length - 1; i++) {
+      var p0 = points[i === 0 ? 0 : i - 1];
+      var p1 = points[i];
+      var p2 = points[i + 1];
+      var p3 = points[i + 2] || p2;
+      var c1x = p1[0] + (p2[0] - p0[0]) / 6;
+      var c1y = p1[1] + (p2[1] - p0[1]) / 6;
+      var c2x = p2[0] - (p3[0] - p1[0]) / 6;
+      var c2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += " C " + c1x.toFixed(1) + " " + c1y.toFixed(1) + ", " +
+                   c2x.toFixed(1) + " " + c2y.toFixed(1) + ", " +
+                   p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+    }
+    return d;
+  }
+
+  function buildSpine() {
+    if (!spine || !stops.length) { return; }
+    var box = spine.getBoundingClientRect();
+    var top = box.top + window.pageYOffset;
+    var w = spine.clientWidth;
+    var h = spine.clientHeight;
+    if (!w || !h) { return; }
+
+    spineSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+
+    /* the line leans from side to side inside its own column, never straight */
+    /* an irregular sway reads as a route, a regular zigzag reads as a pattern */
+    var sway = [0.2, 0.82, 0.3, 0.86, 0.24, 0.7];
+    var pts = [[w * 0.55, 0]];
+    stopFractions = [];
+    stops.forEach(function (sec, i) {
+      var r = sec.getBoundingClientRect();
+      var y = r.top + window.pageYOffset - top + Math.min(r.height * 0.34, 220);
+      pts.push([w * sway[i % sway.length], y]);
+    });
+    pts.push([w * 0.5, h]);
+
+    var d = curveThrough(pts);
+    spineBase.setAttribute("d", d);
+    spineFill.setAttribute("d", d);
+    pathLength = spineFill.getTotalLength();
+    spineFill.style.strokeDasharray = pathLength;
+    spineFill.style.strokeDashoffset = pathLength;
+
+    dots.forEach(function (dot) { dot.remove(); });
+    dots = [];
+    /* place a marker exactly on the curve at each stop */
+    for (var i = 1; i < pts.length - 1; i++) {
+      var target = pts[i][1];
+      var lo = 0, hi = pathLength, mid = 0, pt = null;
+      for (var step = 0; step < 22; step++) {
+        mid = (lo + hi) / 2;
+        pt = spineFill.getPointAtLength(mid);
+        if (pt.y < target) { lo = mid; } else { hi = mid; }
+      }
+      var dot = document.createElement("span");
+      dot.className = "stop-dot";
+      dot.style.insetInlineStart = pt.x + "px";
+      dot.style.top = pt.y + "px";
+      spine.appendChild(dot);
+      dots.push(dot);
+      stopFractions.push(mid / pathLength);
+    }
+    if (!reduced) { drawSpine(); }
+  }
+
+  function drawSpine() {
+    if (!pathLength || !spine) { return; }
+    var box = spine.getBoundingClientRect();
+    var travelled = (window.innerHeight * 0.62) - box.top;
+    var progress = Math.max(0, Math.min(1, travelled / box.height));
+    spineFill.style.strokeDashoffset = pathLength * (1 - progress);
+    spine.classList.toggle("is-live", progress > 0.004 && progress < 0.999);
+    if (progress > 0) {
+      var head = spineFill.getPointAtLength(pathLength * progress);
+      spineHead.setAttribute("cx", head.x);
+      spineHead.setAttribute("cy", head.y);
+    }
+    dots.forEach(function (dot, i) { dot.classList.toggle("is-on", progress >= stopFractions[i] - 0.005); });
+  }
+
+  function fillSpine() {
+    if (!pathLength) { return; }
+    spineFill.style.strokeDashoffset = 0;
+    dots.forEach(function (dot) { dot.classList.add("is-on"); });
+  }
+
+  if (spine) {
+    var rebuild = function () { buildSpine(); if (reduced) { fillSpine(); } };
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(rebuild, 180);
+    });
+    window.addEventListener("load", rebuild);
+    /* fonts and the video frame shift the layout after first paint */
+    setTimeout(rebuild, 700);
+    rebuild();
+
+    /* dots also light from an observer, so a stop is never missed
+       if scroll events are throttled or coalesced */
+    if ("IntersectionObserver" in window) {
+      var dotObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) { return; }
+          var index = stops.indexOf(entry.target);
+          if (index > -1 && dots[index]) { dots[index].classList.add("is-on"); }
+        });
+      }, { rootMargin: "0px 0px -38% 0px" });
+      stops.forEach(function (sec) { dotObs.observe(sec); });
+    }
+
+    if (!reduced) {
+      var spineQueued = false;
+      window.addEventListener("scroll", function () {
+        if (spineQueued) { return; }
+        spineQueued = true;
+        window.requestAnimationFrame(function () { drawSpine(); spineQueued = false; });
+      }, { passive: true });
+    }
+  }
+
   /* ---------- reveal on scroll ---------- */
   var revealables = document.querySelectorAll(".rv");
   if ("IntersectionObserver" in window && !reduced) {
