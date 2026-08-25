@@ -19,7 +19,7 @@
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
     if (header) { header.classList.toggle("is-stuck", y > 8); }
-    if (floatCta) {
+    if (floatCta && floatCta.children.length) {
       var nearForm = contact && contact.getBoundingClientRect().top < window.innerHeight * 0.9;
       floatCta.classList.toggle("is-on", y > 640 && !nearForm);
     }
