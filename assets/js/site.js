@@ -73,6 +73,16 @@
 
   /* ---------- the journey between the sections ---------- */
   var junctions = Array.prototype.slice.call(document.querySelectorAll(".junction"));
+  var sections = Array.prototype.slice.call(document.querySelectorAll("main > .section"));
+
+  /* the station you are standing in: the one holding the middle of the screen */
+  function updateStations() {
+    var mid = window.innerHeight * 0.5;
+    sections.forEach(function (sec) {
+      var r = sec.getBoundingClientRect();
+      sec.classList.toggle("is-here", r.top <= mid && r.bottom >= mid);
+    });
+  }
 
   function layoutJunctions() {
     junctions.forEach(function (j, i) {
@@ -84,13 +94,16 @@
       var draw = j.querySelector(".j-draw");
       svg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
-      /* leave one side, arrive at the other, alternating down the page */
-      var rightFirst = i % 2 === 0;
-      var x0 = w * (rightFirst ? 0.68 : 0.32);
-      var x1 = w * (rightFirst ? 0.28 : 0.72);
+      /* waypoints chain so each curve starts where the last one ended,
+         and the bend of every leg differs so the route never repeats */
+      var lane = [0.70, 0.26, 0.74, 0.30, 0.64, 0.34, 0.72];
+      var bend = [[0.34, 0.66], [0.52, 0.46], [0.28, 0.74], [0.58, 0.40], [0.44, 0.58], [0.36, 0.70]];
+      var x0 = w * lane[i % lane.length];
+      var x1 = w * lane[(i + 1) % lane.length];
+      var b = bend[i % bend.length];
       var d = "M " + x0.toFixed(1) + " 0" +
-              " C " + x0.toFixed(1) + " " + (h * 0.44).toFixed(1) + ", " +
-                      x1.toFixed(1) + " " + (h * 0.56).toFixed(1) + ", " +
+              " C " + x0.toFixed(1) + " " + (h * b[0]).toFixed(1) + ", " +
+                      x1.toFixed(1) + " " + (h * b[1]).toFixed(1) + ", " +
                       x1.toFixed(1) + " " + h.toFixed(1);
       base.setAttribute("d", d);
       draw.setAttribute("d", d);
@@ -128,6 +141,7 @@
         dot.setAttribute("cy", head.y);
       }
     });
+    updateStations();
   }
 
   function fillJunctions() {
@@ -156,16 +170,17 @@
         jQueued = true;
         window.requestAnimationFrame(function () { drawJunctions(); jQueued = false; });
       }, { passive: true });
-    } else {
-      /* still light each stop as its gap is reached */
-      if ("IntersectionObserver" in window) {
-        var jObs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) { e.target.querySelector(".j-stop").classList.add("is-on"); }
-          });
-        }, { rootMargin: "0px 0px -30% 0px" });
-        junctions.forEach(function (j) { jObs.observe(j); });
-      }
+    } else if ("IntersectionObserver" in window) {
+      /* no scroll animation: light each stop and station as it is reached */
+      var stopObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) { return; }
+          if (e.target.classList.contains("junction")) { e.target.querySelector(".j-stop").classList.add("is-on"); }
+          else { e.target.classList.add("is-here"); }
+        });
+      }, { rootMargin: "0px 0px -30% 0px" });
+      junctions.forEach(function (j) { stopObs.observe(j); });
+      sections.forEach(function (sec) { stopObs.observe(sec); });
     }
   }
 
