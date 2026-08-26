@@ -844,9 +844,15 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .quote blockquote {
   margin: 0;
-  font-family: var(--font-head); font-weight: 800; letter-spacing: -.025em;
-  font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.45; color: #fff;
+  font-family: var(--font-head); font-weight: 700; letter-spacing: -.02em;
+  font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.5; color: #fff;
+  /* Noto Sans Hebrew ships no italic, so this is a synthetic slant -
+     it only reads as type rather than as distortion at a lighter weight */
+  font-style: italic;
+  quotes: "\201D" "\201C";
 }
+.quote blockquote::before { content: open-quote; }
+.quote blockquote::after  { content: close-quote; }
 .quote-by {
   margin-top: 10px; font-size: .88rem; font-weight: 600;
   color: var(--on-dark-faint); letter-spacing: 0;
