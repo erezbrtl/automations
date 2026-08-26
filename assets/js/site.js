@@ -323,7 +323,7 @@
     var photo = new Image();
     photo.src = CFG.portraitUrl;
     photo.alt = "ארז ברטל מעביר סדנה";
-    photo.loading = "lazy";
+    photo.decoding = "async";
     photo.addEventListener("load", function () {
       portrait.innerHTML = "";
       portrait.appendChild(photo);
