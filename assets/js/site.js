@@ -7,6 +7,34 @@
   var CFG = window.SITE_CONFIG || {};
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- analytics, once an id is configured ---------- */
+  window.dataLayer = window.dataLayer || [];
+  if (CFG.analyticsId) {
+    var ga = document.createElement("script");
+    ga.async = true;
+    ga.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CFG.analyticsId);
+    document.head.appendChild(ga);
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", CFG.analyticsId);
+  }
+
+  function track(name, detail) {
+    window.dataLayer.push(Object.assign({ event: name }, detail || {}));
+    if (typeof window.gtag === "function") { window.gtag("event", name, detail || {}); }
+    document.dispatchEvent(new CustomEvent(name, { detail: detail || {} }));
+  }
+
+  /* which call to action sent someone to the form - without this every
+     lead arrives with the same label and nothing can be attributed */
+  var lastCta = "";
+  Array.prototype.forEach.call(document.querySelectorAll("[data-cta]"), function (link) {
+    link.addEventListener("click", function () {
+      lastCta = link.getAttribute("data-cta");
+      track("cta_click", { cta: lastCta });
+    });
+  });
+
   /* ---------- year ---------- */
   var year = document.getElementById("year");
   if (year) { year.textContent = String(new Date().getFullYear()); }
@@ -29,10 +57,16 @@
 
   /* ---------- whatsapp, wherever it is offered ---------- */
   var waNumber = CFG.whatsapp ? String(CFG.whatsapp).replace(/\D/g, "") : "";
-  var waLink = waNumber
-    ? "https://wa.me/" + waNumber + "?text=" +
-      encodeURIComponent("היי ארז, הגעתי מהאתר. רציתי לשאול על הסדנה.")
-    : "";
+  var WA_TEXT = {
+    float: "היי ארז, הגעתי מהאתר. רציתי לשאול על הסדנה.",
+    form: "היי ארז, ראיתי את הטופס באתר ומעדיף/ה וואטסאפ. רציתי לשאול על הסדנה."
+  };
+  function waHref(source) {
+    if (!waNumber) { return ""; }
+    return "https://wa.me/" + waNumber + "?text=" +
+      encodeURIComponent(WA_TEXT[source] || WA_TEXT.float);
+  }
+  var waLink = waHref("float");
 
   if (waLink && floatCta) {
     var wa = document.createElement("a");
@@ -41,12 +75,15 @@
     wa.target = "_blank";
     wa.rel = "noopener";
     wa.textContent = "וואטסאפ";
+    wa.addEventListener("click", function () { track("whatsapp_click", { source: "float" }); });
     floatCta.appendChild(wa);
   }
 
   if (waLink) {
     Array.prototype.forEach.call(document.querySelectorAll("[data-whatsapp]"), function (link) {
-      link.href = waLink;
+      var source = link.getAttribute("data-wa-source") || "float";
+      link.href = waHref(source);
+      link.addEventListener("click", function () { track("whatsapp_click", { source: source }); });
       link.target = "_blank";
       link.rel = "noopener";
       var holder = link.closest(".form-alt");
@@ -227,31 +264,30 @@
   }
 
   /* ---------- youtube facade: no third-party script until clicked ---------- */
+  var videoSlot = document.getElementById("video");
+  var heroGrid = document.querySelector(".hero-grid");
+  if (videoSlot && CFG.youtubeId) {
+    videoSlot.hidden = false;
+    if (heroGrid) { heroGrid.classList.remove("is-solo"); }
+  }
+
   var facade = document.getElementById("videoFacade");
-  if (facade) {
+  if (facade && CFG.youtubeId) {
     var caption = facade.querySelector(".video-cap");
     if (caption && CFG.videoCaption) {
       caption.childNodes[0].nodeValue = CFG.videoCaption + " ";
     }
-    if (CFG.youtubeId) {
-      facade.style.backgroundImage =
-        "url(https://i.ytimg.com/vi/" + CFG.youtubeId + "/maxresdefault.jpg)";
-      facade.addEventListener("click", function () {
-        var frame = document.createElement("iframe");
-        frame.src = "https://www.youtube-nocookie.com/embed/" + CFG.youtubeId +
-                    "?autoplay=1&rel=0&modestbranding=1&hl=he";
-        frame.title = "סרטון מהסדנה";
-        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture";
-        frame.allowFullscreen = true;
-        facade.parentNode.replaceChild(frame, facade);
-      });
-    } else {
-      facade.setAttribute("aria-label", "מקום לסרטון - יתווסף בקרוב");
-      facade.disabled = true;
-      facade.style.cursor = "default";
-      var hint = facade.querySelector(".video-cap");
-      if (hint) { hint.innerHTML = 'מקום לסרטון <small>· הוסיפו youtubeId ב-config.js</small>'; }
-    }
+    facade.style.backgroundImage =
+      "url(https://i.ytimg.com/vi/" + CFG.youtubeId + "/maxresdefault.jpg)";
+    facade.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.src = "https://www.youtube-nocookie.com/embed/" + CFG.youtubeId +
+                  "?autoplay=1&rel=0&modestbranding=1&hl=he";
+      frame.title = "סרטון מהסדנה";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture";
+      frame.allowFullscreen = true;
+      facade.parentNode.replaceChild(frame, facade);
+    });
   }
 
   /* ---------- portrait ---------- */
@@ -261,7 +297,13 @@
     photo.src = CFG.portraitUrl;
     photo.alt = "ארז ברטל מעביר סדנה";
     photo.loading = "lazy";
-    photo.addEventListener("load", function () { portrait.innerHTML = ""; portrait.appendChild(photo); });
+    photo.addEventListener("load", function () {
+      portrait.innerHTML = "";
+      portrait.appendChild(photo);
+      portrait.hidden = false;
+      var aboutGrid = document.querySelector(".about-grid");
+      if (aboutGrid) { aboutGrid.classList.remove("is-solo"); }
+    });
   }
 
   /* ---------- worked example tabs ---------- */
@@ -333,7 +375,7 @@
       if (!field.name || field.name === "company_url") { return; }
       data[field.name] = field.value.trim();
     });
-    data.source = "process-check";
+    data.source = lastCta ? "cta:" + lastCta : "form-direct";
     data.page = window.location.href;
     return data;
   }
@@ -353,7 +395,9 @@
   }
 
   /* No webhook yet: hand the filled details to WhatsApp, then email.
-     Returns false when there is nowhere to send - never fake a success. */
+     Returns false when there is nowhere to send - never fake a success.
+     Note it only OPENS the channel: whether the message is actually sent
+     is the visitor's next click, which is why this never reports receipt. */
   function handoffFallback(data) {
     var body = formatLead(data);
     if (waNumber) {
@@ -383,16 +427,21 @@
     if (button) { button.disabled = false; }
   }
 
-  function trackLead(form) {
-    var detail = { form: form.id, page: window.location.pathname };
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: "lead_submit", form_id: form.id });
-    if (typeof window.gtag === "function") { window.gtag("event", "generate_lead", detail); }
-    document.dispatchEvent(new CustomEvent("lead:submit", { detail: detail }));
+  /* the details are open in whatsapp and nowhere else yet - say exactly
+     that, and leave the form standing so nothing is lost on the way back */
+  function handedOff(form, status, button, source) {
+    track("lead_handoff", { form: form.id, source: source });
+    if (button) { button.disabled = false; }
+    if (status) {
+      status.classList.add("is-open");
+      status.textContent = "פתחתי וואטסאפ עם הפרטים שמילאתם - לחצו שם שלח ואחזור אליכם.";
+    }
   }
 
+  /* only ever called after a real 200 from the endpoint */
   function finish(form, doneEl) {
-    trackLead(form);
+    track("lead_submit", { form: form.id, page: window.location.pathname });
+    if (CFG.thanksUrl) { window.location.href = CFG.thanksUrl; return; }
     form.classList.add("is-hidden");
     form.style.display = "none";
     if (doneEl) {
@@ -423,8 +472,10 @@
       var button = form.querySelector('button[type="submit"]');
       var data = collect(form);
 
+      if (status) { status.classList.remove("is-open"); status.textContent = ""; }
+
       if (!CFG.formEndpoint) {
-        if (handoffFallback(data)) { finish(form, done); }
+        if (handoffFallback(data)) { handedOff(form, status, button, "no-endpoint"); }
         else { failVisibly(form, status, button); }
         return;
       }
@@ -441,7 +492,7 @@
         finish(form, done);
       }).catch(function () {
         if (!handoffFallback(data)) { failVisibly(form, status, button); return; }
-        if (button) { button.disabled = false; }
+        handedOff(form, status, button, "endpoint-failed");
       });
     });
   }

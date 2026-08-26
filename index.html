@@ -31,6 +31,7 @@
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
 
 <script type="application/ld+json">
 {
@@ -127,7 +128,7 @@
 <section class="section hero bg-night" id="top">
   <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <div class="wrap hero-grid">
+  <div class="wrap hero-grid is-solo">
     <div>
       <span class="eyebrow rv">לבעלי עסקים, מנהלים וארגונים</span>
       <h1 class="rv">
@@ -136,12 +137,12 @@
       </h1>
       <p class="hero-sub rv">3-4 שעות עבודה על תהליך אמיתי מהעסק שלכם. בסוף יוצאים עם <b>אוטומציה שעובדת</b>.</p>
       <div class="btn-row rv">
-        <a class="btn btn--cta" href="#contact"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
+        <a class="btn btn--cta" href="#contact" data-cta="hero"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
       </div>
       <p class="hero-meta rv">לא צריך ידע בתכנות. מי שמכיר את העבודה היומיומית בעסק - יכול להשתתף.</p>
     </div>
 
-    <div class="video rv" id="video">
+    <div class="video rv" id="video" hidden>
       <button class="video-facade" id="videoFacade" type="button" aria-label="נגן את הסרטון">
         <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
         <span class="video-cap">רגע מהסדנה</span>
@@ -267,6 +268,8 @@
         <p class="story-punch">בלי שאף אחד <b>ישב לכתוב.</b></p>
       </div>
 
+      <p class="demo-cta"><a href="#contact" data-cta="examples">יש לכם תהליך כזה? ספרו לי עליו <span class="ic">←</span></a></p>
+
       <p class="demo-note">כל השלבים האלה נבנים מהכלים שכבר יש לכם - טופס, גיליון, מייל וואטסאפ - ובאמצע יושב AI שקורא, מבין ומחליט. זה בדיוק מה שנבנה יחד בסדנה, על תהליך אחד אמיתי מהעסק שלכם.</p>
     </div>
   </div>
@@ -279,14 +282,8 @@
 </div>
 
 <section class="section bg-night" id="about" data-stop>
-  <div class="wrap about-grid">
-    <div class="portrait rv" id="portrait">
-      <div class="portrait-ph">
-        <div>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="11" r="3"/><path d="M3 19l6-5 4 3 3-2 5 4"/></svg>
-          תמונת תדמית תופיע כאן<br>portraitUrl ב-config.js
-        </div>
-      </div>
+  <div class="wrap about-grid is-solo">
+    <div class="portrait rv" id="portrait" hidden>
     </div>
 
     <div class="rv">
@@ -328,20 +325,9 @@
             <span class="err" data-err-for="c-name"></span>
           </div>
           <div class="field">
-            <label for="c-business">עסק <span class="opt">(לא חובה)</span></label>
-            <input id="c-business" name="business" type="text" autocomplete="organization">
-          </div>
-        </div>
-        <div class="grid2">
-          <div class="field">
             <label for="c-phone">טלפון</label>
             <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
             <span class="err" data-err-for="c-phone"></span>
-          </div>
-          <div class="field">
-            <label for="c-email">אימייל <span class="opt">(לא חובה)</span></label>
-            <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr">
-            <span class="err" data-err-for="c-email"></span>
           </div>
         </div>
         <div class="field">
@@ -350,8 +336,8 @@
         </div>
         <div class="hp"><label>אל תמלאו<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label></div>
         <button class="btn btn--cta btn--wide" type="submit">בדקו איתי את האפשרויות</button>
-        <p class="form-alt" hidden>מעדיפים וואטסאפ? <a href="#" data-whatsapp>שלחו לי הודעה</a></p>
-        <p class="form-fine">שיחה קצרה, בלי התחייבות. בשליחת הפרטים אתם מאשרים שאחזור אליכם בטלפון או במייל.</p>
+        <p class="form-alt">מעדיפים וואטסאפ? <a href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">שלחו לי הודעה</a></p>
+        <p class="form-fine">שיחה קצרה, בלי התחייבות. הפרטים משמשים רק כדי לחזור אליכם ולא מועברים לאף אחד. <a href="/privacy/">מדיניות פרטיות</a></p>
         <p class="form-status" role="status" data-status></p>
       </form>
 
@@ -374,8 +360,8 @@
     <span class="eyebrow rv">הדרכות לארגונים, מועצות וקהילות עסקיות</span>
     <h2 class="rv"><span class="nb">לא צריך לדעת הכול על AI.</span> צריך לדעת <span class="mark">מה הוא יכול לעשות בשבילכם.</span></h2>
     <div class="btn-row rv">
-      <a class="btn btn--cta" href="#contact"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
-      <a class="btn btn--ghost" href="#contact" data-prefill="אני מייצג/ת ארגון ומעוניין/ת בתיאום סדנה.">לתיאום לארגון</a>
+      <a class="btn btn--cta" href="#contact" data-cta="closing"><span class="ic">←</span> בדקו אם הסדנה מתאימה לכם</a>
+      <a class="btn btn--ghost" href="#contact" data-cta="org" data-prefill="אני מייצג/ת ארגון ומעוניין/ת בתיאום סדנה.">לתיאום לארגון</a>
     </div>
   </div>
 </section>
@@ -392,7 +378,9 @@
       <a href="#steps">הסדנה</a>
       <a href="#examples">דוגמאות</a>
       <a href="#about">מי אני</a>
-      <a href="#contact">יצירת קשר</a>
+      <a href="#contact" data-cta="footer">יצירת קשר</a>
+      <a href="/accessibility/">נגישות</a>
+      <a href="/privacy/">פרטיות</a>
     </nav>
     <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
   </div>

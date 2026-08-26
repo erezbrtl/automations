@@ -292,6 +292,9 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   align-items: center;
 }
 @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } }
+/* no video / no portrait yet: one column, so nothing reads as a hole */
+.hero-grid.is-solo { grid-template-columns: minmax(0, 1fr); }
+.hero-grid.is-solo .hero-sub { max-width: 46ch; }
 .hero h1 {
   font-size: clamp(2.35rem, 6vw, 4.3rem);
   line-height: 1.1;
@@ -555,6 +558,17 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   font-weight: 600; color: var(--on-dark-soft);
 }
 .story-punch b { color: #fff; font-weight: 900; font-family: var(--font-display); letter-spacing: -.02em; }
+.demo-cta { margin-top: 30px; text-align: center; }
+.demo-cta a {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-head); font-weight: 700; font-size: 1.05rem;
+  color: #fff; text-decoration: none;
+  border-bottom: 2px solid var(--cta); padding-bottom: 5px;
+  transition: color .18s ease, border-color .18s ease;
+}
+.demo-cta a:hover { color: #FF7A9E; border-color: #FF7A9E; }
+.demo-cta .ic { color: var(--cta); font-size: 1.15rem; }
+
 .demo-note {
   max-width: 660px; margin: 34px auto 0; text-align: center;
   font-size: .96rem; line-height: 1.75; color: var(--on-dark-faint);
@@ -743,6 +757,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* ---------- About ---------- */
 .about-grid { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: clamp(24px, 4vw, 52px); align-items: center; }
 @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+.about-grid.is-solo { grid-template-columns: minmax(0, 1fr); }
 .portrait {
   position: relative; border-radius: var(--radius); overflow: hidden;
   aspect-ratio: 4 / 5;
@@ -813,8 +828,11 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-alt a { color: #6FE9B4; font-weight: 700; text-decoration: none; }
 .form-alt a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .form-fine { margin-top: 12px; font-size: .82rem; color: var(--on-dark-faint); text-align: center; line-height: 1.5; }
+.form-fine a { color: var(--on-dark-soft); text-decoration: underline; text-underline-offset: 3px; }
+.form-fine a:hover { color: #fff; }
 .form-status { margin-top: 10px; font-size: .9rem; font-weight: 700; color: #FF8FA6; }
 .form-status:empty { margin-top: 0; }
+.form-status.is-open { color: #6FE9B4; }
 .form-done { display: none; }
 .form-done.is-visible { display: block; }
 .form-card.is-hidden { display: none; }
@@ -847,6 +865,31 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   .float-cta { inset-inline: 12px; bottom: 12px; }
   .float-cta .btn { flex: 1; }
 }
+
+/* ---------- Standalone documents (thanks, privacy, accessibility) ---------- */
+.doc-wrap { max-width: 62ch; }
+.doc-wrap.center { text-align: center; margin-inline: auto; }
+.doc-wrap h1 { margin-bottom: 14px; }
+.doc-wrap h2 {
+  font-family: var(--font-head); font-weight: 800; font-size: 1.2rem;
+  color: #fff; margin-top: 34px; margin-bottom: 8px; letter-spacing: -.02em;
+}
+.doc-wrap p { color: var(--on-dark-soft); line-height: 1.8; }
+.doc-wrap p + p { margin-top: 10px; }
+.doc-wrap b { color: #fff; font-weight: 700; }
+.doc-wrap a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.doc-list { margin-top: 10px; display: grid; gap: 9px; }
+.doc-list li {
+  position: relative; padding-inline-start: 20px;
+  color: var(--on-dark-soft); line-height: 1.7;
+}
+.doc-list li::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: .62em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--cta);
+}
+.doc-wrap .nowrap { white-space: nowrap; }
+.doc-meta { margin-top: 36px; font-size: .84rem; color: var(--on-dark-faint); }
+.doc-wrap .btn-row { margin-top: 28px; justify-content: center; }
 
 /* ---------- Reveal ---------- */
 .rv { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1); }
