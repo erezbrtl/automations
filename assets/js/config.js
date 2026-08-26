@@ -13,7 +13,7 @@ window.SITE_CONFIG = {
 
   /* תמונת תדמית (מומלץ יחס 4:5, לדוגמה 800x1000).
      שימו את הקובץ ב-assets/img/ והצביעו עליו כאן. ריק = פלייסהולדר. */
-  portraitUrl: "",
+  portraitUrl: "/assets/img/erez-portrait.jpg",
 
   /* יעד לשליחת טפסים (Make / n8n Webhook, Formspree, Zapier...).
      מקבל POST עם JSON.
