@@ -399,24 +399,35 @@
 
   function collect(form) {
     var data = {};
+    var ticked = [];
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
       if (!field.name || field.name === "company_url") { return; }
+      if (field.type === "checkbox") {
+        if (field.checked) { ticked.push(field.getAttribute("data-label") || field.value); }
+        return;
+      }
       data[field.name] = field.value.trim();
     });
+    if (ticked.length) { data.processes = ticked.join(" | "); }
     data.source = lastCta ? "cta:" + lastCta : "form-direct";
     data.page = window.location.href;
+    /* whatever the chosen form service needs (subject line, template, ...) */
+    if (CFG.formFields) {
+      Object.keys(CFG.formFields).forEach(function (k) { data[k] = CFG.formFields[k]; });
+    }
     return data;
   }
 
   var LABELS = {
     name: "שם", email: "אימייל", business: "עסק", phone: "טלפון",
-    message: "מה להפוך לאוטומטי", source: "מקור", page: "עמוד"
+    message: "מה להפוך לאוטומטי", processes: "תהליכים שסומנו",
+    source: "מקור", page: "עמוד"
   };
 
   /* human-readable lead: filled fields only, no internal bookkeeping */
   function formatLead(data) {
     return Object.keys(data).filter(function (key) {
-      return data[key] && key !== "source" && key !== "page";
+      return data[key] && key !== "source" && key !== "page" && key.charAt(0) !== "_";
     }).map(function (key) {
       return (LABELS[key] || key) + ": " + data[key];
     }).join("\n");
@@ -478,10 +489,9 @@
     }
   }
 
-  function wireForm(formId, doneId) {
-    var form = document.getElementById(formId);
-    var done = document.getElementById(doneId);
+  function wireForm(form) {
     if (!form) { return; }
+    var done = document.getElementById(form.getAttribute("data-done") || "");
 
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
       field.addEventListener("input", function () {
@@ -495,6 +505,14 @@
       var honeypot = form.querySelector('[name="company_url"]');
       if (honeypot && honeypot.value) { return; }
       if (!validate(form)) { return; }
+
+      /* an optional step between filling and sending - the page that owns
+         the gate decides what it asks; nothing is sent until it says so */
+      var gate = form.getAttribute("data-gate");
+      if (gate && !form.dataset.gateDone) {
+        var gateEl = document.querySelector(gate);
+        if (gateEl && typeof gateEl.openGate === "function") { gateEl.openGate(form); return; }
+      }
 
       var status = form.querySelector("[data-status]");
       var button = form.querySelector('button[type="submit"]');
@@ -525,5 +543,5 @@
     });
   }
 
-  wireForm("checkForm", "checkDone");
+  Array.prototype.forEach.call(document.querySelectorAll("form[data-lead-form]"), wireForm);
 })();

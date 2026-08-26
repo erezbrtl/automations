@@ -971,6 +971,109 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* a hint under a field that people hesitate to fill */
 .field .hint { font-size: .82rem; color: var(--on-dark-faint); line-height: 1.5; }
 
+/* ---------------------------------------------------------
+   The checklist page: ten processes, and the optional step
+   between filling the form and sending it.
+   --------------------------------------------------------- */
+.proc-list { display: grid; gap: 14px; max-width: 780px; margin: clamp(30px, 4vw, 46px) auto 0; }
+.proc {
+  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 4px 18px;
+  border: 1px solid var(--hairline); border-radius: clamp(14px, 1.8vw, 18px);
+  background: rgba(255, 255, 255, .028);
+  padding: clamp(18px, 2.4vw, 24px);
+  transition: border-color .2s ease, background .2s ease;
+}
+.proc:hover { border-color: rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .05); }
+.proc-n {
+  grid-row: span 3;
+  font-family: var(--font-head); font-weight: 900; font-size: 1.5rem;
+  color: var(--cta); direction: ltr; text-align: right;
+  font-variant-numeric: tabular-nums; line-height: 1.2;
+}
+.proc h3 { font-size: 1.12rem; font-weight: 800; letter-spacing: -.02em; }
+.proc p { color: var(--on-dark-soft); font-size: .97rem; line-height: 1.7; margin-top: 4px; }
+.proc .ask {
+  margin-top: 10px; font-size: .9rem; color: var(--on-dark-faint);
+  border-inline-start: 2px solid rgba(255, 255, 255, .16); padding-inline-start: 12px;
+}
+@media (max-width: 560px) {
+  .proc { grid-template-columns: 2.4rem minmax(0, 1fr); gap: 4px 12px; }
+  .proc-n { font-size: 1.25rem; }
+}
+
+/* ---------- the step before sending ---------- */
+.gate { border: 0; padding: 0; background: transparent; max-width: 620px; width: calc(100% - 32px); }
+.gate::backdrop { background: rgba(6, 3, 14, .72); backdrop-filter: blur(6px); }
+.gate-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
+    #140D26;
+  color: var(--on-dark);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: clamp(18px, 2.4vw, 24px);
+  padding: clamp(22px, 3.4vw, 32px);
+  box-shadow: 0 50px 110px -40px rgba(0, 0, 0, .95);
+  max-height: 86vh; overflow-y: auto;
+}
+.gate h2 {
+  font-family: var(--font-head); font-weight: 900; letter-spacing: -.03em;
+  font-size: clamp(1.4rem, 3.2vw, 1.85rem); line-height: 1.25;
+}
+/* focus lands here so the dialog announces itself; the ring would be
+   noise on a heading no keyboard can reach */
+.gate h2:focus { outline: none; }
+.gate .gate-sub { margin-top: 8px; color: var(--on-dark-soft); font-size: .98rem; line-height: 1.7; }
+.gate-close {
+  position: absolute; inset-inline-end: 18px; top: 16px;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--hairline); background: rgba(255, 255, 255, .05);
+  color: var(--on-dark-soft); font: inherit; font-size: 1.05rem; line-height: 1;
+  cursor: pointer; display: grid; place-items: center;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+}
+.gate-close:hover { color: #fff; border-color: rgba(255, 255, 255, .32); background: rgba(255, 255, 255, .1); }
+
+.tick-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+  margin-top: 20px;
+}
+@media (max-width: 560px) { .tick-grid { grid-template-columns: 1fr; } }
+.tick {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  border: 1px solid var(--hairline); border-radius: 11px;
+  padding: 11px 13px; font-size: .93rem; line-height: 1.35;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+.tick:hover { border-color: rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .045); }
+.tick input { position: absolute; opacity: 0; width: 0; height: 0; }
+.tick .box {
+  flex: 0 0 19px; height: 19px; border-radius: 6px;
+  border: 1.5px solid rgba(255, 255, 255, .32);
+  display: grid; place-items: center;
+  transition: background .18s ease, border-color .18s ease;
+}
+.tick .box svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 3; opacity: 0; }
+.tick input:checked ~ .box {
+  background: linear-gradient(140deg, var(--cta), #8B31D8); border-color: transparent;
+}
+.tick input:checked ~ .box svg { opacity: 1; }
+.tick input:focus-visible ~ .box { outline: 3px solid var(--cta); outline-offset: 2px; }
+.tick input:checked ~ span { color: #fff; }
+
+.gate .field { margin-top: 16px; }
+.gate-actions {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--hairline);
+}
+.gate-actions .btn { flex: 1 1 auto; }
+.gate-skip {
+  font: inherit; font-family: var(--font-head); font-weight: 600; font-size: .95rem;
+  color: var(--on-dark-soft); background: none; border: 0; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 4px; padding: 10px 4px;
+  transition: color .18s ease;
+}
+.gate-skip:hover { color: #fff; }
+
 /* ---------- Footer ---------- */
 .site-footer { padding-block: 34px; background: transparent; }
 .footer-inner { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
