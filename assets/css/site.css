@@ -195,6 +195,9 @@ a { color: inherit; }
 .bg-card .eyebrow { background: rgba(255, 46, 99, .09); color: #D4114C; }
 
 .h-sect { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.12; }
+/* a beat before the question, inside the heading rather than above it */
+.lead-in { display: block; font-size: .5em; font-weight: 700; letter-spacing: -.02em;
+  color: var(--on-dark-soft); margin-bottom: .35em; }
 .h-sub { margin-top: 20px; color: var(--on-dark-soft); font-size: clamp(1.08rem, 1.7vw, 1.28rem); max-width: 50ch; line-height: 1.65; }
 .bg-card .h-sub { color: var(--card-soft); }
 .center { text-align: center; }
