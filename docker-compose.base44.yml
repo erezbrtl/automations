@@ -1,0 +1,16 @@
+# Base44 dev environment for a static site.
+# nginx serves the cloned source directly from disk, so any edit to the
+# HTML/CSS/JS files is immediately visible in the preview (no rebuild needed).
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 3s
