@@ -805,19 +805,21 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 /* ---------- About ---------- */
-.about-grid { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: clamp(24px, 4vw, 52px); align-items: center; }
-@media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+.about-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 4vw, 52px); align-items: center; }
+@media (max-width: 860px) {
+  .about-grid { grid-template-columns: 1fr; }
+  /* stacked, a full-width 3:4 portrait would own the screen */
+  .portrait { max-width: 320px; margin-inline: auto; }
+}
 .about-grid.is-solo { grid-template-columns: minmax(0, 1fr); }
 .portrait {
   position: relative; border-radius: var(--radius); overflow: hidden;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   background: linear-gradient(150deg, #2A1140, #170B26);
   border: 1px solid rgba(255,255,255,.14);
   box-shadow: 0 30px 70px -34px rgba(0,0,0,.9);
 }
-/* the source is taller than the 4:5 slot, so the crop is pulled up to
-   keep the face off the top edge - adjust the second value if needed */
-.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 .portrait-ph { position: absolute; inset: 0; display: grid; place-items: center; gap: 10px; text-align: center; padding: 24px; color: var(--on-dark-faint); font-size: .88rem; }
 .portrait-ph svg { width: 46px; height: 46px; stroke: currentColor; fill: none; stroke-width: 1.3; margin-inline: auto; }
 .about-name { font-family: var(--font-head); font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.7rem); }
