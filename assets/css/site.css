@@ -614,7 +614,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .demo-cta .ic { color: var(--cta); font-size: 1.15rem; }
 
 .demo-note {
-  max-width: 660px; margin: 34px auto 0; text-align: center;
+  /* the line needs 732px at this size - 660 broke it in the middle */
+  max-width: 780px; margin: 34px auto 0; text-align: center;
   font-size: .96rem; line-height: 1.75; color: var(--on-dark-faint);
   border-top: 1px solid var(--hairline); padding-top: 22px;
 }
@@ -846,9 +847,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   margin: 0;
   font-family: var(--font-head); font-weight: 700; letter-spacing: -.02em;
   font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.5; color: #fff;
-  /* Noto Sans Hebrew ships no italic, so this is a synthetic slant -
-     it only reads as type rather than as distortion at a lighter weight */
-  font-style: italic;
   quotes: "\201D" "\201C";
 }
 .quote blockquote::before { content: open-quote; }
