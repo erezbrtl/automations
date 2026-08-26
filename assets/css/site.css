@@ -831,10 +831,17 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .skill { font-size: .84rem; padding: 6px 13px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid var(--hairline); color: var(--on-dark-soft); direction: ltr; }
 .quote {
-  margin-top: 28px; padding-inline-start: 24px;
+  margin: 28px 0 0; padding-inline-start: 24px;
   border-inline-start: 3px solid var(--cta);
+}
+.quote blockquote {
+  margin: 0;
   font-family: var(--font-head); font-weight: 800; letter-spacing: -.025em;
-  font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.45; color: #fff;
+  font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.45; color: #fff;
+}
+.quote-by {
+  margin-top: 10px; font-size: .88rem; font-weight: 600;
+  color: var(--on-dark-faint); letter-spacing: 0;
 }
 
 /* ---------- Forms ---------- */
