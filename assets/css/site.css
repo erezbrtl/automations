@@ -828,8 +828,16 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 /* ---------- Forms ---------- */
-.form-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(26px, 4vw, 56px); align-items: center; }
+.form-wrap { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(26px, 4vw, 56px); align-items: center; }
 @media (max-width: 900px) { .form-wrap { grid-template-columns: 1fr; } }
+/* the pitch sits in half the page here, not across it: at the page-wide
+   size its lines broke into three short fragments against the form and
+   left a ragged void between the two columns */
+.form-wrap .h-sect { font-size: clamp(1.8rem, 3vw, 2.25rem); }
+/* the question and the sting each get their own line, at every width,
+   instead of breaking wherever the column happens to run out */
+.form-wrap .h-sect .grad { display: block; }
+.form-wrap .h-sub { max-width: 40ch; }
 /* a panel of the same night as the page, lifted just enough to read
    as a surface - a white card here cut a hole in the journey */
 .form-card {
