@@ -281,8 +281,16 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .brand-name { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
 .brand-name span { color: var(--on-dark-faint); font-weight: 500; font-size: .82rem; display: block; line-height: 1.2; }
-.nav { display: flex; gap: 24px; }
-.nav a { text-decoration: none; font-size: .95rem; color: var(--on-dark-soft); transition: color .18s ease; }
+/* a hairline in the gap so the three items read as separate stops */
+.nav { display: flex; align-items: stretch; gap: 0; }
+.nav a + a { border-inline-start: 1px solid rgba(255, 255, 255, .16); }
+.nav a {
+  text-decoration: none; font-size: .95rem; color: var(--on-dark-soft);
+  padding-inline: 16px; line-height: 1.5;
+  transition: color .18s ease;
+}
+.nav a:first-child { padding-inline-start: 0; }
+.nav a:last-child { padding-inline-end: 0; }
 .nav a:hover, .nav a.is-active { color: #fff; }
 @media (max-width: 940px) { .nav { display: none; } }
 
