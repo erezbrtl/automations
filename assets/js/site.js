@@ -358,7 +358,8 @@
     });
   }
 
-  /* ---------- prefill from the organisation CTA ---------- */
+  /* ---------- any CTA carrying data-prefill seeds the message field ----------
+     No link uses it at the moment; it stays for a targeted CTA later. */
   document.addEventListener("click", function (event) {
     var trigger = event.target.closest ? event.target.closest("[data-prefill]") : null;
     if (!trigger) { return; }
