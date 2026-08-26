@@ -296,7 +296,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .hero-grid.is-solo { grid-template-columns: minmax(0, 1fr); }
 .hero-grid.is-solo .hero-sub { max-width: 46ch; }
 .hero h1 {
-  font-size: clamp(2.05rem, 6vw, 4.3rem);
+  font-size: clamp(2.05rem, 5.6vw, 3.9rem);
   line-height: 1.12;
 }
 /* nowrap that is never released: a hyphenated latin run like ל-AI
