@@ -31,7 +31,7 @@
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
-<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}#demoBody{display:block!important}.demo-open,.demo-peek-note{display:none!important}</style></noscript>
 
 <script type="application/ld+json">
 {
@@ -164,7 +164,7 @@
       <h2 class="h-sect">כמה שעות בשבוע הולכות על עבודה <span class="grad nb">שמחשב יעשה לבד?</span></h2>
     </div>
 
-    <ul class="pain-grid rv">
+    <ul class="pain-grid rv" data-stagger>
       <li class="pain"><i><svg viewBox="0 0 24 24"><rect x="2" y="3" width="9" height="11"/><rect x="13" y="9" width="9" height="11"/></svg></i>העתקת מידע בין מערכות</li>
       <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M2 3h13v9H7l-4 3v-3H2z"/><path d="M18 8h4v8h-2v3l-3-3h-4"/></svg></i>מענה על אותן שאלות</li>
       <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M2 4h20l-7 8v7l-6 3v-10z"/></svg></i>מעקב אחרי לידים</li>
@@ -220,7 +220,7 @@
     </ol>
 
     <div class="order-flow rv">
-      <ul class="flow-row"><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg></span><span>העסק שלכם<span class="sub">נקודת הפתיחה</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M16.9 16.9l2.2 2.2M19.1 4.9l-2.1 2.1M7 16.9l-2.1 2.2"/></svg></span><span>התהליך<span class="sub">מה חוזר</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3z"/></svg></span><span>הפתרון<span class="sub">מה צריך לקרות</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card node-card--end"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 3.5a5 5 0 0 0 6 6L21 9l-9 9-4.5 3L5 18.5 8 14l9-9z"/></svg></span><span>הכלי<span class="sub">נבחר בסוף</span></span></li></ul>
+      <ul class="flow-row rv" data-stagger><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg></span><span>העסק שלכם<span class="sub">נקודת הפתיחה</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M16.9 16.9l2.2 2.2M19.1 4.9l-2.1 2.1M7 16.9l-2.1 2.2"/></svg></span><span>התהליך<span class="sub">מה חוזר</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3z"/></svg></span><span>הפתרון<span class="sub">מה צריך לקרות</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card node-card--end"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 3.5a5 5 0 0 0 6 6L21 9l-9 9-4.5 3L5 18.5 8 14l9-9z"/></svg></span><span>הכלי<span class="sub">נבחר בסוף</span></span></li></ul>
       <p class="order-note">רוב הקורסים מתחילים מהסוף. <b>אנחנו מתחילים מהעסק שלכם.</b></p>
     </div>
 </section>
@@ -237,9 +237,13 @@
       <span class="eyebrow">דוגמה</span>
       <h2 class="h-sect">מה בונים בסדנה?</h2>
       <p class="h-sub">בחרו תחום וראו איך נראה תהליך שרץ לבד.</p>
+      <p class="demo-peek-note">ליד שנכנס בלילה, פנייה שאין מי שיענה לה, חשבונית שנופלת בין הכיסאות - כל אחד מהם, דקה אחר דקה.</p>
+      <button class="demo-open" type="button" id="demoOpen" aria-expanded="false" aria-controls="demoBody">
+        <span class="demo-open-label">לפתוח את הדוגמאות</span><span class="ic" aria-hidden="true">↓</span>
+      </button>
     </div>
 
-    <div class="demo rv">
+    <div class="demo rv" id="demoBody">
       <div class="demo-tabs" role="tablist" aria-label="תחומים">
         <button class="demo-tab is-on" role="tab" id="tab-sales" aria-controls="panel-sales" aria-selected="true">מכירות</button>
         <button class="demo-tab" role="tab" id="tab-service" aria-controls="panel-service" aria-selected="false" tabindex="-1">שירות</button>
@@ -291,7 +295,7 @@
       <p class="about-name">ארז ברטל</p>
       <p class="about-role">מרצה, מעצב ומפתח פתרונות דיגיטליים, עם יותר מ-16 שנות ניסיון בהוראה ובהדרכה.</p>
       <p class="skills-lead">התחום שלי הוא נקודת החיבור בין:</p>
-      <ul class="skills">
+      <ul class="skills rv" data-stagger>
         <li class="skill">AI</li><li class="skill">Automation</li><li class="skill">No-Code</li>
         <li class="skill">Digital Products</li><li class="skill">Design</li><li class="skill">Training</li>
       </ul>

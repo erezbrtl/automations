@@ -470,6 +470,36 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .win li::before { content: "\2713"; color: #6FE9B4; font-weight: 700; }
 
+/* ---------- The stories are opt-in on a phone ----------
+   Four minute-by-minute panels are four screens of scrolling on a
+   390px display. Below 760px the section shows its promise and one
+   button; the desktop layout is untouched. --------------------- */
+.demo-peek-note, .demo-open { display: none; }
+@media (max-width: 760px) {
+  /* the teaser line says what is inside; the tab instruction only
+     makes sense once the tabs are on screen */
+  #examples .h-sub { display: none; }
+  .demo-peek-note {
+    display: block; margin-top: 16px;
+    color: var(--on-dark-soft); font-size: .96rem; line-height: 1.7;
+  }
+  .demo-open {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+    font: inherit; font-family: var(--font-head); font-weight: 700; font-size: 1rem;
+    color: #fff; cursor: pointer;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px;
+    padding: 13px 24px;
+    transition: background .18s ease, border-color .18s ease, transform .12s ease;
+  }
+  .demo-open:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .34); }
+  .demo-open:active { transform: scale(.97); }
+  .demo-open .ic { color: var(--cta); font-size: 1.1rem; transition: transform .3s cubic-bezier(.22,.61,.36,1); }
+  .demo-open[aria-expanded="true"] .ic { transform: rotate(180deg); }
+  #demoBody { display: none; }
+  #examples.demo-shown #demoBody { display: block; }
+}
+
 /* ---------- Worked example: one real event, minute by minute ---------- */
 .demo { margin-top: clamp(26px, 3.6vw, 42px); }
 .demo-tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
@@ -890,6 +920,89 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .doc-wrap .nowrap { white-space: nowrap; }
 .doc-meta { margin-top: 36px; font-size: .84rem; color: var(--on-dark-faint); }
 .doc-wrap .btn-row { margin-top: 28px; justify-content: center; }
+
+/* ---------------------------------------------------------
+   Micro-interactions: small, cheap responses that make the
+   scroll feel travelled rather than paged through. Every one
+   of them is off under prefers-reduced-motion.
+   --------------------------------------------------------- */
+
+/* a group arrives item by item instead of as one block */
+.rv[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.22, .61, .36, 1);
+}
+.rv[data-stagger].is-in > * { opacity: 1; transform: none; }
+
+/* every press answers */
+.btn:active { transform: translateY(1px) scale(.985); }
+.demo-tab:active { transform: scale(.97); }
+.demo-cta a:active { transform: translateY(1px); }
+
+/* the header tightens once you have left the top */
+.header-inner { transition: height .3s cubic-bezier(.22, .61, .36, 1); }
+.site-header.is-stuck .header-inner { height: 58px; }
+.brand-logo { transition: transform .3s cubic-bezier(.22, .61, .36, 1); }
+.site-header.is-stuck .brand-logo { transform: scale(.9); }
+
+/* a stop on the journey rings once as you reach it */
+.j-stop::after {
+  content: "";
+  position: absolute; inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--cta);
+  opacity: 0;
+  pointer-events: none;
+}
+.j-stop.is-on::after { animation: stopRing .9s ease-out 1; }
+@keyframes stopRing {
+  from { opacity: .8; transform: scale(1); }
+  to   { opacity: 0;  transform: scale(2.6); }
+}
+
+/* the mockups answer the cursor the way a real window would */
+@media (hover: hover) and (pointer: fine) {
+  .frame { transition: transform .25s cubic-bezier(.22, .61, .36, 1), box-shadow .25s ease, border-color .25s ease; }
+  .frame:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, .22);
+    box-shadow: 0 34px 70px -34px rgba(0, 0, 0, .95);
+  }
+}
+
+/* the AI step is the moment the process stops being manual: it
+   breathes a few times when it arrives, then settles */
+.demo.is-in .ai-chip { animation: chipBreathe 2.1s ease-in-out 3; }
+@keyframes chipBreathe {
+  0%, 100% { box-shadow: 0 12px 28px -16px rgba(255, 46, 99, .9); }
+  50%      { box-shadow: 0 12px 28px -16px rgba(255, 46, 99, .9), 0 0 0 7px rgba(255, 46, 99, .1); }
+}
+
+/* the story assembles step by step when a tab opens */
+.demo.is-in .story-step { animation: stepIn .45s cubic-bezier(.22, .61, .36, 1) both; }
+.demo.is-in .story-step:nth-child(1) { animation-delay: .05s; }
+.demo.is-in .story-step:nth-child(2) { animation-delay: .13s; }
+.demo.is-in .story-step:nth-child(3) { animation-delay: .21s; }
+.demo.is-in .story-step:nth-child(4) { animation-delay: .29s; }
+.demo.is-in .story-step:nth-child(5) { animation-delay: .37s; }
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv[data-stagger] > * { opacity: 1; transform: none; transition: none; }
+  .btn:active, .demo-tab:active, .demo-cta a:active { transform: none; }
+  .header-inner, .brand-logo, .site-header.is-stuck .header-inner, .site-header.is-stuck .brand-logo {
+    transition: none; height: auto; transform: none;
+  }
+  .site-header.is-stuck .header-inner { height: 68px; }
+  .j-stop.is-on::after { animation: none; }
+  .frame { transition: none; }
+  .frame:hover { transform: none; }
+  .demo.is-in .ai-chip, .demo.is-in .story-step { animation: none; }
+}
 
 /* ---------- Reveal ---------- */
 .rv { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1); }

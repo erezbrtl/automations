@@ -230,6 +230,20 @@
   }
 
   /* ---------- reveal on scroll ---------- */
+
+  /* a marked group arrives item by item; siblings that each carry .rv
+     (the three stages) are dealt the same hand from their own index */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-stagger]"), function (group) {
+    Array.prototype.forEach.call(group.children, function (child, i) {
+      child.style.transitionDelay = (i * 70) + "ms";
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".track"), function (track) {
+    Array.prototype.forEach.call(track.querySelectorAll(":scope > .rv"), function (step, i) {
+      step.style.transitionDelay = (i * 90) + "ms";
+    });
+  });
+
   var revealables = document.querySelectorAll(".rv");
   if ("IntersectionObserver" in window && !reduced) {
     var revealObs = new IntersectionObserver(function (entries) {
@@ -242,6 +256,19 @@
     Array.prototype.forEach.call(revealables, function (el) { revealObs.observe(el); });
   } else {
     Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- the stories open on request on a phone ---------- */
+  var demoOpen = document.getElementById("demoOpen");
+  var examples = document.getElementById("examples");
+  if (demoOpen && examples) {
+    var demoLabel = demoOpen.querySelector(".demo-open-label");
+    demoOpen.addEventListener("click", function () {
+      var open = examples.classList.toggle("demo-shown");
+      demoOpen.setAttribute("aria-expanded", open ? "true" : "false");
+      if (demoLabel) { demoLabel.textContent = open ? "לסגור את הדוגמאות" : "לפתוח את הדוגמאות"; }
+      if (open) { track("examples_open", {}); }
+    });
   }
 
   /* ---------- active nav link ---------- */
