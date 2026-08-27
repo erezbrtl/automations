@@ -43,6 +43,7 @@
   var header = document.getElementById("siteHeader");
   var floatCta = document.getElementById("floatCta");
   var contact = document.getElementById("contact");
+  var toTop = document.getElementById("toTop");
 
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
@@ -51,9 +52,20 @@
       var nearForm = contact && contact.getBoundingClientRect().top < window.innerHeight * 0.9;
       floatCta.classList.toggle("is-on", y > 640 && !nearForm);
     }
+    /* the way back up is wanted most at the bottom, so unlike the pill it
+       does not stand down when the form comes into view */
+    if (toTop) { toTop.classList.toggle("is-on", y > 700); }
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  /* ---------- back to the top ---------- */
+  if (toTop) {
+    toTop.addEventListener("click", function () {
+      track("to_top", { page: window.location.pathname });
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
 
   /* ---------- whatsapp, wherever it is offered ---------- */
   var waNumber = CFG.whatsapp ? String(CFG.whatsapp).replace(/\D/g, "") : "";
@@ -264,19 +276,6 @@
     Array.prototype.forEach.call(revealables, function (el) { revealObs.observe(el); });
   } else {
     Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-in"); });
-  }
-
-  /* ---------- the stories open on request on a phone ---------- */
-  var demoOpen = document.getElementById("demoOpen");
-  var examples = document.getElementById("examples");
-  if (demoOpen && examples) {
-    var demoLabel = demoOpen.querySelector(".demo-open-label");
-    demoOpen.addEventListener("click", function () {
-      var open = examples.classList.toggle("demo-shown");
-      demoOpen.setAttribute("aria-expanded", open ? "true" : "false");
-      if (demoLabel) { demoLabel.textContent = open ? "לסגור את הדוגמאות" : "לפתוח את הדוגמאות"; }
-      if (open) { track("examples_open", {}); }
-    });
   }
 
   /* ---------- active nav link ---------- */

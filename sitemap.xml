@@ -11,6 +11,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://automations.erezb.pro/resources/examples.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://automations.erezb.pro/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>

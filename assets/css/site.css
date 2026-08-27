@@ -479,36 +479,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .win li::before { content: "\2713"; color: #6FE9B4; font-weight: 700; }
 
-/* ---------- The stories are opt-in on a phone ----------
-   Four minute-by-minute panels are four screens of scrolling on a
-   390px display. Below 760px the section shows its promise and one
-   button; the desktop layout is untouched. --------------------- */
-.demo-peek-note, .demo-open { display: none; }
-@media (max-width: 760px) {
-  /* the teaser line says what is inside; the tab instruction only
-     makes sense once the tabs are on screen */
-  #examples .h-sub { display: none; }
-  .demo-peek-note {
-    display: block; margin-top: 16px;
-    color: var(--on-dark-soft); font-size: .96rem; line-height: 1.7;
-  }
-  .demo-open {
-    display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
-    font: inherit; font-family: var(--font-head); font-weight: 700; font-size: 1rem;
-    color: #fff; cursor: pointer;
-    background: rgba(255, 255, 255, .05);
-    border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px;
-    padding: 13px 24px;
-    transition: background .18s ease, border-color .18s ease, transform .12s ease;
-  }
-  .demo-open:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .34); }
-  .demo-open:active { transform: scale(.97); }
-  .demo-open .ic { color: var(--cta); font-size: 1.1rem; transition: transform .3s cubic-bezier(.22,.61,.36,1); }
-  .demo-open[aria-expanded="true"] .ic { transform: rotate(180deg); }
-  #demoBody { display: none; }
-  #examples.demo-shown #demoBody { display: block; }
-}
-
 /* ---------- Worked example: one real event, minute by minute ---------- */
 .demo { margin-top: clamp(26px, 3.6vw, 42px); }
 .demo-tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
@@ -597,16 +567,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   font-weight: 600; color: var(--on-dark-soft);
 }
 .story-punch b { color: #fff; font-weight: 900; font-family: var(--font-display); letter-spacing: -.02em; }
-.demo-cta { margin-top: 30px; text-align: center; }
-.demo-cta a {
-  display: inline-flex; align-items: center; gap: 9px;
-  font-family: var(--font-head); font-weight: 700; font-size: 1.05rem;
-  color: #fff; text-decoration: none;
-  border-bottom: 2px solid var(--cta); padding-bottom: 5px;
-  transition: color .18s ease, border-color .18s ease;
-}
-.demo-cta a:hover { color: #FF7A9E; border-color: #FF7A9E; }
-.demo-cta .ic { color: var(--cta); font-size: 1.15rem; }
 
 .demo-note {
   /* the line needs 732px at this size - 660 broke it in the middle */
@@ -962,6 +922,15 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .fit-col--no .fit-list li::before { content: "\00D7"; color: #FF6B8A; }
 .fit-col--yes .fit-list li::before { content: "\2713"; color: #6FE9B4; }
 /* the section closes on a quiet aside, same voice as the note under the flow */
+/* the checklist page used to be reachable only from the footer, which is
+   the one place nobody reads. It belongs to the question this section asks. */
+.fit-go {
+  margin-top: clamp(22px, 3vw, 30px); text-align: center;
+  color: var(--on-dark-soft); font-size: .95rem;
+  display: flex; flex-wrap: wrap; gap: 12px 16px;
+  align-items: center; justify-content: center;
+}
+.fit-go .btn { font-size: .95rem; padding: 12px 22px; }
 .fit-note {
   max-width: 60ch; margin-inline: auto; text-align: center;
   margin-top: clamp(26px, 3.4vw, 38px); font-size: .94rem; line-height: 1.75;
@@ -1082,9 +1051,15 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* ---------- Footer ---------- */
 .site-footer { padding-block: 34px; background: transparent; }
 .footer-inner { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
-.footer-links a { font-size: .92rem; color: var(--on-dark-soft); text-decoration: none; }
-.footer-links a:hover { color: #fff; }
+.footer-links { display: flex; flex-wrap: wrap; row-gap: 4px; column-gap: 0; }
+.footer-links a { font-size: .82rem; color: var(--on-dark-faint); text-decoration: none; }
+.footer-links a:hover { color: var(--on-dark); }
+/* a dot between the links. It rides at the end of its own link rather than
+   the start of the next one, so a row that wraps ends on a separator
+   instead of opening with one. Its colour is set here, not inherited, so
+   hovering a link does not light up the punctuation beside it. */
+.footer-links a::after { content: "·"; margin-inline: 11px; color: rgba(255, 255, 255, .2); }
+.footer-links a:last-child::after { content: none; }
 .footer-meta { font-size: .82rem; color: var(--on-dark-faint); direction: ltr; }
 
 /* ---------- Sticky CTA ---------- */
@@ -1099,6 +1074,32 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 @media (max-width: 720px) {
   .float-cta { inset-inline: 12px; bottom: 12px; }
   .float-cta .btn { flex: 1; }
+}
+
+/* ---------- Back to the top ----------
+   It sits at the start edge, opposite the WhatsApp pill, so the two never
+   argue over the same corner - and unlike the pill it stays out while the
+   form is on screen, because that is exactly where someone wants it. */
+.to-top {
+  position: fixed; z-index: 70; inset-inline-start: 20px; bottom: 20px;
+  width: 46px; height: 46px; border-radius: 14px;
+  display: grid; place-items: center; cursor: pointer;
+  color: var(--on-dark);
+  background: rgba(20, 13, 38, .82);
+  border: 1px solid rgba(255, 255, 255, .16);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 44px -18px rgba(0, 0, 0, .95);
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, border-color .18s ease, background .18s ease;
+}
+.to-top.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { color: #fff; border-color: rgba(255, 255, 255, .34); background: rgba(30, 20, 54, .9); }
+.to-top:active { transform: translateY(1px) scale(.96); }
+.to-top svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 720px) {
+  .to-top { inset-inline-start: 12px; bottom: 12px; width: 44px; height: 44px; }
+  /* the pill starts after the button instead of underneath it */
+  .float-cta { inset-inline-start: 68px; }
 }
 
 /* ---------- Standalone documents (thanks, privacy, accessibility) ---------- */
@@ -1143,7 +1144,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* every press answers */
 .btn:active { transform: translateY(1px) scale(.985); }
 .demo-tab:active { transform: scale(.97); }
-.demo-cta a:active { transform: translateY(1px); }
 
 /* the header tightens once you have left the top */
 .header-inner { transition: height .3s cubic-bezier(.22, .61, .36, 1); }
@@ -1198,7 +1198,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 
 @media (prefers-reduced-motion: reduce) {
   .rv[data-stagger] > * { opacity: 1; transform: none; transition: none; }
-  .btn:active, .demo-tab:active, .demo-cta a:active { transform: none; }
+  .btn:active, .demo-tab:active { transform: none; }
   .header-inner, .brand-logo, .site-header.is-stuck .header-inner, .site-header.is-stuck .brand-logo {
     transition: none; height: auto; transform: none;
   }
