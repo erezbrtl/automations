@@ -15,10 +15,10 @@ const ship = [
   "sitemap.xml",
   "CNAME",
   "assets",
-  "accessibility",
-  "privacy",
+  "accessibility.html",
+  "privacy.html",
+  "thanks.html",
   "resources",
-  "thanks",
 ];
 
 const exists = async (p) => {

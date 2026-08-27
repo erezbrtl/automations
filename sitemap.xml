@@ -11,12 +11,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://automations.erezb.pro/privacy/</loc>
+    <loc>https://automations.erezb.pro/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://automations.erezb.pro/accessibility/</loc>
+    <loc>https://automations.erezb.pro/accessibility.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

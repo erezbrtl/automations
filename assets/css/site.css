@@ -273,12 +273,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-head); }
-.brand-logo {
-  width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--cta), #8B31D8);
-  display: grid; place-items: center;
-  font-weight: 800; font-size: .92rem; color: #fff;
-}
+.brand-logo { width: 34px; height: 34px; display: block; }
 .brand-name { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
 .brand-name span { color: var(--on-dark-faint); font-weight: 500; font-size: .82rem; display: block; line-height: 1.2; }
 /* a hairline in the gap so the three items read as separate stops */
