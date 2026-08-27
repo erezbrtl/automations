@@ -208,18 +208,21 @@ a { color: inherit; }
 .nb { white-space: nowrap; }
 /* the display face is large enough that forced phrases overflow narrow screens */
 @media (max-width: 760px) { .nb { white-space: normal; } }
-.mark { position: relative; white-space: nowrap; }
-@media (max-width: 760px) { .mark { white-space: normal; } }
-.mark::after {
-  content: "";
-  position: absolute;
-  inset-inline: -2px;
-  bottom: .04em;
-  height: .16em;
-  background: var(--cta);
-  border-radius: 2px;
-  z-index: -1;
+/* The bar is painted as a background rather than as one absolutely
+   positioned box, because an inline span that wraps has no single box to
+   position against: the old ::after collapsed to a dot on the last line
+   whenever the phrase broke on a phone. A cloned decoration underlines
+   every fragment instead. */
+.mark {
+  white-space: nowrap;
+  background-image: linear-gradient(var(--cta), var(--cta));
+  background-repeat: no-repeat;
+  background-size: 100% .16em;
+  background-position: 0 calc(100% - .04em);
+  padding-inline: 2px; margin-inline: -2px;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
+@media (max-width: 760px) { .mark { white-space: normal; } }
 .grad {
   background: linear-gradient(92deg, #FF5C87 0%, #C86BFF 55%, #6FA8FF 100%);
   -webkit-background-clip: text;
@@ -397,7 +400,10 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   display: grid; place-items: center;
 }
 .pain i svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 1.7; }
-.pain-note { margin-top: 34px; font-size: clamp(1.2rem, 2.1vw, 1.6rem); font-family: var(--font-head); font-weight: 600; }
+/* the sentences in this section are centred; only the six cards keep
+   their own alignment, since each is an icon followed by its line */
+.pain-note { margin-top: 34px; font-size: clamp(1.2rem, 2.1vw, 1.6rem); font-family: var(--font-head); font-weight: 600;
+  text-align: center; max-width: 46ch; margin-inline: auto; }
 
 /* ---------- Order / differentiation ---------- */
 .order { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: clamp(22px, 3vw, 32px); max-width: 860px; margin-inline: auto; justify-items: center; }
