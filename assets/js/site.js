@@ -388,11 +388,23 @@
     else { field.removeAttribute("aria-invalid"); }
   }
 
+  /* Everything the visitor can fill, including a control that sits elsewhere
+     on the page and joins this form through its form= attribute - which is
+     how the checklist ticks its twelve items where they are read. */
+  var NOT_A_FIELD = ["submit", "button", "reset", "image", "file"];
+  function fields(form) {
+    return Array.prototype.filter.call(form.elements, function (el) {
+      if (el.tagName !== "INPUT" && el.tagName !== "TEXTAREA") { return false; }
+      return NOT_A_FIELD.indexOf(el.type) === -1;
+    });
+  }
+
   function validate(form) {
     var ok = true;
     var firstBad = null;
-    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
+    fields(form).forEach(function (field) {
       if (field.name === "botcheck" || field.type === "hidden") { return; }
+      if (field.type === "checkbox" || field.type === "radio") { return; }
       var value = field.value.trim();
       var message = "";
       if (field.required && !value) { message = "שדה חובה"; }
@@ -408,7 +420,7 @@
   function collect(form) {
     var data = {};
     var ticked = [];
-    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
+    fields(form).forEach(function (field) {
       if (!field.name || field.name === "botcheck") { return; }
       if (field.type === "hidden") { return; }
       if (field.type === "checkbox") {
@@ -418,7 +430,11 @@
       data[field.name] = field.value.trim();
     });
     if (ticked.length) { data.processes = ticked.join(" | "); }
-    data.source = lastCta ? "cta:" + lastCta : "form-direct";
+    /* the call to action that started this lead was clicked on the page
+       before, so its label travels with the details rather than being
+       replaced by the neutral one this screen would report */
+    data.source = lastCta ? "cta:" + lastCta
+      : (form.carried && form.carried.source) || "form-direct";
     data.page = window.location.href;
     /* whatever the chosen form service needs (subject line, template, ...) */
     if (CFG.formFields) {
@@ -463,6 +479,100 @@
     return "";
   }
 
+  /* ---------- the details travel with the visitor ----------
+     One lead, two screens: the home page asks who you are, the checklist
+     page asks what is familiar. What was typed on the first is held here
+     until whichever screen actually sends it - it never goes in the URL,
+     where a phone number would end up in history and in every referrer. */
+  var CARRY_KEY = "erezb.lead";
+  var CARRY_TTL = 45 * 60 * 1000;
+
+  function carryDrop() {
+    try { window.sessionStorage.removeItem(CARRY_KEY); } catch (err) { /* already gone */ }
+  }
+
+  function carrySave(data) {
+    if (!data || !data.name || !data.phone) { return false; }
+    try {
+      window.sessionStorage.setItem(CARRY_KEY, JSON.stringify({ at: Date.now(), data: data }));
+      return true;
+    } catch (err) {
+      /* private browsing, or storage turned off - the form sends from here */
+      return false;
+    }
+  }
+
+  function carryRead() {
+    var raw;
+    try { raw = window.sessionStorage.getItem(CARRY_KEY); } catch (err) { return null; }
+    if (!raw) { return null; }
+    var held = null;
+    try { held = JSON.parse(raw); } catch (err) { held = null; }
+    if (!held || !held.data || !held.at || Date.now() - held.at > CARRY_TTL) {
+      carryDrop();
+      return null;
+    }
+    return held.data;
+  }
+
+  /* only the answers travel; the endpoint's own fields belong to whichever
+     form is doing the sending, not to the visitor */
+  function carryPayload(form) {
+    var data = collect(form);
+    var out = {};
+    Object.keys(data).forEach(function (key) {
+      if (!data[key] || key === "page" || PLUMBING.indexOf(key) !== -1) { return; }
+      out[key] = data[key];
+    });
+    return out;
+  }
+
+  /* the second screen already knows the name and the number, so it folds
+     those fields away and shows what it holds - with a way back to them */
+  function showIdentity(form, focus) {
+    if (!document.body.classList.contains("is-carried")) { return; }
+    document.body.classList.remove("is-carried");
+    if (!focus) { return; }
+    var first = form.querySelector("[data-carry-fields] input");
+    if (first) { first.focus(); }
+  }
+
+  function hydrate(form) {
+    var held = carryRead();
+    if (!held) { return null; }
+    form.carried = held;
+    fields(form).forEach(function (field) {
+      if (!field.name || field.type === "checkbox" || field.type === "hidden") { return; }
+      if (held[field.name]) { field.value = held[field.name]; }
+    });
+    document.body.classList.add("is-carried");
+    var line = form.querySelector("[data-carry-line]");
+    if (line) {
+      line.textContent = [held.name, held.phone].filter(Boolean).join(" · ");
+    }
+    var edit = form.querySelector("[data-carry-edit]");
+    if (edit) {
+      edit.addEventListener("click", function () { showIdentity(form, true); });
+    }
+    return held;
+  }
+
+  /* Someone who typed their name and number and pressed send is a lead
+     whether or not they reach the end of the checklist. If they leave this
+     page still holding the details, the details go out on their way. */
+  function guardCarry(form) {
+    window.addEventListener("pagehide", function () {
+      if (form.dataset.sending || !carryRead()) { return; }
+      if (!CFG.formEndpoint || typeof navigator.sendBeacon !== "function") { return; }
+      var data = collect(form);
+      if (!data.name || !data.phone) { return; }
+      var body = new URLSearchParams();
+      Object.keys(data).forEach(function (key) { body.append(key, data[key]); });
+      carryDrop();
+      navigator.sendBeacon(CFG.formEndpoint, body);
+    });
+  }
+
   /* A send that fails is never silent, and never opens a window nobody asked
      for - a popup fired from a promise is blocked anyway. The visitor gets a
      sentence and a button, and the form stays filled behind it. */
@@ -471,10 +581,13 @@
        through the browser and usually is not - so take it */
     if (form.getAttribute("action")) {
       track("lead_native_post", { form: form.id, source: source });
+      carryDrop();
       form.submit();
       return;
     }
     track("lead_handoff", { form: form.id, source: source });
+    /* nothing left this page, so the held copy is still the only copy */
+    delete form.dataset.sending;
     if (button) { button.disabled = false; }
     if (!status) { return; }
 
@@ -511,6 +624,7 @@
   /* only ever called after a real 200 from the endpoint */
   function finish(form, doneEl) {
     track("lead_submit", { form: form.id, page: window.location.pathname });
+    carryDrop();
     if (CFG.thanksUrl) { window.location.href = CFG.thanksUrl; return; }
     form.classList.add("is-hidden");
     form.style.display = "none";
@@ -524,6 +638,26 @@
     if (!form) { return; }
     var done = document.getElementById(form.getAttribute("data-done") || "");
 
+    /* details filled on an earlier screen land here, folded away */
+    if (form.hasAttribute("data-carry-in") && hydrate(form)) { guardCarry(form); }
+
+    /* the checklist says out loud how much of it is ticked, so nobody has to
+       scroll back up to count - and so an empty list still reads as sendable */
+    var tally = form.querySelector("[data-pick-count]");
+    if (tally) {
+      var picks = fields(form).filter(function (el) {
+        return el.type === "checkbox" && el.name !== "botcheck";
+      });
+      var retell = function () {
+        var n = picks.filter(function (b) { return b.checked; }).length;
+        tally.textContent = n === 0 ? "עוד לא סימנתם תהליך. אפשר לשלוח גם בלי."
+          : n === 1 ? "סימנתם תהליך אחד." : "סימנתם " + n + " תהליכים.";
+        tally.classList.toggle("is-on", n > 0);
+      };
+      picks.forEach(function (b) { b.addEventListener("change", retell); });
+      retell();
+    }
+
     /* The markup posts straight to the endpoint on its own, so a visitor whose
        scripts never run - or whose extension eats our request - still reaches
        us. Everything below is the nicer version of that, and it only turns
@@ -532,7 +666,7 @@
     var redirect = form.querySelector("[data-redirect]");
     if (redirect) { redirect.value = window.location.origin + (CFG.thanksUrl || "/thanks.html"); }
 
-    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
+    fields(form).forEach(function (field) {
       field.addEventListener("input", function () {
         var wrapper = field.closest(".field");
         if (wrapper && wrapper.classList.contains("has-error")) { setError(field, ""); }
@@ -541,14 +675,21 @@
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      if (!validate(form)) { return; }
+      if (!validate(form)) {
+        /* a detail this page folded away is not one the visitor can fix */
+        showIdentity(form, false);
+        validate(form);
+        return;
+      }
 
-      /* an optional step between filling and sending - the page that owns
-         the gate decides what it asks; nothing is sent until it says so */
-      var gate = form.getAttribute("data-gate");
-      if (gate && !form.dataset.gateDone) {
-        var gateEl = document.querySelector(gate);
-        if (gateEl && typeof gateEl.openGate === "function") { gateEl.openGate(form); return; }
+      /* This form asks half the question and another page asks the rest, so
+         the answers travel with the visitor instead of going down the wire
+         twice. If they cannot be held, the send happens right here. */
+      var next = form.getAttribute("data-next");
+      if (next && carrySave(carryPayload(form))) {
+        track("lead_carried", { form: form.id, next: next });
+        window.location.href = next;
+        return;
       }
 
       var status = form.querySelector("[data-status]");
@@ -564,6 +705,7 @@
 
       if (button) { button.disabled = true; }
       if (status) { status.classList.add("is-open"); status.textContent = "שולח..."; }
+      form.dataset.sending = "1";
 
       /* a request that never settles would leave "שולח..." on screen forever,
          so it gets a deadline and then the same handoff as any other failure */

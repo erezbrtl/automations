@@ -53,9 +53,14 @@
 
 <section class="section bg-night" id="top">
   <div class="wrap center">
-    <span class="eyebrow rv">רשימת בדיקה</span>
+    <span class="eyebrow rv" data-no-carry>רשימת בדיקה</span>
+    <p class="lead-got" data-carry-only>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg>
+      הפרטים שלכם נשמרו. אחזור אליכם.
+    </p>
     <h1 class="h-sect rv"><span class="lead-in">לפני שמחליטים מה להפוך לאוטומטי,</span>12 תהליכים <span class="grad nb">ששווה לבדוק.</span></h1>
-    <p class="h-sub rv">עברו על הרשימה וסמנו לעצמכם כל תהליך שקורה אצלכם לפחות פעם בשבוע. אם שלושה ומעלה נשמעים מוכרים - יש כאן זמן שאפשר להחזיר.</p>
+    <p class="h-sub rv" data-no-carry>עברו על הרשימה וסמנו כל תהליך שקורה אצלכם לפחות פעם בשבוע. אם שלושה ומעלה נשמעים מוכרים - יש כאן זמן שאפשר להחזיר. בסוף העמוד תוכלו לשלוח לי את מה שסימנתם.</p>
+    <p class="h-sub" data-carry-only>רגע אחד לפני שאני חוזר אליכם: עברו על הרשימה וסמנו כל תהליך שקורה אצלכם לפחות פעם בשבוע. מה שתסמנו יגיע אליי בסוף העמוד, ואגיע לשיחה כשאני כבר יודע על מה מדברים.</p>
   </div>
 </section>
 
@@ -68,76 +73,112 @@
   <div class="wrap">
     <ol class="proc-list rv">
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p1" name="proc1" value="קליטת ליד חדש">
         <span class="proc-n">01</span>
         <h3>קליטת ליד חדש</h3>
         <p>פנייה נכנסת מהאתר, מהטלפון או מהרשתות, ומישהו מעתיק אותה ידנית לגיליון או ל-CRM.</p>
         <p class="ask">כמה זמן עובר מרגע הפנייה ועד התשובה הראשונה?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p1"><span class="vh">לסמן: קליטת ליד חדש</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p2" name="proc2" value="תשובות שחוזרות על עצמן">
         <span class="proc-n">02</span>
         <h3>תשובות שחוזרות על עצמן</h3>
         <p>אותן שאלות על מחיר, זמינות, אזורי שירות או תנאי עבודה - כל יום מחדש.</p>
         <p class="ask">מה חמש השאלות שאתם עונים עליהן הכי הרבה?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p2"><span class="vh">לסמן: תשובות שחוזרות על עצמן</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p3" name="proc3" value="בניית הצעת מחיר">
         <span class="proc-n">03</span>
         <h3>בניית הצעת מחיר</h3>
         <p>אותו מסמך, עם שינויים קטנים, שנבנה כל פעם מחדש מקובץ ישן.</p>
         <p class="ask">איזה חלק בהצעה באמת משתנה בין לקוח ללקוח?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p3"><span class="vh">לסמן: בניית הצעת מחיר</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p4" name="proc4" value="מעקב אחרי לקוחות שלא חזרו">
         <span class="proc-n">04</span>
         <h3>מעקב אחרי לקוחות שלא חזרו</h3>
         <p>מישהו אמור לזכור לחזור, ובפועל זה תלוי בזיכרון ובעומס של אותו יום.</p>
         <p class="ask">כמה פניות נעלמות אצלכם בחודש?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p4"><span class="vh">לסמן: מעקב אחרי לקוחות שלא חזרו</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p5" name="proc5" value="העברת מידע בין מערכות">
         <span class="proc-n">05</span>
         <h3>העברת מידע בין מערכות</h3>
         <p>טופס, גיליון, מערכת הנהלת חשבונות ותוכנת הניהול - ואותו מידע נכתב בכולן.</p>
         <p class="ask">איפה אותו נתון נרשם יותר מפעם אחת?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p5"><span class="vh">לסמן: העברת מידע בין מערכות</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p6" name="proc6" value="סיכום מסמכים ומיילים">
         <span class="proc-n">06</span>
         <h3>סיכום מסמכים ומיילים</h3>
         <p>קריאה של שרשור ארוך או מסמך שלם רק כדי להוציא ממנו שתי שורות.</p>
         <p class="ask">מי בצוות מבזבז הכי הרבה זמן על קריאה שאפשר לקצר?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p6"><span class="vh">לסמן: סיכום מסמכים ומיילים</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p7" name="proc7" value="כתיבת תוכן שיווקי">
         <span class="proc-n">07</span>
         <h3>כתיבת תוכן שיווקי</h3>
         <p>תיאור מוצר, פוסט, ניוזלטר או עדכון ללקוחות - כל פעם מהתחלה.</p>
         <p class="ask">איזה מידע כבר קיים אצלכם ואפשר לגזור ממנו תוכן?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p7"><span class="vh">לסמן: כתיבת תוכן שיווקי</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p8" name="proc8" value="תזכורות ועדכוני סטטוס">
         <span class="proc-n">08</span>
         <h3>תזכורות ועדכוני סטטוס</h3>
         <p>תזכורת לפגישה, עדכון על שלב בעבודה, בקשה למסמך חסר.</p>
         <p class="ask">אילו הודעות אתם שולחים תמיד באותו נוסח?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p8"><span class="vh">לסמן: תזכורות ועדכוני סטטוס</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p9" name="proc9" value="מיון פניות ובקשות">
         <span class="proc-n">09</span>
         <h3>מיון פניות ובקשות</h3>
         <p>מישהו קורא כל פנייה ומחליט לאן היא הולכת - שירות, מכירות או תפעול.</p>
         <p class="ask">לפי איזה כלל אתם מחליטים? אם יש כלל, אפשר להפוך אותו לאוטומטי.</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p9"><span class="vh">לסמן: מיון פניות ובקשות</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p10" name="proc10" value="דוחות ואיסוף נתונים">
         <span class="proc-n">10</span>
         <h3>דוחות ואיסוף נתונים</h3>
         <p>איסוף ידני של מספרים מכמה מקומות כדי להרכיב תמונה שבועית או חודשית.</p>
         <p class="ask">כמה זמן לוקח להכין את הדוח, וכמה זמן קוראים אותו?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p10"><span class="vh">לסמן: דוחות ואיסוף נתונים</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p11" name="proc11" value="הרשמות לחוגים, שיעורים וסדנאות">
         <span class="proc-n">11</span>
         <h3>הרשמות לחוגים, שיעורים וסדנאות</h3>
         <p>טופס הרשמה, אישור למשתתף, רשימת המתנה ורשימת נוכחות - כל אחד מהם נשמר במקום אחר ומתעדכן ביד.</p>
         <p class="ask">כמה זמן לוקח לסגור הרשמה אחת מהרגע שהטופס נשלח?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p11"><span class="vh">לסמן: הרשמות לחוגים, שיעורים וסדנאות</span></label>
       </li>
       <li class="proc">
+        <input class="proc-tick" type="checkbox" form="procForm" id="p12" name="proc12" value="שליחת עדכונים לכמה קבוצות וואטסאפ">
         <span class="proc-n">12</span>
         <h3>שליחת עדכונים לכמה קבוצות וואטסאפ</h3>
         <p>אותה הודעה נשלחת ידנית לקבוצה אחרי קבוצה, ותמיד יש אחת ששוכחים.</p>
         <p class="ask">לכמה קבוצות אתם שולחים את אותו עדכון, וכמה פעמים בשבוע?</p>
+        <span class="proc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></svg></span>
+        <label class="proc-hit" for="p12"><span class="vh">לסמן: שליחת עדכונים לכמה קבוצות וואטסאפ</span></label>
       </li>
     </ol>
   </div>
@@ -152,14 +193,20 @@
   <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <div class="wrap form-wrap">
     <div class="rv">
-      <span class="eyebrow">בואו נבדוק</span>
-      <h2 class="h-sect">איזה מהם <span class="grad">קורה אצלכם?</span></h2>
-      <p class="h-sub">השאירו שם וטלפון ואחזור אליכם. אם בא לכם לספר יותר - יהיה לכם מקום לזה מיד אחרי.</p>
+      <span class="eyebrow">השלב האחרון</span>
+      <h2 class="h-sect">מה שסימנתם <span class="grad">מגיע אליי איתכם.</span></h2>
+      <p class="h-sub" data-no-carry>השאירו שם וטלפון ואחזור אליכם. מה שסימנתם למעלה נשלח יחד עם הפרטים, ואגיע לשיחה כשאני כבר יודע על מה מדברים.</p>
+      <p class="h-sub" data-carry-only>הפרטים שמילאתם בעמוד הראשי כבר כאן. נשאר רק לשלוח - עם מה שסימנתם, או בלי.</p>
     </div>
 
     <div>
-      <form class="form-card rv" id="procForm" data-lead-form data-done="procDone" data-gate="#procGate" action="https://api.web3forms.com/submit" method="POST">
-        <div class="grid2">
+      <form class="form-card rv" id="procForm" data-lead-form data-done="procDone" data-carry-in action="https://api.web3forms.com/submit" method="POST">
+        <p class="lead-known">
+          <span class="lead-known-k">שולח בשם</span>
+          <span class="lead-known-v" data-carry-line dir="auto"></span>
+          <button class="lead-known-edit" type="button" data-carry-edit>שינוי</button>
+        </p>
+        <div class="grid2" data-carry-fields>
           <div class="field">
             <label for="p-name">שם</label>
             <input id="p-name" name="name" type="text" autocomplete="name" required>
@@ -171,12 +218,17 @@
             <span class="err" data-err-for="p-phone"></span>
           </div>
         </div>
+        <p class="pick-count"><span data-pick-count></span> <a href="#list">לרשימה</a></p>
+        <div class="field">
+          <label for="p-msg">התהליך שגוזל לכם זמן <span class="opt">(לא חובה)</span></label>
+          <textarea id="p-msg" name="message" placeholder="למשל: כל הזמנה מהאתר דורשת ממני לפתוח שלוש מערכות."></textarea>
+        </div>
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="access_key" value="14071e57-7b84-471b-9ec2-a44b7cb2e763">
         <input type="hidden" name="subject" value="פנייה חדשה מהאתר">
         <input type="hidden" name="from_name" value="automations.erezb.pro">
         <input type="hidden" name="redirect" data-redirect value="https://automations-erezb.base44.app/thanks.html">
-        <button class="btn btn--cta btn--wide" type="submit">בואו נדבר</button>
+        <button class="btn btn--cta btn--wide" type="submit">שלחו ואחזור אליכם</button>
         <p class="form-alt">מעדיפים וואטסאפ? <a href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">שלחו לי הודעה</a></p>
         <p class="form-fine">שיחה קצרה, בלי התחייבות. הפרטים משמשים רק כדי לחזור אליכם ולא מועברים לאף אחד. <a href="/privacy.html">מדיניות פרטיות</a></p>
         <p class="form-status" role="status" data-status></p>
@@ -191,87 +243,6 @@
 </section>
 
 </main>
-
-<dialog class="gate" id="procGate" aria-labelledby="gateTitle">
-  <form method="dialog" class="gate-card" id="gateCard">
-    <button class="gate-close" type="submit" value="cancel" aria-label="סגירה">✕</button>
-    <h2 id="gateTitle" tabindex="-1" autofocus>רגע לפני ששולחים</h2>
-    <p class="gate-sub">כבר קראתם את הרשימה. אם משהו ממנה נשמע מוכר, סמנו - ואגיע לשיחה כשאני כבר יודע על מה מדברים. לגמרי לא חובה.</p>
-
-    <div class="tick-grid">
-          <label class="tick">
-            <input type="checkbox" name="proc1" data-label="קליטת ליד חדש">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>קליטת ליד חדש</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc2" data-label="תשובות שחוזרות על עצמן">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>תשובות שחוזרות על עצמן</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc3" data-label="בניית הצעת מחיר">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>בניית הצעת מחיר</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc4" data-label="מעקב אחרי לקוחות שלא חזרו">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>מעקב אחרי לקוחות שלא חזרו</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc5" data-label="העברת מידע בין מערכות">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>העברת מידע בין מערכות</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc6" data-label="סיכום מסמכים ומיילים">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>סיכום מסמכים ומיילים</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc7" data-label="כתיבת תוכן שיווקי">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>כתיבת תוכן שיווקי</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc8" data-label="תזכורות ועדכוני סטטוס">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>תזכורות ועדכוני סטטוס</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc9" data-label="מיון פניות ובקשות">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>מיון פניות ובקשות</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc10" data-label="דוחות ואיסוף נתונים">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>דוחות ואיסוף נתונים</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc11" data-label="הרשמות לחוגים, שיעורים וסדנאות">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>הרשמות לחוגים, שיעורים וסדנאות</span>
-          </label>
-          <label class="tick">
-            <input type="checkbox" name="proc12" data-label="שליחת עדכונים לכמה קבוצות וואטסאפ">
-            <span class="box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 7"/></svg></span>
-            <span>שליחת עדכונים לכמה קבוצות וואטסאפ</span>
-          </label>
-    </div>
-
-    <div class="field">
-      <label for="g-msg">משהו שלא ברשימה? <span class="opt">(לא חובה)</span></label>
-      <textarea id="g-msg" name="message" placeholder="למשל: כל הזמנה מהאתר דורשת ממני לפתוח שלוש מערכות."></textarea>
-    </div>
-
-    <div class="gate-actions">
-      <button class="btn btn--cta" type="submit" value="send">שלח</button>
-      <button class="gate-skip" type="submit" value="plain">שלח בלי לסמן</button>
-    </div>
-  </form>
-</dialog>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
@@ -293,60 +264,5 @@
 
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/site.js"></script>
-<script>
-(function () {
-  var gate = document.getElementById("procGate");
-  var card = document.getElementById("gateCard");
-  var form = document.getElementById("procForm");
-  if (!gate || !card || !form) { return; }
-
-  /* site.js opens this instead of sending, and waits */
-  gate.openGate = function () {
-    if (typeof gate.showModal === "function") { gate.showModal(); }
-    else { send(false); }
-  };
-
-  function send(withExtras) {
-    if (!withExtras) {
-      Array.prototype.forEach.call(card.querySelectorAll("input[type=checkbox]"), function (b) { b.checked = false; });
-      var free = card.querySelector("#g-msg");
-      if (free) { free.value = ""; }
-    }
-    /* move what was filled here onto the form that is actually submitted */
-    var carry = form.querySelector("[data-carried]");
-    if (carry) { carry.remove(); }
-    var hold = document.createElement("div");
-    hold.setAttribute("data-carried", "");
-    hold.className = "hp";
-    Array.prototype.forEach.call(card.querySelectorAll("input[type=checkbox]"), function (b) {
-      if (!b.checked) { return; }
-      var c = document.createElement("input");
-      c.type = "checkbox"; c.checked = true; c.name = b.name;
-      c.setAttribute("data-label", b.getAttribute("data-label"));
-      hold.appendChild(c);
-    });
-    var msg = card.querySelector("#g-msg");
-    if (msg && msg.value.trim()) {
-      var t = document.createElement("textarea");
-      t.name = "message"; t.value = msg.value;
-      hold.appendChild(t);
-    }
-    form.appendChild(hold);
-    form.dataset.gateDone = "1";
-    if (typeof form.requestSubmit === "function") { form.requestSubmit(); }
-    else { form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true })); }
-    delete form.dataset.gateDone;
-  }
-
-  card.addEventListener("submit", function (event) {
-    var how = event.submitter ? event.submitter.value : "cancel";
-    /* the dialog closes itself; cancelling returns to the form untouched */
-    setTimeout(function () {
-      if (how === "send") { send(true); }
-      else if (how === "plain") { send(false); }
-    }, 0);
-  });
-})();
-</script>
 </body>
 </html>

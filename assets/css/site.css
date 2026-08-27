@@ -984,15 +984,22 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    --------------------------------------------------------- */
 .proc-list { display: grid; gap: 14px; max-width: 780px; margin: clamp(30px, 4vw, 46px) auto 0; }
 .proc {
+  position: relative;
   display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 4px 18px;
   border: 1px solid var(--hairline); border-radius: clamp(14px, 1.8vw, 18px);
   background: rgba(255, 255, 255, .028);
   padding: clamp(18px, 2.4vw, 24px);
   transition: border-color .2s ease, background .2s ease;
 }
+/* the number, the text and the tick each hold their own column, so only
+   the heading row gives up width to the box - the description and the
+   question below it still run the full width of the card */
+.proc { grid-template-columns: 3.2rem minmax(0, 1fr) 22px; }
+.proc-n { grid-column: 1; grid-row: 1 / span 3; }
+.proc h3 { grid-column: 2; grid-row: 1; }
+.proc > p { grid-column: 2; }
 .proc:hover { border-color: rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .05); }
 .proc-n {
-  grid-row: span 3;
   font-family: var(--font-head); font-weight: 900; font-size: 1.5rem;
   color: var(--cta); direction: ltr; text-align: right;
   font-variant-numeric: tabular-nums; line-height: 1.2;
@@ -1004,89 +1011,73 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   border-inline-start: 2px solid rgba(255, 255, 255, .16); padding-inline-start: 12px;
 }
 @media (max-width: 560px) {
-  .proc { grid-template-columns: 2.4rem minmax(0, 1fr); gap: 4px 12px; }
+  .proc { grid-template-columns: 2.4rem minmax(0, 1fr) 22px; gap: 4px 12px; }
   .proc-n { font-size: 1.25rem; }
 }
 
-/* ---------- the step before sending ---------- */
-.gate { border: 0; padding: 0; background: transparent; max-width: 620px; width: calc(100% - 32px); }
-.gate::backdrop { background: rgba(6, 3, 14, .72); backdrop-filter: blur(6px); }
-.gate-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
-    #140D26;
-  color: var(--on-dark);
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: clamp(18px, 2.4vw, 24px);
-  padding: clamp(22px, 3.4vw, 32px);
-  box-shadow: 0 50px 110px -40px rgba(0, 0, 0, .95);
-  max-height: 86vh; overflow-y: auto;
-}
-.gate h2 {
-  font-family: var(--font-head); font-weight: 900; letter-spacing: -.03em;
-  font-size: clamp(1.4rem, 3.2vw, 1.85rem); line-height: 1.25;
-}
-/* focus lands here so the dialog announces itself; the ring would be
-   noise on a heading no keyboard can reach */
-.gate h2:focus { outline: none; }
-.gate .gate-sub { margin-top: 8px; color: var(--on-dark-soft); font-size: .98rem; line-height: 1.7; }
-.gate-close {
-  position: absolute; inset-inline-end: 18px; top: 16px;
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid var(--hairline); background: rgba(255, 255, 255, .05);
-  color: var(--on-dark-soft); font: inherit; font-size: 1.05rem; line-height: 1;
-  cursor: pointer; display: grid; place-items: center;
-  transition: color .18s ease, border-color .18s ease, background .18s ease;
-}
-.gate-close:hover { color: #fff; border-color: rgba(255, 255, 255, .32); background: rgba(255, 255, 255, .1); }
-
-.tick-grid {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
-  margin-top: 20px;
-}
-@media (max-width: 560px) { .tick-grid { grid-template-columns: 1fr; } }
-.tick {
-  display: flex; align-items: center; gap: 10px; cursor: pointer;
-  border: 1px solid var(--hairline); border-radius: 11px;
-  padding: 11px 13px; font-size: .93rem; line-height: 1.35;
-  transition: border-color .18s ease, background .18s ease, color .18s ease;
-}
-.tick:hover { border-color: rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .045); }
-.tick input { position: absolute; opacity: 0; width: 0; height: 0; }
-.tick .box {
-  flex: 0 0 19px; height: 19px; border-radius: 6px;
-  border: 1.5px solid rgba(255, 255, 255, .32);
+/* ---------- ticking the list where it is read ----------
+   The twelve items used to be repeated as a grid of checkboxes inside a
+   modal. Now each item is its own control: a stretched label over the whole
+   card, and a box in the corner to show what it did. The input lives here
+   and joins the form further down the page through its form= attribute. */
+.proc-tick { position: absolute; opacity: 0; width: 0; height: 0; }
+.proc-hit { position: absolute; inset: 0; cursor: pointer; border-radius: inherit; }
+.proc-box {
+  grid-column: 3; grid-row: 1; align-self: start; margin-top: 1px;
+  width: 22px; height: 22px; border-radius: 7px;
+  border: 1.5px solid rgba(255, 255, 255, .3);
   display: grid; place-items: center;
   transition: background .18s ease, border-color .18s ease;
 }
-.tick .box svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 3; opacity: 0; }
-.tick input:checked ~ .box {
-  background: linear-gradient(140deg, var(--cta), #8B31D8); border-color: transparent;
-}
-.tick input:checked ~ .box svg { opacity: 1; }
-.tick input:focus-visible ~ .box { outline: 3px solid var(--cta); outline-offset: 2px; }
-.tick input:checked ~ span { color: #fff; }
+.proc-box svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 3; opacity: 0; transition: opacity .18s ease; }
+.proc-tick:checked ~ .proc-box { background: linear-gradient(140deg, var(--cta), #8B31D8); border-color: transparent; }
+.proc-tick:checked ~ .proc-box svg { opacity: 1; }
+.proc-tick:focus-visible ~ .proc-box { outline: 3px solid var(--cta); outline-offset: 3px; }
+/* a ticked item should read as chosen from across the page, not only by
+   the state of a 22px box in its corner */
+.proc:has(.proc-tick:checked) { border-color: rgba(255, 46, 99, .55); background: rgba(255, 46, 99, .07); }
+.proc:has(.proc-tick:checked) h3 { color: #fff; }
 
-.gate .field { margin-top: 16px; }
-/* the card scrolls once the list is long, so the send button rides the bottom
-   of it instead of hiding below the fold of a modal */
-.gate-actions {
-  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--hairline);
-  position: sticky; bottom: calc(-1 * clamp(22px, 3.4vw, 32px));
-  margin-inline: calc(-1 * clamp(22px, 3.4vw, 32px));
-  padding-inline: clamp(22px, 3.4vw, 32px);
-  padding-bottom: clamp(22px, 3.4vw, 32px);
-  background: #140D26;
+/* ---------- what the visitor already told the first page ---------- */
+.lead-known { display: none; }
+.is-carried .lead-known {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+  margin-bottom: 18px; padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, .15); border-radius: 12px;
+  background: rgba(255, 255, 255, .045);
 }
-.gate-actions .btn { flex: 1 1 auto; }
-.gate-skip {
-  font: inherit; font-family: var(--font-head); font-weight: 600; font-size: .95rem;
+.lead-known-k { font-size: .82rem; font-weight: 700; color: var(--on-dark-faint); font-family: var(--font-head); }
+.lead-known-v { font-weight: 700; color: #fff; }
+.lead-known-edit {
+  margin-inline-start: auto; font: inherit; font-size: .85rem; font-weight: 600;
   color: var(--on-dark-soft); background: none; border: 0; cursor: pointer;
-  text-decoration: underline; text-underline-offset: 4px; padding: 10px 4px;
+  text-decoration: underline; text-underline-offset: 4px; padding: 2px 4px;
   transition: color .18s ease;
 }
-.gate-skip:hover { color: #fff; }
+.lead-known-edit:hover { color: #fff; }
+/* the second screen only asks what the first one did not */
+[data-carry-only] { display: none; }
+.is-carried [data-carry-only] { display: revert; }
+.is-carried [data-no-carry], .is-carried [data-carry-fields] { display: none; }
+/* the visitor pressed send on the page before this one; the first thing
+   they should read here is that it landed */
+.lead-got { align-items: center; gap: 9px; margin-bottom: 18px;
+  padding: 10px 18px 10px 14px; border-radius: 999px;
+  border: 1px solid rgba(111, 233, 180, .34); background: rgba(111, 233, 180, .1);
+  color: #6FE9B4; font-family: var(--font-head); font-weight: 700; font-size: .92rem;
+}
+.is-carried .lead-got { display: inline-flex; }
+.lead-got svg { width: 15px; height: 15px; flex: 0 0 auto; stroke: currentColor; fill: none; stroke-width: 3.2; }
+
+.pick-count {
+  display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline;
+  margin-top: 16px; font-size: .88rem; color: var(--on-dark-faint);
+}
+.pick-count [data-pick-count]:empty { display: none; }
+.pick-count + .field { margin-top: 16px; }
+.pick-count.is-on, .pick-count [data-pick-count].is-on { color: #6FE9B4; font-weight: 700; }
+.pick-count a { color: var(--on-dark-soft); text-decoration: underline; text-underline-offset: 3px; }
+.pick-count a:hover { color: #fff; }
 
 /* ---------- Footer ---------- */
 .site-footer { padding-block: 34px; background: transparent; }
@@ -1227,5 +1218,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 /* ---------- Skip link ---------- */
+/* read by a screen reader, absent from the page */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 .skip { position: absolute; inset-inline-start: 12px; top: -80px; background: var(--cta); color: #fff; padding: 10px 16px; z-index: 100; border-radius: 0 0 10px 10px; transition: top .15s ease; }
 .skip:focus { top: 0; }
