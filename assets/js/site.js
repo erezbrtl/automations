@@ -433,48 +433,50 @@
     }).join("\n");
   }
 
-  /* No webhook yet: hand the filled details to WhatsApp, then email.
-     Returns false when there is nowhere to send - never fake a success.
-     Note it only OPENS the channel: whether the message is actually sent
-     is the visitor's next click, which is why this never reports receipt. */
-  function handoffFallback(data) {
+  /* Where the filled details can go when the endpoint will not take them.
+     Returns a URL to hand the visitor, or "" when there is nowhere to send. */
+  function handoffUrl(data) {
     var body = formatLead(data);
     if (waNumber) {
-      var waUrl = "https://wa.me/" + waNumber + "?text=" +
+      return "https://wa.me/" + waNumber + "?text=" +
         encodeURIComponent("פנייה מהאתר\n\n" + body);
-      var opened = window.open(waUrl, "_blank");
-      if (!opened) { window.location.href = waUrl; }
-      return true;
     }
     if (CFG.contactEmail) {
-      window.location.href = "mailto:" + CFG.contactEmail +
+      return "mailto:" + CFG.contactEmail +
         "?subject=" + encodeURIComponent("פנייה מהאתר - בדיקת תהליך לאוטומציה") +
         "&body=" + encodeURIComponent(body);
-      return true;
     }
     console.error("[site] לא מוגדר formEndpoint, לא whatsapp ולא contactEmail ב-assets/js/config.js - אי אפשר לקבל פניות.");
-    return false;
+    return "";
   }
 
-  /* never tell someone their details arrived when nothing was sent */
-  function failVisibly(form, status, button) {
-    if (status) {
-      status.textContent = CFG.whatsapp
-        ? "השליחה נכשלה. אפשר לשלוח לי הודעה בוואטסאפ במקום."
-        : "השליחה נכשלה. אפשר לנסות שוב בעוד רגע.";
-    }
-    if (button) { button.disabled = false; }
-  }
-
-  /* the details are open in whatsapp and nowhere else yet - say exactly
-     that, and leave the form standing so nothing is lost on the way back */
-  function handedOff(form, status, button, source) {
+  /* A send that fails is never silent, and never opens a window nobody asked
+     for - a popup fired from a promise is blocked anyway. The visitor gets a
+     sentence and a button, and the form stays filled behind it. */
+  function offerHandoff(form, status, button, source) {
     track("lead_handoff", { form: form.id, source: source });
     if (button) { button.disabled = false; }
-    if (status) {
-      status.classList.add("is-open");
-      status.textContent = "פתחתי וואטסאפ עם הפרטים שמילאתם - לחצו שם שלח ואחזור אליכם.";
-    }
+    if (!status) { return; }
+
+    var url = handoffUrl(collect(form));
+    status.textContent = "";
+    status.classList.remove("is-open");
+    status.classList.add("is-warn");
+
+    var line = document.createElement("span");
+    line.textContent = url
+      ? "לא הצלחתי לשלוח את הטופס מכאן. אפשר לשלוח לי את אותם פרטים בלחיצה אחת:"
+      : "השליחה נכשלה. אפשר להתקשר או לכתוב לי ישירות.";
+    status.appendChild(line);
+
+    if (!url) { return; }
+    var go = document.createElement("a");
+    go.className = "btn btn--cta status-go";
+    go.href = url;
+    if (url.indexOf("mailto:") !== 0) { go.target = "_blank"; go.rel = "noopener"; }
+    go.textContent = waNumber ? "שליחה בוואטסאפ" : "שליחה במייל";
+    go.addEventListener("click", function () { track("handoff_click", { form: form.id }); });
+    status.appendChild(go);
   }
 
   /* only ever called after a real 200 from the endpoint */
@@ -518,27 +520,39 @@
       var button = form.querySelector('button[type="submit"]');
       var data = collect(form);
 
-      if (status) { status.classList.remove("is-open"); status.textContent = ""; }
-
-      if (!CFG.formEndpoint) {
-        if (handoffFallback(data)) { handedOff(form, status, button, "no-endpoint"); }
-        else { failVisibly(form, status, button); }
-        return;
+      if (status) {
+        status.textContent = "";
+        status.classList.remove("is-open", "is-warn");
       }
 
+      if (!CFG.formEndpoint) { offerHandoff(form, status, button, "no-endpoint"); return; }
+
       if (button) { button.disabled = true; }
-      if (status) { status.textContent = "שולח..."; }
+      if (status) { status.classList.add("is-open"); status.textContent = "שולח..."; }
+
+      /* a request that never settles would leave "שולח..." on screen forever,
+         so it gets a deadline and then the same handoff as any other failure */
+      var settled = false;
+      var timer = window.setTimeout(function () {
+        if (settled) { return; }
+        settled = true;
+        offerHandoff(form, status, button, "endpoint-timeout");
+      }, 8000);
 
       fetch(CFG.formEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       }).then(function (response) {
+        if (settled) { return; }
+        settled = true; window.clearTimeout(timer);
         if (!response.ok) { throw new Error("HTTP " + response.status); }
         finish(form, done);
-      }).catch(function () {
-        if (!handoffFallback(data)) { failVisibly(form, status, button); return; }
-        handedOff(form, status, button, "endpoint-failed");
+      }).catch(function (err) {
+        if (settled) { return; }
+        settled = true; window.clearTimeout(timer);
+        console.error("[site] שליחת הטופס נכשלה:", err && err.message);
+        offerHandoff(form, status, button, "endpoint-failed");
       });
     });
   }

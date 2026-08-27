@@ -917,6 +917,21 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-status { margin-top: 10px; font-size: .9rem; font-weight: 700; color: #FF8FA6; }
 .form-status:empty { margin-top: 0; }
 .form-status.is-open { color: #6FE9B4; }
+/* a failed send is a state the visitor can act on, so it gets a button */
+.form-status.is-warn { color: #FFC46B; display: grid; gap: 12px; justify-items: start; }
+.form-status .status-go { font-size: .95rem; padding: 12px 22px; }
+
+/* every page that is not the home page says how to get back to it */
+.back-home {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-head); font-weight: 600; font-size: .92rem;
+  color: var(--on-dark-soft); text-decoration: none;
+  border: 1px solid var(--hairline); border-radius: 999px;
+  padding: 8px 17px; margin-bottom: 24px;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+}
+.back-home:hover { color: #fff; border-color: rgba(255, 255, 255, .32); background: rgba(255, 255, 255, .06); }
+.back-home .ic { font-size: 1.05em; line-height: 1; }
 .form-done { display: none; }
 .form-done.is-visible { display: block; }
 .form-card.is-hidden { display: none; }
