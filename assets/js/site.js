@@ -68,13 +68,21 @@
   }
   var waLink = waHref("float");
 
+  /* the handset-in-a-bubble, drawn rather than fetched so the button never
+     waits on a network round trip to look like itself */
+  var WA_MARK =
+    '<svg class="wa-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.24 8.24 0 0 1 0 16.48z"/>' +
+    '<path fill="currentColor" d="M16.56 14.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.72 2.62 4.16 3.68.58.25 1.04.4 1.39.51.58.19 1.12.16 1.54.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/>' +
+    '</svg>';
+
   if (waLink && floatCta) {
     var wa = document.createElement("a");
     wa.className = "btn btn--ghost btn--wa";
     wa.href = waLink;
     wa.target = "_blank";
     wa.rel = "noopener";
-    wa.textContent = "וואטסאפ";
+    wa.innerHTML = WA_MARK + "<span>וואטסאפ</span>";
     wa.addEventListener("click", function () { track("whatsapp_click", { source: "float" }); });
     floatCta.appendChild(wa);
   }
@@ -384,7 +392,7 @@
     var ok = true;
     var firstBad = null;
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
-      if (field.name === "company_url") { return; }
+      if (field.name === "company_url" || field.type === "hidden") { return; }
       var value = field.value.trim();
       var message = "";
       if (field.required && !value) { message = "שדה חובה"; }
@@ -402,6 +410,7 @@
     var ticked = [];
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
       if (!field.name || field.name === "company_url") { return; }
+      if (field.type === "hidden") { return; }
       if (field.type === "checkbox") {
         if (field.checked) { ticked.push(field.getAttribute("data-label") || field.value); }
         return;
@@ -458,6 +467,13 @@
      for - a popup fired from a promise is blocked anyway. The visitor gets a
      sentence and a button, and the form stays filled behind it. */
   function offerHandoff(form, status, button, source, detail) {
+    /* the request was blocked, but a plain form post is a different path
+       through the browser and usually is not - so take it */
+    if (form.getAttribute("action")) {
+      track("lead_native_post", { form: form.id, source: source });
+      form.submit();
+      return;
+    }
     track("lead_handoff", { form: form.id, source: source });
     if (button) { button.disabled = false; }
     if (!status) { return; }
@@ -507,6 +523,14 @@
   function wireForm(form) {
     if (!form) { return; }
     var done = document.getElementById(form.getAttribute("data-done") || "");
+
+    /* The markup posts straight to the endpoint on its own, so a visitor whose
+       scripts never run - or whose extension eats our request - still reaches
+       us. Everything below is the nicer version of that, and it only turns
+       itself on once it is certain it is running. */
+    form.noValidate = true;
+    var redirect = form.querySelector("[data-redirect]");
+    if (redirect) { redirect.value = window.location.origin + (CFG.thanksUrl || "/thanks.html"); }
 
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
       field.addEventListener("input", function () {

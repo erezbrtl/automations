@@ -362,7 +362,7 @@
     </div>
 
     <div>
-      <form class="form-card rv" id="checkForm" data-lead-form data-done="checkDone" novalidate>
+      <form class="form-card rv" id="checkForm" data-lead-form data-done="checkDone" action="https://api.web3forms.com/submit" method="POST">
         <div class="grid2">
           <div class="field">
             <label for="c-name">שם</label>
@@ -381,6 +381,10 @@
           <span class="hint" id="c-msg-hint">לא יודעים בדיוק? כתבו לי מה אתם עושים שוב ושוב.</span>
         </div>
         <div class="hp"><label>אל תמלאו<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label></div>
+        <input type="hidden" name="access_key" value="14071e57-7b84-471b-9ec2-a44b7cb2e763">
+        <input type="hidden" name="subject" value="פנייה חדשה מהאתר">
+        <input type="hidden" name="from_name" value="automations.erezb.pro">
+        <input type="hidden" name="redirect" data-redirect value="https://automations-erezb.base44.app/thanks.html">
         <button class="btn btn--cta btn--wide" type="submit">בואו נדבר</button>
         <p class="form-alt">מעדיפים וואטסאפ? <a href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">שלחו לי הודעה</a></p>
         <p class="form-fine">שיחה קצרה, בלי התחייבות. הפרטים משמשים רק כדי לחזור אליכם ולא מועברים לאף אחד. <a href="/privacy.html">מדיניות פרטיות</a></p>

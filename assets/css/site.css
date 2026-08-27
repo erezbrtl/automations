@@ -921,6 +921,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-status.is-warn { color: #FFC46B; display: grid; gap: 12px; justify-items: start; }
 .form-status .status-go { font-size: .95rem; padding: 12px 22px; }
 .form-status .status-why { font-weight: 500; font-size: .8rem; color: var(--on-dark-faint); direction: ltr; text-align: start; }
+.btn--wa { gap: 9px; }
+.wa-mark { width: 19px; height: 19px; flex: 0 0 auto; }
 
 .form-done { display: none; }
 .form-done.is-visible { display: block; }
