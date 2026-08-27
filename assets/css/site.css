@@ -906,7 +906,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .field textarea { min-height: 96px; resize: vertical; }
 .field.has-error input, .field.has-error textarea { border-color: #FF5C7A; }
 .field .err { font-size: .8rem; color: #FF8FA6; font-weight: 600; }
-.hp { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 .form-card .btn { margin-top: 18px; }
 .form-alt { margin-top: 14px; text-align: center; font-size: .95rem; color: var(--on-dark-soft); }
 .form-alt a { color: #6FE9B4; font-weight: 700; text-decoration: none; }

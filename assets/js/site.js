@@ -392,7 +392,7 @@
     var ok = true;
     var firstBad = null;
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
-      if (field.name === "company_url" || field.type === "hidden") { return; }
+      if (field.name === "botcheck" || field.type === "hidden") { return; }
       var value = field.value.trim();
       var message = "";
       if (field.required && !value) { message = "שדה חובה"; }
@@ -409,7 +409,7 @@
     var data = {};
     var ticked = [];
     Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (field) {
-      if (!field.name || field.name === "company_url") { return; }
+      if (!field.name || field.name === "botcheck") { return; }
       if (field.type === "hidden") { return; }
       if (field.type === "checkbox") {
         if (field.checked) { ticked.push(field.getAttribute("data-label") || field.value); }
@@ -541,8 +541,6 @@
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      var honeypot = form.querySelector('[name="company_url"]');
-      if (honeypot && honeypot.value) { return; }
       if (!validate(form)) { return; }
 
       /* an optional step between filling and sending - the page that owns
