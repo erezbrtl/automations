@@ -3,10 +3,9 @@
    Site configuration - edit before going live.
    ========================================================= */
 window.SITE_CONFIG = {
-  /* בראש העמוד יש חריץ ריק לסרטון (#heroFilm ב-index.html), מוסתר כרגע.
-
-     לקליפ שקט בלולאה: להכניס <video autoplay muted loop playsinline>
-     לתוך #video ולהוריד את hidden מ-#heroFilm. בלי סקריפט ובלי פקדים.
+  /* בראש העמוד רץ תרשים זרימה בלולאה, שקט ובלי פקדים:
+     assets/video/flow-loop.mp4. הוא לא צולם - הוא נבנה בקוד, ב-tools/hero-video,
+     ומשם אפשר לשנות תוויות או תזמון ולרנדר מחדש (יש שם README).
 
      לסרטון אמיתי עם קול: להכניס כאן מזהה יוטיוב - החלק שאחרי v= בכתובת
      (https://youtu.be/dQw4w9WgXcQ -> "dQw4w9WgXcQ"). זה לוקח את אותו חריץ,

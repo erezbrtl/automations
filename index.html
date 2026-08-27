@@ -141,11 +141,18 @@
     <p class="hero-meta rv">לא צריך לדעת AI. לא צריך לדעת קוד. צריך להכיר את העסק שלכם.</p>
   </div>
 
-  <!-- The hero clip is out for now. To bring one back: drop a <video> into
-       the slot below and remove hidden from the wrapper. Setting youtubeId
-       in the config takes the same slot over with a play facade instead. -->
-  <div class="wrap hero-film" id="heroFilm" hidden>
-    <div class="video rv" id="video"></div>
+  <!-- The clip is drawn rather than filmed: tools/hero-video builds it frame
+       by frame, so the labels are real text and the loop meets itself where
+       nothing is moving. Silent, and no controls - it is showing, not asking
+       to be watched. The markup plays it on its own, before any script runs. -->
+  <div class="wrap hero-film" id="heroFilm">
+    <div class="video rv" id="video">
+      <video class="video-loop" id="heroLoop" autoplay muted loop playsinline
+             poster="/assets/img/hero-loop.jpg"
+             aria-label="תרשים זרימה של אוטומציה נבנה מעצמו: פנייה נכנסת, זיהוי, ומשם תשובה, שורה בגיליון ועדכון לצוות">
+        <source src="/assets/video/flow-loop.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 </section>
 
