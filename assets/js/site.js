@@ -311,10 +311,8 @@
 
   /* ---------- youtube facade: no third-party script until clicked ---------- */
   var videoSlot = document.getElementById("video");
-  var heroGrid = document.querySelector(".hero-grid");
   if (videoSlot && CFG.youtubeId) {
     videoSlot.hidden = false;
-    if (heroGrid) { heroGrid.classList.remove("is-solo"); }
     /* a configured id takes the slot over from the silent loop: the poster
        and a play button, and nothing from youtube until someone clicks */
     if (!document.getElementById("videoFacade")) {
