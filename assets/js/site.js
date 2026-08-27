@@ -425,9 +425,13 @@
   };
 
   /* human-readable lead: filled fields only, no internal bookkeeping */
+  /* what a human should read: the answers, not the plumbing the endpoint
+     needs (access keys, subject lines) or the bookkeeping we add ourselves */
+  var PLUMBING = Object.keys(CFG.formFields || {});
   function formatLead(data) {
     return Object.keys(data).filter(function (key) {
-      return data[key] && key !== "source" && key !== "page" && key.charAt(0) !== "_";
+      return data[key] && key !== "source" && key !== "page" &&
+        key.charAt(0) !== "_" && PLUMBING.indexOf(key) === -1;
     }).map(function (key) {
       return (LABELS[key] || key) + ": " + data[key];
     }).join("\n");
@@ -453,7 +457,7 @@
   /* A send that fails is never silent, and never opens a window nobody asked
      for - a popup fired from a promise is blocked anyway. The visitor gets a
      sentence and a button, and the form stays filled behind it. */
-  function offerHandoff(form, status, button, source) {
+  function offerHandoff(form, status, button, source, detail) {
     track("lead_handoff", { form: form.id, source: source });
     if (button) { button.disabled = false; }
     if (!status) { return; }
@@ -468,6 +472,15 @@
       ? "לא הצלחתי לשלוח את הטופס מכאן. אפשר לשלוח לי את אותם פרטים בלחיצה אחת:"
       : "השליחה נכשלה. אפשר להתקשר או לכתוב לי ישירות.";
     status.appendChild(line);
+
+    /* the reason, in small print - so a broken send can be reported without
+       anyone having to open developer tools to read it */
+    if (detail) {
+      var why = document.createElement("span");
+      why.className = "status-why";
+      why.textContent = detail;
+      status.appendChild(why);
+    }
 
     if (!url) { return; }
     var go = document.createElement("a");
@@ -536,7 +549,8 @@
       var timer = window.setTimeout(function () {
         if (settled) { return; }
         settled = true;
-        offerHandoff(form, status, button, "endpoint-timeout");
+        offerHandoff(form, status, button, "endpoint-timeout",
+          "הבקשה לא חזרה תוך 8 שניות");
       }, 8000);
 
       /* form-encoded, deliberately: a JSON body makes the browser send a CORS
@@ -557,7 +571,8 @@
         if (settled) { return; }
         settled = true; window.clearTimeout(timer);
         console.error("[site] שליחת הטופס נכשלה:", err && err.message);
-        offerHandoff(form, status, button, "endpoint-failed");
+        offerHandoff(form, status, button, "endpoint-failed",
+          err && err.message ? String(err.message).slice(0, 90) : "השליחה נחסמה");
       });
     });
   }
