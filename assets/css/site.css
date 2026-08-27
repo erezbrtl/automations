@@ -258,6 +258,9 @@ a { color: inherit; }
 .btn--wide { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
 h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clamp(26px, 3.2vw, 34px); }
+/* text that follows a button gets the same pocket of air the button was
+   given above it, so the row does not read as glued to the paragraph */
+.btn-row + .h-sub { margin-top: clamp(26px, 3.2vw, 34px); }
 .center .btn-row { justify-content: center; }
 .btn .ic { font-size: 1.1em; line-height: 1; }
 
