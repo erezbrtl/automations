@@ -539,10 +539,15 @@
         offerHandoff(form, status, button, "endpoint-timeout");
       }, 8000);
 
+      /* form-encoded, deliberately: a JSON body makes the browser send a CORS
+         preflight first, and an endpoint that answers that badly kills the
+         send before it leaves. This shape needs no preflight at all. */
+      var body = new URLSearchParams();
+      Object.keys(data).forEach(function (key) { body.append(key, data[key]); });
+
       fetch(CFG.formEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: body
       }).then(function (response) {
         if (settled) { return; }
         settled = true; window.clearTimeout(timer);
