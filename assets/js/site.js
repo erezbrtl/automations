@@ -311,7 +311,9 @@
 
   /* ---------- youtube facade: no third-party script until clicked ---------- */
   var videoSlot = document.getElementById("video");
+  var heroFilm = document.getElementById("heroFilm");
   if (videoSlot && CFG.youtubeId) {
+    if (heroFilm) { heroFilm.hidden = false; }
     videoSlot.hidden = false;
     /* a configured id takes the slot over from the silent loop: the poster
        and a play button, and nothing from youtube until someone clicks */

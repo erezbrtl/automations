@@ -141,19 +141,11 @@
     <p class="hero-meta rv">לא צריך לדעת AI. לא צריך לדעת קוד. צריך להכיר את העסק שלכם.</p>
   </div>
 
-  <!-- the clip runs the full measure rather than half a row: at 428px
-       the spreadsheet it is showing was too small to read -->
-  <div class="wrap hero-film">
-    <div class="video rv" id="video">
-      <!-- silent, looping and decorative: it shows the kind of work the
-           workshop does rather than saying anything, so it carries no
-           controls and no sound. The markup autoplays it on its own -
-           no script has to run for the hero to look finished. -->
-      <video class="video-loop" id="heroLoop" autoplay muted loop playsinline
-             poster="/assets/img/hero-loop.jpg" aria-label="הדגמה של אוטומציה שממלאת גיליון לבד">
-        <source src="/assets/video/automation-loop.mp4" type="video/mp4">
-      </video>
-    </div>
+  <!-- The hero clip is out for now. To bring one back: drop a <video> into
+       the slot below and remove hidden from the wrapper. Setting youtubeId
+       in the config takes the same slot over with a play facade instead. -->
+  <div class="wrap hero-film" id="heroFilm" hidden>
+    <div class="video rv" id="video"></div>
   </div>
 </section>
 
