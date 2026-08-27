@@ -128,7 +128,7 @@
 <section class="section hero bg-night" id="top">
   <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <div class="wrap hero-grid is-solo">
+  <div class="wrap hero-grid">
     <div>
       <span class="eyebrow rv">סדנאות AI ואוטומציה לעסקים</span>
       <h1 class="rv">
@@ -142,11 +142,15 @@
       <p class="hero-meta rv">לא צריך לדעת AI. לא צריך לדעת קוד. צריך להכיר את העסק שלכם.</p>
     </div>
 
-    <div class="video rv" id="video" hidden>
-      <button class="video-facade" id="videoFacade" type="button" aria-label="נגן את הסרטון">
-        <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="video-cap">רגע מהסדנה</span>
-      </button>
+    <div class="video rv" id="video">
+      <!-- silent, looping and decorative: it shows the kind of work the
+           workshop does rather than saying anything, so it carries no
+           controls and no sound. The markup autoplays it on its own -
+           no script has to run for the hero to look finished. -->
+      <video class="video-loop" id="heroLoop" autoplay muted loop playsinline
+             poster="/assets/img/hero-loop.jpg" aria-label="הדגמה של אוטומציה שממלאת גיליון לבד">
+        <source src="/assets/video/automation-loop.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </section>

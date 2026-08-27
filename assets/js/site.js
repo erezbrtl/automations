@@ -297,12 +297,33 @@
     Object.keys(byId).forEach(function (id) { navObs.observe(document.getElementById(id)); });
   }
 
+  /* ---------- the hero loop ----------
+     It plays itself from the markup. The only thing left to decide here is
+     what to do for someone who asked their system for less motion: stop it,
+     and give them the controls to start it themselves if they want to. */
+  var heroLoop = document.getElementById("heroLoop");
+  if (heroLoop && reduced) {
+    heroLoop.autoplay = false;
+    heroLoop.loop = false;
+    heroLoop.controls = true;
+    heroLoop.pause();
+  }
+
   /* ---------- youtube facade: no third-party script until clicked ---------- */
   var videoSlot = document.getElementById("video");
   var heroGrid = document.querySelector(".hero-grid");
   if (videoSlot && CFG.youtubeId) {
     videoSlot.hidden = false;
     if (heroGrid) { heroGrid.classList.remove("is-solo"); }
+    /* a configured id takes the slot over from the silent loop: the poster
+       and a play button, and nothing from youtube until someone clicks */
+    if (!document.getElementById("videoFacade")) {
+      videoSlot.innerHTML =
+        '<button class="video-facade" id="videoFacade" type="button" aria-label="נגן את הסרטון">' +
+        '<span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M8 5v14l11-7z"/></svg></span>' +
+        '<span class="video-cap">רגע מהסדנה</span></button>';
+    }
   }
 
   var facade = document.getElementById("videoFacade");
