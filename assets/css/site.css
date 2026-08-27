@@ -812,6 +812,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   margin-top: clamp(22px, 3vw, 30px); font-size: .94rem; line-height: 1.75;
   color: var(--on-dark-faint); border-top: 1px solid var(--hairline); padding-top: 16px;
 }
+/* the rule belongs to the note as a whole, not to every paragraph in it */
+.order-note-sub + .order-note-sub { border-top: 0; padding-top: 0; margin-top: 14px; }
 
 /* ---------- About ---------- */
 .about-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 4vw, 52px); align-items: center; }
@@ -1061,9 +1063,16 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .tick input:checked ~ span { color: #fff; }
 
 .gate .field { margin-top: 16px; }
+/* the card scrolls once the list is long, so the send button rides the bottom
+   of it instead of hiding below the fold of a modal */
 .gate-actions {
   display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
   margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--hairline);
+  position: sticky; bottom: calc(-1 * clamp(22px, 3.4vw, 32px));
+  margin-inline: calc(-1 * clamp(22px, 3.4vw, 32px));
+  padding-inline: clamp(22px, 3.4vw, 32px);
+  padding-bottom: clamp(22px, 3.4vw, 32px);
+  background: #140D26;
 }
 .gate-actions .btn { flex: 1 1 auto; }
 .gate-skip {
