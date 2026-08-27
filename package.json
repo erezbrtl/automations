@@ -1,0 +1,11 @@
+{
+  "name": "automations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Hebrew landing page for automations.erezb.pro",
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build-dist.mjs",
+    "dev": "node tools/serve.mjs"
+  }
+}
