@@ -280,16 +280,33 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .brand-name { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
 .brand-name span { color: var(--on-dark-faint); font-weight: 500; font-size: .82rem; display: block; line-height: 1.2; }
 /* a hairline in the gap so the three items read as separate stops */
-.nav { display: flex; align-items: stretch; gap: 0; }
-.nav a + a { border-inline-start: 1px solid rgba(255, 255, 255, .16); }
+.nav { display: flex; align-items: center; gap: 0; }
 .nav a {
-  text-decoration: none; font-size: .95rem; color: var(--on-dark-soft);
-  padding-inline: 16px; line-height: 1.5;
+  position: relative;
+  text-decoration: none; font-family: var(--font-head); font-weight: 700;
+  font-size: .95rem; letter-spacing: -.01em; color: rgba(255, 255, 255, .78);
+  padding-inline: 15px; line-height: 1.5;
   transition: color .18s ease;
+}
+/* the separator is drawn, not typed: a middot lands at a different size
+   and height in every font, and this one has to sit dead centre in the
+   gap and stay round */
+.nav a + a::before {
+  content: ""; position: absolute; inset-inline-start: -2.5px; top: 50%;
+  width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%;
+  background: var(--cta);
 }
 .nav a:first-child { padding-inline-start: 0; }
 .nav a:last-child { padding-inline-end: 0; }
 .nav a:hover, .nav a.is-active { color: #fff; }
+/* the words are bright enough now that white alone barely reads as "you
+   are here", so the section you are standing in gets a rule under it */
+.nav a.is-active::after {
+  content: ""; position: absolute; bottom: -5px; height: 2px; border-radius: 2px;
+  inset-inline: 15px; background: var(--cta);
+}
+.nav a:first-child.is-active::after { inset-inline-start: 0; }
+.nav a:last-child.is-active::after { inset-inline-end: 0; }
 @media (max-width: 940px) { .nav { display: none; } }
 
 /* ---------- Hero ---------- */
