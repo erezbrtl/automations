@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>flow</title>
 <style>
-  /* Hebrew comes from the Hebrew face, digits and latin from its sibling:
-     both are Noto, so a timestamp beside a Hebrew label still sits right. */
+  /* Hebrew from the Hebrew face, digits and latin from its sibling: both are
+     Noto, so a clock beside a Hebrew label still sits the right way round. */
   @font-face { font-family: "NH"; src: url("fonts/NotoHe-500.ttf") format("truetype"); font-weight: 500; }
   @font-face { font-family: "NH"; src: url("fonts/NotoHe-700.ttf") format("truetype"); font-weight: 700; }
   @font-face { font-family: "NH"; src: url("fonts/NotoHe-800.ttf") format("truetype"); font-weight: 800; }
@@ -19,7 +19,7 @@
      sets the frame and screenshots, so there is nothing to race. */
   #stage {
     position: relative; width: 1280px; height: 720px; overflow: hidden;
-    background: #0A0613;
+    background: #0A0613; color: #fff;
     font-family: "NH", "NS", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -29,53 +29,117 @@
     background-image: radial-gradient(rgba(255,255,255,.085) 1.6px, transparent 1.6px);
     background-size: 32px 32px;
   }
-  /* the same light the page carries, at the same strength: loud enough to
-     tint the ground, quiet enough that the diagram is the subject */
   .bloom { position: absolute; border-radius: 50%; filter: blur(130px); }
   #bloomA { width: 640px; height: 640px; background: rgba(106,28,176,.15); left: -180px; top: -260px; }
   #bloomB { width: 560px; height: 560px; background: rgba(176,18,82,.13); right: -190px; bottom: -230px; }
   #bloomC { width: 460px; height: 460px; background: rgba(31,70,216,.10); left: 48%; bottom: -280px; }
 
-  .wires { position: absolute; inset: 0; }
-
-  /* the scene's subject, top right where a reader starts */
-  .chip {
-    position: absolute; top: 58px; inset-inline-start: 92px;
-    display: inline-flex; align-items: center; gap: 11px;
-    padding: 11px 22px; border-radius: 999px;
+  /* ---------- the sentence each scene is telling ---------- */
+  .title { position: absolute; top: 62px; inset-inline-start: 100px; inset-inline-end: 100px; }
+  .tchip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 20px; border-radius: 999px;
     border: 1px solid rgba(255,46,99,.36); background: rgba(255,46,99,.11);
-    font-family: "NH"; font-weight: 700; font-size: 20px; color: #FF7A9E;
-    letter-spacing: -.01em;
+    font-weight: 700; font-size: 21px; color: #FF7A9E;
+    font-variant-numeric: tabular-nums;
   }
-  .chip i { width: 7px; height: 7px; border-radius: 50%; background: #FF2E63; }
+  .tchip i { width: 7px; height: 7px; border-radius: 50%; background: #FF2E63; }
+  .tchip span { direction: ltr; }
+  .thead {
+    margin-top: 16px; font-weight: 800; font-size: 38px; line-height: 1.25;
+    letter-spacing: -.02em; color: #fff;
+  }
 
+  /* ---------- scene one: the board ---------- */
+  .wires { position: absolute; inset: 0; }
   .node {
-    position: absolute; width: 250px; height: 70px;
-    display: flex; align-items: center; gap: 13px; padding: 0 17px;
-    border-radius: 16px;
+    position: absolute; width: 300px; height: 84px;
+    display: flex; align-items: center; gap: 15px; padding: 0 20px;
+    border-radius: 18px;
     background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)), #14091F;
     border: 1px solid rgba(255,255,255,.13);
     transform-origin: 50% 50%;
   }
   .node .tile {
-    flex: 0 0 40px; height: 40px; border-radius: 11px;
+    flex: 0 0 48px; height: 48px; border-radius: 13px;
     background: linear-gradient(140deg, #FF2E63, #8B31D8);
     display: grid; place-items: center;
   }
-  .node .tile svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.9;
+  .node .tile svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.9;
                     stroke-linecap: round; stroke-linejoin: round; }
-  .node .label { font-family: "NH"; font-size: 16.5px; font-weight: 700; color: #fff;
-                 letter-spacing: -.01em; white-space: nowrap; }
+  .node .label { font-size: 21px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
 
-  /* the clock from the story: it is the point, so it lands with the step */
-  .stamp {
-    position: absolute; display: inline-flex; align-items: center; gap: 7px;
-    padding: 4px 11px; border-radius: 999px;
-    border: 1px solid rgba(111,233,180,.28); background: rgba(111,233,180,.09);
-    font-family: "NS"; font-weight: 700; font-size: 13px; color: #6FE9B4;
-    direction: ltr; white-space: nowrap;
+  /* ---------- the mockups, the same ones the examples page uses ---------- */
+  .frame {
+    position: absolute; background: #14101F;
+    border: 1px solid rgba(255,255,255,.14); border-radius: 18px; overflow: hidden;
+    box-shadow: 0 40px 90px -40px rgba(0,0,0,.95);
   }
-  .stamp i { width: 5px; height: 5px; border-radius: 50%; background: #6FE9B4; }
+  .frame-bar {
+    display: flex; align-items: center; gap: 9px;
+    padding: 13px 18px; background: rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.09);
+  }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.22); }
+  .frame-bar span { margin-inline-start: auto; font-size: 17px; color: #8E85A3; font-weight: 500; }
+  .frame-body { padding: 22px 24px; }
+
+  .f-row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.08); align-items: baseline; }
+  .f-row:last-child { border-bottom: 0; }
+  .f-row b { flex: 0 0 92px; color: #8E85A3; font-weight: 500; font-size: 19px; }
+  .f-row span { color: #fff; font-size: 22px; line-height: 1.5; }
+
+  .bubble {
+    background: linear-gradient(180deg, #1F7A5E, #17614A);
+    border-radius: 18px 18px 18px 5px;
+    padding: 16px 19px; font-size: 23px; line-height: 1.55; max-width: 94%;
+  }
+  .bubble .meta { display: flex; gap: 7px; align-items: center; margin-top: 9px;
+                  font-size: 16px; color: rgba(255,255,255,.7); direction: ltr; }
+  .bubble .meta svg { width: 18px; height: 18px; stroke: #7FE3C0; fill: none; stroke-width: 2.2; }
+
+  .grid-mini { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font-size: 19px; }
+  .grid-mini div { padding: 13px 12px; border-inline-start: 1px solid rgba(255,255,255,.08);
+                   border-top: 1px solid rgba(255,255,255,.08); white-space: nowrap;
+                   overflow: hidden; text-overflow: ellipsis; color: #C6BCD8; }
+  .grid-mini .h { background: rgba(255,255,255,.07); color: #8E85A3; font-weight: 600; border-top: 0; }
+  .grid-mini .new { background: rgba(111,233,180,.12); color: #fff; }
+  .grid-mini .tag { color: #FF7A9E; font-weight: 700; }
+
+  .mini-card { display: flex; gap: 15px; align-items: flex-start; }
+  .mini-card .av {
+    flex: 0 0 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
+    background: linear-gradient(140deg, #FF2E63, #8B31D8); font-size: 17px; font-weight: 800;
+  }
+  .mini-card .who { font-size: 23px; font-weight: 700; line-height: 1.4; }
+  .mini-card .t { font-size: 17px; color: #8E85A3; margin-top: 5px; }
+
+  .pill-done {
+    display: inline-flex; align-items: center; gap: 7px; margin-top: 11px;
+    font-size: 16px; font-weight: 700; color: #6FE9B4;
+    background: rgba(111,233,180,.14); border-radius: 999px; padding: 6px 14px;
+  }
+  .pill-done svg { width: 15px; height: 15px; stroke: #6FE9B4; fill: none; stroke-width: 2.4; }
+  /* yesterday's task, dimmed: it makes the new one read as new */
+  .mini-card.rest { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); opacity: .38; }
+
+  .ai-chip {
+    position: absolute; display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 21px; color: #fff;
+    background: linear-gradient(125deg, rgba(255,46,99,.95), rgba(139,49,216,.95));
+    border-radius: 999px; padding: 12px 22px;
+    box-shadow: 0 20px 44px -18px rgba(255,46,99,.9);
+  }
+  .ai-chip em { font-style: normal; opacity: .78; font-weight: 500; }
+
+  .punch {
+    position: absolute; inset-inline: 100px; bottom: 74px; text-align: center;
+    font-size: 30px; font-weight: 600; color: #C6BCD8;
+  }
+  .punch b { color: #fff; font-weight: 800; }
+
+  .caret { display: inline-block; width: 3px; height: 1em; background: #7FE3C0;
+           vertical-align: -2px; margin-inline-start: 3px; }
 </style>
 </head>
 <body>
@@ -91,216 +155,285 @@
 (function () {
   "use strict";
 
-  var FPS = 24, SCENE = 144, NS = "http://www.w3.org/2000/svg";
-  var W = 250, H = 70;
+  var NS = "http://www.w3.org/2000/svg";
 
-  var ICONS = {
-    mail:  '<path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/>',
-    chat:  '<path d="M2 3h13v9H7l-4 3v-3H2z"/><path d="M18 8h4v8h-2v3l-3-3h-4"/>',
-    spark: '<path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
-    send:  '<path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/>',
-    sheet: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18M3 15h18M9 4v16"/>',
-    task:  '<path d="M4 3h16v18H4z"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/>',
-    bell:  '<path d="M12 3a6 6 0 0 1 6 6v4l2 3H4l2-3V9a6 6 0 0 1 6-6z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/>',
-    doc:   '<path d="M5 2h9l5 5v15H5z"/><path d="M14 2v5h5"/><path d="M8.5 12h7M8.5 16h4.5"/>',
-    money: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h5M9.5 14.5h5"/>',
-    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15 0 18M12 3c-2.6 2.6-2.6 15 0 18"/>',
-    photo: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2 4.5 4"/>',
-    folder:'<path d="M3 6h6l2 3h10v10H3z"/>'
-  };
-
-  /* Right to left, because the reader is: the trigger sits on the right and
-     the work moves left. Each step carries the clock it happens at - that is
-     the whole argument of the section these four come from. */
-  var SCENES = [
-    { chip: "מכירות",
-      nodes: [
-        { t: "פנייה מהאתר",   ic: "mail",  x: 900, cy: 360, at: "23:47" },
-        { t: "AI קורא ומבין", ic: "spark", x: 545, cy: 360, at: "23:47" },
-        { t: "תשובה ללקוחה",  ic: "send",  x: 130, cy: 196, at: "23:48" },
-        { t: "שורה בגיליון",  ic: "sheet", x: 130, cy: 360, at: "23:48" },
-        { t: "משימה לבוקר",   ic: "task",  x: 130, cy: 524, at: "08:00" }
-      ] },
-    { chip: "שירות",
-      nodes: [
-        { t: "פנייה נכנסת",    ic: "chat",  x: 900, cy: 360, at: "14:02" },
-        { t: "AI מזהה נושא",   ic: "spark", x: 545, cy: 360, at: "14:02" },
-        { t: "אישור ללקוח",    ic: "send",  x: 130, cy: 244, at: "14:02" },
-        { t: "הפנייה לטכנאי",  ic: "bell",  x: 130, cy: 476, at: "14:03" }
-      ] },
-    { chip: "ניהול",
-      nodes: [
-        { t: "חשבונית במייל",  ic: "doc",   x: 900, cy: 360, at: "08:12" },
-        { t: "AI קורא ומסכם",  ic: "spark", x: 545, cy: 360, at: "08:12" },
-        { t: "שורה בהוצאות",   ic: "sheet", x: 130, cy: 244, at: "08:13" },
-        { t: "תזכורת לתשלום",  ic: "money", x: 130, cy: 476, at: "25/09" }
-      ] },
-    { chip: "תוכן",
-      nodes: [
-        { t: "פרויקט נסגר",    ic: "folder", x: 900, cy: 360, at: "17:40" },
-        { t: "AI מנסח תיאור",  ic: "spark",  x: 545, cy: 360, at: "17:41" },
-        { t: "עמוד באתר",      ic: "globe",  x: 130, cy: 244, at: "09:00" },
-        { t: "פוסט לרשתות",    ic: "photo",  x: 130, cy: 476, at: "09:02" }
-      ] }
-  ];
-
-  var TOTAL = SCENES.length * SCENE;
-
-  /* ---------- timing, one shape for every scene ---------- */
-  function timing(n) {
-    var spokes = n - 2, t = { node: [[4, 18], [30, 44]], wire: [[16, 32]], lit: [82, 98] };
-    for (var k = 0; k < spokes; k++) {
-      t.wire.push([42 + 4 * k, 60 + 4 * k]);
-      t.node.push([58 + 4 * k, 72 + 4 * k]);
-      t.lit.push(114);
-    }
-    t.pulseA = [82, 98];
-    t.pulseB = [98, 114];
-    t.rest = [126, 134];
-    t.fade = [134, 144];
-    return t;
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) { e.className = cls; }
+    if (html != null) { e.innerHTML = html; }
+    return e;
   }
-
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function seg(f, a, b) { return clamp((f - a) / (b - a)); }
   function outCubic(t) { return 1 - Math.pow(1 - t, 3); }
   function inOut(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
   function bump(t) { return t <= 0 || t >= 1 ? 0 : Math.sin(Math.PI * t); }
 
-  /* the wire leaves the left edge of the earlier node and arrives at the
-     right edge of the later one - the direction the page reads */
-  function wirePath(a, b) {
-    var x1 = a.x, y1 = a.cy, x2 = b.x + W, y2 = b.cy;
-    var bend = Math.max(46, (x1 - x2) * 0.55);
-    return "M " + x1 + " " + y1 +
-           " C " + (x1 - bend) + " " + y1 + ", " + (x2 + bend) + " " + y2 + ", " + x2 + " " + y2;
+  /* one entrance, used by everything that arrives: fade up a little */
+  function rise(node, t, dist) {
+    node.style.opacity = t.toFixed(3);
+    node.style.transform = "translateY(" + ((1 - t) * (dist == null ? 14 : dist)).toFixed(2) + "px)";
   }
 
+  var ICONS = {
+    mail:  '<path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/>',
+    spark: '<path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+    send:  '<path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/>',
+    sheet: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18M3 15h18M9 4v16"/>',
+    task:  '<path d="M4 3h16v18H4z"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/>'
+  };
+  var TICK = '<svg viewBox="0 0 24 24"><path d="M2 13l4 4L14 7"/><path d="M10 13l4 4L22 7"/></svg>';
+
   var host = document.getElementById("scenes");
-  var PULSE_LEN = 54;
 
-  SCENES.forEach(function (sc, si) {
-    sc.T = timing(sc.nodes.length);
-    sc.root = document.createElement("div");
-    sc.root.style.cssText = "position:absolute;inset:0";
-    host.appendChild(sc.root);
+  function scene(len, chip, head) {
+    var s = { len: len };
+    s.root = el("div");
+    s.root.style.cssText = "position:absolute;inset:0";
+    host.appendChild(s.root);
 
+    s.title = el("div", "title");
+    s.chipEl = el("div", "tchip", '<i></i><span>' + chip + '</span>');
+    s.headEl = el("div", "thead", head);
+    s.title.appendChild(s.chipEl);
+    s.title.appendChild(s.headEl);
+    s.root.appendChild(s.title);
+    return s;
+  }
+
+  /* =========================================================
+     1. the board: what was built, before what it did
+     ========================================================= */
+  var S1 = scene(138, "התהליך", "אוטומציה אחת, חמישה שלבים");
+  (function (s) {
+    var W = 300, H = 84;
+    s.nodes = [
+      { t: "פנייה מהאתר",   ic: "mail",  x: 880, cy: 452 },
+      { t: "AI קורא ומבין", ic: "spark", x: 490, cy: 452 },
+      { t: "תשובה ללקוחה",  ic: "send",  x: 100, cy: 316 },
+      { t: "שורה בגיליון",  ic: "sheet", x: 100, cy: 452 },
+      { t: "משימה לבוקר",   ic: "task",  x: 100, cy: 588 }
+    ];
     var svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "wires");
     svg.setAttribute("viewBox", "0 0 1280 720");
     svg.innerHTML =
-      '<defs><linearGradient id="g' + si + '" gradientUnits="userSpaceOnUse" x1="900" y1="0" x2="380" y2="0">' +
+      '<defs><linearGradient id="gW" gradientUnits="userSpaceOnUse" x1="880" y1="0" x2="340" y2="0">' +
       '<stop offset="0" stop-color="#FF2E63"/><stop offset="1" stop-color="#2F6BFF"/></linearGradient>' +
-      '<filter id="fg' + si + '" x="-60%" y="-300%" width="220%" height="700%">' +
-      '<feGaussianBlur stdDeviation="4"/></filter></defs>' +
-      '<g class="wBase"></g><g class="wDraw"></g><g class="wGlow" filter="url(#fg' + si + ')"></g><g class="wPulse"></g>';
-    sc.root.appendChild(svg);
+      '<filter id="fG" x="-60%" y="-300%" width="220%" height="700%"><feGaussianBlur stdDeviation="4"/></filter>' +
+      '</defs><g class="b"></g><g class="d"></g><g class="g" filter="url(#fG)"></g><g class="p"></g>';
+    s.root.appendChild(svg);
 
-    sc.chipEl = document.createElement("div");
-    sc.chipEl.className = "chip";
-    sc.chipEl.innerHTML = '<i></i>' + sc.chip;
-    sc.root.appendChild(sc.chipEl);
-
-    sc.links = [[0, 1]];
-    for (var k = 2; k < sc.nodes.length; k++) { sc.links.push([1, k]); }
-
-    var gBase = svg.querySelector(".wBase"), gDraw = svg.querySelector(".wDraw");
-    var gGlow = svg.querySelector(".wGlow"), gPulse = svg.querySelector(".wPulse");
-
-    sc.links.forEach(function (pair) {
-      var d = wirePath(sc.nodes[pair[0]], sc.nodes[pair[1]]);
-      function line(parent, stroke, width, cls) {
+    /* the wire leaves the left edge of the earlier node and lands on the
+       right edge of the later one - the direction the page reads */
+    function path(a, b) {
+      var x1 = a.x, y1 = a.cy, x2 = b.x + W, y2 = b.cy;
+      var bend = Math.max(48, (x1 - x2) * 0.55);
+      return "M " + x1 + " " + y1 + " C " + (x1 - bend) + " " + y1 + ", " +
+             (x2 + bend) + " " + y2 + ", " + x2 + " " + y2;
+    }
+    var G = { b: svg.querySelector(".b"), d: svg.querySelector(".d"),
+              g: svg.querySelector(".g"), p: svg.querySelector(".p") };
+    s.links = [[0, 1], [1, 2], [1, 3], [1, 4]].map(function (pair) {
+      var d = path(s.nodes[pair[0]], s.nodes[pair[1]]);
+      function line(parent, stroke, w) {
         var p = document.createElementNS(NS, "path");
         p.setAttribute("d", d); p.setAttribute("fill", "none");
-        p.setAttribute("stroke", stroke); p.setAttribute("stroke-width", width);
+        p.setAttribute("stroke", stroke); p.setAttribute("stroke-width", w);
         p.setAttribute("stroke-linecap", "round");
         parent.appendChild(p); return p;
       }
-      pair.base = line(gBase, "rgba(255,255,255,.10)", "2");
-      pair.draw = line(gDraw, "url(#g" + si + ")", "2.4");
-      pair.glow = line(gGlow, "#FF2E63", "5");
-      pair.pulse = line(gPulse, "#FFC2D4", "3.2");
-      pair.len = pair.draw.getTotalLength();
+      var L = { base: line(G.b, "rgba(255,255,255,.10)", "2.2"),
+                draw: line(G.d, "url(#gW)", "2.8"),
+                glow: line(G.g, "#FF2E63", "6"),
+                pulse: line(G.p, "#FFC2D4", "3.6") };
+      L.len = L.draw.getTotalLength();
+      return L;
     });
 
-    sc.nodes.forEach(function (n) {
-      n.el = document.createElement("div");
-      n.el.className = "node";
+    s.nodes.forEach(function (n) {
+      n.el = el("div", "node",
+        '<span class="tile"><svg viewBox="0 0 24 24">' + ICONS[n.ic] + '</svg></span>' +
+        '<span class="label">' + n.t + '</span>');
       n.el.style.left = n.x + "px";
       n.el.style.top = (n.cy - H / 2) + "px";
-      n.el.innerHTML = '<span class="tile"><svg viewBox="0 0 24 24">' + ICONS[n.ic] +
-                       '</svg></span><span class="label">' + n.t + '</span>';
-      sc.root.appendChild(n.el);
-
-      n.stamp = document.createElement("div");
-      n.stamp.className = "stamp";
-      n.stamp.innerHTML = '<i></i>' + n.at;
-      sc.root.appendChild(n.stamp);
-      /* measured once the font is in, so the pill really is centred */
-      n.stampReady = false;
+      s.root.appendChild(n.el);
     });
-  });
 
-  function placeStamps() {
-    SCENES.forEach(function (sc) {
-      sc.nodes.forEach(function (n) {
-        var w = n.stamp.offsetWidth;
-        n.stamp.style.left = Math.round(n.x + (W - w) / 2) + "px";
-        n.stamp.style.top = (n.cy + H / 2 + 12) + "px";
-        n.stampReady = true;
+    var IN = [[10, 26], [34, 50], [62, 78], [66, 82], [70, 86]];
+    var WI = [[22, 38], [46, 64], [50, 68], [54, 72]];
+    var LIT = [90, 104, 118, 118, 118];
+
+    s.draw = function (f, out) {
+      rise(s.title, outCubic(seg(f, 2, 18)) * out, 12);
+
+      s.nodes.forEach(function (n, i) {
+        var t = outCubic(seg(f, IN[i][0], IN[i][1]));
+        var gl = bump(seg(f, LIT[i], LIT[i] + 13));
+        n.el.style.opacity = (t * out).toFixed(3);
+        n.el.style.transform = "translateY(" + ((1 - t) * 12).toFixed(2) + "px) scale(" + (0.94 + t * .06).toFixed(4) + ")";
+        n.el.style.borderColor = "rgba(255," + Math.round(255 - gl * 209) + "," + Math.round(255 - gl * 156) + "," + (0.13 + gl * .62).toFixed(3) + ")";
+        n.el.style.boxShadow = gl > .001
+          ? "0 0 " + (36 * gl).toFixed(1) + "px " + (2 * gl).toFixed(1) + "px rgba(255,46,99," + (.5 * gl).toFixed(3) + ")" : "none";
       });
-    });
-  }
 
-  function drawScene(sc, f, on) {
-    if (!on) { sc.root.style.display = "none"; return; }
-    sc.root.style.display = "block";
-    var T = sc.T;
-    var out = 1 - seg(f, T.fade[0], T.fade[1]);
+      s.links.forEach(function (L, i) {
+        var t = inOut(seg(f, WI[i][0], WI[i][1]));
+        L.base.style.opacity = (t > 0 ? out : 0).toFixed(3);
+        L.draw.style.strokeDasharray = L.len;
+        L.draw.style.strokeDashoffset = (L.len * (1 - t)).toFixed(2);
+        /* a round linecap on a fully offset dash still paints a dot at the
+           start of the path, so the wire stays hidden until it is drawing */
+        L.draw.style.opacity = (t > 0 ? out : 0).toFixed(3);
 
-    sc.chipEl.style.opacity = (outCubic(seg(f, 2, 14)) * out).toFixed(3);
+        var sp = i === 0 ? [90, 104] : [104, 118];
+        var p = seg(f, sp[0], sp[1]);
+        var live = p > 0 && p < 1 ? out : 0;
+        var dash = 60 + " " + (L.len + 60), off = (60 - L.len * p).toFixed(2);
+        L.pulse.style.strokeDasharray = dash; L.pulse.style.strokeDashoffset = off;
+        L.pulse.style.opacity = live.toFixed(3);
+        L.glow.style.strokeDasharray = dash; L.glow.style.strokeDashoffset = off;
+        L.glow.style.opacity = (live * .85).toFixed(3);
+      });
+    };
+  })(S1);
 
-    sc.nodes.forEach(function (n, i) {
-      var t = outCubic(seg(f, T.node[i][0], T.node[i][1]));
-      var glow = bump(seg(f, T.lit[i], T.lit[i] + 12));
-      n.el.style.opacity = (t * out).toFixed(3);
-      n.el.style.transform = "translateY(" + ((1 - t) * 12).toFixed(2) + "px) scale(" + (0.94 + t * 0.06).toFixed(4) + ")";
-      n.el.style.borderColor = "rgba(255," + Math.round(255 - glow * 209) + "," + Math.round(255 - glow * 156) + "," + (0.13 + glow * 0.62).toFixed(3) + ")";
-      n.el.style.boxShadow = glow > 0.001
-        ? "0 0 " + (32 * glow).toFixed(1) + "px " + (2 * glow).toFixed(1) + "px rgba(255,46,99," + (0.5 * glow).toFixed(3) + ")"
-        : "none";
+  /* =========================================================
+     2. the request arrives, and the machine reads it
+     ========================================================= */
+  var S2 = scene(126, "23:47", "פנייה נכנסת, אחרי שכולם הלכו הביתה");
+  (function (s) {
+    var fr = el("div", "frame",
+      '<div class="frame-bar"><i></i><i></i><i></i><span>טופס באתר</span></div>' +
+      '<div class="frame-body">' +
+      '<div class="f-row"><b>שם</b><span>רונית לוי</span></div>' +
+      '<div class="f-row"><b>טלפון</b><span dir="ltr">052-431-9080</span></div>' +
+      '<div class="f-row"><b>פנייה</b><span>רוצה הצעת מחיר לשיפוץ מטבח, דחוף להשבוע</span></div>' +
+      '</div>');
+    fr.style.cssText += "left:300px;top:262px;width:680px";
+    s.root.appendChild(fr);
+    s.rows = fr.querySelectorAll(".f-row");
 
-      /* the clock lands with the step it belongs to */
-      var st = outCubic(seg(f, T.lit[i] + 1, T.lit[i] + 13));
-      n.stamp.style.opacity = (st * out).toFixed(3);
-      n.stamp.style.transform = "translateY(" + ((1 - st) * -6).toFixed(2) + "px)";
-    });
+    var chip = el("div", "ai-chip", 'הצעת מחיר <em>·</em> דחיפות גבוהה');
+    chip.style.cssText += "left:300px;top:576px";
+    s.root.appendChild(chip);
 
-    sc.links.forEach(function (l, i) {
-      var t = inOut(seg(f, T.wire[i][0], T.wire[i][1]));
-      l.base.style.opacity = (t > 0 ? out : 0).toFixed(3);
-      l.draw.style.strokeDasharray = l.len;
-      l.draw.style.strokeDashoffset = (l.len * (1 - t)).toFixed(2);
-      l.draw.style.opacity = out.toFixed(3);
+    s.draw = function (f, out) {
+      rise(s.title, outCubic(seg(f, 2, 18)) * out, 12);
+      rise(fr, outCubic(seg(f, 12, 30)) * out, 18);
+      s.rows.forEach(function (r, i) {
+        rise(r, outCubic(seg(f, 30 + i * 9, 46 + i * 9)) * out, 8);
+      });
+      /* the AI step is the one worth watching, so it lands on its own beat */
+      var t = outCubic(seg(f, 58, 74));
+      var gl = bump(seg(f, 58, 86));
+      chip.style.opacity = (t * out).toFixed(3);
+      chip.style.transform = "translateY(" + ((1 - t) * 16).toFixed(2) + "px) scale(" + (0.9 + t * .1).toFixed(3) + ")";
+      chip.style.boxShadow = "0 20px 44px -18px rgba(255,46,99," + (.9 * out).toFixed(2) + "), 0 0 " +
+                             (34 * gl).toFixed(1) + "px rgba(255,46,99," + (.55 * gl).toFixed(3) + ")";
+    };
+  })(S2);
 
-      var span = i === 0 ? T.pulseA : T.pulseB;
-      var p = seg(f, span[0], span[1]);
-      var live = p > 0 && p < 1 ? out : 0;
-      var dash = PULSE_LEN + " " + (l.len + PULSE_LEN);
-      var off = (PULSE_LEN - l.len * p).toFixed(2);
+  /* =========================================================
+     3. the customer gets an answer, one minute later
+     ========================================================= */
+  var S3 = scene(126, "23:48", "רונית קיבלה תשובה");
+  (function (s) {
+    var fr = el("div", "frame",
+      '<div class="frame-bar"><i></i><i></i><i></i><span>הודעה ללקוחה</span></div>' +
+      '<div class="frame-body"><div class="bubble"><span class="txt"></span><span class="caret"></span>' +
+      '<span class="meta">' + TICK + '23:48</span></div></div>');
+    fr.style.cssText += "left:300px;top:274px;width:680px";
+    s.root.appendChild(fr);
 
-      l.pulse.style.strokeDasharray = dash;
-      l.pulse.style.strokeDashoffset = off;
-      l.pulse.style.opacity = live.toFixed(3);
-      l.glow.style.strokeDasharray = dash;
-      l.glow.style.strokeDashoffset = off;
-      l.glow.style.opacity = (live * 0.85).toFixed(3);
-    });
-  }
+    var TEXT = "היי רונית, קיבלתי את הפנייה לגבי שיפוץ המטבח. כדי לתת הצעה מדויקת - מה גודל המטבח ומה בדיוק מתחלף?";
+    var txt = fr.querySelector(".txt"), caret = fr.querySelector(".caret"), meta = fr.querySelector(".meta");
+    meta.style.display = "none";
+
+    s.draw = function (f, out) {
+      rise(s.title, outCubic(seg(f, 2, 18)) * out, 12);
+      rise(fr, outCubic(seg(f, 12, 30)) * out, 18);
+
+      /* typed rather than faded in, because a message being written is the
+         part a visitor recognises straight away */
+      var n = Math.round(TEXT.length * inOut(seg(f, 34, 96)));
+      txt.textContent = TEXT.slice(0, n);
+      var done = n >= TEXT.length;
+      caret.style.opacity = (!done && f > 30 ? (f % 12 < 7 ? 1 : 0) : 0);
+      caret.style.display = done ? "none" : "inline-block";
+      meta.style.display = done ? "flex" : "none";
+      if (done) { rise(meta, outCubic(seg(f, 98, 110)) * out, 4); }
+    };
+  })(S3);
+
+  /* =========================================================
+     4. and it is written down, without anyone typing
+     ========================================================= */
+  var S4 = scene(106, "23:48", "והשורה נכנסה לגיליון");
+  (function (s) {
+    var cells = ["שם", "נושא", "דחיפות", "מקור"];
+    var old = [["דנה אבני", "שאלה כללית", "רגילה", "טלפון"],
+               ["יוסי כהן", "הצעת מחיר", "רגילה", "אתר"]];
+    var row = ["רונית לוי", "הצעת מחיר", "גבוהה", "אתר"];
+    var html = '<div class="frame-bar"><i></i><i></i><i></i><span>גיליון לידים</span></div><div class="grid-mini">';
+    cells.forEach(function (c) { html += '<div class="h">' + c + "</div>"; });
+    old.forEach(function (r) { r.forEach(function (c) { html += "<div>" + c + "</div>"; }); });
+    row.forEach(function (c, i) { html += '<div class="new' + (i === 3 ? " tag" : "") + '">' + c + "</div>"; });
+    html += "</div>";
+
+    var fr = el("div", "frame", html);
+    fr.style.cssText += "left:280px;top:286px;width:720px";
+    s.root.appendChild(fr);
+    var newCells = fr.querySelectorAll(".new");
+
+    s.draw = function (f, out) {
+      rise(s.title, outCubic(seg(f, 2, 18)) * out, 12);
+      rise(fr, outCubic(seg(f, 12, 30)) * out, 18);
+      /* cell after cell, the way a row actually fills */
+      newCells.forEach(function (c, i) {
+        var t = outCubic(seg(f, 40 + i * 9, 54 + i * 9));
+        c.style.opacity = t.toFixed(3);
+      });
+    };
+  })(S4);
+
+  /* =========================================================
+     5. the morning, which is the whole point
+     ========================================================= */
+  var S5 = scene(128, "08:00", "בבוקר חיכתה לך משימה");
+  (function (s) {
+    var fr = el("div", "frame",
+      '<div class="frame-bar"><i></i><i></i><i></i><span>המשימות שלי</span></div>' +
+      '<div class="frame-body"><div class="mini-card"><span class="av">מכ</span>' +
+      '<div><p class="who">לחזור לרונית לוי - הצעת מחיר</p>' +
+      '<p class="t">נפתחה בלילה · שובצה לצוות מכירות</p>' +
+      '<span class="pill-done">' + TICK + 'נפתחה אוטומטית</span></div></div>' +
+      '<div class="mini-card rest"><span class="av">מכ</span>' +
+      '<div><p class="who">לחזור ליוסי כהן - הצעת מחיר</p>' +
+      '<p class="t">נפתחה אתמול · שובצה לצוות מכירות</p></div></div></div>');
+    fr.style.cssText += "left:300px;top:288px;width:680px";
+    s.root.appendChild(fr);
+
+    var pill = fr.querySelector(".pill-done");
+    var punch = el("div", "punch", 'כל זה קרה <b>בזמן שישנת.</b>');
+    s.root.appendChild(punch);
+
+    s.draw = function (f, out) {
+      rise(s.title, outCubic(seg(f, 2, 18)) * out, 12);
+      rise(fr, outCubic(seg(f, 14, 34)) * out, 18);
+      rise(pill, outCubic(seg(f, 46, 62)) * out, 6);
+      rise(punch, outCubic(seg(f, 66, 86)) * out, 14);
+    };
+  })(S5);
+
+  /* ---------- the reel ---------- */
+  var SCENES = [S1, S2, S3, S4, S5];
+  var FADE = 14;
+  var starts = [], acc = 0;
+  SCENES.forEach(function (s) { starts.push(acc); acc += s.len; });
+  var TOTAL = acc;
 
   function draw(f) {
-    if (!SCENES[0].nodes[0].stampReady) { placeStamps(); }
-
     var ang = 2 * Math.PI * (f / TOTAL);
     document.getElementById("bloomA").style.transform =
       "translate(" + (Math.sin(ang) * 26).toFixed(2) + "px," + (Math.cos(ang) * 18).toFixed(2) + "px)";
@@ -309,12 +442,22 @@
     document.getElementById("bloomC").style.transform =
       "translate(" + (Math.sin(ang + 1.2) * 30).toFixed(2) + "px,0)";
 
-    var idx = Math.floor(f / SCENE), local = f - idx * SCENE;
-    SCENES.forEach(function (sc, i) { drawScene(sc, local, i === idx); });
+    var idx = 0;
+    for (var i = 0; i < SCENES.length; i++) { if (f >= starts[i]) { idx = i; } }
+
+    SCENES.forEach(function (s, i) {
+      if (i !== idx) { s.root.style.display = "none"; return; }
+      s.root.style.display = "block";
+      var local = f - starts[i];
+      /* every scene leaves the way it came, so the cut lands on an empty
+         canvas - including the cut from the last scene back to the first */
+      /* the fade has to be finished ON the last frame, not after it, or the
+         cut back to an empty canvas is a visible jump */
+      s.draw(local, 1 - seg(local, s.len - FADE, s.len - 1));
+    });
   }
 
   window.TOTAL = TOTAL;
-  window.SCENE_LEN = SCENE;
   window.setFrame = function (f) { draw(((f % TOTAL) + TOTAL) % TOTAL); };
   window.setFrame(0);
 })();
