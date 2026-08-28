@@ -395,6 +395,13 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .pain i svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 1.7; }
 /* the sentences in this section are centred; only the six cards keep
    their own alignment, since each is an icon followed by its line */
+/* the offer to see the whole thing, sitting under the problem rather than
+   opening a section of its own - one fewer heading down the page */
+.pain-more {
+  max-width: 62ch; margin: clamp(30px, 4vw, 44px) auto 0;
+  padding-top: clamp(26px, 3.4vw, 36px); border-top: 1px solid var(--hairline);
+}
+.pain-more .h-sub { margin-top: 0; }
 .pain-note { margin-top: 34px; font-size: clamp(1.2rem, 2.1vw, 1.6rem); font-family: var(--font-head); font-weight: 600;
   text-align: center; max-width: 46ch; margin-inline: auto; }
 
