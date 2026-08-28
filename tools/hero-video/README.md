@@ -1,7 +1,10 @@
 # הסרטון בראש העמוד
 
-תרשים הזרימה שרץ בלולאה נבנה כאן ולא בכלי וידאו: הטקסט הוא טקסט אמיתי,
+ארבע האוטומציות שרצות בלולאה נבנות כאן ולא בכלי וידאו: הטקסט הוא טקסט אמיתי,
 הצבעים הם המשתנים של `assets/css/site.css`, והלולאה מדויקת לפריים.
+
+ארבע הסצנות הן ארבע הדוגמאות מ-`resources/examples.html` - מכירות, שירות,
+ניהול ותוכן - עם אותן שעות בדיוק. הזרימה מימין לשמאל, כמו הקריאה.
 
 ## מה יש כאן
 
@@ -15,8 +18,14 @@
 
 ```sh
 mkdir -p /tmp/vid && cp scene.html render.mjs /tmp/vid/
-# הגופן הלטיני (Noto Sans, אותה משפחה של הגופן באתר) לא נשמר בריפו:
+# הגופנים לא נשמרים בריפו. עברית מ-Noto Sans Hebrew, ספרות ולטינית
+# מ-Noto Sans - אותה משפחה, כך שחותמת שעה ליד תווית עברית יושבת נכון:
 mkdir -p /tmp/vid/fonts
+for w in 500 700 800; do
+  curl -sS -o /tmp/vid/fonts/NotoHe-$w.ttf "$(curl -sS -A Mozilla \
+    "https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@$w" \
+    | grep -o 'https[^)]*' | head -1)"
+done
 curl -sS -o /tmp/vid/fonts/NotoSans-500.ttf "$(curl -sS -A Mozilla \
   'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700' \
   | grep -o 'https[^)]*' | head -1)"

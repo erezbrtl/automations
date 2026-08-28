@@ -1,9 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <title>flow</title>
 <style>
+  /* Hebrew comes from the Hebrew face, digits and latin from its sibling:
+     both are Noto, so a timestamp beside a Hebrew label still sits right. */
+  @font-face { font-family: "NH"; src: url("fonts/NotoHe-500.ttf") format("truetype"); font-weight: 500; }
+  @font-face { font-family: "NH"; src: url("fonts/NotoHe-700.ttf") format("truetype"); font-weight: 700; }
+  @font-face { font-family: "NH"; src: url("fonts/NotoHe-800.ttf") format("truetype"); font-weight: 800; }
   @font-face { font-family: "NS"; src: url("fonts/NotoSans-500.ttf") format("truetype"); font-weight: 500; }
   @font-face { font-family: "NS"; src: url("fonts/NotoSans-700.ttf") format("truetype"); font-weight: 700; }
 
@@ -15,11 +20,10 @@
   #stage {
     position: relative; width: 1280px; height: 720px; overflow: hidden;
     background: #0A0613;
-    font-family: "NS", system-ui, sans-serif;
+    font-family: "NH", "NS", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* the ground the canvas sits on */
   #dots {
     position: absolute; inset: 0;
     background-image: radial-gradient(rgba(255,255,255,.085) 1.6px, transparent 1.6px);
@@ -32,24 +36,46 @@
   #bloomB { width: 560px; height: 560px; background: rgba(176,18,82,.13); right: -190px; bottom: -230px; }
   #bloomC { width: 460px; height: 460px; background: rgba(31,70,216,.10); left: 48%; bottom: -280px; }
 
-  #wires { position: absolute; inset: 0; }
+  .wires { position: absolute; inset: 0; }
+
+  /* the scene's subject, top right where a reader starts */
+  .chip {
+    position: absolute; top: 58px; inset-inline-start: 92px;
+    display: inline-flex; align-items: center; gap: 11px;
+    padding: 11px 22px; border-radius: 999px;
+    border: 1px solid rgba(255,46,99,.36); background: rgba(255,46,99,.11);
+    font-family: "NH"; font-weight: 700; font-size: 20px; color: #FF7A9E;
+    letter-spacing: -.01em;
+  }
+  .chip i { width: 7px; height: 7px; border-radius: 50%; background: #FF2E63; }
 
   .node {
-    position: absolute; width: 264px; height: 74px;
-    display: flex; align-items: center; gap: 14px; padding: 0 18px;
+    position: absolute; width: 250px; height: 70px;
+    display: flex; align-items: center; gap: 13px; padding: 0 17px;
     border-radius: 16px;
     background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)), #14091F;
     border: 1px solid rgba(255,255,255,.13);
     transform-origin: 50% 50%;
   }
   .node .tile {
-    flex: 0 0 42px; height: 42px; border-radius: 12px;
+    flex: 0 0 40px; height: 40px; border-radius: 11px;
     background: linear-gradient(140deg, #FF2E63, #8B31D8);
     display: grid; place-items: center;
   }
-  .node .tile svg { width: 21px; height: 21px; fill: none; stroke: #fff; stroke-width: 1.9;
+  .node .tile svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.9;
                     stroke-linecap: round; stroke-linejoin: round; }
-  .node .label { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -.01em; white-space: nowrap; }
+  .node .label { font-family: "NH"; font-size: 16.5px; font-weight: 700; color: #fff;
+                 letter-spacing: -.01em; white-space: nowrap; }
+
+  /* the clock from the story: it is the point, so it lands with the step */
+  .stamp {
+    position: absolute; display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 11px; border-radius: 999px;
+    border: 1px solid rgba(111,233,180,.28); background: rgba(111,233,180,.09);
+    font-family: "NS"; font-weight: 700; font-size: 13px; color: #6FE9B4;
+    direction: ltr; white-space: nowrap;
+  }
+  .stamp i { width: 5px; height: 5px; border-radius: 50%; background: #6FE9B4; }
 </style>
 </head>
 <body>
@@ -58,138 +84,223 @@
   <div class="bloom" id="bloomB"></div>
   <div class="bloom" id="bloomC"></div>
   <div id="dots"></div>
-
-  <svg id="wires" viewBox="0 0 1280 720">
-    <defs>
-      <linearGradient id="gWire" gradientUnits="userSpaceOnUse" x1="380" y1="0" x2="900" y2="0">
-        <stop offset="0" stop-color="#FF2E63"/>
-        <stop offset="1" stop-color="#2F6BFF"/>
-      </linearGradient>
-      <filter id="fGlow" x="-60%" y="-300%" width="220%" height="700%">
-        <feGaussianBlur stdDeviation="4"/>
-      </filter>
-    </defs>
-    <g id="wireBase"></g>
-    <g id="wireDraw"></g>
-    <g id="wireGlow" filter="url(#fGlow)"></g>
-    <g id="wirePulse"></g>
-  </svg>
-
-  <div class="node" id="n0"><span class="tile"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/></svg></span><span class="label">New lead</span></div>
-  <div class="node" id="n1"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span><span class="label">Read and classify</span></div>
-  <div class="node" id="n2"><span class="tile"><svg viewBox="0 0 24 24"><path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/></svg></span><span class="label">Send reply</span></div>
-  <div class="node" id="n3"><span class="tile"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18M3 15h18M9 4v16"/></svg></span><span class="label">Add to sheet</span></div>
-  <div class="node" id="n4"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 1 6 6v4l2 3H4l2-3V9a6 6 0 0 1 6-6z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/></svg></span><span class="label">Notify team</span></div>
+  <div id="scenes"></div>
 </div>
 
 <script>
 (function () {
   "use strict";
 
-  var FPS = 24, DUR = 8, TOTAL = FPS * DUR;           /* 192 frames */
-  var NS = "http://www.w3.org/2000/svg";
+  var FPS = 24, SCENE = 144, NS = "http://www.w3.org/2000/svg";
+  var W = 250, H = 70;
 
-  var NODES = [
-    { id: "n0", x: 128, cy: 360 },
-    { id: "n1", x: 486, cy: 360 },
-    { id: "n2", x: 888, cy: 196 },
-    { id: "n3", x: 888, cy: 360 },
-    { id: "n4", x: 888, cy: 524 }
+  var ICONS = {
+    mail:  '<path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/>',
+    chat:  '<path d="M2 3h13v9H7l-4 3v-3H2z"/><path d="M18 8h4v8h-2v3l-3-3h-4"/>',
+    spark: '<path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+    send:  '<path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/>',
+    sheet: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18M3 15h18M9 4v16"/>',
+    task:  '<path d="M4 3h16v18H4z"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/>',
+    bell:  '<path d="M12 3a6 6 0 0 1 6 6v4l2 3H4l2-3V9a6 6 0 0 1 6-6z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/>',
+    doc:   '<path d="M5 2h9l5 5v15H5z"/><path d="M14 2v5h5"/><path d="M8.5 12h7M8.5 16h4.5"/>',
+    money: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h5M9.5 14.5h5"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15 0 18M12 3c-2.6 2.6-2.6 15 0 18"/>',
+    photo: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2 4.5 4"/>',
+    folder:'<path d="M3 6h6l2 3h10v10H3z"/>'
+  };
+
+  /* Right to left, because the reader is: the trigger sits on the right and
+     the work moves left. Each step carries the clock it happens at - that is
+     the whole argument of the section these four come from. */
+  var SCENES = [
+    { chip: "מכירות",
+      nodes: [
+        { t: "פנייה מהאתר",   ic: "mail",  x: 900, cy: 360, at: "23:47" },
+        { t: "AI קורא ומבין", ic: "spark", x: 545, cy: 360, at: "23:47" },
+        { t: "תשובה ללקוחה",  ic: "send",  x: 130, cy: 196, at: "23:48" },
+        { t: "שורה בגיליון",  ic: "sheet", x: 130, cy: 360, at: "23:48" },
+        { t: "משימה לבוקר",   ic: "task",  x: 130, cy: 524, at: "08:00" }
+      ] },
+    { chip: "שירות",
+      nodes: [
+        { t: "פנייה נכנסת",    ic: "chat",  x: 900, cy: 360, at: "14:02" },
+        { t: "AI מזהה נושא",   ic: "spark", x: 545, cy: 360, at: "14:02" },
+        { t: "אישור ללקוח",    ic: "send",  x: 130, cy: 244, at: "14:02" },
+        { t: "הפנייה לטכנאי",  ic: "bell",  x: 130, cy: 476, at: "14:03" }
+      ] },
+    { chip: "ניהול",
+      nodes: [
+        { t: "חשבונית במייל",  ic: "doc",   x: 900, cy: 360, at: "08:12" },
+        { t: "AI קורא ומסכם",  ic: "spark", x: 545, cy: 360, at: "08:12" },
+        { t: "שורה בהוצאות",   ic: "sheet", x: 130, cy: 244, at: "08:13" },
+        { t: "תזכורת לתשלום",  ic: "money", x: 130, cy: 476, at: "25/09" }
+      ] },
+    { chip: "תוכן",
+      nodes: [
+        { t: "פרויקט נסגר",    ic: "folder", x: 900, cy: 360, at: "17:40" },
+        { t: "AI מנסח תיאור",  ic: "spark",  x: 545, cy: 360, at: "17:41" },
+        { t: "עמוד באתר",      ic: "globe",  x: 130, cy: 244, at: "09:00" },
+        { t: "פוסט לרשתות",    ic: "photo",  x: 130, cy: 476, at: "09:02" }
+      ] }
   ];
-  var W = 264, H = 74;
 
-  NODES.forEach(function (n) {
-    n.el = document.getElementById(n.id);
-    n.el.style.left = n.x + "px";
-    n.el.style.top = (n.cy - H / 2) + "px";
-  });
+  var TOTAL = SCENES.length * SCENE;
 
-  /* a connector leaves the right edge of one node and arrives at the left
-     edge of the next, bending only horizontally so the run reads as a wire
-     on a board rather than a doodle */
-  function wirePath(a, b) {
-    var x1 = a.x + W, y1 = a.cy, x2 = b.x, y2 = b.cy;
-    var bend = Math.max(46, (x2 - x1) * 0.55);
-    return "M " + x1 + " " + y1 +
-           " C " + (x1 + bend) + " " + y1 + ", " + (x2 - bend) + " " + y2 + ", " + x2 + " " + y2;
+  /* ---------- timing, one shape for every scene ---------- */
+  function timing(n) {
+    var spokes = n - 2, t = { node: [[4, 18], [30, 44]], wire: [[16, 32]], lit: [82, 98] };
+    for (var k = 0; k < spokes; k++) {
+      t.wire.push([42 + 4 * k, 60 + 4 * k]);
+      t.node.push([58 + 4 * k, 72 + 4 * k]);
+      t.lit.push(114);
+    }
+    t.pulseA = [82, 98];
+    t.pulseB = [98, 114];
+    t.rest = [126, 134];
+    t.fade = [134, 144];
+    return t;
   }
 
-  var LINKS = [
-    { from: 0, to: 1 },
-    { from: 1, to: 2 },
-    { from: 1, to: 3 },
-    { from: 1, to: 4 }
-  ];
-
-  var gBase = document.getElementById("wireBase");
-  var gDraw = document.getElementById("wireDraw");
-  var gGlow = document.getElementById("wireGlow");
-  var gPulse = document.getElementById("wirePulse");
-
-  LINKS.forEach(function (l) {
-    var d = wirePath(NODES[l.from], NODES[l.to]);
-
-    l.base = document.createElementNS(NS, "path");
-    l.base.setAttribute("d", d);
-    l.base.setAttribute("fill", "none");
-    l.base.setAttribute("stroke", "rgba(255,255,255,.10)");
-    l.base.setAttribute("stroke-width", "2");
-    gBase.appendChild(l.base);
-
-    l.draw = document.createElementNS(NS, "path");
-    l.draw.setAttribute("d", d);
-    l.draw.setAttribute("fill", "none");
-    l.draw.setAttribute("stroke", "url(#gWire)");
-    l.draw.setAttribute("stroke-width", "2.4");
-    l.draw.setAttribute("stroke-linecap", "round");
-    gDraw.appendChild(l.draw);
-
-    l.glow = document.createElementNS(NS, "path");
-    l.glow.setAttribute("d", d);
-    l.glow.setAttribute("fill", "none");
-    l.glow.setAttribute("stroke", "#FF2E63");
-    l.glow.setAttribute("stroke-width", "5");
-    l.glow.setAttribute("stroke-linecap", "round");
-    gGlow.appendChild(l.glow);
-
-    l.pulse = document.createElementNS(NS, "path");
-    l.pulse.setAttribute("d", d);
-    l.pulse.setAttribute("fill", "none");
-    l.pulse.setAttribute("stroke", "#FFC2D4");
-    l.pulse.setAttribute("stroke-width", "3.2");
-    l.pulse.setAttribute("stroke-linecap", "round");
-    gPulse.appendChild(l.pulse);
-
-    l.len = l.draw.getTotalLength();
-  });
-
-  /* ---------- timing ---------- */
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function seg(f, a, b) { return clamp((f - a) / (b - a)); }
   function outCubic(t) { return 1 - Math.pow(1 - t, 3); }
   function inOut(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  /* rises to 1 and falls back, for a light that passes through */
   function bump(t) { return t <= 0 || t >= 1 ? 0 : Math.sin(Math.PI * t); }
 
-  /* The cycle ends on the finished board rather than on an empty one, and
-     the renderer starts its output inside that resting window - so the loop
-     meets itself where nothing is moving, and the poster frame is the whole
-     diagram instead of a blank canvas. */
-  var T = {
-    node:  [[4, 20], [38, 54], [74, 90], [78, 94], [82, 98]],
-    wire:  [[20, 38], [54, 74], [58, 78], [62, 82]],
-    /* the light leaves the first node, reaches the second, then fans out */
-    pulseA: [104, 126],
-    pulseB: [126, 148],
-    lit:   [104, 126, 148, 148, 148],
-    rest:  [162, 176],
-    fade:  [176, 190]
-  };
+  /* the wire leaves the left edge of the earlier node and arrives at the
+     right edge of the later one - the direction the page reads */
+  function wirePath(a, b) {
+    var x1 = a.x, y1 = a.cy, x2 = b.x + W, y2 = b.cy;
+    var bend = Math.max(46, (x1 - x2) * 0.55);
+    return "M " + x1 + " " + y1 +
+           " C " + (x1 - bend) + " " + y1 + ", " + (x2 + bend) + " " + y2 + ", " + x2 + " " + y2;
+  }
 
-  var PULSE_LEN = 58;
+  var host = document.getElementById("scenes");
+  var PULSE_LEN = 54;
+
+  SCENES.forEach(function (sc, si) {
+    sc.T = timing(sc.nodes.length);
+    sc.root = document.createElement("div");
+    sc.root.style.cssText = "position:absolute;inset:0";
+    host.appendChild(sc.root);
+
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "wires");
+    svg.setAttribute("viewBox", "0 0 1280 720");
+    svg.innerHTML =
+      '<defs><linearGradient id="g' + si + '" gradientUnits="userSpaceOnUse" x1="900" y1="0" x2="380" y2="0">' +
+      '<stop offset="0" stop-color="#FF2E63"/><stop offset="1" stop-color="#2F6BFF"/></linearGradient>' +
+      '<filter id="fg' + si + '" x="-60%" y="-300%" width="220%" height="700%">' +
+      '<feGaussianBlur stdDeviation="4"/></filter></defs>' +
+      '<g class="wBase"></g><g class="wDraw"></g><g class="wGlow" filter="url(#fg' + si + ')"></g><g class="wPulse"></g>';
+    sc.root.appendChild(svg);
+
+    sc.chipEl = document.createElement("div");
+    sc.chipEl.className = "chip";
+    sc.chipEl.innerHTML = '<i></i>' + sc.chip;
+    sc.root.appendChild(sc.chipEl);
+
+    sc.links = [[0, 1]];
+    for (var k = 2; k < sc.nodes.length; k++) { sc.links.push([1, k]); }
+
+    var gBase = svg.querySelector(".wBase"), gDraw = svg.querySelector(".wDraw");
+    var gGlow = svg.querySelector(".wGlow"), gPulse = svg.querySelector(".wPulse");
+
+    sc.links.forEach(function (pair) {
+      var d = wirePath(sc.nodes[pair[0]], sc.nodes[pair[1]]);
+      function line(parent, stroke, width, cls) {
+        var p = document.createElementNS(NS, "path");
+        p.setAttribute("d", d); p.setAttribute("fill", "none");
+        p.setAttribute("stroke", stroke); p.setAttribute("stroke-width", width);
+        p.setAttribute("stroke-linecap", "round");
+        parent.appendChild(p); return p;
+      }
+      pair.base = line(gBase, "rgba(255,255,255,.10)", "2");
+      pair.draw = line(gDraw, "url(#g" + si + ")", "2.4");
+      pair.glow = line(gGlow, "#FF2E63", "5");
+      pair.pulse = line(gPulse, "#FFC2D4", "3.2");
+      pair.len = pair.draw.getTotalLength();
+    });
+
+    sc.nodes.forEach(function (n) {
+      n.el = document.createElement("div");
+      n.el.className = "node";
+      n.el.style.left = n.x + "px";
+      n.el.style.top = (n.cy - H / 2) + "px";
+      n.el.innerHTML = '<span class="tile"><svg viewBox="0 0 24 24">' + ICONS[n.ic] +
+                       '</svg></span><span class="label">' + n.t + '</span>';
+      sc.root.appendChild(n.el);
+
+      n.stamp = document.createElement("div");
+      n.stamp.className = "stamp";
+      n.stamp.innerHTML = '<i></i>' + n.at;
+      sc.root.appendChild(n.stamp);
+      /* measured once the font is in, so the pill really is centred */
+      n.stampReady = false;
+    });
+  });
+
+  function placeStamps() {
+    SCENES.forEach(function (sc) {
+      sc.nodes.forEach(function (n) {
+        var w = n.stamp.offsetWidth;
+        n.stamp.style.left = Math.round(n.x + (W - w) / 2) + "px";
+        n.stamp.style.top = (n.cy + H / 2 + 12) + "px";
+        n.stampReady = true;
+      });
+    });
+  }
+
+  function drawScene(sc, f, on) {
+    if (!on) { sc.root.style.display = "none"; return; }
+    sc.root.style.display = "block";
+    var T = sc.T;
+    var out = 1 - seg(f, T.fade[0], T.fade[1]);
+
+    sc.chipEl.style.opacity = (outCubic(seg(f, 2, 14)) * out).toFixed(3);
+
+    sc.nodes.forEach(function (n, i) {
+      var t = outCubic(seg(f, T.node[i][0], T.node[i][1]));
+      var glow = bump(seg(f, T.lit[i], T.lit[i] + 12));
+      n.el.style.opacity = (t * out).toFixed(3);
+      n.el.style.transform = "translateY(" + ((1 - t) * 12).toFixed(2) + "px) scale(" + (0.94 + t * 0.06).toFixed(4) + ")";
+      n.el.style.borderColor = "rgba(255," + Math.round(255 - glow * 209) + "," + Math.round(255 - glow * 156) + "," + (0.13 + glow * 0.62).toFixed(3) + ")";
+      n.el.style.boxShadow = glow > 0.001
+        ? "0 0 " + (32 * glow).toFixed(1) + "px " + (2 * glow).toFixed(1) + "px rgba(255,46,99," + (0.5 * glow).toFixed(3) + ")"
+        : "none";
+
+      /* the clock lands with the step it belongs to */
+      var st = outCubic(seg(f, T.lit[i] + 1, T.lit[i] + 13));
+      n.stamp.style.opacity = (st * out).toFixed(3);
+      n.stamp.style.transform = "translateY(" + ((1 - st) * -6).toFixed(2) + "px)";
+    });
+
+    sc.links.forEach(function (l, i) {
+      var t = inOut(seg(f, T.wire[i][0], T.wire[i][1]));
+      l.base.style.opacity = (t > 0 ? out : 0).toFixed(3);
+      l.draw.style.strokeDasharray = l.len;
+      l.draw.style.strokeDashoffset = (l.len * (1 - t)).toFixed(2);
+      l.draw.style.opacity = out.toFixed(3);
+
+      var span = i === 0 ? T.pulseA : T.pulseB;
+      var p = seg(f, span[0], span[1]);
+      var live = p > 0 && p < 1 ? out : 0;
+      var dash = PULSE_LEN + " " + (l.len + PULSE_LEN);
+      var off = (PULSE_LEN - l.len * p).toFixed(2);
+
+      l.pulse.style.strokeDasharray = dash;
+      l.pulse.style.strokeDashoffset = off;
+      l.pulse.style.opacity = live.toFixed(3);
+      l.glow.style.strokeDasharray = dash;
+      l.glow.style.strokeDashoffset = off;
+      l.glow.style.opacity = (live * 0.85).toFixed(3);
+    });
+  }
 
   function draw(f) {
-    /* one full period across the loop, so the last frame meets the first */
+    if (!SCENES[0].nodes[0].stampReady) { placeStamps(); }
+
     var ang = 2 * Math.PI * (f / TOTAL);
     document.getElementById("bloomA").style.transform =
       "translate(" + (Math.sin(ang) * 26).toFixed(2) + "px," + (Math.cos(ang) * 18).toFixed(2) + "px)";
@@ -198,46 +309,12 @@
     document.getElementById("bloomC").style.transform =
       "translate(" + (Math.sin(ang + 1.2) * 30).toFixed(2) + "px,0)";
 
-    /* everything built dissolves at the end, and frame zero is bare, so the
-       clip meets itself without a cut */
-    var out = 1 - seg(f, T.fade[0], T.fade[1]);
-
-    NODES.forEach(function (n, i) {
-      var t = outCubic(seg(f, T.node[i][0], T.node[i][1]));
-      var glow = bump(seg(f, T.lit[i], T.lit[i] + 14));
-      n.el.style.opacity = (t * out).toFixed(3);
-      n.el.style.transform = "translateY(" + ((1 - t) * 12).toFixed(2) + "px) scale(" + (0.94 + t * 0.06).toFixed(4) + ")";
-      n.el.style.borderColor = "rgba(255," + Math.round(255 - glow * 209) + "," + Math.round(255 - glow * 156) + "," + (0.13 + glow * 0.62).toFixed(3) + ")";
-      n.el.style.boxShadow = glow > 0.001
-        ? "0 0 " + (34 * glow).toFixed(1) + "px " + (2 * glow).toFixed(1) + "px rgba(255,46,99," + (0.5 * glow).toFixed(3) + ")"
-        : "none";
-    });
-
-    LINKS.forEach(function (l, i) {
-      var t = inOut(seg(f, T.wire[i][0], T.wire[i][1]));
-      l.base.style.opacity = (t > 0 ? out : 0).toFixed(3);
-      l.draw.style.strokeDasharray = l.len;
-      l.draw.style.strokeDashoffset = (l.len * (1 - t)).toFixed(2);
-      l.draw.style.opacity = out.toFixed(3);
-
-      /* the light runs the first wire alone, then all three at once */
-      var span = i === 0 ? T.pulseA : T.pulseB;
-      var p = seg(f, span[0], span[1]);
-      var on = p > 0 && p < 1 ? out : 0;
-      var head = l.len * p;
-      var dash = PULSE_LEN + " " + (l.len + PULSE_LEN);
-      var off = (PULSE_LEN - head).toFixed(2);
-
-      l.pulse.style.strokeDasharray = dash;
-      l.pulse.style.strokeDashoffset = off;
-      l.pulse.style.opacity = on.toFixed(3);
-      l.glow.style.strokeDasharray = dash;
-      l.glow.style.strokeDashoffset = off;
-      l.glow.style.opacity = (on * 0.85).toFixed(3);
-    });
+    var idx = Math.floor(f / SCENE), local = f - idx * SCENE;
+    SCENES.forEach(function (sc, i) { drawScene(sc, local, i === idx); });
   }
 
   window.TOTAL = TOTAL;
+  window.SCENE_LEN = SCENE;
   window.setFrame = function (f) { draw(((f % TOTAL) + TOTAL) % TOTAL); };
   window.setFrame(0);
 })();

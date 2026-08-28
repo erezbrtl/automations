@@ -22,7 +22,7 @@ const stage = page.locator("#stage");
 
 /* start the output inside the resting window so the clip both opens and
    loops on the finished board */
-const OFFSET = 169;
+const OFFSET = 130;
 
 for (let f = 0; f < total; f++) {
   await page.evaluate((n) => window.setFrame(n), f + OFFSET);
