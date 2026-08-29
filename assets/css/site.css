@@ -889,13 +889,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-card .btn { margin-top: 18px; }
 /* whatsapp is not a footnote here - for this audience it is often the
    channel they would actually use, so it gets a button, not a sentence */
-.form-or {
-  display: flex; align-items: center; gap: 14px;
-  margin: 14px 0; color: var(--on-dark-faint); font-size: .82rem;
-}
-.form-or::before, .form-or::after {
-  content: ""; flex: 1; height: 1px; background: var(--hairline);
-}
 .btn--wa .ic-wa { display: inline-flex; width: 19px; height: 19px; }
 .btn--wa .ic-wa svg { width: 100%; height: 100%; fill: currentColor; }
 
