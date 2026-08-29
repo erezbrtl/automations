@@ -441,8 +441,14 @@
     var data = {};
     var ticked = [];
     fields(form).forEach(function (field) {
-      if (!field.name || field.name === "botcheck") { return; }
+      if (!field.name) { return; }
       if (field.type === "hidden") { return; }
+      /* the honeypot travels only when something filled it in, so a webhook
+         can drop the lead on "this field exists" alone */
+      if (field.name === "botcheck") {
+        if (field.checked) { data.botcheck = "1"; }
+        return;
+      }
       if (field.type === "checkbox") {
         if (field.checked) { ticked.push(field.getAttribute("data-label") || field.value); }
         return;
