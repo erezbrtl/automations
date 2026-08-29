@@ -49,7 +49,7 @@
       "serviceType": ["סדנת AI לעסקים", "הדרכות AI לעסקים", "הרצאת AI לעסקים", "אוטומציה עסקית", "הדרכת AI לארגונים"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "שלבי המסלול",
+        "name": "מה אפשר להזמין",
         "itemListElement": [
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "הרצאה / סדנת מבוא", "description": "מפגש אחד של 60-90 דקות: מה AI יכול לעשות בעסק." } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "הסדנה המעשית", "description": "3-4 שעות: בוחרים תהליך אמיתי מהעסק ובונים לו אוטומציה עובדת." } },
@@ -211,37 +211,34 @@
       <p class="h-sub">לא לומדים AI. בונים איתו.</p>
     </div>
 
-    <ol class="track">
-      <li class="track-step rv">
-        <span class="track-n">01</span>
-        <div class="track-body">
-          <h3>הרצאה / סדנת מבוא</h3>
-          <p>מפגש אחד שבו כל הצוות מבין מה AI באמת יכול לעשות בעסק.</p>
-        </div>
-        <span class="track-meta">60-90 דקות</span>
+    <ul class="plans rv" data-stagger>
+      <li class="plan">
+        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v11H3z"/><path d="M12 15v5M8 20h8"/></svg></span>
+        <h3>הרצאה / סדנת מבוא</h3>
+        <p class="plan-line">מפגש אחד שבו כל הצוות מבין מה AI באמת יכול לעשות בעסק.</p>
+        <p class="plan-dur"><b dir="ltr">60-90</b><span>דקות</span></p>
+        <a class="btn btn--ghost btn--wide" href="#contact" data-cta="plan-intro">לתיאום הרצאה</a>
       </li>
-      <li class="track-step is-core rv">
-        <span class="track-n">02</span>
-        <div class="track-body">
-          <h3>הסדנה המעשית <span class="track-tag">הכי פופולארי!</span></h3>
-          <p>בוחרים תהליך אמיתי מהעסק, מתכננים אותו, ובונים לו אוטומציה עובדת.</p>
-        </div>
-        <span class="track-meta">3-4 שעות</span>
-      </li>
-      <li class="track-step rv">
-        <span class="track-n">03</span>
-        <div class="track-body">
-          <h3>הדרכה מותאמת לארגון</h3>
-          <p>תוכנית הדרכה שנבנית סביב התהליכים והמערכות שכבר יש לכם. גם למועצות ולקהילות עסקיות.</p>
-        </div>
-        <span class="track-meta">נקבע בשיחה</span>
-      </li>
-    </ol>
 
-    <div class="order-flow rv">
-      <ul class="flow-row rv" data-stagger><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg></span><span>העסק שלכם<span class="sub">נקודת הפתיחה</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M16.9 16.9l2.2 2.2M19.1 4.9l-2.1 2.1M7 16.9l-2.1 2.2"/></svg></span><span>התהליך<span class="sub">מה חוזר</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3z"/></svg></span><span>הפתרון<span class="sub">מה צריך לקרות</span></span></li><li class="link-curve" aria-hidden="true"><svg viewBox="0 0 38 22"><path d="M37 6 C 26 6, 12 16, 1 16"/><circle class="pulse" r="2.6"><animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M37 6 C 26 6, 12 16, 1 16"/></circle></svg></li><li class="node-card node-card--end"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 3.5a5 5 0 0 0 6 6L21 9l-9 9-4.5 3L5 18.5 8 14l9-9z"/></svg></span><span>הכלי<span class="sub">אמצעי, לא מטרה</span></span></li></ul>
-      <p class="order-note-sub">לא תלמדו כאן רשימת כלים שתתיישן, אלא בסיס שממנו תוכלו להמשיך לאן שתרצו: איך לזהות תהליך, לבחור לו פתרון ולבנות אותו. את הסדנה אני מעדכן כל הזמן, לפי הכלים והטכניקות הרלוונטיים באותו רגע.</p>
-    </div>
+      <li class="plan plan--core">
+        <span class="plan-tag">הכי פופולארי</span>
+        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/><path d="M11 7h4a2 2 0 0 1 2 2v4"/></svg></span>
+        <h3>הסדנה המעשית</h3>
+        <p class="plan-line">בוחרים תהליך אמיתי מהעסק, מתכננים אותו, ובונים לו אוטומציה עובדת. יוצאים איתה בסוף היום.</p>
+        <p class="plan-dur"><b dir="ltr">3-4</b><span>שעות</span></p>
+        <a class="btn btn--cta btn--wide" href="#contact" data-cta="plan-workshop">לתיאום סדנה</a>
+      </li>
+
+      <li class="plan">
+        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M15 9h2a2 2 0 0 1 2 2v10"/><path d="M8 7h3M8 11h3M8 15h3"/></svg></span>
+        <h3>הדרכה מותאמת לארגון</h3>
+        <p class="plan-line">תוכנית שנבנית סביב התהליכים והמערכות שכבר יש לכם. גם למועצות ולקהילות עסקיות.</p>
+        <p class="plan-dur plan-dur--text"><b>לפי הצורך</b></p>
+        <a class="btn btn--ghost btn--wide" href="#contact" data-cta="plan-org">נדבר על זה</a>
+      </li>
+    </ul>
+
+    <p class="order-note-sub">לא תלמדו כאן רשימת כלים שתתיישן, אלא בסיס שממנו תוכלו להמשיך לאן שתרצו: איך לזהות תהליך, לבחור לו פתרון ולבנות אותו. את הסדנה אני מעדכן כל הזמן, לפי הכלים והטכניקות הרלוונטיים באותו רגע.</p>
   </div>
 </section>
 

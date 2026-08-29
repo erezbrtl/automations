@@ -405,96 +405,92 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .pain-note { margin-top: 34px; font-size: clamp(1.2rem, 2.1vw, 1.6rem); font-family: var(--font-head); font-weight: 600;
   text-align: center; max-width: 46ch; margin-inline: auto; }
 
-/* ---------- Order / differentiation ---------- */
-.order { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: clamp(22px, 3vw, 32px); max-width: 860px; margin-inline: auto; justify-items: center; }
-.order-row {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-  width: max-content; max-width: 100%;
-  background: rgba(255,255,255,.06);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm);
-  padding: 16px 18px;
-}
-.order-row.is-bad { opacity: .6; }
-.order-tag {
-  font-family: var(--font-head); font-weight: 700; font-size: .78rem;
-  padding: 4px 10px; border-radius: 999px; margin-inline-end: 6px;
-  background: rgba(255,46,99,.16); color: #FF7A9E;
-}
-.order-row.is-good .order-tag { background: rgba(88, 233, 170, .16); color: #6FE9B4; }
-.node { font-family: var(--font-head); font-weight: 600; font-size: .98rem; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.09); }
-.order-row.is-good .node { background: linear-gradient(120deg, rgba(255,46,99,.25), rgba(139,49,216,.25)); }
-.order-row.is-bad .node { text-decoration: line-through; }
-.sep { color: var(--on-dark-faint); }
-.order-note { font-size: .92rem; color: var(--on-dark-soft); text-align: center; }
-
-/* ---------- The track: one product, three stages ---------- */
-.track {
+/* ---------------------------------------------------------
+   Three offers, read side by side. The middle one is the
+   product most people come for, so it stands a step forward
+   and out of the dark, the way a plan grid is normally read.
+   Where a price would sit, the length of the session sits:
+   it is the number this buyer actually wants.
+   --------------------------------------------------------- */
+.plans {
   display: grid;
-  gap: 14px;
-  margin-top: clamp(28px, 4vw, 44px);
-  max-width: 860px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(14px, 1.8vw, 22px);
+  margin-top: clamp(40px, 5vw, 66px);
+  max-width: 1000px;
   margin-inline: auto;
 }
-.track-step {
+.plan {
   position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(14px, 2.4vw, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.2vw, 26px);
+  border-radius: var(--radius);
   background: rgba(255, 255, 255, .07);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  padding: clamp(18px, 2.4vw, 24px) clamp(18px, 2.4vw, 26px);
+  text-align: center;
   transition: background .2s ease, border-color .2s ease, transform .2s ease;
 }
-.track-step:hover { background: rgba(255, 255, 255, .11); border-color: rgba(255, 255, 255, .28); }
-@media (max-width: 620px) {
-  .track-step { grid-template-columns: auto minmax(0, 1fr); row-gap: 10px; }
-  .track-meta { grid-column: 2; justify-self: start; }
+.plan:hover { background: rgba(255, 255, 255, .11); border-color: rgba(255, 255, 255, .28); }
+.plan-ico {
+  width: 46px; height: 46px; margin-inline: auto;
+  border-radius: 14px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .1);
 }
-.track-n {
-  font-family: var(--font-head);
-  font-weight: 800;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1;
-  direction: ltr;
-  background: linear-gradient(140deg, var(--cta), #8B31D8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.plan-ico svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.plan h3 { font-size: clamp(1.14rem, 2vw, 1.34rem); }
+.plan-line {
+  color: var(--on-dark-soft); font-size: .96rem; line-height: 1.7;
+  flex: 1 1 auto;
 }
-.track-body h3 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.track-body p { margin-top: 9px; color: var(--on-dark-soft); font-size: 1.05rem; }
-.track-tag {
+.plan-dur {
+  margin-top: 4px;
+  display: flex; align-items: baseline; justify-content: center; gap: 8px;
   font-family: var(--font-head);
-  font-weight: 700;
-  font-size: .72rem;
-  padding: 4px 11px;
-  border-radius: 999px;
-  background: linear-gradient(96deg, var(--cta), var(--cta-2));
+}
+.plan-dur b {
+  font-weight: 900; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(2.1rem, 4.2vw, 2.9rem);
   color: #fff;
 }
-.track-meta {
-  font-family: var(--font-head);
-  font-weight: 600;
-  font-size: .85rem;
-  color: var(--on-dark-soft);
-  border: 1px solid var(--hairline);
-  border-radius: 999px;
-  padding: 7px 14px;
-  white-space: nowrap;
-}
-/* the middle stage is the product itself */
-.track-step.is-core {
+.plan-dur span { font-size: .9rem; font-weight: 600; color: var(--on-dark-faint); }
+.plan-dur--text b { font-size: clamp(1.2rem, 2.3vw, 1.5rem); }
+.plan .btn { margin-top: 6px; }
+
+/* the middle card carries the offer, so it leaves the dark */
+.plan--core {
   background: var(--card);
   border-color: transparent;
-  box-shadow: 0 26px 56px -30px rgba(6, 2, 16, .95);
+  margin-block: clamp(-6px, -1.4vw, -22px);
+  padding-block: clamp(30px, 3.4vw, 44px);
+  box-shadow: 0 30px 64px -30px rgba(6, 2, 16, .95);
 }
-.track-step.is-core:hover { background: var(--card); transform: translateY(-3px); }
-.track-step.is-core .track-body h3 { color: var(--card-ink); }
-.track-step.is-core .track-body p { color: var(--card-soft); }
-.track-step.is-core .track-meta { color: var(--card-ink); border-color: var(--card-rule); }
+.plan--core:hover { background: var(--card); transform: translateY(-3px); }
+.plan--core h3 { color: var(--card-ink); }
+.plan--core .plan-line { color: var(--card-soft); }
+.plan--core .plan-ico { background: rgba(255, 46, 99, .1); color: var(--cta); }
+.plan--core .plan-dur b { color: var(--card-ink); }
+.plan--core .plan-dur span { color: var(--card-soft); }
+.plan-tag {
+  position: absolute; top: 0; inset-inline: 0; margin-inline: auto;
+  transform: translateY(-50%);
+  width: max-content;
+  font-family: var(--font-head); font-weight: 700; font-size: .74rem;
+  padding: 6px 15px; border-radius: 999px;
+  background: linear-gradient(96deg, var(--cta), var(--cta-2));
+  color: #fff;
+  box-shadow: 0 10px 26px -10px var(--cta-glow);
+}
+
+@media (max-width: 860px) {
+  .plans { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
+  .plan--core { margin-block: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan, .plan--core:hover { transition: none; transform: none; }
+}
 
 .win { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .win li {
@@ -709,79 +705,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 @media (prefers-reduced-motion: reduce) { .j-stop, .j-head { transition: none; } }
 
-/* ---------------------------------------------------------
-   Flow: nodes joined by curved connectors with a travelling
-   pulse, instead of a row of text and arrows.
-   --------------------------------------------------------- */
-.flow-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 0;
-}
-.node-card {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 15px;
-  border-radius: 15px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid var(--hairline);
-  font-size: .96rem;
-  font-weight: 600;
-  font-family: var(--font-head);
-  white-space: nowrap;
-  backdrop-filter: blur(6px);
-  transition: transform .25s ease, border-color .25s ease, background .25s ease;
-}
-.node-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.11); }
-.node-card .ico {
-  flex: 0 0 30px; height: 30px; border-radius: 9px;
-  display: grid; place-items: center;
-  background: rgba(255,255,255,.1);
-}
-.node-card .ico svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; }
-.node-card--ai {
-  background: linear-gradient(125deg, rgba(255,46,99,.92), rgba(139,49,216,.92));
-  border-color: transparent;
-  font-weight: 700;
-  box-shadow: 0 14px 34px -16px rgba(255,46,99,.9);
-}
-.node-card--ai .ico { background: rgba(255,255,255,.22); }
-.node-card--ai .sub { color: rgba(255,255,255,.82); }
-.node-card .sub { display: block; font-size: .74rem; white-space: nowrap; font-weight: 400; color: var(--on-dark-faint); margin-top: 1px; }
-.node-card--end { border-style: dashed; border-color: rgba(111,233,180,.5); }
-
-.link-curve { flex: 0 0 38px; align-self: center; height: 22px; position: relative; }
-.link-curve svg { width: 100%; height: 100%; overflow: visible; }
-.link-curve path {
-  fill: none;
-  stroke: rgba(255,255,255,.3);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-dasharray: 2 6;
-}
-.link-curve .pulse { fill: var(--cta); filter: drop-shadow(0 0 7px rgba(255,46,99,.95)); }
-@media (max-width: 900px) {
-  .flow-row { flex-direction: column; align-items: stretch; }
-  .link-curve { flex: 0 0 26px; width: 38px; height: 26px; align-self: flex-start; margin-inline-start: 26px; transform: rotate(-90deg); }
-}
-@media (prefers-reduced-motion: reduce) { .link-curve .pulse { display: none; } }
-
-/* the order of work, as a rising path rather than a line of arrows */
-.order-flow { margin-top: clamp(26px, 3.5vw, 40px); }
-.order-flow .flow-row { justify-content: center; }
-.order-flow .node-card { font-size: 1.02rem; }
-.order-flow .step-i {
-  font-family: var(--font-head); font-weight: 800; font-size: .78rem;
-  color: var(--cta); direction: ltr;
-}
-.order-note {
-  font-size: 1.02rem; color: var(--on-dark-soft); margin-top: 26px;
-  max-width: 60ch; margin-inline: auto; text-align: center;
-}
-.order-note b { color: #fff; font-weight: 700; }
 .order-note-sub {
   max-width: 60ch; margin-inline: auto; text-align: center;
   margin-top: clamp(22px, 3vw, 30px); font-size: .94rem; line-height: 1.75;
