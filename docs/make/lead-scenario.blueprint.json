@@ -72,10 +72,6 @@
             "value": "REPLACE_WITH_YOUR_ANTHROPIC_API_KEY"
           },
           {
-            "name": "anthropic-workspace-id",
-            "value": "REPLACE_WITH_YOUR_WORKSPACE_ID"
-          },
-          {
             "name": "anthropic-version",
             "value": "2023-06-01"
           }
