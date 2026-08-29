@@ -263,6 +263,9 @@ needs_human   Equal to   false
 - **Method:** POST
 - **Headers:** `x-api-key` עם המפתח, `anthropic-version` בערך
   `2023-06-01`, ו-`content-type` בערך `application/json`
+- **כותרת נוספת אם המפתח דורש אותה:** `anthropic-workspace-id` עם מזהה
+  ה-workspace. מפתח מסוג identity-linked לא יודע לבד באיזה workspace הוא
+  פועל, ובלי הכותרת הזאת חוזר 400 שאומר את זה במפורש
 - **Body type:** Raw, JSON
 
 ```json
@@ -419,6 +422,7 @@ needs_human   Equal to   false
 | הגיליון מקבל שורות כפולות | הטריגר קלט את אותו פריט פעמיים | Search Rows או Data store לפני הכתיבה |
 | התרחיש נעצר באמצע הלילה | תקלה זמנית בשירות חיצוני | Error handler עם Resume |
 | התשובה ללקוח יצאה באנגלית | הנתונים גברו על ההנחיה | לחזור על דרישת העברית בסוף ה-system prompt |
+| 400 שמבקש anthropic-workspace-id | המפתח הוא identity-linked | להוסיף כותרת `anthropic-workspace-id` עם מזהה ה-workspace מהקונסולה |
 | Operations נגמרות מהר | טריגר בתדירות גבוהה מדי | לדלל את ה-Scheduling, או Filter מוקדם יותר בשרשרת |
 
 ---
