@@ -22,15 +22,15 @@
         "variables": [
           {
             "name": "lead_name",
-            "value": "{{trim(replace(2.name; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"))}}"
+            "value": "{{trim(replace(replace(2.name; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"); \"/\\s{2,}/g\"; \" \"))}}"
           },
           {
             "name": "lead_phone",
-            "value": "{{trim(replace(2.phone; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"))}}"
+            "value": "{{trim(replace(replace(2.phone; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"); \"/\\s{2,}/g\"; \" \"))}}"
           },
           {
             "name": "lead_text",
-            "value": "{{ifempty(trim(replace(2.message; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \")); \"לא נכתב פירוט\")}}"
+            "value": "{{ifempty(trim(replace(replace(2.message; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"); \"/\\s{2,}/g\"; \" \")); \"לא נכתב פירוט\")}}"
           },
           {
             "name": "lead_time",
