@@ -462,6 +462,18 @@
     data.source = lastCta ? "cta:" + lastCta
       : (form.carried && form.carried.source) || "form-direct";
     data.page = window.location.href;
+    /* Anything the first screen collected that this one has no field for
+       would otherwise be dropped at the hand-off, so it rides along. Only
+       keys with no input here - a field on this form always wins, including
+       when the visitor cleared it. */
+    if (form.carried) {
+      var here = {};
+      fields(form).forEach(function (field) { if (field.name) { here[field.name] = 1; } });
+      Object.keys(form.carried).forEach(function (key) {
+        if (here[key] || data[key] || key === "source") { return; }
+        data[key] = form.carried[key];
+      });
+    }
     /* whatever the chosen form service needs (subject line, template, ...) */
     if (CFG.formFields) {
       Object.keys(CFG.formFields).forEach(function (k) { data[k] = CFG.formFields[k]; });
