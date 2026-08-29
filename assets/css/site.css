@@ -1174,7 +1174,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    price. Native <details>, so it opens without script and reads to a
    screen reader as the disclosure it is. */
 .faq-list {
-  max-width: 760px; margin-inline: auto;
+  max-width: 760px;
+  margin: clamp(34px, 4.6vw, 58px) auto 0;
   border-top: 1px solid var(--hairline);
 }
 .faq-item { border-bottom: 1px solid var(--hairline); }
