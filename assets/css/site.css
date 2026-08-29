@@ -1135,7 +1135,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .doc-wrap p { color: var(--on-dark-soft); line-height: 1.8; }
 .doc-wrap p + p { margin-top: 10px; }
 .doc-wrap b { color: #fff; font-weight: 700; }
-.doc-wrap a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+/* a button is not a link in running text - the underline is for prose */
+.doc-wrap a:not(.btn) { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .doc-list { margin-top: 10px; display: grid; gap: 9px; }
 .doc-list li {
   position: relative; padding-inline-start: 20px;
