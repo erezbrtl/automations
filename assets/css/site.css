@@ -782,12 +782,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   max-width: 60ch; margin-inline: auto; text-align: center;
 }
 .order-note b { color: #fff; font-weight: 700; }
-.order-note-head {
-  font-family: var(--font-head); font-weight: 900; letter-spacing: -.03em;
-  font-size: clamp(1.5rem, 3.2vw, 2.1rem); color: #fff; margin-bottom: 8px;
-}
-/* the claim leads, the four cards prove it, the reason closes */
-.order-note--claim { margin-top: 0; margin-bottom: clamp(24px, 3vw, 34px); }
 .order-note-sub {
   max-width: 60ch; margin-inline: auto; text-align: center;
   margin-top: clamp(22px, 3vw, 30px); font-size: .94rem; line-height: 1.75;
@@ -893,9 +887,18 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .field.has-error input, .field.has-error textarea { border-color: #FF5C7A; }
 .field .err { font-size: .8rem; color: #FF8FA6; font-weight: 600; }
 .form-card .btn { margin-top: 18px; }
-.form-alt { margin-top: 14px; text-align: center; font-size: .95rem; color: var(--on-dark-soft); }
-.form-alt a { color: #6FE9B4; font-weight: 700; text-decoration: none; }
-.form-alt a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* whatsapp is not a footnote here - for this audience it is often the
+   channel they would actually use, so it gets a button, not a sentence */
+.form-or {
+  display: flex; align-items: center; gap: 14px;
+  margin: 14px 0; color: var(--on-dark-faint); font-size: .82rem;
+}
+.form-or::before, .form-or::after {
+  content: ""; flex: 1; height: 1px; background: var(--hairline);
+}
+.btn--wa .ic-wa { display: inline-flex; width: 19px; height: 19px; }
+.btn--wa .ic-wa svg { width: 100%; height: 100%; fill: currentColor; }
+
 .form-fine { margin-top: 12px; font-size: .82rem; color: var(--on-dark-faint); text-align: center; line-height: 1.5; }
 .form-fine a { color: var(--on-dark-soft); text-decoration: underline; text-underline-offset: 3px; }
 .form-fine a:hover { color: #fff; }
@@ -1248,3 +1251,57 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 .skip { position: absolute; inset-inline-start: 12px; top: -80px; background: var(--cta); color: #fff; padding: 10px 16px; z-index: 100; border-radius: 0 0 10px 10px; transition: top .15s ease; }
 .skip:focus { top: 0; }
+
+
+/* ---------- FAQ ----------
+   Six answers the page owes the reader once it decided not to name a
+   price. Native <details>, so it opens without script and reads to a
+   screen reader as the disclosure it is. */
+.faq-list {
+  max-width: 760px; margin-inline: auto;
+  border-top: 1px solid var(--hairline);
+}
+.faq-item { border-bottom: 1px solid var(--hairline); }
+.faq-item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: clamp(17px, 2.2vw, 22px) 2px;
+  cursor: pointer; list-style: none;
+  font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(1rem, 2.1vw, 1.12rem); color: var(--on-dark);
+  transition: color .18s ease;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: #fff; }
+.faq-item summary:focus-visible {
+  outline: 2px solid var(--cta); outline-offset: 3px; border-radius: 6px;
+}
+.faq-item summary i {
+  position: relative; flex: none; width: 20px; height: 20px;
+  transition: transform .22s ease;
+}
+.faq-item summary i::before, .faq-item summary i::after {
+  content: ""; position: absolute; inset-inline-start: 50%; top: 50%;
+  width: 13px; height: 2px; margin: -1px 0 0 -6.5px;
+  border-radius: 2px; background: var(--cta);
+}
+.faq-item summary i::after { transform: rotate(90deg); transition: opacity .22s ease; }
+.faq-item[open] summary { color: #fff; }
+.faq-item[open] summary i { transform: rotate(180deg); }
+.faq-item[open] summary i::after { opacity: 0; }
+.faq-body {
+  padding: 0 2px clamp(19px, 2.4vw, 24px);
+  max-width: 62ch;
+}
+.faq-body p {
+  margin: 0; font-size: 1rem; line-height: 1.8; color: var(--on-dark-soft);
+}
+.faq-more {
+  margin-top: clamp(26px, 3.2vw, 34px); text-align: center;
+  font-size: .95rem; color: var(--on-dark-faint);
+}
+.faq-more a { color: var(--on-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.faq-more a:hover { color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item summary, .faq-item summary i, .faq-item summary i::after { transition: none; }
+}
