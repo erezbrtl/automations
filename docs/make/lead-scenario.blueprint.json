@@ -1,0 +1,240 @@
+{
+  "name": "לידים מהאתר - סיווג, גיליון ומשימה",
+  "flow": [
+    {
+      "id": 2,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0,
+          "name": "פנייה מהטופס באתר"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "variables": [
+          {
+            "name": "lead_name",
+            "value": "{{trim(replace(2.name; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"))}}"
+          },
+          {
+            "name": "lead_phone",
+            "value": "{{trim(replace(2.phone; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \"))}}"
+          },
+          {
+            "name": "lead_text",
+            "value": "{{ifempty(trim(replace(2.message; \"/[\\x22\\x5C\\n\\r\\t]/g\"; \" \")); \"לא נכתב פירוט\")}}"
+          },
+          {
+            "name": "lead_time",
+            "value": "{{formatDate(now; \"DD/MM HH:mm\")}}"
+          }
+        ],
+        "scope": "roundtrip"
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0,
+          "name": "ניקוי שדות"
+        },
+        "restore": {
+          "expect": {
+            "scope": {
+              "label": "One cycle"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "handleErrors": false,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          {
+            "name": "x-api-key",
+            "value": "REPLACE_WITH_YOUR_ANTHROPIC_API_KEY"
+          },
+          {
+            "name": "anthropic-version",
+            "value": "2023-06-01"
+          }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\n  \"model\": \"claude-opus-5\",\n  \"max_tokens\": 1000,\n  \"thinking\": {\n    \"type\": \"disabled\"\n  },\n  \"system\": \"אתה עוזר של עסק ישראלי קטן שמטפל בפניות נכנסות מהאתר.\\nהמשימה שלך היא לקרוא פנייה אחת ולהחזיר עליה מידע מסודר.\\n\\nתמיד תחזיר JSON תקין בלבד, בלי טקסט לפניו ואחריו, לפי המבנה:\\n{\\n  \\\"topic\\\": \\\"הנושא במילה עד שלוש\\\",\\n  \\\"urgency\\\": \\\"גבוהה\\\" | \\\"בינונית\\\" | \\\"נמוכה\\\",\\n  \\\"reply\\\": \\\"תשובה ראשונה ללקוח\\\",\\n  \\\"needs_human\\\": true | false\\n}\\n\\nכללים לשדה reply:\\n- לפתוח בשם הפרטי של הפונה\\n- לאשר שהפנייה התקבלה ולציין במה היא עוסקת\\n- לשאול שאלה אחת שתקדם את הטיפול\\n- עברית פשוטה, בלי סופרלטיבים ובלי סימני קריאה\\n- עד ארבעים מילים\\n- לא להתחייב למחיר, לזמן אספקה או לזמינות\\n\\nurgency היא גבוהה רק אם הפונה כתב במפורש שזה דחוף או ציין מועד קרוב.\\n\\nneeds_human הוא true אם הפנייה כוללת תלונה, בקשת ביטול, או משהו שלא הבנת.\\nבמקרה כזה reply צריך להיות אישור קבלה בלבד, בלי שאלות.\\n\\nאל תכלול בתשובה תגיות XML פנימיות או מערכתיות.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"שם: {{3.lead_name}}\\nטלפון: {{3.lead_phone}}\\nמה נכתב: {{3.lead_text}}\"\n    }\n  ]\n}",
+        "followAllRedirects": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0,
+          "name": "AI - סיווג וניסוח"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "json": "{{5.data.content[1].text}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0,
+          "name": "פירוק תשובת ה-AI"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 8,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {},
+              "mapper": {
+                "mode": "select",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertDataOption": "INSERT_ROWS",
+                "includesHeaders": true,
+                "values": {
+                  "0": "{{3.lead_time}}",
+                  "1": "{{3.lead_name}}",
+                  "2": "{{3.lead_phone}}",
+                  "3": "{{6.topic}}",
+                  "4": "{{6.urgency}}",
+                  "5": "אתר",
+                  "6": "{{if(6.needs_human; \"כן\"; \"לא\")}}",
+                  "7": "{{6.reply}}",
+                  "8": "לא"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": -150,
+                  "name": "שורה בגיליון הלידים"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 9,
+              "module": "google-tasks:createATask",
+              "version": 5,
+              "parameters": {},
+              "mapper": {
+                "title": "לחזור ל-{{3.lead_name}} - {{6.topic}}",
+                "notes": "{{3.lead_phone}}\nדחיפות: {{6.urgency}}\nדורש טיפול אנושי: {{if(6.needs_human; \"כן\"; \"לא\")}}\nנפתח: {{3.lead_time}}\n\nטיוטת תשובה:\n{{6.reply}}",
+                "due": "{{addDays(now; 1)}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 150,
+                  "name": "משימת מעקב למחר"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": [
+        [
+          {
+            "id": 10,
+            "module": "google-email:triggerWatchNewEmails",
+            "version": 4,
+            "metadata": {
+              "designer": {
+                "x": 1081,
+                "y": 316
+              }
+            }
+          }
+        ],
+        [
+          {
+            "id": 11,
+            "module": "google-drive:watchFilesInAFolder",
+            "version": 4,
+            "metadata": {
+              "designer": {
+                "x": 1317,
+                "y": 317
+              }
+            }
+          }
+        ]
+      ]
+    },
+    "zone": "eu1.make.com",
+    "notes": []
+  }
+}
