@@ -313,7 +313,10 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 @media (max-width: 940px) { .nav { display: none; } }
 
 /* ---------- Hero ---------- */
-.hero { padding-block: clamp(40px, 6vw, 76px) clamp(52px, 7vw, 92px); }
+/* the header is sticky, so the first frame begins exactly where the strip
+   ends and its top border reads as part of it. This is the gap that tells
+   them apart. */
+.hero { padding-block: clamp(40px, 6vw, 76px) clamp(52px, 7vw, 92px); margin-top: clamp(16px, 2.2vw, 30px); }
 /* The clip and the pitch used to share a row, which left the headline
    545px to work in - four lines of display type - and the clip 428px,
    too small to read the spreadsheet it is showing. Stacked, the words get
