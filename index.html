@@ -153,18 +153,20 @@
     </div>
   </div>
 
-  <!-- The clip is drawn rather than filmed: tools/hero-video builds it frame
-       by frame, so the labels are real text and the loop meets itself where
-       nothing is moving. Silent, and no controls - it is showing, not asking
-       to be watched. The markup plays it on its own, before any script runs. -->
-  <div class="wrap hero-film" id="heroFilm">
-    <div class="video rv" id="video">
-      <video class="video-loop" id="heroLoop" autoplay muted loop playsinline
-             poster="/assets/img/hero-loop.jpg"
-             aria-label="ליד שנכנס ב-23:47: התהליך שרץ עליו, הטופס שהתקבל, התשובה שנשלחה ללקוחה, השורה שנכנסה לגיליון והמשימה שחיכתה בבוקר">
-        <source src="/assets/video/flow-loop.mp4" type="video/mp4">
-      </video>
-    </div>
+  <!-- The slot is empty while a new clip is being made. It stays in the
+       markup because two things still reach for it: a youtubeId in config
+       unhides it and fills it with a click-to-play facade, and restoring
+       the drawn loop is a matter of putting its <video> back inside:
+
+         <video class="video-loop" id="heroLoop" autoplay muted loop playsinline
+                poster="/assets/img/hero-loop.jpg" aria-label="...">
+           <source src="/assets/video/flow-loop.mp4" type="video/mp4">
+         </video>
+
+       The clip and its renderer are still in the repo - assets/video and
+       tools/hero-video. -->
+  <div class="wrap hero-film" id="heroFilm" hidden>
+    <div class="video rv" id="video" hidden></div>
   </div>
 </section>
 

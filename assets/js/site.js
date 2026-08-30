@@ -298,9 +298,9 @@
   }
 
   /* ---------- the hero loop ----------
-     It plays itself from the markup. The only thing left to decide here is
-     what to do for someone who asked their system for less motion: stop it,
-     and give them the controls to start it themselves if they want to. */
+     Nothing to do while the slot is empty. When a clip goes back in, this
+     is what someone who asked their system for less motion gets: it stops,
+     and they get the controls to start it themselves if they want to. */
   var heroLoop = document.getElementById("heroLoop");
   if (heroLoop && reduced) {
     heroLoop.autoplay = false;
