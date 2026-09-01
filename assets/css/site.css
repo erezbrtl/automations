@@ -1239,3 +1239,31 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 @media (prefers-reduced-motion: reduce) {
   .faq-item summary, .faq-item summary i, .faq-item summary i::after { transition: none; }
 }
+
+/* ---------- Phone only ---------- */
+/* Four lines that earn their place on a wide screen and only cost scrolling
+   on a narrow one, plus the two strips that bracket the page. Everything
+   here is scoped to the phone by design: the desktop layout is finished and
+   nothing in this block may reach it. The hidden lines stay in the markup,
+   because this is a layout decision rather than a content one - a crawler,
+   a wide screen and a printed page all still get them. */
+.phone-break { display: none; }
+@media (max-width: 760px) {
+  /* the hook, the pull quote with its caption, and the note under the
+     three cards - all of them restate what the section around them has
+     already said by the time a phone gets there */
+  .hero .lead-in { display: none; }
+  .quote { display: none; }
+  .order-note-sub { display: none; }
+
+  /* not hidden, only broken in two: the count and the invitation are two
+     thoughts, and a phone has room for one of them per line */
+  .phone-break { display: block; }
+
+  /* the nav is gone below 940px, so space-between leaves the brand alone
+     against the far edge; the footer wraps into stacked rows for the same
+     reason. Both read better centred on a narrow screen. */
+  .header-inner { justify-content: center; }
+  .footer-inner { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
+}
