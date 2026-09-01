@@ -403,7 +403,7 @@
 
     <div>
       <form class="form-card rv" id="checkForm" data-lead-form data-done="checkDone" data-next="/resources/processes.html" action="https://api.web3forms.com/submit" method="POST">
-        <div class="grid2">
+        <div class="grid3">
           <div class="field">
             <label for="c-name">שם</label>
             <input id="c-name" name="name" type="text" autocomplete="name" required>
@@ -414,11 +414,11 @@
             <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
             <span class="err" data-err-for="c-phone"></span>
           </div>
-        </div>
-        <div class="field">
-          <label for="c-mail">אימייל <span class="opt">(לא חובה)</span></label>
-          <input id="c-mail" name="email" type="email" autocomplete="email" dir="ltr">
-          <span class="err" data-err-for="c-mail"></span>
+          <div class="field">
+            <label for="c-mail">אימייל <span class="opt">(לא חובה)</span></label>
+            <input id="c-mail" name="email" type="email" autocomplete="email" dir="ltr">
+            <span class="err" data-err-for="c-mail"></span>
+          </div>
         </div>
         <div class="field">
           <label for="c-msg">התהליך שגוזל לכם זמן <span class="opt">(לא חובה)</span></label>
@@ -430,11 +430,13 @@
         <input type="hidden" name="subject" value="פנייה חדשה מהאתר">
         <input type="hidden" name="from_name" value="automations.erezb.pro">
         <input type="hidden" name="redirect" data-redirect value="https://automations.erezb.pro/thanks.html">
-        <button class="btn btn--cta btn--wide" type="submit">שלחו לי את התהליך</button>
-        <a class="btn btn--wa btn--wide" href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">
-          <span class="ic ic-wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path d="M8.5 7.8c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.3 0 .5-.1.7l-.4.5c-.1.2-.3.3-.1.6a7 7 0 0 0 3.1 2.7c.3.1.5.1.7-.1l.6-.7c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.4.4v.5c0 .8-.8 1.6-1.7 1.6-1.6 0-4-1.1-5.7-2.8a9 9 0 0 1-2.4-4c-.2-1 .4-2 1.2-2.4z"/></svg></span>
-          לשלוח הודעה בוואטסאפ
-        </a>
+        <div class="form-actions">
+          <button class="btn btn--cta btn--wide" type="submit">שלחו לי את התהליך</button>
+          <a class="btn btn--wa btn--wide" href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">
+            <span class="ic ic-wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path d="M8.5 7.8c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.3 0 .5-.1.7l-.4.5c-.1.2-.3.3-.1.6a7 7 0 0 0 3.1 2.7c.3.1.5.1.7-.1l.6-.7c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.4.4v.5c0 .8-.8 1.6-1.7 1.6-1.6 0-4-1.1-5.7-2.8a9 9 0 0 1-2.4-4c-.2-1 .4-2 1.2-2.4z"/></svg></span>
+            וואטסאפ
+          </a>
+        </div>
         <p class="form-fine">שיחה של 20 דקות, בלי התחייבות. אחזור אליכם תוך יום עסקים אחד. הפרטים משמשים רק כדי לחזור אליכם ולא מועברים לאף אחד.<br><a href="/privacy.html">מדיניות פרטיות</a></p>
         <p class="form-status" role="status" data-status></p>
       </form>

@@ -771,30 +771,38 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-wrap .h-sect .grad { display: block; }
 .form-wrap .h-sub { max-width: 40ch; }
 /* a panel of the same night as the page, lifted just enough to read
-   as a surface - a white card here cut a hole in the journey */
+   as a surface - a white card here cut a hole in the journey. It sits
+   above the section rather than punching a hole below it, so the base
+   is lighter than the ground and carries less of its own shadow. */
 .form-card {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
-    rgba(17, 10, 32, .74);
+    linear-gradient(180deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .035)),
+    rgba(38, 27, 64, .56);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   color: var(--on-dark);
-  border: 1px solid rgba(255, 255, 255, .13);
+  border: 1px solid rgba(255, 255, 255, .17);
   border-radius: var(--radius); padding: clamp(22px, 3vw, 32px);
-  box-shadow: 0 40px 90px -42px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .07);
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .09);
 }
 .form-card h3 { font-size: 1.25rem; margin-bottom: 20px; color: #fff; }
 .form-card .lede { color: var(--on-dark-soft); font-size: .95rem; margin-bottom: 18px; }
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+/* the short answers ride one row so the card stops towering over the
+   column beside it; below 900px the form is full width and can afford
+   two, and on a phone they stack */
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid3 { grid-template-columns: 1fr; } }
 /* start, not stretch: a field with an error slot must not push its
    label and input out of line with the field beside it */
 .field { display: grid; gap: 6px; align-content: start; }
-.field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2 { margin-top: 14px; }
+.field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2, .grid3 + .field { margin-top: 14px; }
 /* inside a two-up row the fields are siblings, and that margin pushed
    the second column half a line below the first - the row gap spaces
    them, in both the two-column and the stacked layout */
-.grid2 > .field + .field { margin-top: 0; }
+.grid2 > .field + .field, .grid3 > .field + .field { margin-top: 0; }
 .field label { font-size: .85rem; font-weight: 700; color: var(--on-dark); font-family: var(--font-head); }
 .field label .opt { font-weight: 400; color: var(--on-dark-faint); }
 .field input, .field textarea {
@@ -811,6 +819,11 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .field textarea { min-height: 96px; resize: vertical; }
 .field.has-error input, .field.has-error textarea { border-color: #FF5C7A; }
 .field .err { font-size: .8rem; color: #FF8FA6; font-weight: 600; }
+/* the send button carries a sentence and whatsapp carries a word, so
+   the row is split in their proportion rather than down the middle */
+.form-card .form-actions { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 12px; margin-top: 18px; }
+@media (max-width: 620px) { .form-card .form-actions { grid-template-columns: 1fr; } }
+.form-card .form-actions .btn { margin-top: 0; padding-inline: 16px; }
 .form-card .btn { margin-top: 18px; }
 /* whatsapp is not a footnote here - for this audience it is often the
    channel they would actually use, so it gets a button, not a sentence */
