@@ -760,7 +760,9 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 /* ---------- Forms ---------- */
-.form-wrap { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(26px, 4vw, 56px); align-items: center; }
+/* the form is the taller half by nature, so it takes the wider half too:
+   the copy beside it wraps sooner and the two columns come out closer */
+.form-wrap { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1fr); gap: clamp(26px, 4vw, 56px); align-items: center; }
 @media (max-width: 900px) { .form-wrap { grid-template-columns: 1fr; } }
 /* the pitch sits in half the page here, not across it: at the page-wide
    size its lines broke into three short fragments against the form and
@@ -769,7 +771,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* the question and the sting each get their own line, at every width,
    instead of breaking wherever the column happens to run out */
 .form-wrap .h-sect .grad { display: block; }
-.form-wrap .h-sub { max-width: 40ch; }
+.form-wrap .h-sub { max-width: 30ch; }
 /* a panel of the same night as the page, lifted just enough to read
    as a surface - a white card here cut a hole in the journey. It sits
    above the section rather than punching a hole below it, so the base
@@ -789,20 +791,14 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .form-card .lede { color: var(--on-dark-soft); font-size: .95rem; margin-bottom: 18px; }
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
-/* the short answers ride one row so the card stops towering over the
-   column beside it; below 900px the form is full width and can afford
-   two, and on a phone they stack */
-.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-@media (max-width: 900px) { .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .grid3 { grid-template-columns: 1fr; } }
 /* start, not stretch: a field with an error slot must not push its
    label and input out of line with the field beside it */
 .field { display: grid; gap: 6px; align-content: start; }
-.field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2, .grid3 + .field { margin-top: 14px; }
+.field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2 { margin-top: 14px; }
 /* inside a two-up row the fields are siblings, and that margin pushed
    the second column half a line below the first - the row gap spaces
    them, in both the two-column and the stacked layout */
-.grid2 > .field + .field, .grid3 > .field + .field { margin-top: 0; }
+.grid2 > .field + .field { margin-top: 0; }
 .field label { font-size: .85rem; font-weight: 700; color: var(--on-dark); font-family: var(--font-head); }
 .field label .opt { font-weight: 400; color: var(--on-dark-faint); }
 .field input, .field textarea {
