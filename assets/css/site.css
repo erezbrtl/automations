@@ -265,6 +265,13 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    given above it, so the row does not read as glued to the paragraph */
 .btn-row + .h-sub { margin-top: clamp(26px, 3.2vw, 34px); }
 .center .btn-row { justify-content: center; }
+/* The arrow belongs to the primary button and to nothing else: one ← per
+   decision, always before the label, and only on a .btn--cta that carries
+   the visitor forward. Not on a ghost button, not on a "back" link, not on
+   a whatsapp button (it has its own mark), and not on a submit that really
+   sends - the contact button wears one because it navigates to the
+   checklist rather than sending, while the checklist button does send and
+   stays bare. */
 .btn .ic { font-size: 1.1em; line-height: 1; }
 
 /* ---------- Header ---------- */
