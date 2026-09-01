@@ -868,16 +868,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 .fit-col--no .fit-list li::before { content: "\00D7"; color: #FF6B8A; }
 .fit-col--yes .fit-list li::before { content: "\2713"; color: #6FE9B4; }
-/* the section closes on a quiet aside, same voice as the note under the flow */
-/* the checklist page used to be reachable only from the footer, which is
-   the one place nobody reads. It belongs to the question this section asks. */
-.fit-go {
-  margin-top: clamp(22px, 3vw, 30px); text-align: center;
-  color: var(--on-dark-soft); font-size: .95rem;
-  display: flex; flex-wrap: wrap; gap: 12px 16px;
-  align-items: center; justify-content: center;
-}
-.fit-go .btn { font-size: .95rem; padding: 12px 22px; }
 /* the line that closes the fit section is a claim now, not a caveat, so
    it carries the weight of one */
 .fit-note {
