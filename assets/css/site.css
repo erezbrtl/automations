@@ -1267,3 +1267,248 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   .footer-inner { justify-content: center; text-align: center; }
   .footer-links { justify-content: center; }
 }
+
+/* ---------- The hero reel ---------- */
+/* One lead travelling through the real scenario, drawn in the page instead
+   of filmed: the text stays text, the colours are the same custom
+   properties as everything else, and it is sharp at any width. It also
+   plays where a muted autoplaying video would not - iOS in low power mode
+   shows a poster and nothing else.
+
+   Every measure is in cqw, one percent of the frame's own width, so the
+   whole reel scales with its container rather than with the viewport. px
+   values come first for anything that would collapse without container
+   query support. */
+.video { container-type: inline-size; }
+.reel {
+  position: absolute; inset: 0; overflow: hidden;
+  background: radial-gradient(120% 90% at 78% 8%, rgba(139,49,216,.20), transparent 60%), #120A1E;
+  font-size: 16px; font-size: 2.05cqw;
+}
+.reel-glow {
+  position: absolute; width: 60%; aspect-ratio: 1; border-radius: 50%;
+  inset-inline-start: -14%; bottom: -34%;
+  background: rgba(255,46,99,.16); filter: blur(40px);
+}
+
+/* the three beats share the frame, one at a time */
+.act {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .9em; padding: 1.6em;
+  opacity: 0;
+  animation: reelAct 21s linear infinite;
+}
+.act-flow  { animation-delay: -14s; }
+.act-sheet { animation-delay: -7s; }
+/* each act owns a third of the loop and fades at both ends, so the cut back
+   to the first one lands on the same empty frame as every other cut */
+@keyframes reelAct {
+  0%, 1%    { opacity: 0; transform: translateY(.5em); }
+  3%, 33%   { opacity: 1; transform: none; }
+  35%, 100% { opacity: 0; transform: translateY(-.4em); }
+}
+
+.rl-chip {
+  display: inline-flex; align-items: center; gap: .5em;
+  padding: .4em 1em; border-radius: 999px;
+  border: 1px solid rgba(255,46,99,.34); background: rgba(255,46,99,.10);
+  color: #FF7A9E; font-weight: 700; font-size: .82em;
+  font-variant-numeric: tabular-nums;
+}
+.rl-chip i { width: .42em; height: .42em; border-radius: 50%; background: var(--cta); }
+
+/* ---- beat one: the form fills itself ---- */
+.rl-card {
+  width: min(78%, 34em); padding: 1.2em 1.4em; border-radius: 1em;
+  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03)), rgba(38,27,64,.7);
+  border: 1px solid rgba(255,255,255,.15);
+}
+.rl-field { display: flex; align-items: baseline; gap: .8em; padding: .5em 0; }
+.rl-field + .rl-field { border-top: 1px solid rgba(255,255,255,.08); }
+.rl-field b { flex: 0 0 4.6em; color: var(--on-dark-faint); font-weight: 500; font-size: .8em; }
+/* the typewriter is a width animation, so the text itself is never faked */
+.rl-type {
+  display: inline-block; overflow: hidden; white-space: nowrap;
+  max-width: 100%; width: 0; color: #fff; font-size: .92em;
+  animation: reelType 21s linear infinite;
+}
+.rl-t1 { animation-delay: -20.4s; }
+.rl-t2 { animation-delay: -19.6s; }
+.rl-t3 { animation-delay: -18.8s; }
+@keyframes reelType { 0% { width: 0; } 4%, 100% { width: 100%; } }
+.rl-msg span { font-size: .82em; color: var(--on-dark-soft); }
+.rl-send {
+  margin-top: 1em; text-align: center; padding: .62em 1em; border-radius: 999px;
+  background: linear-gradient(96deg, var(--cta), var(--cta-2));
+  color: #fff; font-weight: 700; font-size: .86em;
+  animation: reelPress 21s ease-in-out infinite; animation-delay: -18.2s;
+}
+@keyframes reelPress {
+  0%, 4% { transform: none; box-shadow: 0 0 0 0 rgba(255,46,99,0); }
+  6% { transform: scale(.955); box-shadow: 0 0 0 .7em rgba(255,46,99,.22); }
+  9%, 100% { transform: none; box-shadow: 0 0 0 1.4em rgba(255,46,99,0); }
+}
+
+/* ---- beat two: the scenario runs ---- */
+/* right to left, the way the line is read. Every node runs on the act's own
+   delay and differs only in the percentage at which it lights, so the order
+   is stated once and cannot drift; a node dims again at the top of the
+   cycle, which falls while the act is invisible. */
+.rl-nodes { display: flex; align-items: stretch; gap: 0; list-style: none; margin: 0; padding: 0; width: 100%; justify-content: center; }
+.rl-node {
+  position: relative; flex: 0 1 7.4em;
+  display: flex; flex-direction: column; align-items: center; gap: .5em;
+  opacity: .3; animation-duration: 21s; animation-timing-function: ease-out;
+  animation-iteration-count: infinite; animation-delay: -14s;
+}
+.rl-node + .rl-node { margin-inline-start: 1.9em; }
+/* the wire hangs in the gap the margin opened, which in this direction is
+   on the node's own inline start */
+.rl-node + .rl-node::before {
+  content: ""; position: absolute; inset-inline-start: -1.9em; top: 1.35em;
+  width: 1.9em; height: 2px; border-radius: 2px; background: rgba(255,255,255,.14);
+}
+.rl-node + .rl-node::after {
+  content: ""; position: absolute; inset-inline-start: -1.45em; top: .95em;
+  width: .55em; height: .55em; border-radius: 50%;
+  background: var(--cta-2); opacity: 0;
+  animation-duration: 21s; animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; animation-delay: -14s;
+}
+.rl-n1 { animation-name: reelNode1; }
+.rl-n2 { animation-name: reelNode2; }
+.rl-n3 { animation-name: reelNode3; }
+.rl-n4 { animation-name: reelNode4; }
+.rl-n2::after { animation-name: reelPulse1; }
+.rl-n3::after { animation-name: reelPulse2; }
+.rl-n4::after { animation-name: reelPulse3; }
+@keyframes reelNode1 {
+  0%, 6% { opacity: .3; transform: none; }
+  8% { opacity: 1; transform: translateY(-.18em); }
+  10%, 100% { opacity: 1; transform: none; }
+}
+@keyframes reelNode2 {
+  0%, 10% { opacity: .3; transform: none; }
+  12% { opacity: 1; transform: translateY(-.18em); }
+  14%, 100% { opacity: 1; transform: none; }
+}
+@keyframes reelNode3 {
+  0%, 14% { opacity: .3; transform: none; }
+  16% { opacity: 1; transform: translateY(-.18em); }
+  18%, 100% { opacity: 1; transform: none; }
+}
+@keyframes reelNode4 {
+  0%, 19% { opacity: .3; transform: none; }
+  21% { opacity: 1; transform: translateY(-.18em); }
+  23%, 100% { opacity: 1; transform: none; }
+}
+/* the pulse travels the wire from the lit node towards the next one, which
+   in this direction means leftwards */
+@keyframes reelPulse1 {
+  0%, 8.4% { opacity: 0; transform: translateX(0); }
+  9% { opacity: 1; transform: translateX(0); }
+  11.4% { opacity: 1; transform: translateX(-1.4em); }
+  12%, 100% { opacity: 0; transform: translateX(-1.4em); }
+}
+@keyframes reelPulse2 {
+  0%, 12.4% { opacity: 0; transform: translateX(0); }
+  13% { opacity: 1; transform: translateX(0); }
+  15.4% { opacity: 1; transform: translateX(-1.4em); }
+  16%, 100% { opacity: 0; transform: translateX(-1.4em); }
+}
+@keyframes reelPulse3 {
+  0%, 17.4% { opacity: 0; transform: translateX(0); }
+  18% { opacity: 1; transform: translateX(0); }
+  20.4% { opacity: 1; transform: translateX(-1.4em); }
+  21%, 100% { opacity: 0; transform: translateX(-1.4em); }
+}
+.rl-ico {
+  width: 2.7em; height: 2.7em; border-radius: .75em; display: block;
+  background: linear-gradient(140deg, var(--cta), var(--cta-2));
+  position: relative;
+}
+.rl-ico::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  width: 1.1em; height: 1.1em;
+  background: #fff; opacity: .95;
+  -webkit-mask: var(--m) center/contain no-repeat; mask: var(--m) center/contain no-repeat;
+}
+.rl-ico--hook  { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg>'); }
+.rl-ico--vars  { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'); }
+.rl-ico--ai    { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 2l1.9 5.9L20 10l-6.1 2.1L12 18l-1.9-5.9L4 10l6.1-2.1z"/></svg>'); }
+.rl-ico--split { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6M14 6h6M14 18h6M10 12l4-6M10 12l4 6"/></svg>'); }
+.rl-lab { font-size: .74em; font-weight: 600; color: #D9D1E8; text-align: center; line-height: 1.25; }
+
+/* ---- beat three: the row writes itself ---- */
+.rl-sheet {
+  width: min(84%, 36em); border-radius: .8em; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.13); background: rgba(20,12,34,.82);
+}
+.rl-row { display: grid; grid-template-columns: 1fr 1.3fr .8fr; font-size: .8em; }
+.rl-row span { padding: .62em .8em; border-top: 1px solid rgba(255,255,255,.08); color: #C6BCD8;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rl-head span { border-top: 0; background: rgba(255,255,255,.07); color: var(--on-dark-faint); font-weight: 700; }
+.rl-old span { opacity: .45; }
+.rl-new span { background: rgba(111,233,180,.13); color: #fff; font-weight: 600;
+               width: 0; padding-inline: 0; overflow: hidden;
+               animation: reelCell 21s steps(1, end) infinite; }
+.rl-new .rl-c1 { animation-delay: -6.4s; }
+.rl-new .rl-c2 { animation-delay: -6.0s; }
+.rl-new .rl-c3 { animation-delay: -5.6s; }
+@keyframes reelCell { 0% { width: 0; padding-inline: 0; } 3%, 100% { width: auto; padding-inline: .8em; } }
+.rl-task {
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: .48em 1em; border-radius: 999px; font-size: .8em; font-weight: 700;
+  color: #6FE9B4; background: rgba(111,233,180,.14);
+  opacity: 0; animation: reelTask 21s ease-out infinite; animation-delay: -5.1s;
+}
+.rl-tick {
+  width: .8em; height: .8em; border-radius: 50%; background: #6FE9B4;
+  -webkit-mask: none; mask: none;
+}
+@keyframes reelTask {
+  0%, 1% { opacity: 0; transform: translateY(.5em); }
+  4%, 29% { opacity: 1; transform: none; }
+  33%, 100% { opacity: 0; transform: none; }
+}
+
+/* a narrow frame cannot hold four nodes side by side, so the run becomes a
+   list; everything else only gets smaller */
+@container (max-width: 460px) {
+  /* a percentage of a narrow frame is too small to read, so the reel stops
+     scaling with its width down here and takes a larger share of it */
+  .reel { font-size: 13px; font-size: 3.6cqw; }
+  .rl-nodes { flex-direction: column; align-items: stretch; gap: .45em;
+              width: min(100%, 15em); margin-inline: auto; }
+  .rl-node { flex: 0 0 auto; flex-direction: row; justify-content: flex-start; gap: .7em; }
+  .rl-node + .rl-node { margin-inline-start: 0; }
+  .rl-node + .rl-node::before,
+  .rl-node + .rl-node::after { display: none; }
+  .rl-ico { width: 1.9em; height: 1.9em; border-radius: .5em; }
+  .rl-lab { font-size: .84em; text-align: start; }
+  .rl-card { width: 94%; padding: .9em 1em; }
+  .rl-sheet { width: 96%; }
+  .rl-msg { display: none; }
+  .act { padding: 1em; gap: .7em; }
+}
+/* 16:9 leaves a phone about two hundred pixels of height for three beats
+   that each want to be read; a squarer frame gives them room without
+   taking any more width */
+@media (max-width: 620px) { .video { aspect-ratio: 4 / 3; } }
+
+/* nothing to animate for a frame nobody is looking at */
+.reel.is-idle, .reel.is-idle *, .reel.is-idle *::before, .reel.is-idle *::after {
+  animation-play-state: paused;
+}
+
+/* motion is the whole point of this piece, so with it turned down the reel
+   holds the beat that carries the message rather than looping silently */
+@media (prefers-reduced-motion: reduce) {
+  .reel * { animation: none !important; }
+  .act { opacity: 0; }
+  .act-sheet { opacity: 1; }
+  .rl-type { width: auto; }
+  .rl-new span { width: auto; padding-inline: .8em; }
+  .rl-task { opacity: 1; }
+}
