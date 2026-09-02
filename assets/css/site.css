@@ -1278,83 +1278,119 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    the chain that runs when it does. So the whole chain stands on one line,
    read the way the page is read - a lead arrives on the right, a task is
    waiting on the left - and says its piece standing still. The pulse only
-   gives it life. The station names are the ones on the Make canvas. */
+   gives it life. The station names are the ones on the Make canvas.
+
+   Nothing here is filled with the call to action's colour. A solid crimson
+   pill is the one thing on the page that means "press me", and five of them
+   in a row above the real button flattened that. A stop rests as a dark
+   outline and lights by brightening - its border, its glyph, its label and
+   the wire behind it - with a violet bloom behind the glass. */
 .hero-run { margin-top: clamp(30px, 4vw, 50px); }
-.runstrip {
-  border-top: 1px solid var(--hairline);
-  padding-top: clamp(22px, 2.8vw, 32px);
-}
-.run-line {
-  display: flex; align-items: flex-start; justify-content: center;
-  list-style: none; margin: 0; padding: 0;
-}
+.runstrip { border-top: 1px solid var(--hairline); padding-top: clamp(22px, 2.8vw, 32px); }
+.run-line { display: flex; align-items: flex-start; justify-content: center; list-style: none; margin: 0; padding: 0; }
 .run-stop {
   position: relative; flex: 0 1 8.6em;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   font-size: clamp(.72rem, 1.05vw, .84rem);
-  animation: runStop 7s ease-out infinite;
 }
 .run-stop + .run-stop { margin-inline-start: clamp(18px, 2.6vw, 40px); }
+
 /* the wire hangs in the gap the margin opened, which in this direction is
-   on the stop's own inline start */
+   on the stop's own inline start, and it brightens with the stop it feeds */
 .run-stop + .run-stop::before {
-  content: ""; position: absolute; top: 21px;
-  inset-inline-start: calc(-1 * clamp(18px, 2.6vw, 40px));
-  width: clamp(18px, 2.6vw, 40px); height: 2px; border-radius: 2px;
-  background: rgba(255, 255, 255, .13);
+  content: ""; position: absolute; top: 22px;
+  inset-inline-start: calc(-1 * clamp(18px, 2.6vw, 40px)); width: clamp(18px, 2.6vw, 40px); height: 2px; border-radius: 2px;
+  background: linear-gradient(to left, rgba(139,49,216,.9), rgba(47,107,255,.9));
+  opacity: .22;
+  animation-duration: 7s; animation-timing-function: ease-out; animation-iteration-count: infinite;
 }
 .run-stop + .run-stop::after {
-  content: ""; position: absolute; top: 17px;
+  content: ""; position: absolute; top: 18px;
   inset-inline-start: calc(-1 * clamp(18px, 2.6vw, 40px) + 4px);
   width: 10px; height: 10px; border-radius: 50%;
-  background: var(--cta-2); opacity: 0;
-  animation: runPulse 7s ease-in-out infinite;
+  background: #fff; opacity: 0;
+  box-shadow: 0 0 12px 2px rgba(139,49,216,.85);
+  animation-duration: 7s; animation-timing-function: ease-in-out; animation-iteration-count: infinite;
 }
-/* one clock for the whole line: the stops differ only in the percentage at
-   which they light, so the order is stated once and cannot drift */
-.rs1 { animation-name: runStop1; }
-.rs2 { animation-name: runStop2; }
-.rs3 { animation-name: runStop3; }
-.rs4 { animation-name: runStop4; }
-.rs5 { animation-name: runStop5; }
+
+.run-ico {
+  position: relative; width: 46px; height: 46px; border-radius: 14px;
+  background: rgba(255,255,255,.035);
+  border: 1.5px solid rgba(255,255,255,.13);
+}
+/* the lit ring and its bloom, laid over the resting outline */
+.run-ico::before {
+  content: ""; position: absolute; inset: -1.5px; border-radius: inherit;
+  border: 1.5px solid rgba(255,255,255,.5);
+  background: linear-gradient(150deg, rgba(139,49,216,.28), rgba(47,107,255,.16));
+  box-shadow: 0 0 0 5px rgba(139,49,216,.10), 0 10px 26px -10px rgba(139,49,216,.75);
+  opacity: 0;
+  animation-duration: 7s; animation-timing-function: ease-out; animation-iteration-count: infinite;
+}
+.run-ico::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  width: 20px; height: 20px; background: #fff; opacity: .42;
+  -webkit-mask: var(--m) center/contain no-repeat; mask: var(--m) center/contain no-repeat;
+  animation-duration: 7s; animation-timing-function: ease-out; animation-iteration-count: infinite;
+}
+.run-lab {
+  font-weight: 600; color: #D9D1E8; text-align: center; line-height: 1.3; opacity: .5;
+  animation-duration: 7s; animation-timing-function: ease-out; animation-iteration-count: infinite;
+}
+
+.rs1::before, .rs1 .run-ico::after, .rs1 .run-lab { animation-name: runLit1; }
+.rs1 .run-ico::before { animation-name: runGlow1; }
+.rs2::before, .rs2 .run-ico::after, .rs2 .run-lab { animation-name: runLit2; }
+.rs2 .run-ico::before { animation-name: runGlow2; }
+.rs3::before, .rs3 .run-ico::after, .rs3 .run-lab { animation-name: runLit3; }
+.rs3 .run-ico::before { animation-name: runGlow3; }
+.rs4::before, .rs4 .run-ico::after, .rs4 .run-lab { animation-name: runLit4; }
+.rs4 .run-ico::before { animation-name: runGlow4; }
+.rs5::before, .rs5 .run-ico::after, .rs5 .run-lab { animation-name: runLit5; }
+.rs5 .run-ico::before { animation-name: runGlow5; }
+
+@keyframes runLit1 { 0%, 3% { opacity: var(--rest); } 6% { opacity: 1; } 9%, 90% { opacity: 1; } 97%, 100% { opacity: var(--rest); } }
+@keyframes runLit2 { 0%, 17% { opacity: var(--rest); } 20% { opacity: 1; } 23%, 90% { opacity: 1; } 97%, 100% { opacity: var(--rest); } }
+@keyframes runLit3 { 0%, 31% { opacity: var(--rest); } 34% { opacity: 1; } 37%, 90% { opacity: 1; } 97%, 100% { opacity: var(--rest); } }
+@keyframes runLit4 { 0%, 45% { opacity: var(--rest); } 48% { opacity: 1; } 51%, 90% { opacity: 1; } 97%, 100% { opacity: var(--rest); } }
+@keyframes runLit5 { 0%, 59% { opacity: var(--rest); } 62% { opacity: 1; } 65%, 90% { opacity: 1; } 97%, 100% { opacity: var(--rest); } }
+
+@keyframes runGlow1 { 0%, 3% { opacity: 0; } 6% { opacity: 1; } 9%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes runGlow2 { 0%, 17% { opacity: 0; } 20% { opacity: 1; } 23%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes runGlow3 { 0%, 31% { opacity: 0; } 34% { opacity: 1; } 37%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes runGlow4 { 0%, 45% { opacity: 0; } 48% { opacity: 1; } 51%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes runGlow5 { 0%, 59% { opacity: 0; } 62% { opacity: 1; } 65%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
+/* each family keeps its own resting level, so one set of keyframes serves
+   the wire, the glyph and the label at once */
+.run-stop + .run-stop::before { --rest: .22; }
+.run-ico::after { --rest: .42; }
+.run-lab { --rest: .5; }
+
+/* the pulse leaves a stop as it lights and lands on the next one */
 .rs2::after { animation-name: runPulse1; }
 .rs3::after { animation-name: runPulse2; }
 .rs4::after { animation-name: runPulse3; }
 .rs5::after { animation-name: runPulse4; }
-@keyframes runStop1 { 0%, 3% { opacity: .34; } 6% { opacity: 1; } 9%, 86% { opacity: 1; } 94%, 100% { opacity: .34; } }
-@keyframes runStop2 { 0%, 17% { opacity: .34; } 20% { opacity: 1; } 23%, 86% { opacity: 1; } 94%, 100% { opacity: .34; } }
-@keyframes runStop3 { 0%, 31% { opacity: .34; } 34% { opacity: 1; } 37%, 86% { opacity: 1; } 94%, 100% { opacity: .34; } }
-@keyframes runStop4 { 0%, 45% { opacity: .34; } 48% { opacity: 1; } 51%, 86% { opacity: 1; } 94%, 100% { opacity: .34; } }
-@keyframes runStop5 { 0%, 59% { opacity: .34; } 62% { opacity: 1; } 65%, 86% { opacity: 1; } 94%, 100% { opacity: .34; } }
-@keyframes runPulse1 { 0%, 7% { opacity: 0; transform: translateX(0); } 9% { opacity: 1; } 18% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 20%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
-@keyframes runPulse2 { 0%, 21% { opacity: 0; transform: translateX(0); } 23% { opacity: 1; } 32% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 34%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
-@keyframes runPulse3 { 0%, 35% { opacity: 0; transform: translateX(0); } 37% { opacity: 1; } 46% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 48%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
-@keyframes runPulse4 { 0%, 49% { opacity: 0; transform: translateX(0); } 51% { opacity: 1; } 60% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 62%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
+@keyframes runPulse1 { 0%, 7% { opacity: 0; transform: translateX(0); } 9% { opacity: 1; transform: translateX(0); } 18% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 20%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
+@keyframes runPulse2 { 0%, 21% { opacity: 0; transform: translateX(0); } 23% { opacity: 1; transform: translateX(0); } 32% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 34%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
+@keyframes runPulse3 { 0%, 35% { opacity: 0; transform: translateX(0); } 37% { opacity: 1; transform: translateX(0); } 46% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 48%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
+@keyframes runPulse4 { 0%, 49% { opacity: 0; transform: translateX(0); } 51% { opacity: 1; transform: translateX(0); } 60% { opacity: 1; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } 62%, 100% { opacity: 0; transform: translateX(calc(-1 * clamp(18px, 2.6vw, 40px) + 8px)); } }
 
-.run-ico {
-  width: 42px; height: 42px; border-radius: 13px; position: relative;
-  background: linear-gradient(140deg, var(--cta), var(--cta-2));
-}
-.run-ico::after {
-  content: ""; position: absolute; inset: 0; margin: auto;
-  width: 19px; height: 19px; background: #fff;
-  -webkit-mask: var(--m) center/contain no-repeat; mask: var(--m) center/contain no-repeat;
-}
 .run-ico--hook  { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14M5 12h9M5 18h6"/></svg>'); }
-.run-ico--vars  { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'); }
 .run-ico--ai    { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 2l1.9 5.9L20 10l-6.1 2.1L12 18l-1.9-5.9L4 10l6.1-2.1z"/></svg>'); }
+.run-ico--reply { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 8.6 8.6 0 0 1-3.6-.9L4 20l1.4-4.1a7.7 7.7 0 0 1-1.1-4A7.9 7.9 0 0 1 12.4 4a7.9 7.9 0 0 1 8.1 7.6z"/></svg>'); }
 .run-ico--sheet { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M9.5 9.5V20"/></svg>'); }
 .run-ico--task  { --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3 1.8"/></svg>'); }
-.run-lab { font-weight: 600; color: #D9D1E8; text-align: center; line-height: 1.3; }
 
 /* nothing to animate for a line nobody is looking at */
-.runstrip.is-idle, .runstrip.is-idle *, .runstrip.is-idle *::after {
-  animation-play-state: paused;
-}
-/* with motion turned down the whole chain simply stands there, which is
+.runstrip.is-idle *, .runstrip.is-idle *::before, .runstrip.is-idle *::after { animation-play-state: paused; }
+
+/* with motion turned down the chain simply stands there fully lit, which is
    what it was built to do anyway */
 @media (prefers-reduced-motion: reduce) {
-  .run-stop, .run-stop::after { animation: none !important; }
-  .run-stop { opacity: 1; }
+  .runstrip *, .runstrip *::before, .runstrip *::after { animation: none !important; }
+  .run-lab, .run-ico::after, .run-stop + .run-stop::before { opacity: 1; }
+  .run-ico::before { opacity: 1; }
   .run-stop + .run-stop::after { opacity: 0; }
 }
