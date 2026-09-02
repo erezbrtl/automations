@@ -154,51 +154,31 @@
     </div>
   </div>
 
-  <!-- The reel is drawn in the page rather than filmed: the text is real
-       text, the colours are the same custom properties the rest of the page
-       uses, and it stays sharp at any width. It also plays where a muted
-       autoplaying video would not - iOS in low power mode shows only a
-       poster. A youtubeId in config still takes the slot over from it.
+  <!-- One line, read the way the page is read: a lead arrives on the right
+       and a task is waiting on the left, and the pulse travels between them
+       lighting each stop. It says its whole piece standing still - the
+       motion only gives it life - which is the part a sequential loop got
+       wrong here: a hero has a few seconds, and it must spend them on the
+       one thing the visitor cannot already picture.
 
-       The three beats are one real lead travelling through the real
-       scenario, and the module names are the ones on the Make canvas. -->
-  <div class="wrap hero-film" id="heroFilm">
-    <div class="video rv" id="video">
-      <div class="reel" role="img" aria-label="הדגמה: פנייה נכנסת מהטופס באתר, האוטומציה מנקה את הפרטים, מסווגת אותם ומנסחת תשובה, והליד נרשם בגיליון עם משימת מעקב למחר בשמונה בבוקר.">
-        <div class="reel-glow" aria-hidden="true"></div>
-
-        <div class="act act-form" aria-hidden="true">
-          <span class="rl-chip"><i></i>23:47 · הטופס באתר</span>
-          <div class="rl-card">
-            <div class="rl-field"><b>שם</b><span class="rl-type rl-t1">דנה לוי</span></div>
-            <div class="rl-field"><b>טלפון</b><span class="rl-type rl-t2" dir="ltr">052-555-0134</span></div>
-            <div class="rl-field rl-msg"><b>התהליך</b><span class="rl-type rl-t3">כל ליד שנכנס אני מעתיק ידנית ואז שולח הודעה</span></div>
-            <div class="rl-send">בואו נתקדם</div>
-          </div>
-        </div>
-
-        <div class="act act-flow" aria-hidden="true">
-          <span class="rl-chip"><i></i>23:47 · האוטומציה רצה</span>
-          <ol class="rl-nodes">
-            <li class="rl-node rl-n1"><span class="rl-ico rl-ico--hook"></span><span class="rl-lab">פנייה מהטופס</span></li>
-            <li class="rl-node rl-n2"><span class="rl-ico rl-ico--vars"></span><span class="rl-lab">ניקוי שדות</span></li>
-            <li class="rl-node rl-n3"><span class="rl-ico rl-ico--ai"></span><span class="rl-lab">סיווג וניסוח</span></li>
-            <li class="rl-node rl-n4"><span class="rl-ico rl-ico--split"></span><span class="rl-lab">פיצול ליעדים</span></li>
-          </ol>
-        </div>
-
-        <div class="act act-sheet" aria-hidden="true">
-          <span class="rl-chip"><i></i>23:47 · גיליון הלידים</span>
-          <div class="rl-sheet">
-            <div class="rl-row rl-head"><span>שם</span><span>נושא</span><span>דחיפות</span></div>
-            <div class="rl-row rl-old"><span>יעל</span><span>סדנה לצוות</span><span>רגילה</span></div>
-            <div class="rl-row rl-old"><span>עומר</span><span>הרצאה</span><span>רגילה</span></div>
-            <div class="rl-row rl-new"><span class="rl-c1">דנה לוי</span><span class="rl-c2">אוטומציית לידים</span><span class="rl-c3">גבוהה</span></div>
-          </div>
-          <div class="rl-task"><span class="rl-tick"></span>משימת מעקב מחר, 08:00</div>
-        </div>
-      </div>
+       The station names are the ones on the Make canvas. -->
+  <div class="wrap hero-run">
+    <div class="runstrip rv" role="img" aria-label="שרשרת התהליך: פנייה נכנסת מהטופס באתר, השדות מנוקים, ה-AI מסווג ומנסח, הליד נרשם בגיליון ומחכה משימת מעקב.">
+      <ol class="run-line">
+        <li class="run-stop rs1"><span class="run-ico run-ico--hook"></span><span class="run-lab">פנייה מהטופס</span></li>
+        <li class="run-stop rs2"><span class="run-ico run-ico--vars"></span><span class="run-lab">ניקוי שדות</span></li>
+        <li class="run-stop rs3"><span class="run-ico run-ico--ai"></span><span class="run-lab">סיווג וניסוח</span></li>
+        <li class="run-stop rs4"><span class="run-ico run-ico--sheet"></span><span class="run-lab">שורה בגיליון</span></li>
+        <li class="run-stop rs5"><span class="run-ico run-ico--task"></span><span class="run-lab">משימת מעקב</span></li>
+      </ol>
     </div>
+  </div>
+
+  <!-- kept for a youtubeId in config, which unhides this and fills it with a
+       click to play facade. The drawn loop that used to live here is gone;
+       the strip above says the same thing without detaining anyone. -->
+  <div class="wrap hero-film" id="heroFilm" hidden>
+    <div class="video rv" id="video" hidden></div>
   </div>
 </section>
 

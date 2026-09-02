@@ -309,16 +309,16 @@
     heroLoop.pause();
   }
 
-  /* ---------- the hero reel stops when it leaves the screen ---------- */
+  /* ---------- the hero strip stops when it leaves the screen ---------- */
   /* it is a loop of infinite CSS animations, and a phone should not be
-     paying for a frame that is no longer in front of anyone */
-  var reel = document.querySelector(".reel");
-  if (reel && "IntersectionObserver" in window) {
+     paying for a line that is no longer in front of anyone */
+  var strip = document.querySelector(".runstrip");
+  if (strip && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        reel.classList.toggle("is-idle", !entry.isIntersecting);
+        strip.classList.toggle("is-idle", !entry.isIntersecting);
       });
-    }, { rootMargin: "120px" }).observe(reel);
+    }, { rootMargin: "120px" }).observe(strip);
   }
 
   /* ---------- youtube facade: no third-party script until clicked ---------- */
