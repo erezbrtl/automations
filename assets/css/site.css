@@ -1260,6 +1260,10 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
      thoughts, and a phone has room for one of them per line */
   .phone-break { display: block; }
 
+  /* the reel wants a frame worth reading and a phone has none to spare
+     above the fold; it costs the visitor a scroll before they have moved */
+  .hero-film { display: none; }
+
   /* the nav is gone below 940px, so space-between leaves the brand alone
      against the far edge; the footer wraps into stacked rows for the same
      reason. Both read better centred on a narrow screen. */
