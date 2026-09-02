@@ -51,7 +51,13 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { font-family: var(--font-body); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* the header is sticky, so an anchor that lands at the very top of the
+   viewport lands underneath it. Every in-page link on the site was arriving
+   with its first 68px hidden; this is the offset that stops it. */
+html {
+  font-family: var(--font-body); -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth; scroll-padding-top: clamp(84px, 9vw, 104px);
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -1428,3 +1434,16 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   .lg--netanya { height: 22px; }
   .lg--hackeru { height: 27px; }
 }
+
+/* the same spark that marks the AI stop on the hero strip, so the button and
+   the chain are speaking about the same thing. It sits in the accent pair
+   rather than the call to action's colour: this is a secondary button and
+   the mark should not argue with the real one */
+.ic-ai {
+  display: inline-block; width: 17px; height: 17px; flex: 0 0 auto;
+  background: linear-gradient(135deg, #FF6E9C, #A45BF0 55%, #5B8CFF);
+  -webkit-mask: var(--m) center/contain no-repeat; mask: var(--m) center/contain no-repeat;
+  --m: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 2l1.9 5.9L20 10l-6.1 2.1L12 18l-1.9-5.9L4 10l6.1-2.1z"/><path d="M18.7 14.4l.75 2.15 2.15.75-2.15.75-.75 2.15-.75-2.15-2.15-.75 2.15-.75z"/></svg>');
+}
+.btn--ai { gap: 9px; }
+.btn--ai:hover .ic-ai { background: linear-gradient(135deg, #FF9BBD, #C08BF6 55%, #8DAEFF); }
