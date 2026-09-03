@@ -278,23 +278,95 @@
     Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-in"); });
   }
 
-  /* ---------- active nav link ---------- */
+  /* ---------- active nav link ----------
+     The menu has to answer one question honestly: which of the three places
+     it lists am I reading right now? So the page is walked as a list of
+     sections and whichever one holds the reading line is the current one -
+     if it is one of the three, its item lights; if it is the hero, the fit
+     columns, the questions or the form, nothing lights, rather than an item
+     staying on long after it stopped being true. Reading whole sections
+     rather than a thin band also means the gaps between them keep the
+     section above, so nothing blinks off on the way past.
+
+     A click is not scrolling. The smooth scroll to a far section travels
+     over every section on the way, and left alone the menu would strobe
+     through all three items before settling. So a click names the item it
+     wants and holds the menu until that section is actually the one being
+     read. */
   var navLinks = document.querySelectorAll(".nav a");
-  if (navLinks.length && "IntersectionObserver" in window) {
+  var navSections = document.querySelectorAll("main section[id], section[id]");
+  if (navLinks.length && navSections.length) {
     var byId = {};
     Array.prototype.forEach.call(navLinks, function (link) {
-      var section = document.getElementById(link.getAttribute("href").slice(1));
-      if (section) { byId[section.id] = link; }
+      var href = link.getAttribute("href") || "";
+      if (href.charAt(0) === "#" && document.getElementById(href.slice(1))) {
+        byId[href.slice(1)] = link;
+      }
     });
-    var navObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        var link = byId[entry.target.id];
-        if (!link || !entry.isIntersecting) { return; }
-        Array.prototype.forEach.call(navLinks, function (l) { l.classList.remove("is-active"); });
-        link.classList.add("is-active");
+
+    var tops = [];
+    function measure() {
+      tops = Array.prototype.map.call(navSections, function (sec) {
+        return { id: sec.id, top: sec.getBoundingClientRect().top + window.pageYOffset };
+      }).sort(function (x, y) { return x.top - y.top; });
+    }
+
+    function current() {
+      /* the line sits about a third down the screen: high enough that a
+         section counts as soon as it is properly on screen, low enough that
+         the one you just landed on is the one that answers */
+      var line = window.pageYOffset + window.innerHeight * 0.35;
+      var found = null;
+      for (var i = 0; i < tops.length; i++) {
+        if (tops[i].top <= line) { found = tops[i].id; } else { break; }
+      }
+      return found ? byId[found] || null : null;
+    }
+
+    var wanted = null;
+    var wantedTimer = 0;
+
+    function light(link) {
+      Array.prototype.forEach.call(navLinks, function (l) {
+        l.classList.toggle("is-active", l === link);
       });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    Object.keys(byId).forEach(function (id) { navObs.observe(document.getElementById(id)); });
+    }
+
+    var queued = false;
+    function sync() {
+      queued = false;
+      var here = current();
+      /* the click still owns the menu until what it asked for is what is read */
+      if (wanted) {
+        if (here !== wanted) { return; }
+        wanted = null;
+        clearTimeout(wantedTimer);
+      }
+      light(here);
+    }
+    function onScroll() {
+      if (queued) { return; }
+      queued = true;
+      window.requestAnimationFrame(sync);
+    }
+
+    Array.prototype.forEach.call(navLinks, function (link) {
+      link.addEventListener("click", function () {
+        var href = link.getAttribute("href") || "";
+        if (!byId[href.slice(1)]) { return; }
+        wanted = link;
+        light(link);
+        clearTimeout(wantedTimer);
+        /* an interrupted scroll must hand the menu back, not freeze it */
+        wantedTimer = setTimeout(function () { wanted = null; sync(); }, 2000);
+      });
+    });
+
+    measure();
+    sync();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", function () { measure(); onScroll(); });
+    window.addEventListener("load", function () { measure(); onScroll(); });
   }
 
   /* ---------- the hero loop ----------
