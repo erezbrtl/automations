@@ -117,6 +117,25 @@ h2 { margin: 0; font-size: 46px; font-weight: 800; line-height: 1.2; letter-spac
 b, strong { font-weight: 800; color: var(--ink); }
 .nb { white-space: nowrap; }
 
+/* ---------- the icon tile ----------
+   one shape, three tempers: the live one carries the accent gradient, the
+   quiet one is a hairline outline, the crossed-out one is deliberately dim. */
+.ic {
+  width: 46px; height: 46px; border-radius: 14px; flex: none;
+  display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  background: linear-gradient(150deg, rgba(255,110,156,.20), rgba(91,140,255,.16));
+  color: #fff;
+}
+.ic svg { width: 24px; height: 24px; display: block; }
+.ic--sm { width: 38px; height: 38px; border-radius: 11px; }
+.ic--sm svg { width: 20px; height: 20px; }
+.ic--off {
+  background: rgba(255,255,255,.04);
+  border-color: var(--hair);
+  color: var(--ink-faint);
+}
+
 /* ---------- pieces ---------- */
 
 .slide p { margin: 0; }
@@ -129,8 +148,8 @@ b, strong { font-weight: 800; color: var(--ink); }
 .card {
   border: 1px solid var(--hair); border-radius: 18px;
   background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.028));
-  padding: 26px 24px 28px;
-  display: flex; flex-direction: column; gap: 10px;
+  padding: 30px 26px 32px;
+  display: flex; flex-direction: column; gap: 12px;
 }
 .card .n {
   width: 38px; height: 38px; border-radius: 11px;
@@ -139,8 +158,8 @@ b, strong { font-weight: 800; color: var(--ink); }
   background: linear-gradient(140deg, var(--cta), #A22BC8);
   color: #fff;
 }
-.card h3 { margin: 0; font-size: 27px; font-weight: 800; }
-.card p { margin: 0; font-size: 20px; line-height: 1.52; color: var(--ink-soft); }
+.card h3 { margin: 0; font-size: 29px; font-weight: 800; }
+.card p { margin: 0; font-size: 21px; line-height: 1.52; color: var(--ink-soft); }
 
 .card--off { background: rgba(255,255,255,.028); }
 .card--off .n {
@@ -152,8 +171,8 @@ b, strong { font-weight: 800; color: var(--ink); }
 /* trigger -> action rows */
 .rows { display: flex; flex-direction: column; gap: 14px; }
 .row {
-  display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center;
-  gap: 8px;
+  display: grid; grid-template-columns: 38px 1fr 44px 1fr; align-items: center;
+  gap: 14px;
   border: 1px solid var(--hair); border-radius: 16px;
   background: rgba(255,255,255,.035);
   padding: 20px 26px;
@@ -161,6 +180,7 @@ b, strong { font-weight: 800; color: var(--ink); }
 }
 .row .to { text-align: center; color: var(--cta); font-size: 26px; font-weight: 800; }
 .row .a { color: var(--ink); font-weight: 700; }
+.row--plain { grid-template-columns: 38px 1fr; }
 .row .b { color: var(--ink-soft); }
 
 /* the two-box definition */
@@ -171,6 +191,8 @@ b, strong { font-weight: 800; color: var(--ink); }
   padding: 34px 26px; text-align: center;
   display: flex; flex-direction: column; justify-content: center; gap: 8px;
 }
+.def .box .ic { width: 54px; height: 54px; border-radius: 16px; margin: 0 auto 4px; }
+.def .box .ic svg { width: 27px; height: 27px; }
 .def .box .k { font-size: 16px; font-weight: 700; color: var(--ink-faint); letter-spacing: .04em; }
 .def .box .v { font-size: 32px; font-weight: 800; line-height: 1.28; }
 .def .to { display: grid; place-items: center; font-size: 40px; font-weight: 800; color: var(--cta); }
@@ -184,26 +206,54 @@ b, strong { font-weight: 800; color: var(--ink); }
   padding: 0 6px;
 }
 .stop::before {
-  content: ""; position: absolute; top: 27px;
+  content: ""; position: absolute; top: 31px;
   inset-inline-start: -50%; width: 100%; height: 1.5px;
   background: rgba(255,255,255,.22);
 }
 .stop:first-child::before { display: none; }
 .stop .dot {
-  width: 54px; height: 54px; border-radius: 16px;
-  border: 1.5px solid var(--hair);
+  width: 62px; height: 62px; border-radius: 18px;
+  border: 1.5px solid rgba(255,255,255,.2);
   background: rgba(255,255,255,.05);
   display: grid; place-items: center;
   font-size: 21px; font-weight: 800; color: var(--ink-soft);
   position: relative; z-index: 1;
 }
+.stop .dot svg { width: 29px; height: 29px; display: block; }
 .stop.lit .dot {
   border-color: transparent;
   background: linear-gradient(140deg, #A45BF0, #5B8CFF);
   color: #fff;
   box-shadow: 0 0 0 5px rgba(164,91,240,.16);
 }
-.stop .lab { font-size: 18px; line-height: 1.4; color: var(--ink-soft); }
+
+/* the chain runs itself while the slide is up: one shared clock, each stop
+   differing only by where in the loop it lights - never by its own delay,
+   which is what makes a stop lag a cycle behind */
+.chain--run .stop .dot,
+.chain--run .stop .lab { animation: 6.5s linear infinite; }
+.chain--run .stop:nth-child(1) .dot { animation-name: lit1; }
+.chain--run .stop:nth-child(2) .dot { animation-name: lit2; }
+.chain--run .stop:nth-child(3) .dot { animation-name: lit3; }
+.chain--run .stop:nth-child(4) .dot { animation-name: lit4; }
+.chain--run .stop:nth-child(5) .dot { animation-name: lit5; }
+.chain--run .stop:nth-child(1) .lab { animation-name: lab1; }
+.chain--run .stop:nth-child(2) .lab { animation-name: lab2; }
+.chain--run .stop:nth-child(3) .lab { animation-name: lab3; }
+.chain--run .stop:nth-child(4) .lab { animation-name: lab4; }
+.chain--run .stop:nth-child(5) .lab { animation-name: lab5; }
+
+@keyframes lit1 { 0%,4% { } 8%,22% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 30%,100% { } }
+@keyframes lit2 { 0%,18% { } 22%,36% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 44%,100% { } }
+@keyframes lit3 { 0%,32% { } 36%,50% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 58%,100% { } }
+@keyframes lit4 { 0%,46% { } 50%,64% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 72%,100% { } }
+@keyframes lit5 { 0%,60% { } 64%,80% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 88%,100% { } }
+@keyframes lab1 { 0%,4% { } 8%,22% { color: var(--ink); font-weight: 700; } 30%,100% { } }
+@keyframes lab2 { 0%,18% { } 22%,36% { color: var(--ink); font-weight: 700; } 44%,100% { } }
+@keyframes lab3 { 0%,32% { } 36%,50% { color: var(--ink); font-weight: 700; } 58%,100% { } }
+@keyframes lab4 { 0%,46% { } 50%,64% { color: var(--ink); font-weight: 700; } 72%,100% { } }
+@keyframes lab5 { 0%,60% { } 64%,80% { color: var(--ink); font-weight: 700; } 88%,100% { } }
+.stop .lab { font-size: 19px; line-height: 1.4; color: var(--ink-soft); }
 .stop.lit .lab { color: var(--ink); font-weight: 700; }
 
 /* the fill-in-the-blank exercise */
@@ -228,6 +278,59 @@ b, strong { font-weight: 800; color: var(--ink); }
 /* the notes live inside their slide so they stay next to the words they
    belong to; only the presenter panel ever renders them */
 .slide .notes { display: none; }
+
+/* ---------- motion ----------
+   Two kinds, both quiet. The ground breathes so a slide left up for two
+   minutes is not a frozen picture, and the content of a new slide rises
+   into place so a change of slide reads as a move, not a cut. */
+.slide::after {
+  content: ""; position: absolute; inset: -18%;
+  pointer-events: none; z-index: 0;
+  background: radial-gradient(38% 38% at 30% 30%, rgba(164,91,240,.20), transparent 70%);
+  animation: breathe 26s ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from { transform: translate3d(-4%, 3%, 0) scale(1); }
+  to   { transform: translate3d(6%, -5%, 0) scale(1.14); }
+}
+.slide > * { position: relative; z-index: 1; }
+
+.slide.is-on .head > *,
+.slide.is-on .body > *,
+.slide.is-on .foot > * { animation: rise .42s cubic-bezier(.22,.61,.36,1) both; }
+.slide.is-on .body > *:nth-child(2) { animation-delay: .06s; }
+.slide.is-on .body > *:nth-child(3) { animation-delay: .11s; }
+.slide.is-on .foot > * { animation-delay: .14s; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* the cards and rows arrive one after another, right to left */
+.slide.is-on .cards > *, .slide.is-on .rows > * { animation: rise .42s cubic-bezier(.22,.61,.36,1) both; }
+.slide.is-on .cards > *:nth-child(1), .slide.is-on .rows > *:nth-child(1) { animation-delay: .08s; }
+.slide.is-on .cards > *:nth-child(2), .slide.is-on .rows > *:nth-child(2) { animation-delay: .14s; }
+.slide.is-on .cards > *:nth-child(3), .slide.is-on .rows > *:nth-child(3) { animation-delay: .20s; }
+
+/* the loop behind the title slide - the thing the whole session is about */
+.watermark {
+  position: absolute; z-index: 0; pointer-events: none;
+  inset-inline-start: -110px; inset-block-end: -130px;
+  width: 460px; height: 460px;
+  color: rgba(255,255,255,.055);
+  animation: spin 90s linear infinite;
+}
+.watermark svg { width: 100%; height: 100%; display: block; }
+@keyframes spin { to { transform: rotate(-360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide::after, .watermark { animation: none; }
+  .slide.is-on .head > *, .slide.is-on .body > *, .slide.is-on .foot > *,
+  .slide.is-on .cards > *, .slide.is-on .rows > * { animation: none; }
+  .chain--run .stop .dot, .chain--run .stop .lab { animation: none; }
+  .chain--run .stop .dot {
+    border-color: transparent; color: #fff;
+    background: linear-gradient(140deg, #A45BF0, #5B8CFF);
+  }
+  .chain--run .stop .lab { color: var(--ink); font-weight: 700; }
+}
 
 /* ---------- chrome ---------- */
 
@@ -326,6 +429,12 @@ b, strong { font-weight: 800; color: var(--ink); }
   #canvas { width: 1280px; height: auto; transform: none; border-radius: 0; }
   .slide { position: static; display: flex !important; flex-direction: column; height: 720px; break-after: page; }
   #notes, #clock, #over, #help, #bar { display: none !important; }
+  .slide::after, .watermark, .slide *, .slide { animation: none !important; }
+  .chain--run .stop .dot {
+    border-color: transparent !important; color: #fff !important;
+    background: linear-gradient(140deg, #A45BF0, #5B8CFF) !important;
+  }
+  .chain--run .stop .lab { color: #fff !important; font-weight: 700 !important; }
 
   /* H switches the same document into a presenter sheet */
   body.handout { background: #fff; color: #111; }
@@ -342,6 +451,29 @@ b, strong { font-weight: 800; color: var(--ink); }
     <rect width="111" height="111" rx="30" fill="url(#mkg)"/>
     <path d="M47.9075 55.5C47.9071 54.5626 48.0915 53.6343 48.4501 52.7682C48.8087 51.9021 49.3344 51.1151 49.9972 50.4523C50.6601 49.7894 51.4471 49.2637 52.3132 48.9051C53.1793 48.5466 54.1075 48.3622 55.045 48.3625C56.9367 48.3671 58.7498 49.1205 60.0877 50.458C61.4256 51.7954 62.1797 53.6082 62.185 55.5C62.1803 57.3922 61.4266 59.2056 60.0886 60.5436C58.7506 61.8816 56.9372 62.6354 55.045 62.64C53.1532 62.6347 51.3404 61.8807 50.0029 60.5428C48.6655 59.2048 47.9121 57.3918 47.9075 55.5ZM55.045 25.5C41.0374 25.5 29.305 35.1 25.975 48.0625C25.95 48.1525 25.95 48.2375 25.95 48.3625C25.95 49.145 26.58 49.8025 27.3875 49.8025H39.475C40.05 49.8025 40.5575 49.4775 40.7675 48.97C43.26 43.57 48.7175 39.79 55.0475 39.79C59.2143 39.7946 63.2092 41.4521 66.1554 44.3988C69.1016 47.3455 70.7585 51.3406 70.7625 55.5075C70.7625 64.1825 63.7124 71.2325 55.0374 71.2325C52.0283 71.2309 49.0829 70.3646 46.5521 68.7366C44.0213 67.1086 42.0117 64.7877 40.7625 62.05C40.6454 61.8044 40.4628 61.596 40.2347 61.4477C40.0066 61.2995 39.7419 61.2172 39.47 61.21H27.3875C27.006 61.2107 26.6403 61.3627 26.3708 61.6326C26.1013 61.9026 25.95 62.2685 25.95 62.65C25.95 62.7425 25.985 62.83 25.985 62.95C29.285 75.9 41.035 85.5 55.045 85.5C71.6049 85.5 85.045 72.0625 85.045 55.5C85.045 38.9425 71.6049 25.5 55.045 25.5Z" fill="#fff"/>
   </symbol>
+  <!-- one line-drawn set, 1.8px stroke on a 24 box, so every slide speaks
+       the same visual language and nothing here pretends to be a photograph -->
+  <g id="ik" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></g>
+  <symbol id="i-loop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4v5h-5"/><path d="M3 20v-5h5"/><path d="M4.2 9a8 8 0 0 1 13.2-3L21 9"/><path d="M3 15l3.6 3A8 8 0 0 0 19.8 15"/></g></symbol>
+  <symbol id="i-form" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></g></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></g></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></g></symbol>
+  <symbol id="i-ai" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></g></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></g></symbol>
+  <symbol id="i-task" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.1V12a9 9 0 1 1-5.3-8.2"/><path d="M21 5l-9 9-2.7-2.7"/></g></symbol>
+  <symbol id="i-reply" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></g></symbol>
+  <symbol id="i-rule" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h12M9 12h12M9 18h12"/><path d="M3.5 5.6l1.2 1.2L7 4.5M3.5 11.6l1.2 1.2L7 10.5M3.5 17.6l1.2 1.2L7 16.5"/></g></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></g></symbol>
+  <symbol id="i-think" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a3 3 0 0 1 5.8 1c0 2-2.9 2.6-2.9 4"/><path d="M12 17.5h.01"/></g></symbol>
+  <symbol id="i-shift" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6M4 4l5 5"/></g></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></g></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H3l7.5 8.8V19l3 1.6v-7.8z"/></g></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></g></symbol>
+  <symbol id="i-teach" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"/><path d="M6 10v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/><path d="M22 7v6"/></g></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></g></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></g></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a1.6 1.6 0 0 0-3.2 0"/><path d="M14.8 11V4.4a1.6 1.6 0 0 0-3.2 0V11"/><path d="M11.6 11V5.6a1.6 1.6 0 0 0-3.2 0V13"/><path d="M8.4 12.6L6.8 10a1.6 1.6 0 0 0-2.8 1.6L7 18a6 6 0 0 0 5.2 3H14a4 4 0 0 0 4-4v-6"/></g></symbol>
   <linearGradient id="mkg" x1="105" y1="98.5" x2="20" y2="7.5" gradientUnits="userSpaceOnUse">
     <stop stop-color="#B41CA9"/><stop offset="1" stop-color="#FF0076"/>
   </linearGradient>
@@ -352,6 +484,7 @@ b, strong { font-weight: 800; color: var(--ink); }
 
     <!-- 1 ................................................ פתיחה -->
     <section class="slide t-open" data-at="0" data-title="פתיחה">
+      <div class="watermark"><svg viewBox="0 0 24 24"><use href="#i-loop"/></svg></div>
       <div class="head"><svg class="logo"><use href="#mark"/></svg></div>
       <div class="body">
         <span class="eyebrow" style="align-self: flex-start">מפגש היכרות · 45 דקות</span>
@@ -388,9 +521,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>רגע אחד עליי, ואז חזרה אליכם</h2></div>
       <div class="body">
         <div class="rows">
-          <div class="row" style="grid-template-columns: 1fr"><span class="a">17 שנה בהוראה ובעיצוב</span></div>
-          <div class="row" style="grid-template-columns: 1fr"><span class="a">היום אני בונה אוטומציות ו-AI לעסקים קטנים</span></div>
-          <div class="row" style="grid-template-columns: 1fr"><span class="a">ומלמד אנשים לא טכניים לעשות את זה בעצמם</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-teach"/></svg></span><span class="a">17 שנה בהוראה ובעיצוב</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="a">היום אני בונה אוטומציות ו-AI לעסקים קטנים</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-people"/></svg></span><span class="a">ומלמד אנשים לא טכניים לעשות את זה בעצמם</span></div>
         </div>
         <p class="note-line">זה כל מה שצריך לדעת עליי כרגע.</p>
       </div>
@@ -405,9 +538,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>מה זו בעצם אוטומציה</h2></div>
       <div class="body">
         <div class="def">
-          <div class="box"><span class="k">כשקורה משהו</span><span class="v">מגיעה פנייה,<br>מסתיימת פגישה,<br>עובר שבוע</span></div>
+          <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-bell"/></svg></span><span class="k">כשקורה משהו</span><span class="v">מגיעה פנייה,<br>מסתיימת פגישה,<br>עובר שבוע</span></div>
           <div class="to">←</div>
-          <div class="box"><span class="k">קורה משהו אחר</span><span class="v">נשלח מייל,<br>נרשמת שורה,<br>עולה תזכורת</span></div>
+          <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-task"/></svg></span><span class="k">קורה משהו אחר</span><span class="v">נשלח מייל,<br>נרשמת שורה,<br>עולה תזכורת</span></div>
         </div>
         <p class="lead center" style="text-align:center">בלי שאתם עושים את זה. <b>זהו. כל השאר זה פרטים.</b></p>
       </div>
@@ -422,9 +555,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>איך זה נראה ביום רגיל</h2></div>
       <div class="body">
         <div class="rows">
-          <div class="row"><span class="a">מגיעה פנייה בטופס</span><span class="to">←</span><span class="b">נרשמת שורה בגיליון ואתם מקבלים התראה</span></div>
-          <div class="row"><span class="a">מסתיימת פגישה</span><span class="to">←</span><span class="b">יוצאת טיוטת מייל סיכום ללקוח</span></div>
-          <div class="row"><span class="a">עובר שבוע בלי תשובה</span><span class="to">←</span><span class="b">עולה לכם תזכורת לחזור אליו</span></div>
+          <div class="row"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-form"/></svg></span><span class="a">מגיעה פנייה בטופס</span><span class="to">←</span><span class="b">נרשמת שורה בגיליון ואתם מקבלים התראה</span></div>
+          <div class="row"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-calendar"/></svg></span><span class="a">מסתיימת פגישה</span><span class="to">←</span><span class="b">יוצאת טיוטת מייל סיכום ללקוח</span></div>
+          <div class="row"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><span class="a">עובר שבוע בלי תשובה</span><span class="to">←</span><span class="b">עולה לכם תזכורת לחזור אליו</span></div>
         </div>
       </div>
       <div class="notes">
@@ -449,9 +582,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>איך יודעים שתהליך שווה את זה</h2></div>
       <div class="body">
         <div class="cards">
-          <div class="card"><span class="n">1</span><h3>חוזר</h3><p>זה קורה לפחות פעם בשבוע, ובאותה צורה.</p></div>
-          <div class="card"><span class="n">2</span><h3>צפוי</h3><p>אתם יכולים לכתוב את הכללים שלו במשפט אחד.</p></div>
-          <div class="card"><span class="n">3</span><h3>עולה</h3><p>אתם יודעים להגיד בערך כמה זמן הוא לוקח.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-loop"/></svg></span><h3>חוזר</h3><p>זה קורה לפחות פעם בשבוע, ובאותה צורה.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-rule"/></svg></span><h3>צפוי</h3><p>אתם יכולים לכתוב את הכללים שלו במשפט אחד.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><h3>עולה</h3><p>אתם יודעים להגיד בערך כמה זמן הוא לוקח.</p></div>
         </div>
         <p class="lead" style="text-align:center">עבר את שלושתם - שווה להתחיל. <b>נפל באחד - עוד לא.</b></p>
       </div>
@@ -466,9 +599,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>ומה עדיף להשאיר בדיוק כמו שהוא</h2></div>
       <div class="body">
         <div class="cards">
-          <div class="card card--off"><span class="n">×</span><h3>קורה פעם בחודש</h3><p>הזמן שתשקיעו בבנייה לא יחזור אליכם.</p></div>
-          <div class="card card--off"><span class="n">×</span><h3>דורש שיקול דעת</h3><p>אם בכל פעם צריך להחליט מחדש, אין כלל לכתוב.</p></div>
-          <div class="card card--off"><span class="n">×</span><h3>הכללים משתנים</h3><p>תתחזקו את האוטומציה יותר משתשתמשו בה.</p></div>
+          <div class="card card--off"><span class="ic ic--sm ic--off"><svg viewBox="0 0 24 24"><use href="#i-calendar"/></svg></span><h3>קורה פעם בחודש</h3><p>הזמן שתשקיעו בבנייה לא יחזור אליכם.</p></div>
+          <div class="card card--off"><span class="ic ic--sm ic--off"><svg viewBox="0 0 24 24"><use href="#i-think"/></svg></span><h3>דורש שיקול דעת</h3><p>אם בכל פעם צריך להחליט מחדש, אין כלל לכתוב.</p></div>
+          <div class="card card--off"><span class="ic ic--sm ic--off"><svg viewBox="0 0 24 24"><use href="#i-shift"/></svg></span><h3>הכללים משתנים</h3><p>תתחזקו את האוטומציה יותר משתשתמשו בה.</p></div>
         </div>
         <p class="lead" style="text-align:center">על אלה <b>אני</b> לא הייתי מתחיל. גם לא בשבילכם.</p>
       </div>
@@ -485,12 +618,12 @@ b, strong { font-weight: 800; color: var(--ink); }
         <h2>בואו נראה תהליך אחד רץ</h2>
       </div>
       <div class="body">
-        <div class="chain">
-          <div class="stop lit"><span class="dot">1</span><span class="lab">פנייה מהטופס</span></div>
-          <div class="stop lit"><span class="dot">2</span><span class="lab">סיווג ודחיפות</span></div>
-          <div class="stop lit"><span class="dot">3</span><span class="lab">טיוטת תשובה</span></div>
-          <div class="stop lit"><span class="dot">4</span><span class="lab">שורה בגיליון</span></div>
-          <div class="stop lit"><span class="dot">5</span><span class="lab">משימת מעקב</span></div>
+        <div class="chain chain--run">
+          <div class="stop"><span class="dot"><svg viewBox="0 0 24 24"><use href="#i-form"/></svg></span><span class="lab">פנייה מהטופס</span></div>
+          <div class="stop"><span class="dot"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="lab">סיווג ודחיפות</span></div>
+          <div class="stop"><span class="dot"><svg viewBox="0 0 24 24"><use href="#i-reply"/></svg></span><span class="lab">טיוטת תשובה</span></div>
+          <div class="stop"><span class="dot"><svg viewBox="0 0 24 24"><use href="#i-sheet"/></svg></span><span class="lab">שורה בגיליון</span></div>
+          <div class="stop"><span class="dot"><svg viewBox="0 0 24 24"><use href="#i-task"/></svg></span><span class="lab">משימת מעקב</span></div>
         </div>
         <p class="lead" style="text-align:center">אני ממלא את הטופס עכשיו, מולכם. אתם אומרים לי מה לכתוב.</p>
       </div>
@@ -510,9 +643,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>מה בעצם קרה שם</h2></div>
       <div class="body">
         <div class="rows">
-          <div class="row" style="grid-template-columns:1fr"><span class="a">לא נגעתי בכלום מהרגע ששלחתי את הטופס</span></div>
-          <div class="row" style="grid-template-columns:1fr"><span class="a">ההחלטה מה דחוף נעשתה לפי כללים <b>שאני</b> כתבתי</span></div>
-          <div class="row" style="grid-template-columns:1fr"><span class="a">התשובה היא טיוטה, לא שליחה. אני עדיין מאשר.</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-hand"/></svg></span><span class="a">לא נגעתי בכלום מהרגע ששלחתי את הטופס</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-rule"/></svg></span><span class="a">ההחלטה מה דחוף נעשתה לפי כללים <b>שאני</b> כתבתי</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-edit"/></svg></span><span class="a">התשובה היא טיוטה, לא שליחה. אני עדיין מאשר.</span></div>
         </div>
         <p class="lead" style="text-align:center">זה ההבדל בין <b>המחשב עוזר לי</b> לבין <b>המחשב מחליט בשבילי</b>.</p>
       </div>
@@ -556,9 +689,9 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="head"><h2>מה אפשר לעשות מחר בבוקר, לבד</h2></div>
       <div class="body">
         <div class="cards">
-          <div class="card"><span class="n">1</span><h3>רשימה של שבוע</h3><p>כל פעם שאתם עושים משהו בפעם השנייה - שורה במחברת. בסוף השבוע יש רשימה.</p></div>
-          <div class="card"><span class="n">2</span><h3>העבירו במבחן</h3><p>שלושת הקריטריונים מקודם. סמנו מה עובר ומה לא.</p></div>
-          <div class="card"><span class="n">3</span><h3>התחילו מהקטן</h3><p>לא מהכי כואב - מהכי פשוט. הניצחון הראשון חשוב יותר מהגודל שלו.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg></span><h3>רשימה של שבוע</h3><p>כל פעם שאתם עושים משהו בפעם השנייה - שורה במחברת. בסוף השבוע יש רשימה.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-filter"/></svg></span><h3>העבירו במבחן</h3><p>שלושת הקריטריונים מקודם. סמנו מה עובר ומה לא.</p></div>
+          <div class="card"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg></span><h3>התחילו מהקטן</h3><p>לא מהכי כואב - מהכי פשוט. הניצחון הראשון חשוב יותר מהגודל שלו.</p></div>
         </div>
       </div>
       <div class="notes">
