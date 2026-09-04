@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מפגש היכרות - התהליכים שחוזרים על עצמם בעסק שלכם</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* =========================================================
+   מצגת למפגש ההיכרות - 45 דקות
+   אותה שפה ויזואלית של automations.erezb.pro: קרקע סגולה-שחורה,
+   פריחות סגול/כחול/מג'נטה, מבטא ארגמן, נוטו סאנס עברית בלבד.
+
+   מקשים: ← הבא · → הקודם · רווח הבא · S הערות · T טיימר
+          O סקירה · F מסך מלא · Ctrl+P מייצא ל-PDF
+   ========================================================= */
+
+:root {
+  --night: #0A0613;
+  --night-2: #140B23;
+  --violet: #6A1CB0;
+  --blue: #1F46D8;
+  --magenta: #B01252;
+
+  --ink: #FFFFFF;
+  --ink-soft: #C6BCD8;
+  --ink-faint: #8E85A3;
+  --hair: rgba(255,255,255,.13);
+
+  --cta: #FF2E63;
+  --ok: #6FE9B4;
+
+  --font: "Noto Sans Hebrew", "Arial Hebrew", system-ui, sans-serif;
+
+  /* the whole deck is drawn on one fixed canvas and scaled to the screen,
+     so a heading is the same size in fullscreen, on a laptop and in print */
+  --W: 1280px;
+  --H: 720px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  background: #05030A;
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ---------- the stage ---------- */
+
+#stage {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+}
+
+#canvas {
+  position: relative;
+  width: var(--W); height: var(--H);
+  transform: scale(var(--k, 1));
+  transform-origin: center center;
+  background: var(--night);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* every slide sits on the same ground; the blooms move per slide type */
+.slide {
+  position: absolute; inset: 0;
+  display: none;
+  padding: 76px 92px 84px;
+  background:
+    radial-gradient(120% 90% at 88% -18%, rgba(106,28,176,.42), transparent 62%),
+    radial-gradient(90% 80% at -12% 108%, rgba(31,70,216,.30), transparent 64%),
+    var(--night);
+}
+.slide.is-on { display: flex; flex-direction: column; }
+
+.slide.t-mark {
+  background:
+    radial-gradient(120% 100% at 50% 120%, rgba(176,18,82,.46), transparent 64%),
+    radial-gradient(90% 80% at 8% -20%, rgba(106,28,176,.40), transparent 62%),
+    var(--night);
+}
+.slide.t-open {
+  background:
+    radial-gradient(110% 110% at 78% 8%, rgba(106,28,176,.50), transparent 60%),
+    radial-gradient(100% 90% at 4% 96%, rgba(31,70,216,.34), transparent 62%),
+    var(--night);
+}
+
+/* ---------- type ---------- */
+
+.eyebrow {
+  display: inline-block;
+  font-size: 17px; font-weight: 700; letter-spacing: .02em;
+  color: var(--ink-soft);
+  padding: 7px 16px; border-radius: 999px;
+  border: 1px solid var(--hair);
+  background: rgba(255,255,255,.04);
+}
+
+h1 { margin: 0; font-size: 68px; font-weight: 800; line-height: 1.14; letter-spacing: -.015em; }
+h2 { margin: 0; font-size: 46px; font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
+.huge { font-size: 60px; font-weight: 800; line-height: 1.24; letter-spacing: -.012em; }
+.lead { font-size: 25px; line-height: 1.62; color: var(--ink-soft); font-weight: 400; margin: 0; }
+.note-line { font-size: 22px; line-height: 1.6; color: var(--ink-faint); margin: 0; }
+
+.grad {
+  background: linear-gradient(105deg, #FF6E9C 0%, #A45BF0 48%, #5B8CFF 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hot { color: var(--cta); }
+b, strong { font-weight: 800; color: var(--ink); }
+.nb { white-space: nowrap; }
+
+/* ---------- pieces ---------- */
+
+.slide p { margin: 0; }
+.head { display: flex; flex-direction: column; gap: 18px; }
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+.center { align-items: center; text-align: center; justify-content: center; }
+.foot { margin-top: auto; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card {
+  border: 1px solid var(--hair); border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.028));
+  padding: 26px 24px 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.card .n {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: grid; place-items: center;
+  font-size: 19px; font-weight: 800;
+  background: linear-gradient(140deg, var(--cta), #A22BC8);
+  color: #fff;
+}
+.card h3 { margin: 0; font-size: 27px; font-weight: 800; }
+.card p { margin: 0; font-size: 20px; line-height: 1.52; color: var(--ink-soft); }
+
+.card--off { background: rgba(255,255,255,.028); }
+.card--off .n {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--hair);
+  color: var(--ink-faint); font-size: 22px;
+}
+
+/* trigger -> action rows */
+.rows { display: flex; flex-direction: column; gap: 14px; }
+.row {
+  display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center;
+  gap: 8px;
+  border: 1px solid var(--hair); border-radius: 16px;
+  background: rgba(255,255,255,.035);
+  padding: 20px 26px;
+  font-size: 22px;
+}
+.row .to { text-align: center; color: var(--cta); font-size: 26px; font-weight: 800; }
+.row .a { color: var(--ink); font-weight: 700; }
+.row .b { color: var(--ink-soft); }
+
+/* the two-box definition */
+.def { display: grid; grid-template-columns: 1fr 74px 1fr; align-items: stretch; gap: 10px; }
+.def .box {
+  border: 1.5px solid var(--hair); border-radius: 20px;
+  background: rgba(255,255,255,.045);
+  padding: 34px 26px; text-align: center;
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+}
+.def .box .k { font-size: 16px; font-weight: 700; color: var(--ink-faint); letter-spacing: .04em; }
+.def .box .v { font-size: 32px; font-weight: 800; line-height: 1.28; }
+.def .to { display: grid; place-items: center; font-size: 40px; font-weight: 800; color: var(--cta); }
+
+/* the five-stop chain, same one that runs on the site */
+.chain { display: flex; align-items: stretch; gap: 0; }
+.stop {
+  flex: 1; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  position: relative;
+  padding: 0 6px;
+}
+.stop::before {
+  content: ""; position: absolute; top: 27px;
+  inset-inline-start: -50%; width: 100%; height: 1.5px;
+  background: rgba(255,255,255,.22);
+}
+.stop:first-child::before { display: none; }
+.stop .dot {
+  width: 54px; height: 54px; border-radius: 16px;
+  border: 1.5px solid var(--hair);
+  background: rgba(255,255,255,.05);
+  display: grid; place-items: center;
+  font-size: 21px; font-weight: 800; color: var(--ink-soft);
+  position: relative; z-index: 1;
+}
+.stop.lit .dot {
+  border-color: transparent;
+  background: linear-gradient(140deg, #A45BF0, #5B8CFF);
+  color: #fff;
+  box-shadow: 0 0 0 5px rgba(164,91,240,.16);
+}
+.stop .lab { font-size: 18px; line-height: 1.4; color: var(--ink-soft); }
+.stop.lit .lab { color: var(--ink); font-weight: 700; }
+
+/* the fill-in-the-blank exercise */
+.blank {
+  font-size: 44px; font-weight: 800; line-height: 1.75; letter-spacing: -.01em;
+  text-align: start;
+}
+.blank i {
+  font-style: normal; display: inline-block;
+  min-width: 190px; border-bottom: 3px solid var(--cta);
+  margin: 0 8px;
+}
+
+/* the closing card */
+.contact { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.contact .line { font-size: 24px; color: var(--ink-soft); }
+.contact .line b { font-weight: 800; }
+.mono { font-variant-numeric: tabular-nums; }
+
+.logo { width: 62px; height: 62px; display: block; }
+
+/* the notes live inside their slide so they stay next to the words they
+   belong to; only the presenter panel ever renders them */
+.slide .notes { display: none; }
+
+/* ---------- chrome ---------- */
+
+.tag {
+  position: absolute; inset-block-end: 30px; inset-inline-start: 92px;
+  font-size: 15px; color: var(--ink-faint);
+  display: flex; gap: 10px; align-items: center;
+}
+.tag .num { font-variant-numeric: tabular-nums; }
+
+#bar {
+  position: absolute; inset-block-end: 0; inset-inline: 0;
+  height: 3px; background: rgba(255,255,255,.07);
+}
+#bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #5B8CFF, var(--cta)); transition: width .25s ease; }
+
+/* speaker notes */
+#notes {
+  position: fixed; inset-block-end: 0; inset-inline: 0;
+  max-height: 44vh; overflow: auto;
+  background: #120C1E; border-top: 1px solid rgba(255,255,255,.16);
+  padding: 20px 28px 24px;
+  font-size: 16px; line-height: 1.65; color: #D9D2E6;
+  transform: translateY(101%); transition: transform .22s ease;
+  z-index: 20;
+}
+#notes.is-on { transform: none; }
+#notes h4 { margin: 0 0 8px; font-size: 14px; font-weight: 800; color: var(--ink-faint); letter-spacing: .06em; }
+#notes p { margin: 0 0 8px; }
+#notes ul { margin: 0; padding-inline-start: 20px; }
+#notes li { margin-bottom: 5px; }
+#notes .when { color: var(--ok); font-weight: 700; }
+
+/* clock */
+#clock {
+  position: fixed; inset-block-start: 14px; inset-inline-start: 16px;
+  z-index: 21;
+  font-size: 14px; font-variant-numeric: tabular-nums;
+  background: rgba(18,12,30,.92); border: 1px solid var(--hair);
+  border-radius: 10px; padding: 7px 12px;
+  display: none; gap: 12px; align-items: center;
+}
+#clock.is-on { display: flex; }
+#clock .ahead { color: var(--ok); }
+#clock .behind { color: var(--cta); }
+
+/* overview */
+#over {
+  position: fixed; inset: 0; z-index: 30; display: none;
+  background: rgba(5,3,10,.96); overflow: auto; padding: 30px;
+}
+#over.is-on { display: block; }
+#over .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+#over button {
+  all: unset; cursor: pointer;
+  border: 1px solid var(--hair); border-radius: 10px; overflow: hidden;
+  aspect-ratio: 16 / 9; position: relative;
+  background: var(--night-2);
+  display: grid; place-items: center; text-align: center;
+  padding: 10px; color: var(--ink-soft); font-size: 15px; line-height: 1.4;
+}
+#over button:hover, #over button:focus-visible { border-color: var(--cta); color: #fff; }
+#over button .k {
+  position: absolute; inset-block-start: 6px; inset-inline-start: 8px;
+  font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+
+/* the key hints are for the first few seconds of the session, not for the
+   talk - they fade themselves out and come back on any keypress */
+#help {
+  position: fixed; inset-block-end: 12px; inset-inline: 0; z-index: 22;
+  text-align: center;
+  font-size: 12px; color: rgba(255,255,255,.34);
+  transition: opacity .6s ease;
+}
+#help.is-gone { opacity: 0; }
+
+/* ---------- the presenter sheet ----------
+   one window means the notes panel is on the projector too, so the notes
+   that matter live go on paper: H builds this sheet and prints it. */
+#handout { display: none; }
+#handout .h-slide { break-inside: avoid; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #ddd; }
+#handout h3 { margin: 0 0 4px; font-size: 15px; }
+#handout .h-at { font-size: 12px; font-weight: 700; color: #777; }
+#handout .h-body { font-size: 13px; line-height: 1.6; }
+#handout .h-body p { margin: 0 0 4px; }
+#handout .h-body ul { margin: 0; padding-inline-start: 18px; }
+#handout .h-body .when { font-weight: 800; }
+#handout .h-head { font-size: 18px; font-weight: 800; margin: 0 0 14px; }
+
+/* ---------- print: one slide per page ---------- */
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body { overflow: visible; height: auto; background: #fff; }
+  #stage { position: static; display: block; }
+  #canvas { width: 1280px; height: auto; transform: none; border-radius: 0; }
+  .slide { position: static; display: flex !important; flex-direction: column; height: 720px; break-after: page; }
+  #notes, #clock, #over, #help, #bar { display: none !important; }
+
+  /* H switches the same document into a presenter sheet */
+  body.handout { background: #fff; color: #111; }
+  body.handout #stage { display: none !important; }
+  body.handout #handout { display: block; padding: 26px 30px; font-size: 13px; }
+  @page { margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="mark" viewBox="0 0 111 111">
+    <rect width="111" height="111" rx="30" fill="url(#mkg)"/>
+    <path d="M47.9075 55.5C47.9071 54.5626 48.0915 53.6343 48.4501 52.7682C48.8087 51.9021 49.3344 51.1151 49.9972 50.4523C50.6601 49.7894 51.4471 49.2637 52.3132 48.9051C53.1793 48.5466 54.1075 48.3622 55.045 48.3625C56.9367 48.3671 58.7498 49.1205 60.0877 50.458C61.4256 51.7954 62.1797 53.6082 62.185 55.5C62.1803 57.3922 61.4266 59.2056 60.0886 60.5436C58.7506 61.8816 56.9372 62.6354 55.045 62.64C53.1532 62.6347 51.3404 61.8807 50.0029 60.5428C48.6655 59.2048 47.9121 57.3918 47.9075 55.5ZM55.045 25.5C41.0374 25.5 29.305 35.1 25.975 48.0625C25.95 48.1525 25.95 48.2375 25.95 48.3625C25.95 49.145 26.58 49.8025 27.3875 49.8025H39.475C40.05 49.8025 40.5575 49.4775 40.7675 48.97C43.26 43.57 48.7175 39.79 55.0475 39.79C59.2143 39.7946 63.2092 41.4521 66.1554 44.3988C69.1016 47.3455 70.7585 51.3406 70.7625 55.5075C70.7625 64.1825 63.7124 71.2325 55.0374 71.2325C52.0283 71.2309 49.0829 70.3646 46.5521 68.7366C44.0213 67.1086 42.0117 64.7877 40.7625 62.05C40.6454 61.8044 40.4628 61.596 40.2347 61.4477C40.0066 61.2995 39.7419 61.2172 39.47 61.21H27.3875C27.006 61.2107 26.6403 61.3627 26.3708 61.6326C26.1013 61.9026 25.95 62.2685 25.95 62.65C25.95 62.7425 25.985 62.83 25.985 62.95C29.285 75.9 41.035 85.5 55.045 85.5C71.6049 85.5 85.045 72.0625 85.045 55.5C85.045 38.9425 71.6049 25.5 55.045 25.5Z" fill="#fff"/>
+  </symbol>
+  <linearGradient id="mkg" x1="105" y1="98.5" x2="20" y2="7.5" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#B41CA9"/><stop offset="1" stop-color="#FF0076"/>
+  </linearGradient>
+</svg>
+
+<div id="stage">
+  <div id="canvas">
+
+    <!-- 1 ................................................ פתיחה -->
+    <section class="slide t-open" data-at="0" data-title="פתיחה">
+      <div class="head"><svg class="logo"><use href="#mark"/></svg></div>
+      <div class="body">
+        <span class="eyebrow" style="align-self: flex-start">מפגש היכרות · 45 דקות</span>
+        <h1>התהליכים שחוזרים על עצמם<br><span class="grad">בעסק שלכם</span></h1>
+        <p class="lead">איך מזהים אותם, איך יודעים מי מהם שווה את המאמץ,<br>ואיך נראה אחד כזה כשהוא רץ לבד. בלי קוד.</p>
+      </div>
+      <div class="foot">
+        <p class="note-line">ארז ברטל · <span dir="ltr">automations.erezb.pro</span></p>
+      </div>
+      <div class="notes">
+        <p><span class="when">לפני שמתחילים.</span> להקרין את זה בזמן שנכנסים ומתיישבים. לא לפתוח את הפה עד שכולם ישובים - השקט הראשון שווה יותר מכל משפט פתיחה.</p>
+        <p>לוודא לפני: האינטרנט עובד, התרחיש ב-Make פתוח בלשונית נפרדת, הטופס פתוח בלשונית שלישית, והגיליון נקי משורות בדיקה.</p>
+      </div>
+    </section>
+
+    <!-- 2 ................................................ שאלה -->
+    <section class="slide t-mark" data-at="1" data-title="שאלה לקהל">
+      <div class="body center">
+        <h1 style="max-width: 1060px; font-size: 54px">מה הדבר שאתם עושים כל שבוע, שוב ושוב,<br><span class="grad">ושהייתם שמחים לא לעשות?</span></h1>
+        <p class="lead">אני רוצה לשמוע שלוש תשובות לפני שאני ממשיך.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">3 דקות.</span> אל תענה בעצמך. תשאל, תשתוק, וכשנהיה לא נעים - תשתוק עוד קצת. מישהו ישבור.</p>
+        <ul>
+          <li>תרשום את התשובות על לוח או על דף. אתה תחזור אליהן פעמיים - בשקופית הדוגמאות ובתרגיל.</li>
+          <li>אם התשובה מעורפלת ("ניירת"), תבקש דוגמה אחת קונקרטית מהשבוע שעבר.</li>
+          <li>אל תשפוט תשובה ואל תגיד "זה בדיוק מה שאני עושה". רק תרשום ותודה.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3 ................................................ מי אני -->
+    <section class="slide" data-at="4" data-title="מי אני">
+      <div class="head"><h2>רגע אחד עליי, ואז חזרה אליכם</h2></div>
+      <div class="body">
+        <div class="rows">
+          <div class="row" style="grid-template-columns: 1fr"><span class="a">17 שנה בהוראה ובעיצוב</span></div>
+          <div class="row" style="grid-template-columns: 1fr"><span class="a">היום אני בונה אוטומציות ו-AI לעסקים קטנים</span></div>
+          <div class="row" style="grid-template-columns: 1fr"><span class="a">ומלמד אנשים לא טכניים לעשות את זה בעצמם</span></div>
+        </div>
+        <p class="note-line">זה כל מה שצריך לדעת עליי כרגע.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">30 שניות. לא יותר.</span> הם לא באו בשבילך, והם יודעים את זה. ככל שתקצר כאן, כך תרוויח יותר קרדיט להמשך.</p>
+        <p>לא לספר סיפור חיים, לא למנות לקוחות, לא להזכיר את הסדנה. הכול בסוף.</p>
+      </div>
+    </section>
+
+    <!-- 4 ................................................ הגדרה -->
+    <section class="slide" data-at="5" data-title="מה זו אוטומציה">
+      <div class="head"><h2>מה זו בעצם אוטומציה</h2></div>
+      <div class="body">
+        <div class="def">
+          <div class="box"><span class="k">כשקורה משהו</span><span class="v">מגיעה פנייה,<br>מסתיימת פגישה,<br>עובר שבוע</span></div>
+          <div class="to">←</div>
+          <div class="box"><span class="k">קורה משהו אחר</span><span class="v">נשלח מייל,<br>נרשמת שורה,<br>עולה תזכורת</span></div>
+        </div>
+        <p class="lead center" style="text-align:center">בלי שאתם עושים את זה. <b>זהו. כל השאר זה פרטים.</b></p>
+      </div>
+      <div class="notes">
+        <p><span class="when">3 דקות.</span> אל תגיד שם של אף כלי בשלב הזה - לא Make, לא n8n, לא Zapier. ברגע שנופל שם של כלי, חצי מהחדר מחליט שזה לא בשבילו.</p>
+        <p>אם שואלים "זה AI?" - התשובה: לא בהכרח. רוב האוטומציה היא כללים פשוטים. ה-AI נכנס רק כשצריך להבין טקסט חופשי, ונראה את זה בהדגמה.</p>
+      </div>
+    </section>
+
+    <!-- 5 ................................................ דוגמאות -->
+    <section class="slide" data-at="8" data-title="איך זה נראה ביום רגיל">
+      <div class="head"><h2>איך זה נראה ביום רגיל</h2></div>
+      <div class="body">
+        <div class="rows">
+          <div class="row"><span class="a">מגיעה פנייה בטופס</span><span class="to">←</span><span class="b">נרשמת שורה בגיליון ואתם מקבלים התראה</span></div>
+          <div class="row"><span class="a">מסתיימת פגישה</span><span class="to">←</span><span class="b">יוצאת טיוטת מייל סיכום ללקוח</span></div>
+          <div class="row"><span class="a">עובר שבוע בלי תשובה</span><span class="to">←</span><span class="b">עולה לכם תזכורת לחזור אליו</span></div>
+        </div>
+      </div>
+      <div class="notes">
+        <p><span class="when">3 דקות.</span> קשר כל שורה לתשובה שמישהו נתן בשקופית 2. תגיד את השם שלו: "מה שדנה אמרה קודם - זו בדיוק השורה השנייה."</p>
+        <p>אם אף אחת מהתשובות לא מתאימה לשלוש האלה, תגיד את זה בכנות ותשאל את בעל התשובה איך היה רוצה שזה יעבוד.</p>
+      </div>
+    </section>
+
+    <!-- 6 ................................................ המסר -->
+    <section class="slide t-mark" data-at="11" data-title="החלק הקשה">
+      <div class="body center">
+        <p class="huge" style="max-width: 940px">החלק הקשה הוא לא לבנות.<br><span class="grad">הוא לבחור מה לבנות.</span></p>
+      </div>
+      <div class="notes">
+        <p><span class="when">1 דקה.</span> זה המשפט שאתה רוצה שהם יזכרו מחר בבוקר. תגיד אותו, ותעצור. שתי שניות של שקט אחריו שוות יותר מפסקת הסבר.</p>
+        <p>אל תסביר אותו מיד. שתי השקופיות הבאות הן ההסבר.</p>
+      </div>
+    </section>
+
+    <!-- 7 ................................................ שלושה מבחנים -->
+    <section class="slide" data-at="12" data-title="שלושת המבחנים">
+      <div class="head"><h2>איך יודעים שתהליך שווה את זה</h2></div>
+      <div class="body">
+        <div class="cards">
+          <div class="card"><span class="n">1</span><h3>חוזר</h3><p>זה קורה לפחות פעם בשבוע, ובאותה צורה.</p></div>
+          <div class="card"><span class="n">2</span><h3>צפוי</h3><p>אתם יכולים לכתוב את הכללים שלו במשפט אחד.</p></div>
+          <div class="card"><span class="n">3</span><h3>עולה</h3><p>אתם יודעים להגיד בערך כמה זמן הוא לוקח.</p></div>
+        </div>
+        <p class="lead" style="text-align:center">עבר את שלושתם - שווה להתחיל. <b>נפל באחד - עוד לא.</b></p>
+      </div>
+      <div class="notes">
+        <p><span class="when">4 דקות.</span> תעבור על שלושת הקריטריונים עם אחת התשובות שנתנו בשקופית 2, בקול, מול כולם. זה שווה יותר מלהסביר אותם בנפרד.</p>
+        <p>הקריטריון השני הוא זה שמפיל הכי הרבה תהליכים. אם אי אפשר לכתוב את הכלל, זה לא אומר שהתהליך רע - זה אומר שעדיין לא הבנו אותו.</p>
+      </div>
+    </section>
+
+    <!-- 8 ................................................ מה לא -->
+    <section class="slide" data-at="16" data-title="מה עדיף להשאיר">
+      <div class="head"><h2>ומה עדיף להשאיר בדיוק כמו שהוא</h2></div>
+      <div class="body">
+        <div class="cards">
+          <div class="card card--off"><span class="n">×</span><h3>קורה פעם בחודש</h3><p>הזמן שתשקיעו בבנייה לא יחזור אליכם.</p></div>
+          <div class="card card--off"><span class="n">×</span><h3>דורש שיקול דעת</h3><p>אם בכל פעם צריך להחליט מחדש, אין כלל לכתוב.</p></div>
+          <div class="card card--off"><span class="n">×</span><h3>הכללים משתנים</h3><p>תתחזקו את האוטומציה יותר משתשתמשו בה.</p></div>
+        </div>
+        <p class="lead" style="text-align:center">על אלה <b>אני</b> לא הייתי מתחיל. גם לא בשבילכם.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">3 דקות. אל תדלג על השקופית הזו.</span> היא היחידה במפגש שאומרת "לא", והיא זו שקונה את האמון. אחרי שאמרת להם על מה לא לבזבז זמן, הם מאמינים לך על מה שכן.</p>
+        <p>אם מישהו מתעקש שדווקא כן אפשר - אל תתווכח. תגיד "יכול להיות, ואז זה תהליך שצריך לשבת עליו ולא להתחיל ממנו".</p>
+      </div>
+    </section>
+
+    <!-- 9 ................................................ הדגמה -->
+    <section class="slide t-open" data-at="19" data-title="הדגמה חיה">
+      <div class="head">
+        <span class="eyebrow" style="align-self:flex-start">הדגמה</span>
+        <h2>בואו נראה תהליך אחד רץ</h2>
+      </div>
+      <div class="body">
+        <div class="chain">
+          <div class="stop lit"><span class="dot">1</span><span class="lab">פנייה מהטופס</span></div>
+          <div class="stop lit"><span class="dot">2</span><span class="lab">סיווג ודחיפות</span></div>
+          <div class="stop lit"><span class="dot">3</span><span class="lab">טיוטת תשובה</span></div>
+          <div class="stop lit"><span class="dot">4</span><span class="lab">שורה בגיליון</span></div>
+          <div class="stop lit"><span class="dot">5</span><span class="lab">משימת מעקב</span></div>
+        </div>
+        <p class="lead" style="text-align:center">אני ממלא את הטופס עכשיו, מולכם. אתם אומרים לי מה לכתוב.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">10 דקות. זה הלב של המפגש.</span></p>
+        <ul>
+          <li><b>תן לקהל לכתוב את הפנייה.</b> בקש מהם משפט - מה הלקוח הדמיוני רוצה. ככה זה לא מוקלט מראש והם יודעים את זה.</li>
+          <li>שלח, ואז <b>עבור ללשונית של Make ותן להם לראות את הצמתים נדלקים</b>. אל תדבר בזמן שזה רץ.</li>
+          <li>אחרי שזה עבר: פתח את הגיליון, הראה את השורה. פתח את המשימה. הראה את טיוטת התשובה.</li>
+          <li><b>אם האינטרנט נופל:</b> "בדיוק בשביל זה יש צילומי מסך" - עבור לשקופית הבאה ותאר את מה שהיה קורה. אל תתנצל יותר ממשפט אחד.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 10 ............................................... מה קרה -->
+    <section class="slide" data-at="29" data-title="מה קרה שם">
+      <div class="head"><h2>מה בעצם קרה שם</h2></div>
+      <div class="body">
+        <div class="rows">
+          <div class="row" style="grid-template-columns:1fr"><span class="a">לא נגעתי בכלום מהרגע ששלחתי את הטופס</span></div>
+          <div class="row" style="grid-template-columns:1fr"><span class="a">ההחלטה מה דחוף נעשתה לפי כללים <b>שאני</b> כתבתי</span></div>
+          <div class="row" style="grid-template-columns:1fr"><span class="a">התשובה היא טיוטה, לא שליחה. אני עדיין מאשר.</span></div>
+        </div>
+        <p class="lead" style="text-align:center">זה ההבדל בין <b>המחשב עוזר לי</b> לבין <b>המחשב מחליט בשבילי</b>.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">2 דקות.</span> השורה השלישית היא התשובה לפחד הכי גדול בחדר - שה-AI ידבר בשמם עם לקוח. תעצור עליה.</p>
+        <p>אם עולה שאלה על טעויות: "גם אני טועה. ההבדל הוא שהאוטומציה טועה באותה צורה בכל פעם, אז אפשר לתקן אותה פעם אחת."</p>
+      </div>
+    </section>
+
+    <!-- 11 ............................................... תרגיל -->
+    <section class="slide t-mark" data-at="31" data-title="תרגיל">
+      <div class="head"><span class="eyebrow" style="align-self:flex-start">תרגיל · דקה אחת</span></div>
+      <div class="body center">
+        <p class="blank">כשקורה <i></i><br>אני עושה <i></i><br>וזה לוקח לי <i></i></p>
+        <p class="lead">כתבו אחד. אחד מספיק.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">8 דקות.</span> דקה של כתיבה, שבע של הקראה וסיווג.</p>
+        <ul>
+          <li><b>תן 60 עד 90 שניות של שקט אמיתי ואל תמלא אותו.</b> זה יהיה לא נעים. זה בסדר. אם תדבר, אף אחד לא יכתוב.</li>
+          <li>אחר כך בקש שניים או שלושה שיקריאו. אחרי כל אחד, <b>תסווג בקול לפי שלושת המבחנים משקופית 7</b> - חוזר? צפוי? עולה?</li>
+          <li>אם אחד נופל באחד המבחנים, תגיד את זה. זה מוכיח שהמבחנים אמיתיים ולא קישוט.</li>
+          <li>אל תציע לאף אחד לבנות לו את זה. לא כאן.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 12 ............................................... הרגע -->
+    <section class="slide" data-at="39" data-title="יותר מאחד">
+      <div class="body center">
+        <p class="huge" style="max-width: 940px">רוב האנשים מגלים תוך כדי<br>שיש להם <span class="grad">יותר מאחד.</span></p>
+      </div>
+      <div class="notes">
+        <p><span class="when">1 דקה. זה הרגע היחיד שבו משהו נמכר, והוא נמכר לבד.</span></p>
+        <p>תגיד את המשפט. תעצור. תעבור הלאה. <b>אל תוסיף עליו כלום</b> - לא "ובסדנה אנחנו...", לא "אם תרצו". כל תוספת כאן הופכת גילוי שלהם למכירה שלך.</p>
+      </div>
+    </section>
+
+    <!-- 13 ............................................... מחר בבוקר -->
+    <section class="slide" data-at="40" data-title="מחר בבוקר">
+      <div class="head"><h2>מה אפשר לעשות מחר בבוקר, לבד</h2></div>
+      <div class="body">
+        <div class="cards">
+          <div class="card"><span class="n">1</span><h3>רשימה של שבוע</h3><p>כל פעם שאתם עושים משהו בפעם השנייה - שורה במחברת. בסוף השבוע יש רשימה.</p></div>
+          <div class="card"><span class="n">2</span><h3>העבירו במבחן</h3><p>שלושת הקריטריונים מקודם. סמנו מה עובר ומה לא.</p></div>
+          <div class="card"><span class="n">3</span><h3>התחילו מהקטן</h3><p>לא מהכי כואב - מהכי פשוט. הניצחון הראשון חשוב יותר מהגודל שלו.</p></div>
+        </div>
+      </div>
+      <div class="notes">
+        <p><span class="when">4 דקות.</span> זה הערך שהולך איתם הביתה בלי לשלם. תגיד את זה במפורש: "אפשר לעשות את שלושת אלה בלעדיי, והם יעבדו."</p>
+        <p>הסעיף השלישי הוא העצה הכי שימושית במפגש. רוב האנשים מתחילים מהתהליך הכי כואב, נתקעים, ומסיקים שזה לא בשבילם.</p>
+      </div>
+    </section>
+
+    <!-- 14 ............................................... סגירה -->
+    <section class="slide t-open" data-at="44" data-title="סיום">
+      <div class="body center">
+        <svg class="logo" style="width:74px;height:74px"><use href="#mark"/></svg>
+        <h2>תודה</h2>
+        <div class="contact">
+          <p class="line">ארז ברטל · AI ואוטומציה לעסקים</p>
+          <p class="line mono" dir="ltr"><b>automations.erezb.pro</b></p>
+          <p class="line mono" dir="ltr">erezbrtl@gmail.com · 052-8657748</p>
+        </div>
+        <p class="note-line">אם בא לכם לקחת את זה הלאה - הפרטים כאן.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">2 דקות, ואז שאלות.</span></p>
+        <p><b>אל תוסיף פיץ'.</b> תגיד את המשפט האחרון, תשאיר את השקופית על המסך, ותשתוק. מי שרוצה - יגש. זה עובד טוב יותר מכל קריאה לפעולה, והוא היחיד שמתאים למפגש שהיה חינם.</p>
+        <p>אם שואלים ישירות "כמה זה עולה" - "תלוי במה בונים. שלח לי מה כתבת בתרגיל ואגיד לך." ככה השיחה ממשיכה במקום להיגמר במספר.</p>
+      </div>
+    </section>
+
+    <div class="tag"><svg class="logo" style="width:20px;height:20px"><use href="#mark"/></svg><span class="num" id="num" dir="ltr"></span></div>
+    <div id="bar"><i></i></div>
+  </div>
+</div>
+
+<div id="clock"><span id="elapsed">00:00</span><span id="drift"></span></div>
+<div id="notes"><h4>הערות מנחה</h4><div id="notesBody"></div></div>
+<div id="over"><div class="grid" id="overGrid"></div></div>
+<div id="handout"></div>
+<div id="help">← הבא · → הקודם · S הערות · T טיימר · O סקירה · F מסך מלא · H דף מנחה</div>
+
+<script>
+(function () {
+  "use strict";
+  var slides = [].slice.call(document.querySelectorAll(".slide"));
+  var canvas = document.getElementById("canvas");
+  var notes = document.getElementById("notes");
+  var notesBody = document.getElementById("notesBody");
+  var over = document.getElementById("over");
+  var num = document.getElementById("num");
+  var barFill = document.querySelector("#bar i");
+  var i = 0;
+
+  /* ---------- fit the fixed canvas to whatever screen it is on ---------- */
+  function fit() {
+    var pad = 0.95;
+    var k = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * pad;
+    canvas.style.setProperty("--k", k);
+  }
+  window.addEventListener("resize", fit);
+  fit();
+
+  /* ---------- moving between slides ---------- */
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
+    num.textContent = (i + 1) + " / " + slides.length;
+    barFill.style.width = ((i + 1) / slides.length * 100) + "%";
+    var src = slides[i].querySelector(".notes");
+    notesBody.innerHTML = src ? src.innerHTML : "<p>-</p>";
+    location.hash = String(i + 1);
+    drift();
+  }
+  function go(d) { show(i + d); }
+
+  /* ---------- the clock, against the plan ----------
+     each slide carries the minute it should start at, so the only number
+     that matters while presenting is how far off the plan you are */
+  var t0 = null, ticking = false;
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function drift() {
+    var d = document.getElementById("drift");
+    if (!ticking || t0 === null) { d.textContent = ""; return; }
+    var mins = (Date.now() - t0) / 60000;
+    var due = Number(slides[i].getAttribute("data-at") || 0);
+    var off = Math.round(mins - due);
+    if (Math.abs(off) < 1) { d.textContent = "בזמן"; d.className = "ahead"; return; }
+    d.textContent = off > 0 ? ("מאחר " + off + " דק'") : ("מקדים " + (-off) + " דק'");
+    d.className = off > 0 ? "behind" : "ahead";
+  }
+  setInterval(function () {
+    if (!ticking || t0 === null) { return; }
+    var s = Math.floor((Date.now() - t0) / 1000);
+    document.getElementById("elapsed").textContent = pad2(Math.floor(s / 60)) + ":" + pad2(s % 60);
+    drift();
+  }, 1000);
+
+  /* ---------- the overview ---------- */
+  var grid = document.getElementById("overGrid");
+  slides.forEach(function (s, k) {
+    var b = document.createElement("button");
+    b.innerHTML = '<span class="k">' + (k + 1) + '</span>' + (s.getAttribute("data-title") || "");
+    b.addEventListener("click", function () { over.classList.remove("is-on"); show(k); });
+    grid.appendChild(b);
+  });
+
+  /* ---------- the presenter sheet ----------
+     the same notes, on paper, so the projector never shows them */
+  var handout = document.getElementById("handout");
+  (function build() {
+    var html = '<p class="h-head">מפגש היכרות - דף מנחה</p>';
+    slides.forEach(function (s, k) {
+      var n = s.querySelector(".notes");
+      html += '<div class="h-slide"><span class="h-at">' + (k + 1) + " · דקה " +
+        (s.getAttribute("data-at") || 0) + '</span>' +
+        "<h3>" + (s.getAttribute("data-title") || "") + "</h3>" +
+        '<div class="h-body">' + (n ? n.innerHTML : "") + "</div></div>";
+    });
+    handout.innerHTML = html;
+  })();
+  function printHandout() {
+    document.body.classList.add("handout");
+    window.print();
+    setTimeout(function () { document.body.classList.remove("handout"); }, 400);
+  }
+
+  /* ---------- keys ----------
+     right to left: the left arrow moves the story forward, the way the
+     text runs. Space and PageDown work too, for a clicker. */
+  document.addEventListener("keydown", function (e) {
+    var k = e.key;
+    if (k === "Escape") { over.classList.remove("is-on"); return; }
+    if (k === "ArrowLeft" || k === "ArrowDown" || k === " " || k === "PageDown") { go(1); e.preventDefault(); return; }
+    if (k === "ArrowRight" || k === "ArrowUp" || k === "PageUp") { go(-1); e.preventDefault(); return; }
+    if (k === "Home") { show(0); return; }
+    if (k === "End") { show(slides.length - 1); return; }
+    var low = k.toLowerCase();
+    if (low === "s") { notes.classList.toggle("is-on"); return; }
+    if (low === "h") { printHandout(); return; }
+    if (low === "o") { over.classList.toggle("is-on"); return; }
+    if (low === "f") {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else { document.documentElement.requestFullscreen(); }
+      return;
+    }
+    if (low === "t") {
+      if (!ticking) { t0 = Date.now(); ticking = true; document.getElementById("clock").classList.add("is-on"); }
+      else { ticking = false; document.getElementById("clock").classList.remove("is-on"); }
+      drift();
+      return;
+    }
+  });
+
+  /* a click on the slide advances, but not a click on the chrome */
+  canvas.addEventListener("click", function (e) {
+    if (e.target.closest("#notes, #over, #clock")) { return; }
+    go(1);
+  });
+
+  /* the hints fade on their own, and any key brings them back briefly */
+  var help = document.getElementById("help");
+  var helpTimer = 0;
+  function hintFade() {
+    clearTimeout(helpTimer);
+    help.classList.remove("is-gone");
+    helpTimer = setTimeout(function () { help.classList.add("is-gone"); }, 5000);
+  }
+  document.addEventListener("keydown", hintFade);
+  hintFade();
+
+  var start = Number((location.hash || "").slice(1));
+  show(start > 0 ? start - 1 : 0);
+})();
+</script>
+</body>
+</html>
