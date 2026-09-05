@@ -6,6 +6,7 @@
 <title>מפגש היכרות - התהליכים שחוזרים על עצמם בעסק שלכם</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="media.css">
 <style>
 /* =========================================================
    מצגת למפגש ההיכרות - 50 דקות
@@ -13,18 +14,49 @@
    פריחות סגול/כחול/מג'נטה, מבטא ארגמן, נוטו סאנס עברית בלבד.
 
    מקשים: ← הבא · → הקודם · רווח הבא · S הערות · T טיימר
-          O סקירה · F מסך מלא · Ctrl+P מייצא ל-PDF
+          O סקירה · F מסך מלא · H דף מנחה · Ctrl+P מייצא ל-PDF
+
+   ---------------------------------------------------------
+   The design rests on three decisions.
+
+   FOUR SILHOUETTES, NOT ONE. A deck where every slide is a heading at the
+   top and three boxes underneath reads, over fifty minutes, as one long
+   slide. So a slide is one of: l-open (the two ends), l-full (a sentence
+   owning the canvas), l-split (heading pinned to a narrow rail with the
+   content beside it), l-stack (heading over full-width content) or l-hero
+   (one object, large, with a caption). No two neighbours repeat a shape
+   unless the repetition means something - slides 10 and 11 are deliberately
+   the same shape, because the second is the first inverted.
+
+   THREE SURFACE LEVELS, NOT ONE. A single flat dark tone with everything at
+   rgba(255,255,255,.05) has no hierarchy: the eye has nowhere to land.
+   --s1 recedes, --s2 is the working surface, --s3 is raised and carries a
+   real shadow. One element per slide gets --s3, and at most one gets the
+   crimson.
+
+   A BASELINE, NOT CENTRING. Every slide reserves the same head band and the
+   same foot band, so headings do not drift vertically from slide to slide.
    ========================================================= */
 
 :root {
+  /* grounds */
   --night: #0A0613;
   --night-2: #140B23;
   --violet: #6A1CB0;
   --blue: #1F46D8;
   --magenta: #B01252;
 
+  /* three surface levels - the whole reason the deck reads as layered */
+  --s1: rgba(255,255,255,.022);
+  --s2: linear-gradient(180deg, rgba(255,255,255,.062), rgba(255,255,255,.026));
+  --s3: linear-gradient(180deg, rgba(255,255,255,.115), rgba(255,255,255,.05));
+  --edge-1: rgba(255,255,255,.09);
+  --edge-2: rgba(255,255,255,.14);
+  --edge-3: rgba(255,255,255,.24);
+  --lift: 0 22px 48px -22px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.03) inset;
+
   --ink: #FFFFFF;
-  --ink-soft: #C6BCD8;
+  --ink-soft: #CDC4DC;
   --ink-faint: #8E85A3;
   --hair: rgba(255,255,255,.13);
 
@@ -37,6 +69,12 @@
      so a heading is the same size in fullscreen, on a laptop and in print */
   --W: 1280px;
   --H: 720px;
+
+  /* one margin, one gutter, everywhere */
+  --pad-x: 96px;
+  --pad-t: 66px;
+  --pad-b: 76px;
+  --gut: 22px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -52,10 +90,7 @@ html, body {
 
 /* ---------- the stage ---------- */
 
-#stage {
-  position: fixed; inset: 0;
-  display: grid; place-items: center;
-}
+#stage { position: fixed; inset: 0; display: grid; place-items: center; }
 
 #canvas {
   position: relative;
@@ -63,7 +98,7 @@ html, body {
   transform: scale(var(--k, 1));
   transform-origin: center center;
   background: var(--night);
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -71,7 +106,7 @@ html, body {
 .slide {
   position: absolute; inset: 0;
   display: none;
-  padding: 76px 92px 84px;
+  padding: var(--pad-t) var(--pad-x) var(--pad-b);
   background:
     radial-gradient(120% 90% at 88% -18%, rgba(106,28,176,.42), transparent 62%),
     radial-gradient(90% 80% at -12% 108%, rgba(31,70,216,.30), transparent 64%),
@@ -92,22 +127,25 @@ html, body {
     var(--night);
 }
 
-/* ---------- type ---------- */
+/* ---------- type ----------
+   Hebrew at heavy weights needs a little more leading and a little less
+   tracking than the same size in Latin, or the counters close up. */
 
 .eyebrow {
-  display: inline-block;
-  font-size: 17px; font-weight: 700; letter-spacing: .02em;
+  display: inline-block; align-self: flex-start;
+  font-size: 16px; font-weight: 700; letter-spacing: .04em;
   color: var(--ink-soft);
-  padding: 7px 16px; border-radius: 999px;
-  border: 1px solid var(--hair);
-  background: rgba(255,255,255,.04);
+  padding: 7px 15px; border-radius: 999px;
+  border: 1px solid var(--edge-2);
+  background: var(--s1);
 }
 
-h1 { margin: 0; font-size: 68px; font-weight: 800; line-height: 1.14; letter-spacing: -.015em; }
-h2 { margin: 0; font-size: 46px; font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
-.huge { font-size: 60px; font-weight: 800; line-height: 1.24; letter-spacing: -.012em; }
-.lead { font-size: 25px; line-height: 1.62; color: var(--ink-soft); font-weight: 400; margin: 0; }
-.note-line { font-size: 22px; line-height: 1.6; color: var(--ink-faint); margin: 0; }
+h1 { margin: 0; font-size: 62px; font-weight: 800; line-height: 1.15; letter-spacing: -.018em; }
+h2 { margin: 0; font-size: 44px; font-weight: 800; line-height: 1.18; letter-spacing: -.012em; }
+.huge { font-size: 72px; font-weight: 800; line-height: 1.16; letter-spacing: -.022em; }
+.lead { font-size: 24px; line-height: 1.6; color: var(--ink-soft); font-weight: 400; margin: 0; }
+.note-line { font-size: 21px; line-height: 1.55; color: var(--ink-faint); margin: 0; }
+.slide p { margin: 0; }
 
 .grad {
   background: linear-gradient(105deg, #FF6E9C 0%, #A45BF0 48%, #5B8CFF 100%);
@@ -117,115 +155,144 @@ h2 { margin: 0; font-size: 46px; font-weight: 800; line-height: 1.2; letter-spac
 b, strong { font-weight: 800; color: var(--ink); }
 .nb { white-space: nowrap; }
 
+/* ---------- the five silhouettes ----------
+   Each reserves the same head and foot band, so nothing drifts vertically
+   between slides; only the middle changes shape. */
+
+.head { display: flex; flex-direction: column; gap: 16px; }
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; min-height: 0; }
+.foot { margin-top: auto; padding-top: 18px; }
+.center { align-items: center; text-align: center; justify-content: center; }
+
+/* l-split - the heading holds a narrow rail, the content sits beside it.
+   This is the shape that breaks the deck's monotony, so it earns its keep
+   on five slides that would otherwise all look like l-stack. */
+.slide.l-split { display: none; }
+.slide.l-split.is-on {
+  display: grid;
+  grid-template-columns: minmax(0, 366px) minmax(0, 1fr);
+  column-gap: 52px; align-items: center;
+}
+.slide.l-split .rail { display: flex; flex-direction: column; gap: 16px; }
+.slide.l-split .rail h2 { font-size: 40px; }
+.slide.l-split .rail .lead { font-size: 21px; }
+.slide.l-split .body { justify-content: center; }
+
+/* l-hero - one object, large, with a caption underneath */
+.slide.l-hero .body { justify-content: center; gap: 40px; }
+
+/* l-full - a single sentence owning the canvas, set off the vertical axis
+   so it does not read as a slide with the middle missing */
+.slide.l-full .body { justify-content: center; align-items: flex-start; text-align: start; }
+.slide.l-full .huge { max-width: 15.5em; }
+
 /* ---------- the icon tile ----------
    one shape, three tempers: the live one carries the accent gradient, the
    quiet one is a hairline outline, the crossed-out one is deliberately dim. */
 .ic {
   width: 46px; height: 46px; border-radius: 14px; flex: none;
   display: grid; place-items: center;
-  border: 1px solid rgba(255,255,255,.16);
-  background: linear-gradient(150deg, rgba(255,110,156,.20), rgba(91,140,255,.16));
+  border: 1px solid var(--edge-2);
+  background: linear-gradient(150deg, rgba(255,110,156,.22), rgba(91,140,255,.17));
   color: #fff;
 }
 .ic svg { width: 24px; height: 24px; display: block; }
 .ic--sm { width: 38px; height: 38px; border-radius: 11px; }
 .ic--sm svg { width: 20px; height: 20px; }
-.ic--off {
-  background: rgba(255,255,255,.04);
-  border-color: var(--hair);
-  color: var(--ink-faint);
-}
+.ic--off { background: var(--s1); border-color: var(--edge-1); color: var(--ink-faint); }
 
-/* ---------- pieces ---------- */
+/* ---------- cards ---------- */
 
-.slide p { margin: 0; }
-.head { display: flex; flex-direction: column; gap: 18px; }
-.body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
-.center { align-items: center; text-align: center; justify-content: center; }
-.foot { margin-top: auto; }
-
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gut); }
 .card {
-  border: 1px solid var(--hair); border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.028));
-  padding: 30px 26px 32px;
+  border: 1px solid var(--edge-2); border-radius: 20px;
+  background: var(--s2);
+  box-shadow: var(--lift);
+  padding: 28px 26px 30px; min-height: 226px;
   display: flex; flex-direction: column; gap: 12px;
 }
-.card .n {
-  width: 38px; height: 38px; border-radius: 11px;
-  display: grid; place-items: center;
-  font-size: 19px; font-weight: 800;
-  background: linear-gradient(140deg, var(--cta), #A22BC8);
-  color: #fff;
-}
-.card h3 { margin: 0; font-size: 29px; font-weight: 800; }
-.card p { margin: 0; font-size: 21px; line-height: 1.52; color: var(--ink-soft); }
+.card h3 { margin: 0; font-size: 28px; font-weight: 800; line-height: 1.22; }
+.card p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft); }
 
-.card--off { background: rgba(255,255,255,.028); }
-.card--off .n {
-  background: rgba(255,255,255,.05);
-  border: 1px solid var(--hair);
-  color: var(--ink-faint); font-size: 22px;
-}
+/* the mirror of the card above: same shape, drained of light, so the room
+   reads "not this" before a word is spoken */
+.card--off { background: var(--s1); border-color: var(--edge-1); box-shadow: none; }
+.card--off h3 { color: var(--ink-soft); }
+.card--off p { color: var(--ink-faint); }
 
-/* trigger -> action rows */
-.rows { display: flex; flex-direction: column; gap: 14px; }
+/* ---------- rows ---------- */
+
+.rows { display: flex; flex-direction: column; gap: 12px; }
 .row {
   display: grid; grid-template-columns: 38px 1fr 44px 1fr; align-items: center;
-  gap: 14px;
-  border: 1px solid var(--hair); border-radius: 16px;
-  background: rgba(255,255,255,.035);
-  padding: 20px 26px;
-  font-size: 22px;
+  gap: 16px;
+  border: 1px solid var(--edge-1); border-radius: 16px;
+  background: var(--s1);
+  padding: 18px 24px;
+  font-size: 21px;
 }
 .row .to { text-align: center; color: var(--cta); font-size: 26px; font-weight: 800; }
-.row .a { color: var(--ink); font-weight: 700; }
+.row .a { color: var(--ink); font-weight: 700; line-height: 1.4; }
+.row .b { color: var(--ink-soft); line-height: 1.4; }
 .row--plain { grid-template-columns: 38px 1fr; }
-.row .b { color: var(--ink-soft); }
 
-/* the two-box definition */
-.def { display: grid; grid-template-columns: 1fr 74px 1fr; align-items: stretch; gap: 10px; }
+/* ---------- the two-box definition ---------- */
+
+.def { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; gap: 8px; }
 .def .box {
-  border: 1.5px solid var(--hair); border-radius: 20px;
-  background: rgba(255,255,255,.045);
-  padding: 34px 26px; text-align: center;
+  border: 1px solid var(--edge-2); border-radius: 20px;
+  background: var(--s2); box-shadow: var(--lift);
+  padding: 30px 24px; text-align: center;
   display: flex; flex-direction: column; justify-content: center; gap: 8px;
 }
-.def .box .ic { width: 54px; height: 54px; border-radius: 16px; margin: 0 auto 4px; }
-.def .box .ic svg { width: 27px; height: 27px; }
-.def .box .k { font-size: 16px; font-weight: 700; color: var(--ink-faint); letter-spacing: .04em; }
-.def .box .v { font-size: 32px; font-weight: 800; line-height: 1.28; }
-.def .to { display: grid; place-items: center; font-size: 40px; font-weight: 800; color: var(--cta); }
+.def .box .ic { width: 52px; height: 52px; border-radius: 16px; margin: 0 auto 6px; }
+.def .box .ic svg { width: 26px; height: 26px; }
+.def .box .k { font-size: 15px; font-weight: 700; color: var(--ink-faint); letter-spacing: .05em; }
+.def .box .v { font-size: 29px; font-weight: 800; line-height: 1.3; }
+.def .to { display: grid; place-items: center; font-size: 36px; font-weight: 800; color: var(--cta); }
+/* the same two boxes standing beside each other rather than leading into
+   each other, so the divider reads "against", not "becomes" */
+.def--vs .to { font-size: 19px; font-weight: 700; color: var(--ink-faint); }
 
-/* the five-stop chain, same one that runs on the site */
+/* ---------- the process chain ----------
+   On its own slide this is the hero, not a diagram in a corner: it gets the
+   middle band of the canvas and room to breathe. */
+
 .chain { display: flex; align-items: stretch; gap: 0; }
 .stop {
   flex: 1; text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
-  position: relative;
-  padding: 0 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  position: relative; padding: 0 8px;
 }
 .stop::before {
-  content: ""; position: absolute; top: 31px;
+  content: ""; position: absolute; top: 39px;
   inset-inline-start: -50%; width: 100%; height: 1.5px;
   background: rgba(255,255,255,.22);
 }
 .stop:first-child::before { display: none; }
 .stop .dot {
-  width: 62px; height: 62px; border-radius: 18px;
-  border: 1.5px solid rgba(255,255,255,.2);
-  background: rgba(255,255,255,.05);
+  width: 78px; height: 78px; border-radius: 22px;
+  border: 1.5px solid var(--edge-3);
+  background: var(--s1);
   display: grid; place-items: center;
-  font-size: 21px; font-weight: 800; color: var(--ink-soft);
+  color: var(--ink-soft);
   position: relative; z-index: 1;
+  transition: none;
 }
-.stop .dot svg { width: 29px; height: 29px; display: block; }
-.stop.lit .dot {
+.stop .dot svg { width: 34px; height: 34px; display: block; }
+.stop .lit-mark {
+  position: absolute; inset: -9px; border-radius: 30px;
+  border: 1.5px solid rgba(164,91,240,.5);
+  opacity: 0;
+}
+.stop.lit .dot, .chain--run .stop.lit .dot {
   border-color: transparent;
   background: linear-gradient(140deg, #A45BF0, #5B8CFF);
   color: #fff;
-  box-shadow: 0 0 0 5px rgba(164,91,240,.16);
+  box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7);
 }
+.stop .lab { font-size: 20px; line-height: 1.35; color: var(--ink-soft); }
+.stop.lit .lab { color: var(--ink); font-weight: 700; }
 
 /* the chain runs itself while the slide is up: one shared clock, each stop
    differing only by where in the loop it lights - never by its own delay,
@@ -243,57 +310,77 @@ b, strong { font-weight: 800; color: var(--ink); }
 .chain--run .stop:nth-child(4) .lab { animation-name: lab4; }
 .chain--run .stop:nth-child(5) .lab { animation-name: lab5; }
 
-@keyframes lit1 { 0%,4% { } 8%,22% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 30%,100% { } }
-@keyframes lit2 { 0%,18% { } 22%,36% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 44%,100% { } }
-@keyframes lit3 { 0%,32% { } 36%,50% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 58%,100% { } }
-@keyframes lit4 { 0%,46% { } 50%,64% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 72%,100% { } }
-@keyframes lit5 { 0%,60% { } 64%,80% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 5px rgba(164,91,240,.16); } 88%,100% { } }
+@keyframes lit1 { 0%,4% { } 8%,22% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7); } 30%,100% { } }
+@keyframes lit2 { 0%,18% { } 22%,36% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7); } 44%,100% { } }
+@keyframes lit3 { 0%,32% { } 36%,50% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7); } 58%,100% { } }
+@keyframes lit4 { 0%,46% { } 50%,64% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7); } 72%,100% { } }
+@keyframes lit5 { 0%,60% { } 64%,80% { border-color: transparent; background: linear-gradient(140deg,#A45BF0,#5B8CFF); color:#fff; box-shadow: 0 0 0 6px rgba(164,91,240,.15), 0 14px 34px -10px rgba(120,70,240,.7); } 88%,100% { } }
 @keyframes lab1 { 0%,4% { } 8%,22% { color: var(--ink); font-weight: 700; } 30%,100% { } }
 @keyframes lab2 { 0%,18% { } 22%,36% { color: var(--ink); font-weight: 700; } 44%,100% { } }
 @keyframes lab3 { 0%,32% { } 36%,50% { color: var(--ink); font-weight: 700; } 58%,100% { } }
 @keyframes lab4 { 0%,46% { } 50%,64% { color: var(--ink); font-weight: 700; } 72%,100% { } }
 @keyframes lab5 { 0%,60% { } 64%,80% { color: var(--ink); font-weight: 700; } 88%,100% { } }
-.stop .lab { font-size: 19px; line-height: 1.4; color: var(--ink-soft); }
-.stop.lit .lab { color: var(--ink); font-weight: 700; }
 
-/* a number that has to carry a room: the figure large, the sentence under
-   it small, and the source line where an honest slide keeps it */
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat {
-  border: 1px solid var(--hair); border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.028));
-  padding: 26px 24px 28px;
-  display: flex; flex-direction: column; gap: 10px;
+/* ---------- statistics ----------
+   A number that has to carry a room should not sit in a box competing with
+   two other boxes. A rule above it, the figure large, the sentence small:
+   editorial, not boxy - and the three read as one row, not three cards. */
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+.stat { display: flex; flex-direction: column; gap: 14px; padding-top: 22px; position: relative; }
+.stat::before {
+  content: ""; position: absolute; inset-block-start: 0; inset-inline: 0;
+  height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, #5B8CFF, #A45BF0 55%, #FF6E9C);
+  opacity: .85;
 }
 .stat .num {
-  font-size: 52px; font-weight: 800; line-height: 1.05; letter-spacing: -.02em;
+  font-size: 72px; font-weight: 800; line-height: 1; letter-spacing: -.03em;
   background: linear-gradient(105deg, #FF6E9C 0%, #A45BF0 48%, #5B8CFF 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.stat p { margin: 0; font-size: 19px; line-height: 1.5; color: var(--ink-soft); }
+.stat p { margin: 0; font-size: 19px; line-height: 1.55; color: var(--ink-soft); }
 .src { font-size: 15px; line-height: 1.5; color: var(--ink-faint); }
 
-/* the same two boxes, but standing beside each other rather than leading
-   into each other - so the divider reads "against", not "becomes" */
-.def--vs .to { font-size: 20px; font-weight: 700; color: var(--ink-faint); }
+/* ---------- the exercise ----------
+   The emotional peak of the session, so it is the one slide with nothing
+   else on it: the sentence at display size, the blanks as real ruled lines. */
 
-/* the fill-in-the-blank exercise */
-.blank {
-  font-size: 44px; font-weight: 800; line-height: 1.75; letter-spacing: -.01em;
-  text-align: start;
-}
+.blank { font-size: 50px; font-weight: 800; line-height: 1.85; letter-spacing: -.015em; text-align: start; }
 .blank i {
   font-style: normal; display: inline-block;
-  min-width: 190px; border-bottom: 3px solid var(--cta);
-  margin: 0 8px;
+  min-width: 230px; border-bottom: 3px solid var(--cta);
+  margin: 0 10px;
 }
 
-/* the closing card */
-.contact { display: flex; flex-direction: column; gap: 12px; align-items: center; }
-.contact .line { font-size: 24px; color: var(--ink-soft); }
+/* ---------- who I am ---------- */
+
+.who { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; align-items: center; }
+.pic {
+  width: 200px; height: 200px; border-radius: 26px;
+  background-size: cover; background-position: 50% 22%;
+  border: 1px solid var(--edge-2);
+  box-shadow: var(--lift);
+}
+.taught { display: flex; flex-direction: column; gap: 14px; }
+.taught .cap { font-size: 16px; color: var(--ink-faint); font-weight: 700; letter-spacing: .03em; }
+.taught .marks { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+.taught .marks i {
+  display: block; background-repeat: no-repeat;
+  background-position: center; background-size: contain;
+  opacity: .62; filter: grayscale(1);
+}
+.taught .marks .m-emeq { width: 100px; height: 38px; }
+.taught .marks .m-braude { width: 104px; height: 33px; }
+.taught .marks .m-netanya { width: 112px; height: 22px; }
+.taught .marks .m-hackeru { width: 92px; height: 29px; }
+
+/* ---------- the closing card ---------- */
+
+.contact { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.contact .line { font-size: 23px; color: var(--ink-soft); }
 .contact .line b { font-weight: 800; }
 .mono { font-variant-numeric: tabular-nums; }
-
 .logo { width: 62px; height: 62px; display: block; }
 
 /* the notes live inside their slide so they stay next to the words they
@@ -317,6 +404,7 @@ b, strong { font-weight: 800; color: var(--ink); }
 .slide > * { position: relative; z-index: 1; }
 
 .slide.is-on .head > *,
+.slide.is-on .rail > *,
 .slide.is-on .body > *,
 .slide.is-on .foot > * { animation: rise .42s cubic-bezier(.22,.61,.36,1) both; }
 .slide.is-on .body > *:nth-child(2) { animation-delay: .06s; }
@@ -324,11 +412,13 @@ b, strong { font-weight: 800; color: var(--ink); }
 .slide.is-on .foot > * { animation-delay: .14s; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-/* the cards and rows arrive one after another, right to left */
-.slide.is-on .cards > *, .slide.is-on .rows > * { animation: rise .42s cubic-bezier(.22,.61,.36,1) both; }
-.slide.is-on .cards > *:nth-child(1), .slide.is-on .rows > *:nth-child(1) { animation-delay: .08s; }
-.slide.is-on .cards > *:nth-child(2), .slide.is-on .rows > *:nth-child(2) { animation-delay: .14s; }
-.slide.is-on .cards > *:nth-child(3), .slide.is-on .rows > *:nth-child(3) { animation-delay: .20s; }
+/* the cards, rows and figures arrive one after another, right to left */
+.slide.is-on .cards > *, .slide.is-on .rows > *, .slide.is-on .stats > * {
+  animation: rise .42s cubic-bezier(.22,.61,.36,1) both;
+}
+.slide.is-on .cards > *:nth-child(1), .slide.is-on .rows > *:nth-child(1), .slide.is-on .stats > *:nth-child(1) { animation-delay: .08s; }
+.slide.is-on .cards > *:nth-child(2), .slide.is-on .rows > *:nth-child(2), .slide.is-on .stats > *:nth-child(2) { animation-delay: .14s; }
+.slide.is-on .cards > *:nth-child(3), .slide.is-on .rows > *:nth-child(3), .slide.is-on .stats > *:nth-child(3) { animation-delay: .20s; }
 
 /* the loop behind the title slide - the thing the whole session is about */
 .watermark {
@@ -343,8 +433,9 @@ b, strong { font-weight: 800; color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
   .slide::after, .watermark { animation: none; }
-  .slide.is-on .head > *, .slide.is-on .body > *, .slide.is-on .foot > *,
-  .slide.is-on .cards > *, .slide.is-on .rows > * { animation: none; }
+  .slide.is-on .head > *, .slide.is-on .rail > *, .slide.is-on .body > *,
+  .slide.is-on .foot > *, .slide.is-on .cards > *, .slide.is-on .rows > *,
+  .slide.is-on .stats > * { animation: none; }
   .chain--run .stop .dot, .chain--run .stop .lab { animation: none; }
   .chain--run .stop .dot {
     border-color: transparent; color: #fff;
@@ -353,20 +444,29 @@ b, strong { font-weight: 800; color: var(--ink); }
   .chain--run .stop .lab { color: var(--ink); font-weight: 700; }
 }
 
-/* ---------- chrome ---------- */
+/* ---------- chrome ----------
+   The bar is divided into the session's five movements rather than seventeen
+   equal ticks, so a glance says which part of the talk is running, not which
+   slide number is up. */
 
 .tag {
-  position: absolute; inset-block-end: 30px; inset-inline-start: 92px;
-  font-size: 15px; color: var(--ink-faint);
+  position: absolute; inset-block-end: 26px; inset-inline-start: var(--pad-x);
+  font-size: 14px; color: var(--ink-faint);
   display: flex; gap: 10px; align-items: center;
 }
 .tag .num { font-variant-numeric: tabular-nums; }
 
 #bar {
   position: absolute; inset-block-end: 0; inset-inline: 0;
-  height: 3px; background: rgba(255,255,255,.07);
+  height: 4px; display: flex; gap: 2px;
+  background: rgba(255,255,255,.05);
 }
-#bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #5B8CFF, var(--cta)); transition: width .25s ease; }
+#bar span { flex: 1; position: relative; overflow: hidden; }
+#bar span i {
+  position: absolute; inset-block: 0; inset-inline-start: 0; width: 0;
+  background: linear-gradient(90deg, #5B8CFF, var(--cta));
+  transition: width .3s ease;
+}
 
 /* speaker notes */
 #notes {
@@ -404,10 +504,10 @@ b, strong { font-weight: 800; color: var(--ink); }
   background: rgba(5,3,10,.96); overflow: auto; padding: 30px;
 }
 #over.is-on { display: block; }
-#over .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+#over .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 #over button {
   all: unset; cursor: pointer;
-  border: 1px solid var(--hair); border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--edge-1); border-radius: 10px; overflow: hidden;
   aspect-ratio: 16 / 9; position: relative;
   background: var(--night-2);
   display: grid; place-items: center; text-align: center;
@@ -422,7 +522,7 @@ b, strong { font-weight: 800; color: var(--ink); }
 /* the key hints are for the first few seconds of the session, not for the
    talk - they fade themselves out and come back on any keypress */
 #help {
-  position: fixed; inset-block-end: 12px; inset-inline: 0; z-index: 22;
+  position: fixed; inset-block-end: 6px; inset-inline: 0; z-index: 22;
   text-align: center;
   font-size: 12px; color: rgba(255,255,255,.34);
   transition: opacity .6s ease;
@@ -448,7 +548,15 @@ b, strong { font-weight: 800; color: var(--ink); }
   html, body { overflow: visible; height: auto; background: #fff; }
   #stage { position: static; display: block; }
   #canvas { width: 1280px; height: auto; transform: none; border-radius: 0; }
-  .slide { position: static; display: flex !important; flex-direction: column; height: 720px; break-after: page; }
+  .slide {
+    position: static; display: flex !important; flex-direction: column;
+    height: 720px; break-after: page;
+  }
+  .slide.l-split {
+    display: grid !important;
+    grid-template-columns: minmax(0, 366px) minmax(0, 1fr);
+    column-gap: 52px; align-items: center;
+  }
   #notes, #clock, #over, #help, #bar { display: none !important; }
   .slide::after, .watermark, .slide *, .slide { animation: none !important; }
   .chain--run .stop .dot {
@@ -506,7 +614,7 @@ b, strong { font-weight: 800; color: var(--ink); }
   <div id="canvas">
 
     <!-- 1 ................................................ פתיחה -->
-    <section class="slide t-open" data-at="0" data-title="פתיחה">
+    <section class="slide t-open l-open" data-at="0" data-title="פתיחה">
       <div class="watermark"><svg viewBox="0 0 24 24"><use href="#i-loop"/></svg></div>
       <div class="head"><svg class="logo"><use href="#mark"/></svg></div>
       <div class="body">
@@ -524,9 +632,9 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 2 ................................................ שאלה -->
-    <section class="slide t-mark" data-at="0" data-title="שאלה לקהל">
-      <div class="body center">
-        <h1 style="max-width: 1060px; font-size: 54px">מה הדבר שאתם עושים כל שבוע, שוב ושוב,<br><span class="grad">ושהייתם שמחים לא לעשות?</span></h1>
+    <section class="slide t-mark l-full" data-at="0" data-title="שאלה לקהל">
+      <div class="body">
+        <p class="huge" style="max-width: 1090px">מה הדבר שאתם עושים כל שבוע, שוב ושוב,<br><span class="grad">ושהייתם שמחים לא לעשות?</span></p>
         <p class="lead">אני רוצה לשמוע שלוש תשובות לפני שאני ממשיך.</p>
       </div>
       <div class="notes">
@@ -540,32 +648,46 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 3 ................................................ מי אני -->
-    <section class="slide" data-at="3" data-title="מי אני">
+    <section class="slide l-stack" data-at="3" data-title="מי אני">
       <div class="head"><h2>רגע אחד עליי, ואז חזרה אליכם</h2></div>
       <div class="body">
-        <div class="rows">
-          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-teach"/></svg></span><span class="a">17 שנה בהוראה ובעיצוב</span></div>
-          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="a">היום אני בונה אוטומציות ו-AI לעסקים קטנים</span></div>
-          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-people"/></svg></span><span class="a">ומלמד אנשים לא טכניים לעשות את זה בעצמם</span></div>
+        <div class="who">
+          <div class="pic pic-erez" role="img" aria-label="ארז ברטל"></div>
+          <div class="rows">
+            <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-teach"/></svg></span><span class="a">17 שנה בהוראה ובעיצוב</span></div>
+            <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="a">היום אני בונה אוטומציות ו-AI לעסקים קטנים</span></div>
+            <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-people"/></svg></span><span class="a">ומלמד אנשים לא טכניים לעשות את זה בעצמם</span></div>
+          </div>
         </div>
-        <p class="note-line">זה כל מה שצריך לדעת עליי כרגע.</p>
+        <div class="taught">
+          <span class="cap">לימדתי והדרכתי יותר מ-1,000 סטודנטים</span>
+          <div class="marks">
+            <i class="m-emeq lg-emeq" role="img" aria-label="המכללה האקדמית עמק יזרעאל"></i>
+            <i class="m-braude lg-braude" role="img" aria-label="המכללה האקדמית להנדסה אורט בראודה"></i>
+            <i class="m-netanya lg-netanya" role="img" aria-label="המכללה האקדמית נתניה"></i>
+            <i class="m-hackeru lg-hackeru" role="img" aria-label="HackerU"></i>
+          </div>
+        </div>
       </div>
       <div class="notes">
         <p><span class="when">30 שניות. לא יותר.</span> הם לא באו בשבילך, והם יודעים את זה. ככל שתקצר כאן, כך תרוויח יותר קרדיט להמשך.</p>
-        <p>לא לספר סיפור חיים, לא למנות לקוחות, לא להזכיר את הסדנה. הכול בסוף.</p>
+        <p>אל תקריא את הלוגואים ואל תפרט. הם נרשמים בעין תוך שנייה וזה כל תפקידם. לא לספר סיפור חיים, לא למנות לקוחות, לא להזכיר את הסדנה.</p>
       </div>
     </section>
 
     <!-- 4 ................................................ מה זו בינה מלאכותית -->
-    <section class="slide" data-at="4" data-title="מה זו בינה מלאכותית">
-      <div class="head"><h2>מה זו בינה מלאכותית, בלי הז'רגון</h2></div>
+    <section class="slide l-split" data-at="4" data-title="מה זו בינה מלאכותית">
+      <div class="rail">
+        <h2>מה זו בינה מלאכותית, בלי הז'רגון</h2>
+        <p class="lead">בגלל זה היא יודעת לקרוא מייל, פנייה או שיחה - <b>מה שתוכנה רגילה מעולם לא ידעה.</b></p>
+        <p class="note-line">ובגלל זה בדיוק היא גם טועה לפעמים. היא מנחשת, היא לא יודעת.</p>
+      </div>
       <div class="body">
         <div class="def def--vs">
           <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="k">בינה מלאכותית</span><span class="v">מנחשת מה הכי<br>סביר שיבוא עכשיו</span></div>
           <div class="to">מול</div>
           <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-rule"/></svg></span><span class="k">תוכנה רגילה</span><span class="v">עושה בדיוק מה<br>שכתבו לה</span></div>
         </div>
-        <p class="lead" style="text-align:center">בגלל זה היא יודעת לקרוא מייל, פנייה או שיחה - <b>מה שתוכנה רגילה מעולם לא ידעה.</b><br>ובגלל זה בדיוק היא גם טועה לפעמים. היא מנחשת, היא לא יודעת.</p>
       </div>
       <div class="notes">
         <p><span class="when">2 דקות.</span> זו ההגדרה השימושית היחידה לבעל עסק, וכל השאר במפגש נשען עליה.</p>
@@ -578,13 +700,13 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 5 ................................................ כמה מהר -->
-    <section class="slide" data-at="6" data-title="כמה מהר זה קרה">
+    <section class="slide l-stack" data-at="6" data-title="כמה מהר זה קרה">
       <div class="head"><h2>כמה מהר זה קרה</h2></div>
       <div class="body">
         <div class="stats">
-          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><span class="num">חודשיים</span><p>הזמן שלקח ל-ChatGPT להגיע ל-100 מיליון משתמשים. לטיקטוק לקח תשעה חודשים, לאינסטגרם שנתיים וחצי.</p></div>
-          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-trend"/></svg></span><span class="num" dir="ltr">39%</span><p>מהעסקים בישראל משתמשים ב-AI בייצור מוצרים ושירותים. ביוני 2025 זה עמד על 28%&rlm;.</p></div>
-          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-build"/></svg></span><span class="num" dir="ltr">21%</span><p>מהעסקים בענף הבנייה. ביולי 2025 זה היה 6%&rlm;. <b>זה כבר לא סיפור של הייטק.</b></p></div>
+          <div class="stat"><span class="num">חודשיים</span><p>הזמן שלקח ל-ChatGPT להגיע ל-100 מיליון משתמשים. לטיקטוק לקח תשעה חודשים, לאינסטגרם שנתיים וחצי.</p></div>
+          <div class="stat"><span class="num" dir="ltr">39%</span><p>מהעסקים בישראל משתמשים ב-AI בייצור מוצרים ושירותים. ביוני 2025 זה עמד על 28%&rlm;.</p></div>
+          <div class="stat"><span class="num" dir="ltr">21%</span><p>מהעסקים בענף הבנייה. ביולי 2025 זה היה 6%&rlm;. <b>זה כבר לא סיפור של הייטק.</b></p></div>
         </div>
       </div>
       <div class="foot">
@@ -601,15 +723,17 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 6 ................................................ מה זה אומר לעסק -->
-    <section class="slide" data-at="9" data-title="מה זה אומר לעסק">
-      <div class="head"><h2>מה זה אומר לעסק שלכם</h2></div>
+    <section class="slide l-split" data-at="9" data-title="מה זה אומר לעסק">
+      <div class="rail">
+        <h2>מה זה אומר לעסק שלכם</h2>
+        <p class="lead">וזה בדיוק מה שנעשה<br>בחצי השעה הקרובה.</p>
+      </div>
       <div class="body">
         <div class="rows">
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-trend"/></svg></span><span class="a">יש פער, והוא כבר קיים: <b dir="ltr">52%</b> מהעסקים הגדולים מול <b dir="ltr">37%</b> מהקטנים</span></div>
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><span class="a">הוא לא ייסגר מעצמו, אבל הוא גם נסגר מהר יותר מפעם - <b>הכלים כבר לא דורשים מתכנת</b></span></div>
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg></span><span class="a">וזה לא מרוץ. לא צריך לאמץ הכול - <b>צריך לבחור נכון תהליך אחד</b></span></div>
         </div>
-        <p class="lead" style="text-align:center">וזה בדיוק מה שנעשה בחצי השעה הקרובה.</p>
       </div>
       <div class="notes">
         <p><span class="when">2 דקות. השקופית הזו מסתיימת בהרפיה, לא בדחיפה.</span></p>
@@ -622,15 +746,17 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 7 ................................................ הגדרה -->
-    <section class="slide" data-at="11" data-title="מה זו אוטומציה">
-      <div class="head"><h2>מה זו בעצם אוטומציה</h2></div>
+    <section class="slide l-split" data-at="11" data-title="מה זו אוטומציה">
+      <div class="rail">
+        <h2>מה זו בעצם אוטומציה</h2>
+        <p class="lead">בלי שאתם עושים את זה.<br><b>זהו. כל השאר זה פרטים.</b></p>
+      </div>
       <div class="body">
         <div class="def">
           <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-bell"/></svg></span><span class="k">כשקורה משהו</span><span class="v">מגיעה פנייה,<br>מסתיימת פגישה,<br>עובר שבוע</span></div>
           <div class="to">←</div>
           <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-task"/></svg></span><span class="k">קורה משהו אחר</span><span class="v">נשלח מייל,<br>נרשמת שורה,<br>עולה תזכורת</span></div>
         </div>
-        <p class="lead center" style="text-align:center">בלי שאתם עושים את זה. <b>זהו. כל השאר זה פרטים.</b></p>
       </div>
       <div class="notes">
         <p><span class="when">3 דקות.</span> אל תגיד שם של אף כלי בשלב הזה - לא Make&rlm;, לא n8n&rlm;, לא Zapier&rlm;. ברגע שנופל שם של כלי, חצי מהחדר מחליט שזה לא בשבילו.</p>
@@ -639,7 +765,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 8 ................................................ דוגמאות -->
-    <section class="slide" data-at="14" data-title="איך זה נראה ביום רגיל">
+    <section class="slide l-stack" data-at="14" data-title="איך זה נראה ביום רגיל">
       <div class="head"><h2>איך זה נראה ביום רגיל</h2></div>
       <div class="body">
         <div class="rows">
@@ -655,9 +781,9 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 9 ................................................ המסר -->
-    <section class="slide t-mark" data-at="16" data-title="החלק הקשה">
-      <div class="body center">
-        <p class="huge" style="max-width: 940px">החלק הקשה הוא לא לבנות.<br><span class="grad">הוא לבחור מה לבנות.</span></p>
+    <section class="slide t-mark l-full" data-at="16" data-title="החלק הקשה">
+      <div class="body">
+        <p class="huge">החלק הקשה הוא לא לבנות.<br><span class="grad">הוא לבחור מה לבנות.</span></p>
       </div>
       <div class="notes">
         <p><span class="when">1 דקה.</span> זה המשפט שאתה רוצה שהם יזכרו מחר בבוקר. תגיד אותו, ותעצור. שתי שניות של שקט אחריו שוות יותר מפסקת הסבר.</p>
@@ -666,7 +792,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 10 ............................................... שלושה מבחנים -->
-    <section class="slide" data-at="17" data-title="שלושת המבחנים">
+    <section class="slide l-stack" data-at="17" data-title="שלושת המבחנים">
       <div class="head"><h2>איך יודעים שתהליך שווה את זה</h2></div>
       <div class="body">
         <div class="cards">
@@ -683,7 +809,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 11 ............................................... מה לא -->
-    <section class="slide" data-at="21" data-title="מה עדיף להשאיר">
+    <section class="slide l-stack" data-at="21" data-title="מה עדיף להשאיר">
       <div class="head"><h2>ומה עדיף להשאיר בדיוק כמו שהוא</h2></div>
       <div class="body">
         <div class="cards">
@@ -700,7 +826,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 12 ............................................... הדגמה -->
-    <section class="slide t-open" data-at="24" data-title="הדגמה חיה">
+    <section class="slide t-open l-hero" data-at="24" data-title="הדגמה חיה">
       <div class="head">
         <span class="eyebrow" style="align-self:flex-start">הדגמה</span>
         <h2>בואו נראה תהליך אחד רץ</h2>
@@ -727,15 +853,17 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 13 ............................................... מה קרה -->
-    <section class="slide" data-at="34" data-title="מה קרה שם">
-      <div class="head"><h2>מה בעצם קרה שם</h2></div>
+    <section class="slide l-split" data-at="34" data-title="מה קרה שם">
+      <div class="rail">
+        <h2>מה בעצם קרה שם</h2>
+        <p class="lead">זה ההבדל בין <b>המחשב עוזר לי</b> לבין <b>המחשב מחליט בשבילי</b>.</p>
+      </div>
       <div class="body">
         <div class="rows">
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-hand"/></svg></span><span class="a">לא נגעתי בכלום מהרגע ששלחתי את הטופס</span></div>
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-rule"/></svg></span><span class="a">ההחלטה מה דחוף נעשתה לפי כללים <b>שאני</b> כתבתי</span></div>
           <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-edit"/></svg></span><span class="a">התשובה היא טיוטה, לא שליחה. אני עדיין מאשר.</span></div>
         </div>
-        <p class="lead" style="text-align:center">זה ההבדל בין <b>המחשב עוזר לי</b> לבין <b>המחשב מחליט בשבילי</b>.</p>
       </div>
       <div class="notes">
         <p><span class="when">2 דקות.</span> השורה השלישית היא התשובה לפחד הכי גדול בחדר - שה-AI ידבר בשמם עם לקוח. תעצור עליה.</p>
@@ -744,9 +872,9 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 14 ............................................... תרגיל -->
-    <section class="slide t-mark" data-at="36" data-title="תרגיל">
+    <section class="slide t-mark l-hero" data-at="36" data-title="תרגיל">
       <div class="head"><span class="eyebrow" style="align-self:flex-start">תרגיל · דקה אחת</span></div>
-      <div class="body center">
+      <div class="body">
         <p class="blank">כשקורה <i></i><br>אני עושה <i></i><br>וזה לוקח לי <i></i></p>
         <p class="lead">כתבו אחד. אחד מספיק.</p>
       </div>
@@ -762,9 +890,9 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 15 ............................................... הרגע -->
-    <section class="slide" data-at="44" data-title="יותר מאחד">
-      <div class="body center">
-        <p class="huge" style="max-width: 940px">רוב האנשים מגלים תוך כדי<br>שיש להם <span class="grad">יותר מאחד.</span></p>
+    <section class="slide l-full" data-at="44" data-title="יותר מאחד">
+      <div class="body">
+        <p class="huge">רוב האנשים מגלים תוך כדי<br>שיש להם <span class="grad">יותר מאחד.</span></p>
       </div>
       <div class="notes">
         <p><span class="when">1 דקה. זה הרגע היחיד שבו משהו נמכר, והוא נמכר לבד.</span></p>
@@ -773,7 +901,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 16 ............................................... מחר בבוקר -->
-    <section class="slide" data-at="45" data-title="מחר בבוקר">
+    <section class="slide l-stack" data-at="45" data-title="מחר בבוקר">
       <div class="head"><h2>מה אפשר לעשות מחר בבוקר, לבד</h2></div>
       <div class="body">
         <div class="cards">
@@ -789,7 +917,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 17 ............................................... סגירה -->
-    <section class="slide t-open" data-at="48" data-title="סיום">
+    <section class="slide t-open l-open" data-at="48" data-title="סיום">
       <div class="body center">
         <svg class="logo" style="width:74px;height:74px"><use href="#mark"/></svg>
         <h2>תודה</h2>
@@ -808,7 +936,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <div class="tag"><svg class="logo" style="width:20px;height:20px"><use href="#mark"/></svg><span class="num" id="num" dir="ltr"></span></div>
-    <div id="bar"><i></i></div>
+    <div id="bar" aria-hidden="true"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
   </div>
 </div>
 
@@ -827,7 +955,10 @@ b, strong { font-weight: 800; color: var(--ink); }
   var notesBody = document.getElementById("notesBody");
   var over = document.getElementById("over");
   var num = document.getElementById("num");
-  var barFill = document.querySelector("#bar i");
+  /* the bar is divided into the session's five movements, not seventeen equal
+     ticks: a glance should say which part of the talk is running */
+  var acts = [[0, 2], [3, 5], [6, 10], [11, 14], [15, 16]];
+  var segs = [].slice.call(document.querySelectorAll("#bar span i"));
   var i = 0;
 
   /* ---------- fit the fixed canvas to whatever screen it is on ---------- */
@@ -844,7 +975,11 @@ b, strong { font-weight: 800; color: var(--ink); }
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
     num.textContent = (i + 1) + " / " + slides.length;
-    barFill.style.width = ((i + 1) / slides.length * 100) + "%";
+    segs.forEach(function (seg, a) {
+      var from = acts[a][0], to = acts[a][1];
+      var pct = i > to ? 1 : i < from ? 0 : (i - from + 1) / (to - from + 1);
+      seg.style.width = (pct * 100) + "%";
+    });
     var src = slides[i].querySelector(".notes");
     notesBody.innerHTML = src ? src.innerHTML : "<p>-</p>";
     location.hash = String(i + 1);
