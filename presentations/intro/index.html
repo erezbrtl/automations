@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="fonts.css">
 <style>
 /* =========================================================
-   מצגת למפגש ההיכרות - 45 דקות
+   מצגת למפגש ההיכרות - 50 דקות
    אותה שפה ויזואלית של automations.erezb.pro: קרקע סגולה-שחורה,
    פריחות סגול/כחול/מג'נטה, מבטא ארגמן, נוטו סאנס עברית בלבד.
 
@@ -256,6 +256,27 @@ b, strong { font-weight: 800; color: var(--ink); }
 .stop .lab { font-size: 19px; line-height: 1.4; color: var(--ink-soft); }
 .stop.lit .lab { color: var(--ink); font-weight: 700; }
 
+/* a number that has to carry a room: the figure large, the sentence under
+   it small, and the source line where an honest slide keeps it */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat {
+  border: 1px solid var(--hair); border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.028));
+  padding: 26px 24px 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.stat .num {
+  font-size: 52px; font-weight: 800; line-height: 1.05; letter-spacing: -.02em;
+  background: linear-gradient(105deg, #FF6E9C 0%, #A45BF0 48%, #5B8CFF 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stat p { margin: 0; font-size: 19px; line-height: 1.5; color: var(--ink-soft); }
+.src { font-size: 15px; line-height: 1.5; color: var(--ink-faint); }
+
+/* the same two boxes, but standing beside each other rather than leading
+   into each other - so the divider reads "against", not "becomes" */
+.def--vs .to { font-size: 20px; font-weight: 700; color: var(--ink-faint); }
+
 /* the fill-in-the-blank exercise */
 .blank {
   font-size: 44px; font-weight: 800; line-height: 1.75; letter-spacing: -.01em;
@@ -467,6 +488,8 @@ b, strong { font-weight: 800; color: var(--ink); }
   <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></g></symbol>
   <symbol id="i-think" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a3 3 0 0 1 5.8 1c0 2-2.9 2.6-2.9 4"/><path d="M12 17.5h.01"/></g></symbol>
   <symbol id="i-shift" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6M4 4l5 5"/></g></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></g></symbol>
+  <symbol id="i-build" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></g></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></g></symbol>
   <symbol id="i-filter" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H3l7.5 8.8V19l3 1.6v-7.8z"/></g></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></g></symbol>
@@ -487,7 +510,7 @@ b, strong { font-weight: 800; color: var(--ink); }
       <div class="watermark"><svg viewBox="0 0 24 24"><use href="#i-loop"/></svg></div>
       <div class="head"><svg class="logo"><use href="#mark"/></svg></div>
       <div class="body">
-        <span class="eyebrow" style="align-self: flex-start">מפגש היכרות · 45 דקות</span>
+        <span class="eyebrow" style="align-self: flex-start">מפגש היכרות · 50 דקות</span>
         <h1>התהליכים שחוזרים על עצמם<br><span class="grad">בעסק שלכם</span></h1>
         <p class="lead">איך מזהים אותם, איך יודעים מי מהם שווה את המאמץ,<br>ואיך נראה אחד כזה כשהוא רץ לבד. בלי קוד.</p>
       </div>
@@ -501,7 +524,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 2 ................................................ שאלה -->
-    <section class="slide t-mark" data-at="1" data-title="שאלה לקהל">
+    <section class="slide t-mark" data-at="0" data-title="שאלה לקהל">
       <div class="body center">
         <h1 style="max-width: 1060px; font-size: 54px">מה הדבר שאתם עושים כל שבוע, שוב ושוב,<br><span class="grad">ושהייתם שמחים לא לעשות?</span></h1>
         <p class="lead">אני רוצה לשמוע שלוש תשובות לפני שאני ממשיך.</p>
@@ -517,7 +540,7 @@ b, strong { font-weight: 800; color: var(--ink); }
     </section>
 
     <!-- 3 ................................................ מי אני -->
-    <section class="slide" data-at="4" data-title="מי אני">
+    <section class="slide" data-at="3" data-title="מי אני">
       <div class="head"><h2>רגע אחד עליי, ואז חזרה אליכם</h2></div>
       <div class="body">
         <div class="rows">
@@ -533,8 +556,73 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 4 ................................................ הגדרה -->
-    <section class="slide" data-at="5" data-title="מה זו אוטומציה">
+    <!-- 4 ................................................ מה זו בינה מלאכותית -->
+    <section class="slide" data-at="4" data-title="מה זו בינה מלאכותית">
+      <div class="head"><h2>מה זו בינה מלאכותית, בלי הז'רגון</h2></div>
+      <div class="body">
+        <div class="def def--vs">
+          <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-ai"/></svg></span><span class="k">בינה מלאכותית</span><span class="v">מנחשת מה הכי<br>סביר שיבוא עכשיו</span></div>
+          <div class="to">מול</div>
+          <div class="box"><span class="ic"><svg viewBox="0 0 24 24"><use href="#i-rule"/></svg></span><span class="k">תוכנה רגילה</span><span class="v">עושה בדיוק מה<br>שכתבו לה</span></div>
+        </div>
+        <p class="lead" style="text-align:center">בגלל זה היא יודעת לקרוא מייל, פנייה או שיחה - <b>מה שתוכנה רגילה מעולם לא ידעה.</b><br>ובגלל זה בדיוק היא גם טועה לפעמים. היא מנחשת, היא לא יודעת.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">2 דקות.</span> זו ההגדרה השימושית היחידה לבעל עסק, וכל השאר במפגש נשען עליה.</p>
+        <ul>
+          <li>המשפט האחרון הוא <b>הכי חשוב בשקופית</b>. הוא זה שיאפשר לך לומר בהמשך "טיוטה, לא שליחה" בלי שזה יישמע כמו תירוץ - זה נובע ישירות מאיך שהדבר הזה עובד.</li>
+          <li>אל תיכנס למודלים, אימון או פרומפטים. אף אחד בחדר לא צריך את זה כדי להחליט מה לעשות מחר.</li>
+          <li>אם שואלים "אז אפשר לסמוך על זה?" - "על החלק שאפשר לבדוק, כן. בשביל זה נבנה את התהליך ככה שיהיה מה לבדוק."</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5 ................................................ כמה מהר -->
+    <section class="slide" data-at="6" data-title="כמה מהר זה קרה">
+      <div class="head"><h2>כמה מהר זה קרה</h2></div>
+      <div class="body">
+        <div class="stats">
+          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><span class="num">חודשיים</span><p>הזמן שלקח ל-ChatGPT להגיע ל-100 מיליון משתמשים. לטיקטוק לקח תשעה חודשים, לאינסטגרם שנתיים וחצי.</p></div>
+          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-trend"/></svg></span><span class="num" dir="ltr">39%</span><p>מהעסקים בישראל משתמשים ב-AI בייצור מוצרים ושירותים. ביוני 2025 זה עמד על 28%&rlm;.</p></div>
+          <div class="stat"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-build"/></svg></span><span class="num" dir="ltr">21%</span><p>מהעסקים בענף הבנייה. ביולי 2025 זה היה 6%&rlm;. <b>זה כבר לא סיפור של הייטק.</b></p></div>
+        </div>
+      </div>
+      <div class="foot">
+        <p class="src">מקורות: הלמ"ס, סקר מגמות בעסקים, מרץ 2026 (עסקים עם 10 מועסקים ומעלה) · UBS ו-Similarweb, 2023</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">3 דקות.</span> המספרים אמורים לעשות את העבודה לבד. אל תוסיף עליהם דרמה - ברגע שתגיד "מהפכה" או "רכבת שיוצאת", החדר יזהה מכירה.</p>
+        <ul>
+          <li><b>הנתון השלישי הוא זה שעובד בחדר הזה.</b> בנייה מ-6% ל-21% בשמונה חודשים אומר שזה לא שייך רק לענף אחד. תעצור עליו.</li>
+          <li><b>סייג שחשוב שתדע, גם אם לא תאמר:</b> סקר הלמ"ס מכסה עסקים עם 10 מועסקים ומעלה. אם בחדר יושבים עצמאים, הנתון לא מדבר עליהם ישירות. אם מישהו שואל - תגיד את זה. עדיף להודות בסייג מאשר להיתפס עליו.</li>
+          <li>הנתון של ChatGPT הוא של UBS בהסתמך על Similarweb&rlm;, מינואר 2023&rlm;.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6 ................................................ מה זה אומר לעסק -->
+    <section class="slide" data-at="9" data-title="מה זה אומר לעסק">
+      <div class="head"><h2>מה זה אומר לעסק שלכם</h2></div>
+      <div class="body">
+        <div class="rows">
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-trend"/></svg></span><span class="a">יש פער, והוא כבר קיים: <b dir="ltr">52%</b> מהעסקים הגדולים מול <b dir="ltr">37%</b> מהקטנים</span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><span class="a">הוא לא ייסגר מעצמו, אבל הוא גם נסגר מהר יותר מפעם - <b>הכלים כבר לא דורשים מתכנת</b></span></div>
+          <div class="row row--plain"><span class="ic ic--sm"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg></span><span class="a">וזה לא מרוץ. לא צריך לאמץ הכול - <b>צריך לבחור נכון תהליך אחד</b></span></div>
+        </div>
+        <p class="lead" style="text-align:center">וזה בדיוק מה שנעשה בחצי השעה הקרובה.</p>
+      </div>
+      <div class="notes">
+        <p><span class="when">2 דקות. השקופית הזו מסתיימת בהרפיה, לא בדחיפה.</span></p>
+        <ul>
+          <li>השורה השלישית והמשפט האחרון הם <b>כל התפקיד של השקופית</b>: אחרי שני נתונים שיוצרים לחץ, לשחרר אותו ולהפוך אותו לצעד אחד. בלעדיהם השקופית הזו היא מכירה מפוחדת, וזה בדיוק מה שאנחנו לא עושים כאן.</li>
+          <li>אל תגיד "תישארו מאחור". המספרים כבר אמרו את זה, ואמירה שלך תבטל אותם.</li>
+          <li>הפער בין 52% ל-37% הוא לפי גודל העסק באותו סקר של הלמ"ס.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7 ................................................ הגדרה -->
+    <section class="slide" data-at="11" data-title="מה זו אוטומציה">
       <div class="head"><h2>מה זו בעצם אוטומציה</h2></div>
       <div class="body">
         <div class="def">
@@ -545,13 +633,13 @@ b, strong { font-weight: 800; color: var(--ink); }
         <p class="lead center" style="text-align:center">בלי שאתם עושים את זה. <b>זהו. כל השאר זה פרטים.</b></p>
       </div>
       <div class="notes">
-        <p><span class="when">3 דקות.</span> אל תגיד שם של אף כלי בשלב הזה - לא Make, לא n8n, לא Zapier. ברגע שנופל שם של כלי, חצי מהחדר מחליט שזה לא בשבילו.</p>
+        <p><span class="when">3 דקות.</span> אל תגיד שם של אף כלי בשלב הזה - לא Make&rlm;, לא n8n&rlm;, לא Zapier&rlm;. ברגע שנופל שם של כלי, חצי מהחדר מחליט שזה לא בשבילו.</p>
         <p>אם שואלים "זה AI?" - התשובה: לא בהכרח. רוב האוטומציה היא כללים פשוטים. ה-AI נכנס רק כשצריך להבין טקסט חופשי, ונראה את זה בהדגמה.</p>
       </div>
     </section>
 
-    <!-- 5 ................................................ דוגמאות -->
-    <section class="slide" data-at="8" data-title="איך זה נראה ביום רגיל">
+    <!-- 8 ................................................ דוגמאות -->
+    <section class="slide" data-at="14" data-title="איך זה נראה ביום רגיל">
       <div class="head"><h2>איך זה נראה ביום רגיל</h2></div>
       <div class="body">
         <div class="rows">
@@ -561,13 +649,13 @@ b, strong { font-weight: 800; color: var(--ink); }
         </div>
       </div>
       <div class="notes">
-        <p><span class="when">3 דקות.</span> קשר כל שורה לתשובה שמישהו נתן בשקופית 2. תגיד את השם שלו: "מה שדנה אמרה קודם - זו בדיוק השורה השנייה."</p>
+        <p><span class="when">2 דקות.</span> קשר כל שורה לתשובה שמישהו נתן בשקופית 2&rlm;. תגיד את השם שלו: "מה שדנה אמרה קודם - זו בדיוק השורה השנייה."</p>
         <p>אם אף אחת מהתשובות לא מתאימה לשלוש האלה, תגיד את זה בכנות ותשאל את בעל התשובה איך היה רוצה שזה יעבוד.</p>
       </div>
     </section>
 
-    <!-- 6 ................................................ המסר -->
-    <section class="slide t-mark" data-at="11" data-title="החלק הקשה">
+    <!-- 9 ................................................ המסר -->
+    <section class="slide t-mark" data-at="16" data-title="החלק הקשה">
       <div class="body center">
         <p class="huge" style="max-width: 940px">החלק הקשה הוא לא לבנות.<br><span class="grad">הוא לבחור מה לבנות.</span></p>
       </div>
@@ -577,8 +665,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 7 ................................................ שלושה מבחנים -->
-    <section class="slide" data-at="12" data-title="שלושת המבחנים">
+    <!-- 10 ............................................... שלושה מבחנים -->
+    <section class="slide" data-at="17" data-title="שלושת המבחנים">
       <div class="head"><h2>איך יודעים שתהליך שווה את זה</h2></div>
       <div class="body">
         <div class="cards">
@@ -589,13 +677,13 @@ b, strong { font-weight: 800; color: var(--ink); }
         <p class="lead" style="text-align:center">עבר את שלושתם - שווה להתחיל. <b>נפל באחד - עוד לא.</b></p>
       </div>
       <div class="notes">
-        <p><span class="when">4 דקות.</span> תעבור על שלושת הקריטריונים עם אחת התשובות שנתנו בשקופית 2, בקול, מול כולם. זה שווה יותר מלהסביר אותם בנפרד.</p>
+        <p><span class="when">4 דקות.</span> תעבור על שלושת הקריטריונים עם אחת התשובות שנתנו בשקופית 2&rlm;, בקול, מול כולם. זה שווה יותר מלהסביר אותם בנפרד.</p>
         <p>הקריטריון השני הוא זה שמפיל הכי הרבה תהליכים. אם אי אפשר לכתוב את הכלל, זה לא אומר שהתהליך רע - זה אומר שעדיין לא הבנו אותו.</p>
       </div>
     </section>
 
-    <!-- 8 ................................................ מה לא -->
-    <section class="slide" data-at="16" data-title="מה עדיף להשאיר">
+    <!-- 11 ............................................... מה לא -->
+    <section class="slide" data-at="21" data-title="מה עדיף להשאיר">
       <div class="head"><h2>ומה עדיף להשאיר בדיוק כמו שהוא</h2></div>
       <div class="body">
         <div class="cards">
@@ -611,8 +699,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 9 ................................................ הדגמה -->
-    <section class="slide t-open" data-at="19" data-title="הדגמה חיה">
+    <!-- 12 ............................................... הדגמה -->
+    <section class="slide t-open" data-at="24" data-title="הדגמה חיה">
       <div class="head">
         <span class="eyebrow" style="align-self:flex-start">הדגמה</span>
         <h2>בואו נראה תהליך אחד רץ</h2>
@@ -638,8 +726,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 10 ............................................... מה קרה -->
-    <section class="slide" data-at="29" data-title="מה קרה שם">
+    <!-- 13 ............................................... מה קרה -->
+    <section class="slide" data-at="34" data-title="מה קרה שם">
       <div class="head"><h2>מה בעצם קרה שם</h2></div>
       <div class="body">
         <div class="rows">
@@ -655,8 +743,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 11 ............................................... תרגיל -->
-    <section class="slide t-mark" data-at="31" data-title="תרגיל">
+    <!-- 14 ............................................... תרגיל -->
+    <section class="slide t-mark" data-at="36" data-title="תרגיל">
       <div class="head"><span class="eyebrow" style="align-self:flex-start">תרגיל · דקה אחת</span></div>
       <div class="body center">
         <p class="blank">כשקורה <i></i><br>אני עושה <i></i><br>וזה לוקח לי <i></i></p>
@@ -673,8 +761,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 12 ............................................... הרגע -->
-    <section class="slide" data-at="39" data-title="יותר מאחד">
+    <!-- 15 ............................................... הרגע -->
+    <section class="slide" data-at="44" data-title="יותר מאחד">
       <div class="body center">
         <p class="huge" style="max-width: 940px">רוב האנשים מגלים תוך כדי<br>שיש להם <span class="grad">יותר מאחד.</span></p>
       </div>
@@ -684,8 +772,8 @@ b, strong { font-weight: 800; color: var(--ink); }
       </div>
     </section>
 
-    <!-- 13 ............................................... מחר בבוקר -->
-    <section class="slide" data-at="40" data-title="מחר בבוקר">
+    <!-- 16 ............................................... מחר בבוקר -->
+    <section class="slide" data-at="45" data-title="מחר בבוקר">
       <div class="head"><h2>מה אפשר לעשות מחר בבוקר, לבד</h2></div>
       <div class="body">
         <div class="cards">
@@ -695,13 +783,13 @@ b, strong { font-weight: 800; color: var(--ink); }
         </div>
       </div>
       <div class="notes">
-        <p><span class="when">4 דקות.</span> זה הערך שהולך איתם הביתה בלי לשלם. תגיד את זה במפורש: "אפשר לעשות את שלושת אלה בלעדיי, והם יעבדו."</p>
+        <p><span class="when">3 דקות.</span> זה הערך שהולך איתם הביתה בלי לשלם. תגיד את זה במפורש: "אפשר לעשות את שלושת אלה בלעדיי, והם יעבדו."</p>
         <p>הסעיף השלישי הוא העצה הכי שימושית במפגש. רוב האנשים מתחילים מהתהליך הכי כואב, נתקעים, ומסיקים שזה לא בשבילם.</p>
       </div>
     </section>
 
-    <!-- 14 ............................................... סגירה -->
-    <section class="slide t-open" data-at="44" data-title="סיום">
+    <!-- 17 ............................................... סגירה -->
+    <section class="slide t-open" data-at="48" data-title="סיום">
       <div class="body center">
         <svg class="logo" style="width:74px;height:74px"><use href="#mark"/></svg>
         <h2>תודה</h2>
