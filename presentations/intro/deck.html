@@ -291,10 +291,12 @@ b, strong { font-weight: 800; color: var(--ink); }
 /* l-hero - one object, large, with a caption underneath */
 .slide.l-hero .body { justify-content: center; gap: 40px; }
 
-/* l-full - a single sentence owning the canvas, set off the vertical axis
-   so it does not read as a slide with the middle missing */
-.slide.l-full .body { justify-content: center; align-items: flex-start; text-align: start; }
+/* l-full - a slide that is nothing but a sentence. With no other element to
+   anchor it, the sentence centres: on these seven the type is the whole
+   composition, and an off-axis block just reads as a slide missing a half. */
+.slide.l-full .body { justify-content: center; align-items: center; text-align: center; }
 .slide.l-full .huge { max-width: 14em; }
+.slide.l-full .lead, .slide.l-full .setup { max-width: 24em; }
 
 /* ---------- the icon tile ----------
    one shape, three tempers: the live one carries the accent gradient, the
