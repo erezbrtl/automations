@@ -526,7 +526,10 @@
     var ticked = [];
     fields(form).forEach(function (field) {
       if (!field.name) { return; }
-      if (field.type === "hidden") { return; }
+      /* hidden inputs exist for the fallback post and do not belong in the
+         payload - except the ones a page marks data-send, which is how a
+         form says something about itself that the webhook has to branch on */
+      if (field.type === "hidden" && !field.hasAttribute("data-send")) { return; }
       /* the honeypot travels only when something filled it in, so a webhook
          can drop the lead on "this field exists" alone */
       if (field.name === "botcheck") {
@@ -747,7 +750,11 @@
   function finish(form, doneEl) {
     track("lead_submit", { form: form.id, page: window.location.pathname });
     carryDrop();
-    if (CFG.thanksUrl) { window.location.href = CFG.thanksUrl; return; }
+    /* a form may name its own confirmation page - a workshop registration and
+       a general enquiry do not deserve the same one, and a separate address is
+       also a separate number to count */
+    var thanks = form.getAttribute("data-thanks") || CFG.thanksUrl;
+    if (thanks) { window.location.href = thanks; return; }
     form.classList.add("is-hidden");
     form.style.display = "none";
     if (doneEl) {
@@ -786,7 +793,10 @@
        itself on once it is certain it is running. */
     form.noValidate = true;
     var redirect = form.querySelector("[data-redirect]");
-    if (redirect) { redirect.value = window.location.origin + (CFG.thanksUrl || "/thanks.html"); }
+    if (redirect) {
+      redirect.value = window.location.origin +
+        (form.getAttribute("data-thanks") || CFG.thanksUrl || "/thanks.html");
+    }
 
     fields(form).forEach(function (field) {
       field.addEventListener("input", function () {
