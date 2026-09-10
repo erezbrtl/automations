@@ -1577,17 +1577,17 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .lp-fact {
   display: flex; align-items: center; gap: 12px;
   border: 1px solid var(--card-rule); border-radius: var(--radius-sm);
-  background: var(--card);
+  background: #EFF1F8;
   padding: 13px 16px;
-  box-shadow: 0 14px 34px -22px rgba(6, 2, 16, .95);
+  box-shadow: 0 12px 28px -22px rgba(6, 2, 16, .8);
   transition: background .22s ease, border-color .22s ease, box-shadow .22s ease,
               transform .22s cubic-bezier(.22,.61,.36,1);
 }
 .lp-fact i {
   flex: none; width: 34px; height: 34px; border-radius: 10px;
   display: grid; place-items: center;
-  background: linear-gradient(150deg, rgba(255,46,99,.14), rgba(47,107,255,.11));
-  border: 1px solid var(--card-rule);
+  background: linear-gradient(150deg, rgba(255,46,99,.13), rgba(47,107,255,.1));
+  border: 1px solid rgba(16,27,61,.09);
   transition: transform .22s cubic-bezier(.22,.61,.36,1), border-color .22s ease, filter .22s ease;
 }
 /* the mark was white for a dark chip; on white it needs ink of its own.
@@ -1598,7 +1598,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 
 /* the mint green reads 1.5:1 on white, so the free chip takes a green with
    ink in it - #0B7A50 measures 5.4:1 - and a tint rather than a fill */
-.lp-fact--free { border-color: rgba(11,122,80,.32); background: #F4FBF8; }
+.lp-fact--free { border-color: rgba(11,122,80,.3); background: #EDF5F1; }
 .lp-fact--free b { color: #0B7A50; }
 .lp-fact--free i {
   background: linear-gradient(150deg, rgba(11,122,80,.17), rgba(11,122,80,.07));
@@ -1611,14 +1611,15 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    quiet at rest - comes up to full ink. Nothing moves but the card, so four
    of these side by side never feel busy. */
 .lp-fact:hover {
+  background: #F7F8FC;
   border-color: #C3CADB;
-  box-shadow: 0 22px 46px -20px rgba(6, 2, 16, 1);
+  box-shadow: 0 20px 42px -20px rgba(6, 2, 16, .95);
 }
 .lp-facts.rv > .lp-fact:hover { transform: translateY(-3px); }
 .lp-fact:hover i { transform: rotate(-6deg) scale(1.08); border-color: #C3CADB; filter: saturate(1.3); }
 .lp-fact:hover .t > span { color: var(--card-ink); }
 /* the free chip keeps its own colour when it comes forward */
-.lp-fact--free:hover { background: #EAF7F1; border-color: rgba(11,122,80,.55); }
+.lp-fact--free:hover { background: #F3FAF6; border-color: rgba(11,122,80,.52); }
 .lp-fact--free:hover i { border-color: rgba(11,122,80,.5); }
 .lp-fact--free:hover .t > span { color: #0B5F3E; }
 @media (prefers-reduced-motion: reduce) {
@@ -1630,20 +1631,31 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* the running order, as a real timeline rather than a bulleted list: the
    minutes are the point, so they get their own column */
 .agenda { display: flex; flex-direction: column; gap: 0; margin-top: clamp(26px, 3vw, 36px); }
+/* the line of detail reads first, from the right; the duration sits at the
+   far left of every row in a column of its own width, so the six clocks
+   stack into a straight edge and the block reads as one object */
 .agenda li {
-  display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 20px; align-items: baseline;
+  display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 20px; align-items: center;
   padding: 16px 0; border-bottom: 1px solid var(--hairline);
 }
 .agenda li:last-child { border-bottom: 0; }
+/* the clock is a sibling and not a ::before, because the gradient on this
+   span is painted with background-clip: text - a pseudo-element background
+   on the same box would be clipped to the glyphs along with it */
 .agenda .mins {
+  display: inline-flex; align-items: center; gap: 7px;
   font-family: var(--font-head); font-weight: 800; font-size: 1.05rem;
   font-variant-numeric: tabular-nums; text-align: start;
   background: linear-gradient(105deg, #FF6E9C, #A45BF0 55%, #5B8CFF);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+.agenda .mins-ico {
+  flex: none; width: 16px; height: 16px;
+  fill: none; stroke: #A45BF0; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+}
 .agenda .what { font-size: clamp(1rem, 1.6vw, 1.14rem); line-height: 1.55; }
 @media (max-width: 560px) {
-  .agenda li { grid-template-columns: 1fr; gap: 4px; }
+  .agenda li { grid-template-columns: 1fr; gap: 6px; justify-items: start; }
 }
 
 /* the confirmation page: the details again, and the two ways to keep them */
