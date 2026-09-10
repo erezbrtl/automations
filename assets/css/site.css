@@ -463,9 +463,11 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   transform: translateY(-50%);
   width: 48px; height: 48px; border-radius: 50%;
   display: grid; place-items: center;
-  background: linear-gradient(150deg, var(--cta), var(--cta-2));
-  color: #fff;
-  box-shadow: 0 12px 28px -10px var(--cta-glow), 0 0 0 1px rgba(255,255,255,.14) inset;
+  background: var(--card);
+  color: var(--card-ink);
+  /* the hairline ring is what holds the disc together where it overlaps the
+     white middle card - without it the lower half dissolves into it */
+  box-shadow: 0 0 0 1px var(--card-rule), 0 12px 26px -10px rgba(6, 2, 16, .8);
   font-family: var(--font-head); font-weight: 800; font-size: 1.28rem;
   line-height: 1; font-variant-numeric: tabular-nums;
 }
