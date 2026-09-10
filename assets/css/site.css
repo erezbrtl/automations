@@ -1463,7 +1463,11 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    into half the page cost it a line break in the middle of a clause. The
    form still sits in the first screen, which is what matters. */
 .lp-hero { padding-block: clamp(28px, 5vw, 56px) clamp(40px, 6vw, 72px); }
-.lp-head { max-width: min(100%, 46rem); }
+/* The hero reads down one centred column: promise, who is giving it, when
+   and where, then the form. Left-aligned it left half the page empty and the
+   full-width chips below it looked like a different section. */
+.lp-head { max-width: min(100%, 46rem); margin-inline: auto; text-align: center; }
+.lp-head .eyebrow { margin-inline: auto; }
 .lp-grid {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .72fr);
   gap: clamp(26px, 3.6vw, 52px); align-items: start;
@@ -1472,10 +1476,56 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 @media (max-width: 900px) { .lp-grid { grid-template-columns: 1fr; } }
 
 .lp-h1 { font-size: clamp(2.05rem, 4.6vw, 3.1rem); line-height: 1.15; letter-spacing: -.02em; }
-.lp-sub { max-width: 46rem; color: var(--on-dark-soft); font-size: clamp(1.05rem, 1.7vw, 1.2rem); line-height: 1.7; }
+.lp-sub { max-width: 46rem; margin-inline: auto; color: var(--on-dark-soft); font-size: clamp(1.05rem, 1.7vw, 1.2rem); line-height: 1.7; }
+
+/* Who is giving this, answered where it is asked - beside the promise, not
+   five sections below it. A face and one line: enough to decide whether the
+   evening is worth it, and small enough not to compete with the headline. */
+.lp-by {
+  display: flex; align-items: center; gap: 16px;
+  justify-content: center;
+  max-width: 64rem; margin-top: clamp(22px, 3vw, 28px); margin-inline: auto;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+}
+.lp-by-face {
+  flex: 0 0 62px; width: 62px; height: 62px;
+  border-radius: 50%; object-fit: cover; object-position: center top;
+  border: 1px solid rgba(255,255,255,.22);
+}
+.lp-by-t { display: grid; gap: 4px; min-width: 0; max-width: 44rem; }
+.lp-by-t b { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: #fff; }
+.lp-by-t span { font-size: .92rem; line-height: 1.6; color: var(--on-dark-soft); }
+/* on a phone the portrait beside the text left it about 230px to wrap in.
+   Stacked, the same words get the full column and one line fewer. */
+@media (max-width: 520px) {
+  .lp-by { flex-direction: column; text-align: center; padding: 18px 16px; gap: 12px; }
+  .lp-by-face { flex-basis: auto; width: 58px; height: 58px; }
+  .lp-by-t { max-width: none; }
+}
+
+/* The registration form runs across the page rather than down it. Five
+   stacked fields read as a form to fill in later; three side by side read
+   as a thing you finish now. */
+.lp-form { max-width: 64rem; margin: clamp(24px, 3.2vw, 34px) auto 0; }
+.lp-form-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.lp-form-row > .field + .field { margin-top: 0; }
+@media (max-width: 720px) {
+  .lp-form-row { grid-template-columns: 1fr; }
+  .lp-form-row > .field + .field { margin-top: 14px; }
+}
+.lp-form .field--wide { margin-top: 14px; }
+.lp-form .hint { font-size: .8rem; color: var(--on-dark-faint); }
+.mid-cta { margin-top: clamp(32px, 4vw, 44px); }
 
 /* the four facts a person needs before they will type anything */
-.lp-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: clamp(20px, 2.6vw, 28px); }
+.lp-facts {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
+  max-width: 64rem; margin: clamp(24px, 3vw, 32px) auto 0;
+}
+@media (max-width: 900px) { .lp-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .lp-facts { grid-template-columns: 1fr; } }
 .lp-fact {
   display: flex; align-items: center; gap: 12px;
