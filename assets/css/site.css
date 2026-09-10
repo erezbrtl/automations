@@ -1508,7 +1508,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    and the jaw, which is most of what makes a face recognisable */
 .lp-by-face {
   flex: none; width: clamp(96px, 11vw, 128px); height: clamp(96px, 11vw, 128px);
-  border-radius: 18px; object-fit: cover; object-position: center 22%;
+  border-radius: 18px; object-fit: cover; object-position: center 47%;
   border: 1px solid rgba(255,255,255,.2);
 }
 .lp-by-t { display: grid; gap: 6px; min-width: 0; max-width: 42rem; }
