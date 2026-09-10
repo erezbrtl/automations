@@ -1596,16 +1596,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .lp-fact b { display: block; font-size: .98rem; line-height: 1.3; color: var(--card-ink); transition: color .22s ease; }
 .lp-fact .t > span { display: block; font-size: .8rem; color: var(--card-soft); margin-top: 2px; transition: color .22s ease; }
 
-/* the mint green reads 1.5:1 on white, so the free chip takes a green with
-   ink in it - #0B7A50 measures 5.4:1 - and a tint rather than a fill */
-.lp-fact--free { border-color: rgba(11,122,80,.3); background: #EDF5F1; }
-.lp-fact--free b { color: #0B7A50; }
-.lp-fact--free i {
-  background: linear-gradient(150deg, rgba(11,122,80,.17), rgba(11,122,80,.07));
-  border-color: rgba(11,122,80,.24);
-}
-.lp-fact--free svg { stroke: #0B7A50; }
-
 /* Hovering a chip brings its own content forward: the card lifts, the shadow
    deepens, the mark turns, and the second line - the one that is deliberately
    quiet at rest - comes up to full ink. Nothing moves but the card, so four
@@ -1618,10 +1608,6 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .lp-facts.rv > .lp-fact:hover { transform: translateY(-3px); }
 .lp-fact:hover i { transform: rotate(-6deg) scale(1.08); border-color: #C3CADB; filter: saturate(1.3); }
 .lp-fact:hover .t > span { color: var(--card-ink); }
-/* the free chip keeps its own colour when it comes forward */
-.lp-fact--free:hover { background: #F3FAF6; border-color: rgba(11,122,80,.52); }
-.lp-fact--free:hover i { border-color: rgba(11,122,80,.5); }
-.lp-fact--free:hover .t > span { color: #0B5F3E; }
 @media (prefers-reduced-motion: reduce) {
   .lp-fact, .lp-fact i { transition: none; }
   .lp-facts.rv > .lp-fact:hover { transform: none; }
