@@ -72,6 +72,24 @@
 </head>
 <body id="top">
 
+<!-- the same ground the rest of the site stands on: .bg-deep and .bg-night
+     are transparent hooks, and every colour comes from here. Without it the
+     landing page sat on flat near-black while the home page glowed. -->
+<div class="page-bg" aria-hidden="true">
+  <div class="bloom-layer" id="bloomLayer">
+  <span class="bloom bloom--blue"></span>
+  <span class="bloom bloom--violet"></span>
+  <span class="bloom bloom--mag1"></span>
+  <span class="bloom bloom--crim1"></span>
+  <span class="bloom bloom--violet2"></span>
+  <span class="bloom bloom--blue2"></span>
+  <span class="bloom bloom--mag2"></span>
+  <span class="bloom bloom--violet3"></span>
+  <span class="bloom bloom--crim2"></span>
+  <span class="bloom bloom--blue3"></span>
+  </div>
+</div>
+
 <a class="skip" href="#main">דילוג לתוכן</a>
 
 <header class="site-header header--bare" id="siteHeader">
@@ -100,11 +118,23 @@
     </div>
 
     <div class="lp-by rv">
-      <img class="lp-by-face" src="/assets/img/erez-portrait.webp" alt="ארז ברטל" width="120" height="120" decoding="async">
-      <p class="lp-by-t">
-        <b>מעביר את המפגש: ארז ברטל</b>
-        <span>17 שנה בהוראה ובעיצוב, יותר מ-1,000 סטודנטים. היום בונה אוטומציות ו-AI לעסקים קטנים, ומלמד אנשים לא טכניים לעשות את זה בעצמם.</span>
-      </p>
+      <div class="lp-by-main">
+        <img class="lp-by-face" src="/assets/img/erez-hero.webp" alt="ארז ברטל" width="420" height="420" decoding="async">
+        <p class="lp-by-t">
+          <b>מעביר את המפגש: ארז ברטל</b>
+          <span>17 שנה בהוראה ובעיצוב. היום בונה אוטומציות ו-AI לעסקים קטנים, ומלמד אנשים לא טכניים לעשות את זה בעצמם. במפגש הזה אני לא מוכר לכם כלי - אני מראה איך בוחרים מה בכלל שווה לבנות.</span>
+        </p>
+      </div>
+
+      <div class="lp-by-taught">
+        <p class="taught-lead">לימדתי והדרכתי יותר מ-<b>1,000</b> סטודנטים</p>
+        <ul class="taught-row">
+          <li><img class="lg lg--emeq" src="/assets/img/logos/emeq.png" alt="המכללה האקדמית עמק יזרעאל" width="238" height="91" decoding="async"></li>
+          <li><img class="lg lg--braude" src="/assets/img/logos/braude.png" alt="המכללה האקדמית להנדסה אורט בראודה" width="237" height="74" decoding="async"></li>
+          <li><img class="lg lg--netanya" src="/assets/img/logos/netanya.png" alt="המכללה האקדמית נתניה" width="236" height="46" decoding="async"></li>
+          <li><img class="lg lg--hackeru" src="/assets/img/logos/hackeru.png" alt="HackerU" width="236" height="75" decoding="async"></li>
+        </ul>
+      </div>
     </div>
 
     <ul class="lp-facts rv" data-stagger>
@@ -254,31 +284,8 @@
   </div>
 </section>
 
-<!-- ===== WHO =====
-     The hero already said who I am in one line. This is the depth behind
-     it, and it sits before the fit section on purpose: you decide whether
-     someone is worth fifty minutes of your evening before you decide
-     whether their meeting is for you. -->
-<section class="section bg-deep" id="who">
-  <div class="wrap">
-    <span class="eyebrow rv">מי מעביר</span>
-    <h2 class="h-sect rv">ארז ברטל</h2>
-    <p class="h-sub rv">17 שנה בהוראה ובעיצוב. היום בונה אוטומציות ו-AI לעסקים קטנים, ומלמד אנשים לא טכניים לעשות את זה בעצמם. במפגש הזה אני <span class="mark">לא מוכר לכם כלי</span> - אני מראה איך בוחרים מה בכלל שווה לבנות.</p>
-
-    <div class="wrap taught rv" style="padding-inline:0">
-      <p class="taught-lead">לימדתי והדרכתי יותר מ-<b>1,000</b> סטודנטים</p>
-      <ul class="taught-row">
-        <li><img class="lg lg--emeq" src="/assets/img/logos/emeq.png" alt="המכללה האקדמית עמק יזרעאל" width="238" height="91" loading="lazy" decoding="async"></li>
-        <li><img class="lg lg--braude" src="/assets/img/logos/braude.png" alt="המכללה האקדמית להנדסה אורט בראודה" width="237" height="74" loading="lazy" decoding="async"></li>
-        <li><img class="lg lg--netanya" src="/assets/img/logos/netanya.png" alt="המכללה האקדמית נתניה" width="236" height="46" loading="lazy" decoding="async"></li>
-        <li><img class="lg lg--hackeru" src="/assets/img/logos/hackeru.png" alt="HackerU" width="236" height="75" loading="lazy" decoding="async"></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <!-- ===== WHO IT IS FOR ===== -->
-<section class="section bg-night" id="fit">
+<section class="section bg-deep" id="fit">
   <div class="wrap">
     <span class="eyebrow rv">לפני שנרשמים</span>
     <h2 class="h-sect rv">למי המפגש הזה <span class="grad nb">מתאים?</span></h2>
@@ -306,7 +313,7 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section bg-deep" id="faq">
+<section class="section bg-night" id="faq">
   <div class="wrap">
     <span class="eyebrow rv">שאלות שנשאלתי</span>
     <h2 class="h-sect rv">לפני שתשאלו</h2>
