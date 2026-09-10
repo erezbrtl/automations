@@ -1526,3 +1526,13 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   font-family: var(--font-head); font-weight: 800; font-size: .9rem; color: #fff;
   background: linear-gradient(140deg, var(--cta), #A22BC8);
 }
+
+/* /404.html - the address the visitor actually tried, echoed back. It is the
+   one line on the page that usually solves the problem for them, so it sits
+   apart from the paragraph above it rather than reading as its last sentence. */
+.err-addr {
+  margin-top: 18px;
+  color: var(--on-dark-faint);
+  font-size: .95rem;
+}
+.err-addr b { color: var(--on-dark-soft); font-weight: 600; }

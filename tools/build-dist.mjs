@@ -19,6 +19,7 @@ const ship = [
   "accessibility.html",
   "privacy.html",
   "thanks.html",
+  "404.html",
   "resources",
   "workshop.html",
   "workshop-thanks.html",

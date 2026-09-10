@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הכתובת הזו לא קיימת | Erez B</title>
+<meta name="description" content="הכתובת שהגעתם אליה לא קיימת באתר.">
+<meta name="author" content="Erez Bartal">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0A0613">
+
+<link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/noto-sans-hebrew-900-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+
+<div class="page-bg" aria-hidden="true"><span class="bloom bloom--violet"></span><span class="bloom bloom--crim1"></span></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
+      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
+    </a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="/#steps">הסדנה</a>
+      <a href="/#about">מי אני</a>
+      <a href="/#pain">תהליכים אמיתיים</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="section bg-night" id="top">
+  <div class="wrap doc-wrap center">
+    <span class="eyebrow">404</span>
+    <h1 class="h-sect">הכתובת הזו לא קיימת.</h1>
+    <p class="h-sub">כנראה שהקישור נשבר בדרך, או שנפלה טעות קטנה בהקלדה. הנה הדרך חזרה.</p>
+    <p class="err-addr" hidden>ניסיתם להגיע אל <b dir="ltr" id="from"></b></p>
+    <div class="btn-row">
+      <a class="btn btn--cta" href="/workshop.html"><span class="ic" aria-hidden="true">←</span> לסדנה החינמית</a>
+      <a class="btn btn--ghost" href="/">לעמוד הבית</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <a class="brand" href="/">
+      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
+      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
+    </a>
+    <nav class="footer-links" aria-label="ניווט תחתון">
+      <a href="/#contact" data-cta="footer">יצירת קשר</a>
+      <a href="/accessibility.html">נגישות</a>
+      <a href="/privacy.html">פרטיות</a>
+    </nav>
+    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+  </div>
+</footer>
+
+<script>
+/* index.html sends the visitor here with the address that did not resolve, so
+   we can show it back to them - it is usually enough for them to spot their
+   own typo. textContent, never innerHTML: this string came from the URL bar. */
+(function () {
+  var from = new URLSearchParams(location.search).get("from");
+  if (!from) { return; }
+  if (from.length > 80) { from = from.slice(0, 80) + "..."; }
+  document.getElementById("from").textContent = from;
+  document.querySelector(".err-addr").hidden = false;
+})();
+</script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/site.js"></script>
+</body>
+</html>

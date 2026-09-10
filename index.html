@@ -3,6 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script>
+/* The host serves every real file directly and answers everything else with
+   this document, at 200. That means a typo in an ad link looked exactly like
+   the home page - the visitor had no way to know they were in the wrong place.
+
+   This document is only ever legitimately served at "/". Arriving here at any
+   other address means the address did not resolve, so: send clean and
+   trailing-slash forms of real pages where they meant to go, and everything
+   else to a real 404. It runs before the stylesheet so nothing paints first. */
+(function () {
+  var path = location.pathname;
+  if (path === "/" || path === "/index.html") { return; }
+
+  var pages = ["workshop", "workshop-thanks", "thanks", "privacy",
+               "accessibility", "resources/examples", "resources/processes"];
+  var want = path.toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\.html$/, "");
+  if (pages.indexOf(want) !== -1) {
+    location.replace("/" + want + ".html" + location.search + location.hash);
+    return;
+  }
+  location.replace("/404.html?from=" + encodeURIComponent(path));
+})();
+</script>
 <title>AI ואוטומציה לעסקים בלי קוד | Erez B</title>
 <meta name="description" content="סדנאות והדרכות AI ואוטומציה לעסקים ולארגונים, בלי קוד: 3-4 שעות עבודה מעשית על תהליך אמיתי מהעסק שלכם, עד אוטומציה שעובדת.">
 <meta name="keywords" content="הדרכות AI לעסקים, סדנת AI לעסקים, אוטומציה לעסקים, AI לעסקים, אוטומציה עסקית, AI ללא קוד, No-Code, סדנת אוטומציה, הדרכת AI לארגונים, הרצאת AI לעסקים, AI ואוטומציה בצפון">
