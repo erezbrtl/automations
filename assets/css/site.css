@@ -1122,10 +1122,23 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* a group arrives item by item instead of as one block */
 .rv[data-stagger] > * {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity .5s ease, transform .5s cubic-bezier(.22, .61, .36, 1);
+  transform: translateY(20px);
+  transition: opacity .58s ease, transform .58s cubic-bezier(.22, .61, .36, 1);
 }
 .rv[data-stagger].is-in > * { opacity: 1; transform: none; }
+
+/* a row of cards is a heavier object than a line of text, so it arrives from
+   a little further away and settles out of a slight recess. The scale is
+   small on purpose - anything more and the type blurs on the way in. */
+.plans.rv > *, .pain-grid.rv > *, .lp-facts.rv > *, .plans.rv, .pain-grid.rv, .lp-facts.rv,
+.form-card.rv, .lp-by.rv, .faq-list.rv > * {
+  transform: translateY(28px) scale(.984);
+}
+.plans.rv.is-in > *, .pain-grid.rv.is-in > *, .lp-facts.rv.is-in > *,
+.plans.rv.is-in, .pain-grid.rv.is-in, .lp-facts.rv.is-in,
+.form-card.rv.is-in, .lp-by.rv.is-in, .faq-list.rv.is-in > * {
+  transform: none;
+}
 
 /* every press answers */
 .btn:active { transform: translateY(1px) scale(.985); }
@@ -1196,7 +1209,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 
 /* ---------- Reveal ---------- */
-.rv { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1); }
+.rv { opacity: 0; transform: translateY(20px); transition: opacity .62s ease, transform .62s cubic-bezier(.22,.61,.36,1); }
 .rv.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }

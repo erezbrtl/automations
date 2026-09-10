@@ -255,7 +255,7 @@
      (the three stages) are dealt the same hand from their own index */
   Array.prototype.forEach.call(document.querySelectorAll("[data-stagger]"), function (group) {
     Array.prototype.forEach.call(group.children, function (child, i) {
-      child.style.transitionDelay = (i * 70) + "ms";
+      child.style.transitionDelay = (i * 85) + "ms";
     });
   });
   Array.prototype.forEach.call(document.querySelectorAll(".track"), function (track) {
