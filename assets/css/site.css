@@ -1540,6 +1540,9 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 .lp-by-t { display: grid; gap: 10px; min-width: 0; max-width: 42rem; }
 .lp-by-t b { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.3rem, 2.1vw, 1.65rem); line-height: 1.25; letter-spacing: -.015em; color: #fff; }
 .lp-by-t span { font-size: .95rem; line-height: 1.75; color: var(--on-dark-soft); }
+/* the one clause that says what the meeting actually is. <strong> and not <b>,
+   because .lp-by-t b is the heading above and would blow this up to 1.65rem */
+.lp-by-t strong { font-weight: 700; color: var(--on-dark); }
 /* a quiet line at the foot of the paragraph, not a section of its own:
    it is an offer to read more, not part of the claim being made here */
 .lp-by-more {
