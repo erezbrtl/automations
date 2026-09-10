@@ -214,6 +214,7 @@ a { color: inherit; }
 .nb { white-space: nowrap; }
 /* the display face is large enough that forced phrases overflow narrow screens */
 @media (max-width: 760px) { .nb { white-space: normal; } }
+
 /* The bar is painted as a background rather than as one absolutely
    positioned box, because an inline span that wraps has no single box to
    position against: the old ::after collapsed to a dot on the last line
@@ -343,6 +344,10 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 /* nowrap that is never released: a hyphenated latin run like ל-AI
    must not break across lines at any width */
+/* holds a run together at every width, unlike .nb which is released below
+   760px so a forced display phrase does not overflow a phone. Use it on short
+   terms: "ו-AI" broke after the hyphen at 390 and stranded the latin on the
+   next line. Never on a long phrase - that is what .nb is released for. */
 .keep { white-space: nowrap; }
 .hero h1 .l2 { display: block; }
 .hero-sub { margin-top: 24px; font-size: clamp(1.15rem, 1.9vw, 1.42rem); color: var(--on-dark-soft); max-width: 36ch; }
@@ -1532,8 +1537,8 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   border-radius: 18px; object-fit: cover; object-position: center 47%;
   border: 1px solid rgba(255,255,255,.2);
 }
-.lp-by-t { display: grid; gap: 6px; min-width: 0; max-width: 42rem; }
-.lp-by-t b { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; color: #fff; }
+.lp-by-t { display: grid; gap: 10px; min-width: 0; max-width: 42rem; }
+.lp-by-t b { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.3rem, 2.1vw, 1.65rem); line-height: 1.25; letter-spacing: -.015em; color: #fff; }
 .lp-by-t span { font-size: .95rem; line-height: 1.75; color: var(--on-dark-soft); }
 /* a quiet line at the foot of the paragraph, not a section of its own:
    it is an offer to read more, not part of the claim being made here */
