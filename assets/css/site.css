@@ -1505,7 +1505,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    five sections below it. This card is now the only place I appear on the
    page, so it carries the whole claim: face, what I do, and where I taught. */
 .lp-by {
-  max-width: 64rem; margin: clamp(26px, 3.4vw, 36px) auto 0;
+  max-width: 64rem; margin-inline: auto;
   padding: clamp(20px, 2.6vw, 28px);
   background: rgba(255,255,255,.045);
   border: 1px solid var(--hairline);
