@@ -1476,10 +1476,21 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* The hero reads down one centred column: promise, who is giving it, when
    and where, then the form. Left-aligned it left half the page empty and the
    full-width chips below it looked like a different section. */
-.lp-head { max-width: min(100%, 46rem); margin-inline: auto; text-align: center; }
-.lp-head .eyebrow { margin-inline: auto; }
+/* the headline gets its own measure, wider than the paragraph under it, so
+   it can grow without the second line falling off */
+.lp-head { max-width: min(100%, 58rem); margin-inline: auto; text-align: center; }
+.lp-head .eyebrow {
+  margin-inline: auto;
+  font-size: clamp(.86rem, 1.25vw, 1.02rem);
+  padding: 9px 20px; gap: 5px 11px;
+  flex-wrap: wrap; justify-content: center;
+}
+/* the two halves each stay whole, so a narrow screen breaks between them
+   rather than inside "בשעה 20:30" - and the dot is not left hanging */
+.eb-a, .eb-b { white-space: nowrap; }
+@media (max-width: 560px) { .eb-sep { display: none; } }
 
-.lp-h1 { margin-top: clamp(16px, 2.2vw, 24px); font-size: clamp(2.05rem, 4.6vw, 3.1rem); line-height: 1.18; letter-spacing: -.02em; }
+.lp-h1 { margin-top: clamp(16px, 2.2vw, 24px); font-size: clamp(2.2rem, 5.4vw, 3.75rem); line-height: 1.16; letter-spacing: -.022em; }
 .lp-sub { max-width: 46rem; margin: clamp(18px, 2.4vw, 26px) auto 0; color: var(--on-dark-soft); font-size: clamp(1.05rem, 1.7vw, 1.2rem); line-height: 1.75; }
 
 /* Who is giving this, answered where it is asked - beside the promise, not
