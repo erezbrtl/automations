@@ -432,7 +432,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: clamp(14px, 1.8vw, 22px);
-  margin-top: clamp(40px, 5vw, 66px);
+  margin-top: clamp(56px, 6vw, 82px);
   max-width: 1000px;
   margin-inline: auto;
 }
@@ -441,7 +441,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.2vw, 26px);
+  padding: clamp(38px, 3.4vw, 46px) clamp(20px, 2.2vw, 26px) clamp(24px, 2.6vw, 32px);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, .07);
   border: 1px solid var(--hairline);
@@ -455,13 +455,18 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   background: rgba(255, 255, 255, .1);
 }
 .plan-ico svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-/* the three things are counted in the heading above them, so the cards
-   carry the count rather than a decorative mark */
+/* the three things are counted in the heading above them, so the cards carry
+   the count - as a filled disc sitting on the top edge, half in and half out,
+   which reads as a step marker rather than as another thing inside the card */
 .plan-num {
-  width: 46px; height: 46px; margin-inline: auto;
-  border-radius: 14px; display: grid; place-items: center;
-  background: rgba(255, 255, 255, .1);
-  font-family: var(--font-head); font-weight: 800; font-size: 1.3rem;
+  position: absolute; top: 0; inset-inline: 0; margin-inline: auto;
+  transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(150deg, var(--cta), var(--cta-2));
+  color: #fff;
+  box-shadow: 0 12px 28px -10px var(--cta-glow), 0 0 0 1px rgba(255,255,255,.14) inset;
+  font-family: var(--font-head); font-weight: 800; font-size: 1.28rem;
   line-height: 1; font-variant-numeric: tabular-nums;
 }
 .plan h3 { font-size: clamp(1.14rem, 2vw, 1.34rem); }
@@ -488,25 +493,26 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   background: var(--card);
   border-color: transparent;
   margin-block: clamp(-6px, -1.4vw, -22px);
-  padding-block: clamp(30px, 3.4vw, 44px);
+  padding-block: clamp(40px, 3.8vw, 52px) clamp(26px, 3vw, 36px);
   box-shadow: 0 30px 64px -30px rgba(6, 2, 16, .95);
 }
 .plan--core:hover { background: var(--card); transform: translateY(-3px); }
 .plan--core h3 { color: var(--card-ink); }
 .plan--core .plan-line { color: var(--card-soft); }
 .plan--core .plan-ico { background: rgba(255, 46, 99, .1); color: var(--cta); }
-.plan--core .plan-num { background: rgba(255, 46, 99, .1); color: var(--cta); }
+
 .plan--core .plan-dur b { color: var(--card-ink); }
 .plan--core .plan-dur span { color: var(--card-soft); }
 .plan-tag {
-  position: absolute; top: 0; inset-inline: 0; margin-inline: auto;
-  transform: translateY(-50%);
-  width: max-content;
-  font-family: var(--font-head); font-weight: 700; font-size: .74rem;
-  padding: 6px 15px; border-radius: 999px;
-  background: linear-gradient(96deg, var(--cta), var(--cta-2));
-  color: #fff;
-  box-shadow: 0 10px 26px -10px var(--cta-glow);
+  margin-top: auto; padding-top: clamp(14px, 1.8vw, 18px);
+  border-top: 1px solid var(--card-rule);
+  font-family: var(--font-head); font-weight: 700; font-size: .8rem;
+  letter-spacing: .02em; color: var(--cta);
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.plan-tag::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cta); flex: none;
 }
 
 @media (max-width: 860px) {
