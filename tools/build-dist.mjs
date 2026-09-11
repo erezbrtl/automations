@@ -3,7 +3,7 @@
    leaves the dev-only ones (docs, tooling, the compose file) behind. */
 import { cp, mkdir, readdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,26 +41,23 @@ for (const entry of ship) {
 }
 
 /* A CDN caches /assets/js/site.js by name, so a publish could leave a fresh
-   page pulling a stale script - or the reverse. Giving every stylesheet and
-   script a name derived from its own bytes means a changed file is a new URL
-   and an unchanged one still hits the cache. */
-const fingerprint = ["assets/css/fonts.css", "assets/css/site.css",
-                     "assets/js/config.js", "assets/js/site.js"];
+   page pulling a stale script - or the reverse. The same is true of an image:
+   replacing erez-hero.webp with different bytes under the same name leaves the
+   old picture in the edge cache and in every visitor's browser for an hour.
 
-const renamed = new Map();
-for (const asset of fingerprint) {
-  const file = join(dist, asset);
-  if (!(await exists(file))) { continue; }
-  const body = await readFile(file);
-  const hash = createHash("sha256").update(body).digest("hex").slice(0, 10);
-  const dot = asset.lastIndexOf(".");
-  const hashed = asset.slice(0, dot) + "." + hash + asset.slice(dot);
-  await rename(file, join(dist, hashed));
-  renamed.set("/" + asset, "/" + hashed);
-}
+   So every file under assets/ gets a name derived from its own bytes. A changed
+   file becomes a new URL that was never cached; an unchanged one keeps its name
+   and still hits the cache.
 
-/* rewrite every reference, in the HTML and inside the stylesheets themselves */
-const rewritable = new Set([".html", ".css"]);
+   The order of the two passes matters. Stylesheets and scripts point at the
+   images and fonts - fonts.css names the twelve woff2 files, config.js names
+   the portrait - so those are hashed first and the references rewritten before
+   a stylesheet's own hash is taken. Hashed the other way round, the rewrite
+   would edit a file that had already been named after its earlier bytes, and
+   the name would no longer describe the content it serves. */
+const code = new Set([".css", ".js"]);
+const rewritable = new Set([".html", ".css", ".js"]);
+
 async function* walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
@@ -68,15 +65,50 @@ async function* walk(dir) {
     else { yield full; }
   }
 }
-for await (const file of walk(dist)) {
-  const dot = file.lastIndexOf(".");
-  if (!rewritable.has(file.slice(dot))) { continue; }
-  let text = await readFile(file, "utf8");
-  let touched = false;
-  for (const [from, to] of renamed) {
-    if (text.includes(from)) { text = text.split(from).join(to); touched = true; }
+
+const ext = (p) => p.slice(p.lastIndexOf("."));
+
+/* renames each file to <name>.<hash><ext> and returns what moved where */
+async function fingerprint(assets) {
+  const moved = new Map();
+  for (const asset of assets) {
+    const file = join(dist, asset);
+    const body = await readFile(file);
+    const hash = createHash("sha256").update(body).digest("hex").slice(0, 10);
+    const dot = asset.lastIndexOf(".");
+    const hashed = asset.slice(0, dot) + "." + hash + asset.slice(dot);
+    await rename(file, join(dist, hashed));
+    moved.set("/" + asset, "/" + hashed);
   }
-  if (touched) { await writeFile(file, text, "utf8"); }
+  return moved;
+}
+
+async function rewrite(moved) {
+  if (!moved.size) { return; }
+  for await (const file of walk(dist)) {
+    if (!rewritable.has(ext(file))) { continue; }
+    let text = await readFile(file, "utf8");
+    let touched = false;
+    for (const [from, to] of moved) {
+      if (text.includes(from)) { text = text.split(from).join(to); touched = true; }
+    }
+    if (touched) { await writeFile(file, text, "utf8"); }
+  }
+}
+
+const renamed = new Map();
+if (await exists(join(dist, "assets"))) {
+  const assets = [];
+  for await (const file of walk(join(dist, "assets"))) {
+    assets.push(relative(dist, file).split(sep).join("/"));
+  }
+  /* pass one: pictures, fonts, video - everything the code points at */
+  const media = await fingerprint(assets.filter((a) => !code.has(ext(a))));
+  await rewrite(media);
+  /* pass two: the code itself, now that its bytes are final */
+  const scripts = await fingerprint(assets.filter((a) => code.has(ext(a))));
+  await rewrite(scripts);
+  for (const [from, to] of [...media, ...scripts]) { renamed.set(from, to); }
 }
 
 /* the upload refuses a build without a root index.html, so fail here instead */
@@ -87,7 +119,7 @@ if (!(await exists(join(dist, "index.html")))) {
 
 /* a reference the rewrite missed would 404 on the live site, so catch it here */
 for await (const file of walk(dist)) {
-  if (!file.endsWith(".html") && !file.endsWith(".css")) { continue; }
+  if (!rewritable.has(ext(file))) { continue; }
   const text = await readFile(file, "utf8");
   for (const from of renamed.keys()) {
     if (text.includes(from)) {
@@ -98,4 +130,4 @@ for await (const file of walk(dist)) {
 }
 
 console.log("build-dist -> dist/ : " + copied.join(", "));
-console.log("build-dist    hashed: " + [...renamed.values()].join(", "));
+console.log("build-dist    hashed: " + renamed.size + " files under /assets");
