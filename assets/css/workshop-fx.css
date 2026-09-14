@@ -1,0 +1,116 @@
+/* Motion for /workshop.html only, kept out of site.css on purpose: the rest
+   of the site should not carry it, and backing the whole thing out is a
+   matter of deleting this file, its script, and the two tags that load them.
+
+   One rule governs everything here. The reveal system in site.css already
+   owns the `transform` property on almost every element on the page - it
+   writes `transform: none` at .rv.is-in with a specificity these selectors
+   cannot beat, and a fight over it ends with the reveal winning. So every
+   effect below drives the INDIVIDUAL properties instead: `translate`,
+   `scale`, `rotate`. Those compose with `transform` rather than replacing
+   it, which means motion and reveal can both be true at the same time. The
+   only places using `transform` are wrappers this file introduces, which no
+   other stylesheet touches. */
+
+/* ---------------------------------------------------------
+   1. The headline arrives a word at a time
+   Each word rides up out of a clipped line. The mask is the
+   line box itself, so a word that wraps still arrives clean.
+   --------------------------------------------------------- */
+.fx-word {
+  display: inline-block;
+  clip-path: inset(-.25em 0 -.15em 0);
+}
+.fx-word > span {
+  display: inline-block;
+  transform: translateY(110%) rotate(2deg);
+  opacity: 0;
+  transition:
+    transform .82s cubic-bezier(.16, .84, .3, 1),
+    opacity .5s ease;
+  transition-delay: var(--d, 0ms);
+}
+.fx-lit .fx-word > span { transform: none; opacity: 1; }
+
+/* ---------------------------------------------------------
+   2. Drift
+   Elements travel a few pixels against the scroll. The value
+   is written to `translate` from script, so the reveal keeps
+   its own transform untouched.
+   --------------------------------------------------------- */
+[data-fx-drift] { will-change: translate; }
+
+/* ---------------------------------------------------------
+   3. The portrait leans toward the pointer
+   A wrapper this file owns, so `transform` is free here. The
+   sheen is a second layer whose position follows the cursor.
+   --------------------------------------------------------- */
+.fx-tilt {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .5s cubic-bezier(.22, .61, .36, 1);
+}
+.fx-tilt.is-live { transition: transform .08s linear; }
+.fx-tilt::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease;
+  background: radial-gradient(
+    30% 30% at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, .34),
+    rgba(255, 255, 255, 0) 70%);
+}
+.fx-tilt.is-live::after { opacity: 1; }
+.fx-tilt > img { display: block; }
+
+/* ---------------------------------------------------------
+   4. The running order fills as it is read
+   A rail down the side of the list, and a bar inside it whose
+   height tracks how far through the section the reader is.
+   --------------------------------------------------------- */
+.agenda { position: relative; }
+.fx-rail {
+  /* the duration column sits at the far LEFT of each row, which in an RTL
+     page is the inline END - the rail has to stand on the clocks, not
+     opposite them */
+  position: absolute; inset-block: 6px; inset-inline-end: 7px;
+  width: 2px; border-radius: 2px;
+  background: var(--hairline);
+  overflow: hidden;
+  pointer-events: none;
+}
+.fx-rail i {
+  position: absolute; inset-inline: 0; top: 0;
+  height: var(--fill, 0%);
+  background: linear-gradient(180deg, #FF6E9C, #A45BF0 55%, #5B8CFF);
+  border-radius: 2px;
+}
+/* the row the reader is level with says so, quietly */
+.agenda li .mins-ico { transition: scale .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease; opacity: .55; }
+.agenda li.is-now .mins-ico { scale: 1.25; opacity: 1; }
+.agenda li .what { transition: color .35s ease; }
+.agenda li.is-now .what { color: #fff; }
+@media (max-width: 560px) { .fx-rail { display: none; } }
+
+/* ---------------------------------------------------------
+   5. The main buttons lean toward the pointer
+   `translate` again, so the lift on :hover and the press on
+   :active keep working on top of it.
+   --------------------------------------------------------- */
+[data-fx-magnet] { will-change: translate; }
+
+/* ---------------------------------------------------------
+   Everything above is motion for its own sake, so all of it
+   is off when the visitor has asked for less of it. The words
+   simply start where they finish.
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-word > span { transform: none; opacity: 1; transition: none; }
+  .fx-tilt, .fx-tilt::after { transition: none; }
+  .fx-tilt::after { display: none; }
+  .fx-rail i { transition: none; }
+  .agenda li .mins-ico, .agenda li .what { transition: none; }
+}

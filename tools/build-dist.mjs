@@ -23,6 +23,7 @@ const ship = [
   "resources",
   "workshop.html",
   "workshop-thanks.html",
+  "workshop-classic.html",
 ];
 
 const exists = async (p) => {
