@@ -73,7 +73,7 @@
 
     var n = 0;
     units.forEach(function (unit) {
-      if (unit.nodeType === 1) { wrap(unit, n * 70); n += 1; return; }
+      if (unit.nodeType === 1) { wrap(unit, n * 140); n += 1; return; }
       var frag = document.createDocumentFragment();
       var words = [];
       unit.nodeValue.split(/(\s+)/).forEach(function (part) {
@@ -84,7 +84,7 @@
         words.push(t);
       });
       unit.parentNode.replaceChild(frag, unit);
-      words.forEach(function (t) { wrap(t, n * 70); n += 1; });
+      words.forEach(function (t) { wrap(t, n * 140); n += 1; });
     });
     return n;
   }
@@ -271,9 +271,9 @@
         rafM = requestAnimationFrame(function () {
           rafM = 0;
           if (!b) { return; }
-          var dx = (e.clientX - (b.left + b.width / 2)) * 0.18;
-          var dy = (e.clientY - (b.top + b.height / 2)) * 0.3;
-          btn.style.translate = clamp(dx, -14, 14).toFixed(1) + "px " + clamp(dy, -6, 6).toFixed(1) + "px";
+          var dx = (e.clientX - (b.left + b.width / 2)) * 0.07;
+          var dy = (e.clientY - (b.top + b.height / 2)) * 0.12;
+          btn.style.translate = clamp(dx, -6, 6).toFixed(1) + "px " + clamp(dy, -3, 3).toFixed(1) + "px";
         });
       });
       btn.addEventListener("pointerleave", function () {

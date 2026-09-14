@@ -26,8 +26,8 @@
   transform: translateY(110%) rotate(2deg);
   opacity: 0;
   transition:
-    transform .82s cubic-bezier(.16, .84, .3, 1),
-    opacity .5s ease;
+    transform 1.15s cubic-bezier(.16, .84, .3, 1),
+    opacity .7s ease;
   transition-delay: var(--d, 0ms);
 }
 .fx-lit .fx-word > span { transform: none; opacity: 1; }
@@ -88,9 +88,25 @@
   background: linear-gradient(180deg, #FF6E9C, #A45BF0 55%, #5B8CFF);
   border-radius: 2px;
 }
-/* the row the reader is level with says so, quietly */
-.agenda li .mins-ico { transition: scale .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease; opacity: .55; }
-.agenda li.is-now .mins-ico { scale: 1.25; opacity: 1; }
+/* The rail is absolutely positioned, so it painted over the rows - and the
+   clock faces are drawn with fill:none, which left the bar visible straight
+   through the middle of each one. The rows are lifted above it and the faces
+   given the ground colour behind them, measured off the rendered page rather
+   than guessed, so each icon now sits on the rail like a bead on a string. */
+.agenda li { position: relative; z-index: 1; }
+.agenda .mins-ico circle { fill: #1F0A2B; }
+
+/* The row the reader is level with says so, quietly. The resting state dims
+   the drawing and not the element: `opacity` on the <svg> dimmed the filled
+   face along with the outline, and the bar came straight back through it -
+   measured at 55% of the bar's own colour inside the face. `stroke-opacity`
+   reaches the outline and the hands and leaves the fill alone, so the face
+   covers the rail in every state. */
+.agenda li .mins-ico {
+  transition: scale .35s cubic-bezier(.22, .61, .36, 1), stroke-opacity .35s ease;
+  stroke-opacity: .55;
+}
+.agenda li.is-now .mins-ico { scale: 1.25; stroke-opacity: 1; }
 .agenda li .what { transition: color .35s ease; }
 .agenda li.is-now .what { color: #fff; }
 @media (max-width: 560px) { .fx-rail { display: none; } }
@@ -100,7 +116,12 @@
    `translate` again, so the lift on :hover and the press on
    :active keep working on top of it.
    --------------------------------------------------------- */
-[data-fx-magnet] { will-change: translate; }
+[data-fx-magnet] {
+  will-change: translate;
+  /* the easing is most of what makes this feel gentle - without it the
+     button tracks the cursor one to one and reads as twitchy */
+  transition: translate .34s cubic-bezier(.22, .61, .36, 1);
+}
 
 /* ---------------------------------------------------------
    Everything above is motion for its own sake, so all of it
