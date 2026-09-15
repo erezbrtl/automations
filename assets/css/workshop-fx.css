@@ -147,14 +147,16 @@
 @media (max-width: 560px) { .fx-rail { display: none; } }
 
 /* ---------------------------------------------------------
-   5. The main buttons lean toward the pointer
+   5. The main buttons rise toward the pointer
    `translate` again, so the lift on :hover and the press on
    :active keep working on top of it.
    --------------------------------------------------------- */
 [data-fx-magnet] {
   will-change: translate;
   /* the easing is most of what makes this feel gentle - without it the
-     button tracks the cursor one to one and reads as twitchy */
+     button tracks the cursor one to one and reads as twitchy. The script
+     only ever writes a vertical, upward value here, so what composes with
+     the -2px on :hover is a lift and nothing else. */
   transition: translate .34s cubic-bezier(.22, .61, .36, 1);
 }
 

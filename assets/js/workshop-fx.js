@@ -287,7 +287,7 @@
   }
 
   /* ---------------------------------------------------------------
-     The main buttons lean toward the pointer
+     The main buttons rise toward the pointer
 
      Written to `translate` so the lift on :hover and the press on
      :active keep working underneath. The pull is capped well inside
@@ -303,9 +303,15 @@
         rafM = requestAnimationFrame(function () {
           rafM = 0;
           if (!b) { return; }
-          var dx = (e.clientX - (b.left + b.width / 2)) * 0.07;
-          var dy = (e.clientY - (b.top + b.height / 2)) * 0.12;
-          btn.style.translate = clamp(dx, -6, 6).toFixed(1) + "px " + clamp(dy, -3, 3).toFixed(1) + "px";
+          /* One axis, one direction: the button rises toward the pointer and
+             never slides sideways or sinks. The lift is strongest when the
+             cursor is level with the middle of the button and falls to
+             nothing at its top and bottom edges, so crossing the button
+             reads as it coming up to meet you rather than as it being
+             dragged around. The -2px already on :hover sits under this. */
+          var off = Math.abs(e.clientY - (b.top + b.height / 2)) / (b.height / 2 || 1);
+          var lift = -4 * (1 - clamp(off, 0, 1));
+          btn.style.translate = "0 " + lift.toFixed(1) + "px";
         });
       });
       btn.addEventListener("pointerleave", function () {
