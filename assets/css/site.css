@@ -1731,6 +1731,18 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 @media (max-width: 900px) { .lp-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .lp-facts { grid-template-columns: 1fr; } }
+/* The same chip row serves the landing page, where there are four facts, and
+   the confirmation page, where there are two. Left on the four-column grid
+   the pair sat in the right half of the box - measured 158px off centre from
+   901px up - with each chip squeezed to 155px and the date inside it wrapped
+   over three lines. Two items get two columns, and they go single a little
+   earlier than the four do, because a date is a long thing to fit in half of
+   a narrow screen. */
+.lp-facts--pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 620px; margin-inline: auto;
+}
+@media (max-width: 600px) { .lp-facts--pair { grid-template-columns: 1fr; } }
 /* The four facts sit on white while the form under them stays on the dark
    card. That is the hierarchy: these are the things you scan, that is the
    thing you do. Every colour inside had to invert, and the values below are
