@@ -1569,7 +1569,11 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    five sections below it. This card is now the only place I appear on the
    page, so it carries the whole claim: face, what I do, and where I taught. */
 .lp-by {
-  max-width: 64rem; margin-inline: auto;
+  /* 52rem and not the 64 the grids above use: with the bigger portrait the
+     content is about 700px wide, and left in a 64rem box it sat in the
+     middle of 160px of nothing on either side. This card holds one person
+     and one paragraph, so it is allowed to be narrower than a row of four. */
+  max-width: 52rem; margin-inline: auto;
   padding: clamp(20px, 2.6vw, 28px);
   background: rgba(255,255,255,.045);
   border: 1px solid var(--hairline);
@@ -1579,11 +1583,16 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* a rounded square, not a circle: a circle crops a portrait at the temples
    and the jaw, which is most of what makes a face recognisable */
 .lp-by-face {
-  flex: none; width: clamp(96px, 11vw, 128px); height: clamp(96px, 11vw, 128px);
+  flex: none; width: clamp(144px, 16.5vw, 192px); height: clamp(144px, 16.5vw, 192px);
   border-radius: 18px; object-fit: cover; object-position: center 10%;
   border: 1px solid rgba(255,255,255,.2);
 }
-.lp-by-t { display: grid; gap: 10px; min-width: 0; max-width: 42rem; }
+/* The column is 30rem and not the 42rem it used to be because the portrait
+   beside it is now half again as tall. Measured, the paragraph holds the
+   same line count anywhere between 32rem and 42rem, and only breaks to the
+   extra line at 30 - which is what brings the text block within a few
+   pixels of the image height instead of ending a third of the way up it. */
+.lp-by-t { display: grid; gap: 10px; min-width: 0; max-width: 30rem; }
 .lp-by-t b { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.3rem, 2.1vw, 1.65rem); line-height: 1.25; letter-spacing: -.015em; color: #fff; }
 .lp-by-t span { font-size: .95rem; line-height: 1.75; color: var(--on-dark-soft); }
 /* the one clause that says what the meeting actually is. <strong> and not <b>,

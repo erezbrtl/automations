@@ -84,6 +84,12 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform .5s cubic-bezier(.22, .61, .36, 1);
+  /* This wrapper takes the portrait's place as the flex child, and without
+     its own flex:none it shrinks where the row is tight - which then caps
+     the image through the global img{max-width:100%} and leaves the square
+     portrait squashed to a slice. The rule the image carries cannot help:
+     it is no longer the item being flexed. */
+  flex: none;
 }
 .fx-tilt.is-live { transition: transform .08s linear; }
 .fx-tilt::after {
