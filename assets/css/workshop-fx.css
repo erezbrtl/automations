@@ -32,6 +32,41 @@
 }
 .fx-lit .fx-word > span { transform: none; opacity: 1; }
 
+/* The bar under the closing phrase is painted on the span, not on the words
+   inside it, so it was sitting there at full width while its own words were
+   still below the mask - a crimson line under nothing, arriving first. It
+   draws itself in from the right instead, and the script times the start to
+   the last word that belongs to it, so the line follows the phrase rather
+   than announcing it.
+
+   The class is written by the script at the moment it splits the headline,
+   so a page with no JS and a visitor who asked for less motion both get the
+   plain bar they always had. */
+/* The start state is written from a class the <head> puts on <html> before
+   this sheet is even fetched, not from one the script adds after it splits
+   the words. Added later, the bar was painted at its full width for the
+   ~95ms it took the script to run, so the page opened on a finished
+   headline that then took itself apart - the very flash this is meant to
+   remove. The head script skips the class under prefers-reduced-motion and
+   never runs at all without JS, and in both of those cases the bar is
+   simply there, as it always was. */
+.fx-on .lp-h1 .mark {
+  background-position: 100% calc(100% - .04em);
+  background-size: 0 .16em;
+}
+/* The transition is declared on the LIT state and not on the start state,
+   which is the whole trick. Declared on the start state, the collapse from
+   full width down to nothing is itself a transition - and a delayed one -
+   so the bar sat at full width for the length of the delay and was already
+   back at full width by the time it was asked to grow. It never moved.
+   Here the collapse is instant, because nothing is transitioned yet, and
+   only the growth is animated. */
+.fx-on .lp-h1.fx-lit .mark {
+  background-size: 100% .16em;
+  transition: background-size .5s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: var(--md, 0ms);
+}
+
 /* ---------------------------------------------------------
    2. Drift
    Elements travel a few pixels against the scroll. The value

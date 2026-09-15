@@ -86,6 +86,17 @@
       unit.parentNode.replaceChild(frag, unit);
       words.forEach(function (t) { wrap(t, n * 140); n += 1; });
     });
+
+    /* An underline belongs to a phrase, so it waits for that phrase's own
+       last word and then draws - a beat behind it rather than racing it.
+       Reading the delay back off the word is what keeps the two in step
+       however the headline is later reworded or rewrapped. */
+    Array.prototype.forEach.call(root.querySelectorAll(".mark"), function (mark) {
+      var spans = mark.querySelectorAll(".fx-word > span");
+      if (!spans.length) { return; }
+      var last = parseFloat(spans[spans.length - 1].style.getPropertyValue("--d")) || 0;
+      mark.style.setProperty("--md", (last + 240) + "ms");
+    });
     return n;
   }
 
@@ -107,10 +118,31 @@
      layout put it when it is level with the reader's eye and drifts
      away above and below.
      --------------------------------------------------------------- */
+  /* Drift is a desktop-only nicety. On a phone the same few pixels read as
+     the content being welded to the scrollbar rather than as depth, which
+     is exactly the complaint the four hero facts drew - they have had the
+     attribute taken off them entirely, and what is left is held above the
+     width where the layout stops being a wide page. */
   var drifters = [];
-  if (!reduced) {
+  if (!reduced && window.matchMedia("(min-width: 761px)").matches) {
     Array.prototype.forEach.call(document.querySelectorAll("[data-fx-drift]"), function (el) {
       drifters.push({ el: el, k: parseFloat(el.getAttribute("data-fx-drift")) || 0.04, mid: 0 });
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     The four facts land one at a time
+
+     site.js deals every staggered group an 85ms step, which is right for a
+     list of six but too tight for four cards that each have to read as a
+     separate fact. The step is re-dealt wider here, so the row arrives as
+     one, two, three, four and each one is plainly finished before the next
+     starts rather than the whole thing blurring into a single move.
+     --------------------------------------------------------------- */
+  var facts = document.querySelector(".lp-facts");
+  if (facts && !reduced) {
+    Array.prototype.forEach.call(facts.children, function (chip, i) {
+      chip.style.transitionDelay = (i * 150) + "ms";
     });
   }
 

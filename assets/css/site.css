@@ -522,6 +522,37 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   background: var(--cta); flex: none;
 }
 
+/* The three takeaways on the workshop page: the middle card used to be
+   white, which made it the brightest object in the section and left the
+   numbered discs fighting it for the top edge. It sits on the same ground
+   as its neighbours now, and what marks it instead is one filled white
+   pill - the only solid white in the block, so the eye goes there without
+   the whole card shouting. The card still stands a little proud of the row,
+   so the hierarchy survives the colour going away.
+
+   Scoped to #take on purpose: the same two classes carry the popular offer
+   on the home page, where the white card is still doing its job. */
+#take .plan--core {
+  background: rgba(255, 255, 255, .07);
+  border-color: rgba(255, 255, 255, .22);
+  box-shadow: 0 30px 64px -34px rgba(6, 2, 16, .9);
+}
+#take .plan--core:hover {
+  background: rgba(255, 255, 255, .11);
+  border-color: rgba(255, 255, 255, .3);
+}
+#take .plan--core h3 { color: var(--on-dark); }
+#take .plan--core .plan-line { color: var(--on-dark-soft); }
+#take .plan-tag {
+  align-self: center;
+  margin-top: auto; padding: 8px 16px;
+  border-top: 0; border-radius: 999px;
+  background: #fff; color: #17102A;
+  font-size: .84rem; font-weight: 800; letter-spacing: .01em;
+  display: inline-flex; gap: 8px;
+  box-shadow: 0 14px 28px -16px rgba(6, 2, 16, .95);
+}
+
 @media (max-width: 860px) {
   .plans { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
   .plan--core { margin-block: 0; }
@@ -1255,12 +1286,20 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   position: relative; flex: none; width: 20px; height: 20px;
   transition: transform .22s ease;
 }
+/* Both bars are centred on the icon box with a translate rather than with
+   negative margins. The margins were physical (-6.5px on the LEFT) while
+   the anchor was logical, so on this RTL page they cancelled out and the
+   plus sat 6.5px off centre - and the 180deg turn on opening then swung it
+   6.5px the other way, which is why the minus landed somewhere the plus had
+   never been. Centred, the turn leaves the horizontal bar exactly where it
+   started and only the vertical one goes. */
 .faq-item summary i::before, .faq-item summary i::after {
-  content: ""; position: absolute; inset-inline-start: 50%; top: 50%;
-  width: 13px; height: 2px; margin: -1px 0 0 -6.5px;
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 13px; height: 2px;
   border-radius: 2px; background: var(--cta);
+  transform: translate(-50%, -50%);
 }
-.faq-item summary i::after { transform: rotate(90deg); transition: opacity .22s ease; }
+.faq-item summary i::after { transform: translate(-50%, -50%) rotate(90deg); transition: opacity .22s ease; }
 .faq-item[open] summary { color: #fff; }
 .faq-item[open] summary i { transform: rotate(180deg); }
 .faq-item[open] summary i::after { opacity: 0; }
@@ -1560,7 +1599,17 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 /* The registration form runs across the page rather than down it. Five
    stacked fields read as a form to fill in later; three side by side read
    as a thing you finish now. */
-.lp-form { max-width: 64rem; margin: clamp(24px, 3.2vw, 34px) auto 0; }
+/* The registration heading was inside the card, where it read as a label on
+   a box. Out here it names the step above it, and the card below is just the
+   fields - which is also what lets the card keep its own top padding without
+   a heading fighting it for the space. */
+.lp-form-head {
+  max-width: 64rem; margin: clamp(30px, 3.8vw, 44px) auto 0;
+  text-align: center; color: #fff;
+  font-size: clamp(1.32rem, 2.6vw, 1.72rem); line-height: 1.3;
+  letter-spacing: -.015em;
+}
+.lp-form { max-width: 64rem; margin: clamp(16px, 2vw, 22px) auto 0; }
 .lp-form-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .lp-form-row > .field + .field { margin-top: 0; }
 @media (max-width: 720px) {
@@ -1582,10 +1631,15 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    card. That is the hierarchy: these are the things you scan, that is the
    thing you do. Every colour inside had to invert, and the values below are
    measured against white rather than assumed. */
+/* The chip ground was #EFF1F8, which against a near-black page read as a
+   row of lit panels. #DFE4F1 is about a tenth less bright and still clearly
+   a light card. It costs the icon stroke, though: #FF2E63 falls to 2.83:1
+   there, under the 3:1 a graphic needs, so the stroke goes a shade deeper
+   on these chips only - #E0164C measures 3.76:1 on the new ground. */
 .lp-fact {
   display: flex; align-items: center; gap: 12px;
   border: 1px solid var(--card-rule); border-radius: var(--radius-sm);
-  background: #EFF1F8;
+  background: #DFE4F1;
   padding: 13px 16px;
   box-shadow: 0 12px 28px -22px rgba(6, 2, 16, .8);
   transition: background .22s ease, border-color .22s ease, box-shadow .22s ease,
@@ -1600,7 +1654,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
 }
 /* the mark was white for a dark chip; on white it needs ink of its own.
    #FF2E63 on #FFFFFF measures 3.6:1, over the 3:1 a graphic needs. */
-.lp-fact svg { width: 18px; height: 18px; fill: none; stroke: var(--cta); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.lp-fact svg { width: 18px; height: 18px; fill: none; stroke: #E0164C; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .lp-fact b { display: block; font-size: .98rem; line-height: 1.3; color: var(--card-ink); transition: color .22s ease; }
 .lp-fact .t > span { display: block; font-size: .8rem; color: var(--card-soft); margin-top: 2px; transition: color .22s ease; }
 
@@ -1609,7 +1663,7 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    quiet at rest - comes up to full ink. Nothing moves but the card, so four
    of these side by side never feel busy. */
 .lp-fact:hover {
-  background: #F7F8FC;
+  background: #ECEFF7;
   border-color: #C3CADB;
   box-shadow: 0 20px 42px -20px rgba(6, 2, 16, .95);
 }
