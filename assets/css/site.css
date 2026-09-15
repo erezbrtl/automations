@@ -1612,6 +1612,87 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
   .lp-by-t { max-width: none; }
 }
 
+/* ---------------------------------------------------------
+   The roller: who this is for
+
+   Two rows of business types travelling in opposite directions.
+   The point is breadth - "there are many kinds, one of them is
+   yours" - which is why it moves at all; a still grid of 28 is
+   a wall. What movement costs is scanning, so the line under
+   the rows catches anyone who did not spot themselves, and the
+   rows stop the moment a pointer or the keyboard reaches them.
+
+   The animation lives on .roller-track, which is a grandchild
+   of the .rv wrapper and not the wrapper itself. That matters:
+   the reveal writes `transform: none` on any .rv element the
+   moment it arrives, and a marquee that is also a .rv would be
+   frozen at its start the instant it came into view.
+   --------------------------------------------------------- */
+.roller {
+  margin-top: clamp(30px, 3.8vw, 44px);
+  display: grid; gap: clamp(10px, 1.2vw, 14px);
+  /* the rows run the full width of the section card and fade out before
+     they reach its rounded corners, so nothing is ever cut mid-word */
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.roller-row { overflow: hidden; }
+.roller-track {
+  display: flex; width: max-content;
+  animation: rollFwd 58s linear infinite;
+  will-change: transform;
+}
+.roller-track--back { animation-name: rollBack; animation-duration: 68s; }
+/* The two sets are identical, so a shift of exactly half the track lands the
+   copy where the original started and the seam never shows.
+
+   Both shifts are POSITIVE, which looks wrong until you remember the page is
+   RTL: the track's inline start is its RIGHT edge, so at translateX(0) it
+   already sits flush against the right of the row and everything overflowing
+   hangs off to the left. Pulling it further left with a negative value opens
+   a growing band of nothing on the right - which is exactly what swallowed
+   the second row, whose cycle starts half a track along. Pushing right walks
+   the overflow into view instead, and the window stays covered for the whole
+   cycle. */
+@keyframes rollFwd  { from { transform: translateX(0);   } to { transform: translateX(50%); } }
+@keyframes rollBack { from { transform: translateX(50%); } to { transform: translateX(0);   } }
+.roller:hover .roller-track,
+.roller:focus-within .roller-track { animation-play-state: paused; }
+
+.roller-set {
+  display: flex; align-items: center; gap: clamp(8px, 1vw, 12px);
+  list-style: none; margin: 0; padding: 0;
+  padding-inline-start: clamp(8px, 1vw, 12px);
+}
+.roller-set li {
+  flex: none; white-space: nowrap;
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(.86rem, 1.25vw, .96rem);
+  color: var(--on-dark-soft);
+  background: rgba(255, 255, 255, .055);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 10px 18px;
+}
+.roller-note {
+  margin-top: clamp(26px, 3.2vw, 34px);
+  font-size: clamp(.95rem, 1.5vw, 1.05rem); line-height: 1.7;
+  color: var(--on-dark-faint);
+}
+.roller-note b { color: var(--on-dark); font-weight: 700; }
+
+/* Asked for less motion, the rows stop - but stopped they would hide two
+   thirds of the list behind the overflow, so they become scrollable by hand
+   instead. The mask goes too, or the ends of a scrolled row read as faded
+   out rather than as more to come. */
+@media (prefers-reduced-motion: reduce) {
+  .roller { -webkit-mask-image: none; mask-image: none; }
+  .roller-row { overflow-x: auto; }
+  .roller-track { animation: none; }
+  .roller-set[aria-hidden="true"] { display: none; }
+}
+
 /* The registration form runs across the page rather than down it. Five
    stacked fields read as a form to fill in later; three side by side read
    as a thing you finish now. */
