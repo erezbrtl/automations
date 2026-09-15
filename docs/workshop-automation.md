@@ -149,11 +149,11 @@ automations.erezb.pro
 
 ## 5. שינוי מועד
 
-המועד מופיע בשלושה מקומות המסומנים `data-event`, ובעוד חמישה שלא:
+המועד מופיע בארבעה מקומות המסומנים `data-event`, ובעוד חמישה שלא:
 
 | קובץ | מה יש שם |
 |---|---|
-| `workshop.html` | שני שדות ב-`lp-facts` והשדה המוסתר `event` (שלושתם `data-event`). בראש הקובץ יש עוד חמישה לא מסומנים: `description`, `og:description`, `twitter:description`, ו-`startDate`/`endDate` ב-JSON-LD. ה-`eyebrow` בראש העמוד והכותרת בסקשן הסוגר כבר לא נושאים מועד |
+| `workshop.html` | שני שדות ב-`lp-facts` והשדה המוסתר `event` בכל אחד משני הטפסים (ארבעתם `data-event`). בראש הקובץ יש עוד חמישה לא מסומנים: `description`, `og:description`, `twitter:description`, ו-`startDate`/`endDate` ב-JSON-LD. ה-`eyebrow` בראש העמוד והכותרת בסקשן הסוגר כבר לא נושאים מועד |
 | `workshop-thanks.html` | שורת המועד, קישור יומן גוגל, ובניית קובץ ה-`.ics` בסקריפט למטה |
 | Make | הפילטר בתרחיש התזכורות ונוסח המיילים |
 

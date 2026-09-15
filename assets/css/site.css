@@ -1706,9 +1706,13 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
      tight, the form reads as a fifth fact rather than as the next step. */
   max-width: 64rem; margin: clamp(58px, 7.2vw, 96px) auto 0;
   text-align: center; color: #fff;
+  /* the gap above exists to separate this from the four facts in the hero.
+     The repeat form opens its own section, where the section padding already
+     does that job and the margin would only double it. */
   font-size: clamp(1.32rem, 2.6vw, 1.72rem); line-height: 1.3;
   letter-spacing: -.015em;
 }
+.lp-form-head--solo { margin-top: 0; }
 .lp-form { max-width: 64rem; margin: clamp(16px, 2vw, 22px) auto 0; }
 .lp-form-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .lp-form-row > .field + .field { margin-top: 0; }

@@ -42,11 +42,11 @@
 <noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
 
 <!-- ==========================================================
-     המועד מופיע בעמוד הזה בשלושה מקומות מסומנים data-event: שתי
-     הכרטיסיות בהירו והשדה המוסתר event. בעוד חמישה הוא לא מסומן,
+     המועד מופיע בעמוד הזה בארבעה מקומות מסומנים data-event: שתי
+     הכרטיסיות בהירו והשדה המוסתר event בשני הטפסים. בעוד חמישה הוא לא מסומן,
      וכולם בראש הקובץ הזה - שלוש פסקאות ה-description (רגילה, og
      וטוויטר) ו-startDate ו-endDate ב-JSON-LD.
-     לשינוי מועד: לחפש data-event ולעדכן את השלושה, אחר כך לחפש
+     לשינוי מועד: לחפש data-event ולעדכן את הארבעה, אחר כך לחפש
      14.10 ואת 2026-10-14 ולעדכן את החמישה שלמעלה, ואז את
      workshop-thanks.html ואת תרחיש ה-Make.
      ========================================================== -->
@@ -424,6 +424,56 @@
     </div>
 
     <p class="faq-more rv">שאלה אחרת? <a href="https://wa.me/972528657748" data-whatsapp data-wa-source="faq" target="_blank" rel="noopener">כתבו לי בוואטסאפ</a>.</p>
+  </div>
+</section>
+
+<!-- ===== SECOND FORM =====
+     The same registration, offered again once the questions are answered.
+     No optional field here: someone who has read this far is deciding, not
+     describing, and three boxes is the shortest the decision can be made. -->
+<section class="section bg-deep" id="join2">
+  <div class="wrap">
+    <h2 class="lp-form-head lp-form-head--solo rv">מלאו את הפרטים ואני שומר לכם מקום:</h2>
+
+    <form class="form-card lp-form rv" id="joinForm2" data-lead-form data-done="joinDone2"
+          data-thanks="/workshop-thanks.html"
+          action="https://api.web3forms.com/submit" method="POST">
+
+      <div class="lp-form-row">
+        <div class="field">
+          <label for="w2-name">שם</label>
+          <input id="w2-name" name="name" type="text" autocomplete="name" required>
+          <span class="err" data-err-for="w2-name"></span>
+        </div>
+        <div class="field">
+          <label for="w2-mail">אימייל</label>
+          <input id="w2-mail" name="email" type="email" autocomplete="email" dir="ltr" required>
+          <span class="err" data-err-for="w2-mail"></span>
+        </div>
+        <div class="field">
+          <label for="w2-phone">טלפון</label>
+          <input id="w2-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
+          <span class="err" data-err-for="w2-phone"></span>
+        </div>
+      </div>
+
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true">
+      <input type="hidden" name="form" value="workshop" data-send>
+      <input type="hidden" name="event" value="2026-10-14T20:30:00+03:00" data-send data-event>
+      <input type="hidden" name="access_key" value="14071e57-7b84-471b-9ec2-a44b7cb2e763">
+      <input type="hidden" name="subject" value="הרשמה לסדנה החינמית">
+      <input type="hidden" name="from_name" value="automations.erezb.pro">
+      <input type="hidden" name="redirect" data-redirect value="https://automations.erezb.pro/workshop-thanks.html">
+
+      <button class="btn btn--cta btn--wide" type="submit" data-fx-magnet><span class="ic" aria-hidden="true">&#8592;</span> שלחו לי את הקישור</button>
+      <p class="form-fine">בלי תשלום ובלי כרטיס אשראי. הקישור נשלח למייל עם ההרשמה, ותזכורת בוואטסאפ ביום המפגש.<br><a href="/privacy.html">מדיניות פרטיות</a></p>
+      <p class="form-status" role="status" data-status></p>
+    </form>
+
+    <div class="form-card form-done" id="joinDone2" tabindex="-1">
+      <h3>נרשמתם.</h3>
+      <p>הקישור בדרך למייל.</p>
+    </div>
   </div>
 </section>
 
