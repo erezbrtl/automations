@@ -336,6 +336,14 @@ h1 + .btn-row, h2 + .btn-row, p + .btn-row, .h-sub + .btn-row { margin-top: clam
    too small to read the spreadsheet it is showing. Stacked, the words get
    the full measure and the picture gets a size worth looking at. */
 .hero-stack { max-width: 940px; margin-inline: auto; }
+/* The headline carries a clause more than it used to, and from 1200px up
+   that tipped it onto a third line and pushed the button under the fold on
+   a laptop. The measure was the constraint, not the type size: another
+   100px of column puts it back on two lines at the same scale. Below
+   1200px nothing changes - the narrower widths never wrapped to three. */
+@media (min-width: 1200px) {
+  .hero-stack { max-width: 1040px; }
+}
 .hero-stack .hero-sub { max-width: 52ch; margin-inline: auto; }
 .hero-film { max-width: 800px; margin-top: clamp(44px, 6vw, 84px); }
 .hero h1 {
