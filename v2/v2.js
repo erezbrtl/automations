@@ -29,6 +29,7 @@
   var gsap = window.gsap, ST = window.ScrollTrigger, Split = window.SplitText;
   if (!gsap || !ST) {
     Array.prototype.forEach.call(document.querySelectorAll(".chores"), function (c) { c.classList.add("is-static"); });
+    doc.classList.add("is-ready");
     return;
   }
   gsap.registerPlugin(ST);
@@ -65,6 +66,7 @@
     wide: "(min-width: 1000px)"
   }, function (ctx) {
     var c = ctx.conditions;
+    var undo = function () { doc.classList.remove("has-run"); };
 
     if (c.still) {
       $(".chores").forEach(function (el) { el.classList.add("is-static"); });
@@ -74,10 +76,9 @@
 
     /* ================= HERO ================= */
     var hero = gsap.timeline({ defaults: { ease: "expo.out" }, delay: .15 });
-    hero.from(".hero-meta", { y: -14, autoAlpha: 0, duration: .9 });
 
     $(".hero [data-split]").forEach(function (el, i) {
-      hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? "-=.6" : "-=.95");
+      hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? 0 : "-=.95");
     });
 
     var scribble = document.querySelector(".scribble path");
@@ -134,31 +135,6 @@
       scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
     });
 
-    /* ================= generic reveals ================= */
-    $("[data-split]").forEach(function (el) {
-      if (el.closest(".hero")) { return; }
-      gsap.from(splitWords(el), {
-        yPercent: 110, duration: 1, ease: "expo.out", stagger: .045,
-        scrollTrigger: { trigger: el, start: "top 86%" }
-      });
-    });
-
-    $("[data-fade]").forEach(function (el) {
-      if (el.closest(".hero")) { return; }
-      gsap.from(el, { y: 28, autoAlpha: 0, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%" } });
-    });
-
-    $("[data-stagger]").forEach(function (el) {
-      gsap.from(el.children, { y: 22, autoAlpha: 0, duration: .8, ease: "power3.out", stagger: .07,
-        scrollTrigger: { trigger: el, start: "top 88%" } });
-    });
-
-    $(".kicker").forEach(function (el) {
-      gsap.from(el, { x: 30, autoAlpha: 0, duration: .9, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 90%" } });
-    });
-
     /* ================= ABOUT ================= */
     var frame = document.querySelector("[data-clip]");
     if (frame) {
@@ -196,6 +172,9 @@
     /* ================= STEPS: sideways run, pinned ================= */
     var track = document.getElementById("stepsTrack");
     if (c.wide && track) {
+      /* the sideways layout exists only while this run drives it, so a
+         reduced-motion or script-less visit keeps the stacked cards */
+      doc.classList.add("has-run");
       var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
       var side = gsap.to(track, {
         x: function () { return distance(); }, ease: "none",
@@ -217,23 +196,14 @@
           scrollTrigger: { trigger: ".steps-pin", start: "top top", end: function () { return "+=" + distance() * (i / 3); }, scrub: true }
         });
       });
-    } else {
-      $(".plan").forEach(function (card) {
-        gsap.from(card, { y: 40, autoAlpha: 0, duration: .9, ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 88%" } });
-      });
     }
 
     /* ================= PAIN: chores struck off as you pass them ================= */
     $(".chores li").forEach(function (li) {
       var chore = li.querySelector(".chore");
-      var num = li.querySelector(".mono");
       var tl = gsap.timeline({ scrollTrigger: { trigger: li, start: "top 72%", end: "top 42%", scrub: .6 } });
       tl.fromTo(chore, { "--strike": 0 }, { "--strike": 1, ease: "none" })
-        .to(chore, { color: "#8A8377", ease: "none" }, "<.3")
-        .to(num, { color: "#D9431B", ease: "none" }, "<");
-      gsap.from(li, { x: -60, autoAlpha: 0, duration: 1, ease: "expo.out",
-        scrollTrigger: { trigger: li, start: "top 92%" } });
+        .to(chore, { color: "#6B6458", ease: "none" }, "<.3");
     });
 
     /* ================= FIT ================= */
@@ -253,7 +223,7 @@
     });
 
     /* ================= FINAL ================= */
-    gsap.fromTo(".final-title", { xPercent: 6 }, { xPercent: -4, ease: "none",
+    if (c.wide) gsap.fromTo(".final-title", { xPercent: 6 }, { xPercent: -4, ease: "none",
       scrollTrigger: { trigger: ".final", start: "top bottom", end: "bottom top", scrub: true } });
 
     /* ================= magnetic buttons ================= */
@@ -269,6 +239,7 @@
         btn.addEventListener("mouseleave", function () { xTo(0); yTo(0); });
       });
     }
+    return undo;
   });
 
   /* ================= FAQ: height eased open and shut ================= */
