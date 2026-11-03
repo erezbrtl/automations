@@ -26,6 +26,21 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
+  /* ---------- in-page links glide instead of jumping ---------- */
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) { return; }
+    var link = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!link) { return; }
+    var id = link.getAttribute("href").slice(1);
+    var target = id ? document.getElementById(id) : null;
+    if (!target && id !== "top") { return; }
+    e.preventDefault();
+    var y = target ? target.getBoundingClientRect().top + window.scrollY - 84 : 0;
+    var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, y), behavior: still ? "auto" : "smooth" });
+    if (target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
+  });
+
   var gsap = window.gsap, ST = window.ScrollTrigger, Split = window.SplitText;
   if (!gsap || !ST) {
     Array.prototype.forEach.call(document.querySelectorAll(".chores"), function (c) { c.classList.add("is-static"); });
@@ -81,12 +96,6 @@
       hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? 0 : "-=.95");
     });
 
-    var scribble = document.querySelector(".scribble path");
-    if (scribble) {
-      var len = scribble.getTotalLength();
-      gsap.set(scribble, { strokeDasharray: len, strokeDashoffset: len });
-      hero.to(scribble, { strokeDashoffset: 0, duration: .9, ease: "power2.inOut" }, "-=.4");
-    }
     hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.6")
         .from(".flow-stops li", { y: 18, autoAlpha: 0, duration: .7, stagger: .08 }, "-=.6")
         .from(".flow-wire", { scaleX: 0, transformOrigin: "100% 50%", duration: 1.2, ease: "power3.inOut" }, "<");

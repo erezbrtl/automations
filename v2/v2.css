@@ -42,7 +42,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-padding-top: 84px; }
 body {
   margin: 0;
   background: var(--paper);
@@ -197,7 +197,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .taught-lead .count { display: block; font-weight: 800; font-size: clamp(4rem, 10vw, 8rem); line-height: .9; color: var(--signal); font-variant-numeric: tabular-nums; }
 .taught-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
 .taught-row li { display: grid; place-items: center; padding: 22px 18px; border-inline-start: 1px solid var(--rule); }
-.taught-row img { max-height: 44px; width: auto; opacity: .72; transition: opacity .3s; }
+.taught-row img { width: auto; height: auto; max-width: 100%; max-height: 44px; object-fit: contain; opacity: .72; transition: opacity .3s; }
 .taught-row li:hover img { opacity: 1; }
 @media (max-width: 900px) {
   .about-grid, .taught { grid-template-columns: 1fr; }
