@@ -203,7 +203,7 @@
       var chore = li.querySelector(".chore");
       var tl = gsap.timeline({ scrollTrigger: { trigger: li, start: "top 72%", end: "top 42%", scrub: .6 } });
       tl.fromTo(chore, { "--strike": 0 }, { "--strike": 1, ease: "none" })
-        .to(chore, { color: "#6B6458", ease: "none" }, "<.3");
+        .to(chore, { color: "#9C93B2", ease: "none" }, "<.3");
     });
 
     /* ================= FIT ================= */
