@@ -225,7 +225,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .plan-dur { margin: auto 0 0; font-size: 1rem; color: var(--on-night-2); }
 .plan-dur b { display: block; font-family: var(--serif); font-weight: 800; font-size: clamp(3.2rem, 5vw, 4.6rem); line-height: 1; color: var(--on-night); }
 .plan .btn-line { --bd: var(--on-night); --fg: var(--on-night); color: var(--on-night); --fill: var(--on-night); align-self: flex-start; }
-.plan .btn-line:hover { color: var(--ink); }
+.plan .btn-line:hover { color: var(--night); }
 .plan-core { background: var(--paper); color: var(--ink); border-inline-start: 0; }
 .plan-core .plan-n, .plan-core .plan-line, .plan-core .plan-dur { color: var(--ink-2); }
 .plan-core .plan-dur b { color: var(--signal); }
@@ -261,10 +261,11 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .pain-title { max-width: 18ch; }
 .pt-lead { display: block; font-weight: 500; font-size: .45em; color: var(--ink-2); margin-bottom: 18px; letter-spacing: 0; }
 .chores { list-style: none; margin: clamp(48px, 7vw, 96px) 0 0; padding: 0; border-top: 1.5px solid var(--ink); }
-.chores li { display: flex; align-items: baseline; gap: clamp(16px, 4vw, 56px); padding: clamp(14px, 2.2vw, 26px) 0; border-bottom: 1px solid var(--rule); }
+.chores li { display: flex; align-items: baseline; gap: clamp(16px, 4vw, 56px); padding: clamp(12px, 1.6vw, 18px) 0; border-bottom: 1px solid var(--rule); }
+/* the question above is the headline; the chores are its answers, a clear step down */
 .chore {
-  position: relative; font-family: var(--serif); font-weight: 700;
-  font-size: clamp(1.9rem, 5vw, 4.4rem); line-height: 1.1;
+  position: relative; font-family: var(--sans); font-weight: 500;
+  font-size: clamp(1.3rem, 2.4vw, 2rem); line-height: 1.25; color: var(--ink);
 }
 .chore::after { /* the strike, drawn by scroll */
   content: ""; position: absolute; inset-inline: -.1em; top: 55%; height: .08em; min-height: 3px;
@@ -401,6 +402,9 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .plan-core { background: var(--card); color: var(--card-ink); }
 .plan-core .plan-line, .plan-core .plan-dur { color: var(--card-soft); }
 .plan-core .plan-dur b { color: var(--cta); }
+/* on the white card the button fills dark, never white */
+.plan-core .btn-accent { --fill: var(--card-ink); }
+.plan-core .btn-accent:hover { color: #fff; border-color: var(--card-ink); }
 .plan-dur b[dir="ltr"] { text-align: right; }
 
 .contact { background: var(--night); }
