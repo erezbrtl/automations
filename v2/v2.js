@@ -188,14 +188,6 @@
         y: 80, autoAlpha: 0, stagger: .12, duration: 1.1, ease: "expo.out",
         scrollTrigger: { trigger: ".steps", start: "top 60%" }
       });
-      /* and the further ones lean in while the run plays */
-      $(".plan", track).forEach(function (card, i) {
-        if (i === 0) { return; }
-        gsap.fromTo(card, { rotate: -2.5, transformOrigin: "100% 100%" }, {
-          rotate: 0, ease: "none",
-          scrollTrigger: { trigger: ".steps-pin", start: "top top", end: function () { return "+=" + distance() * (i / 3); }, scrub: true }
-        });
-      });
     }
 
     /* ================= PAIN: chores struck off as you pass them ================= */
