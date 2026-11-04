@@ -467,15 +467,15 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* red band: the steps run on red; the side cards keep white text, the core card stays white */
 .t-red .plan { border-color: rgba(255, 255, 255, .25); }
 .t-red .plan .btn-line:hover { color: #B01252; }
-.t-red .plan-tag { background: #0A0613; }
+.t-red .plan-tag { background: #1A0B33; }
 .t-red .plan-core .btn-accent { --bg: #E0134E; --bd: #E0134E; }
 .t-red .plan-core .plan-dur b { color: #E0134E; }
 
 /* closing band on red: white headline, dark accent line, dark button */
 .final.t-red .final-title { color: #fff; }
-.final.t-red .ft-accent { color: #0A0613; }
+.final.t-red .ft-accent { color: #1A0B33; }
 .final.t-red .final-after { color: var(--ink-2); }
-.final.t-red .btn-accent { --bg: #0A0613; --bd: #0A0613; color: #fff; --fill: #fff; }
+.final.t-red .btn-accent { --bg: #1A0B33; --bd: #1A0B33; color: #fff; --fill: #fff; }
 .final.t-red .btn-accent:hover { color: #101B3D; border-color: #fff; }
 
 /* white bands: dark buttons fill pink, outline buttons fill navy */
