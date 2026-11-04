@@ -129,7 +129,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* ==========================================================
    HERO
    ========================================================== */
-.hero { padding: 132px 0 64px; min-height: 100svh; display: flex; align-items: stretch; position: relative; }
+.hero { padding: 104px 0 64px; min-height: 100svh; display: flex; align-items: stretch; position: relative; }
 .hero::before { /* ruled lines, like a planning pad */
   content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
   background-image: linear-gradient(var(--rule) 1px, transparent 1px);
@@ -507,7 +507,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
    Same bands, type and buttons as the home page; its own card for a
    process you can tick.
    ========================================================== */
-.pp-hero { padding: clamp(128px, 14vw, 180px) 0 clamp(64px, 8vw, 96px); }
+.pp-hero { padding: clamp(104px, 10vw, 128px) 0 clamp(64px, 8vw, 96px); }
 .pp-title { max-width: 16ch; }
 .pp-title .lead-in { display: block; font-weight: 500; font-size: .42em; color: var(--ink-2); margin-bottom: 16px; letter-spacing: 0; }
 .pp-accent { color: var(--signal); }
@@ -576,7 +576,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* ==========================================================
    short pages: thanks, 404, privacy, accessibility, examples
    ========================================================== */
-.doc { min-height: 72vh; padding: clamp(128px, 14vw, 180px) 0 clamp(80px, 10vw, 130px); }
+.doc { min-height: 72vh; padding: clamp(104px, 10vw, 128px) 0 clamp(80px, 10vw, 130px); }
 .doc-wrap { max-width: 760px; }
 .doc-wrap.center { text-align: start; }
 .doc .h2 { margin-bottom: 20px; }
@@ -593,7 +593,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 
 /* examples: the story frames keep their own dark styling from site.css,
    so they sit on the dark night band; hero and close use the home bands */
-.ex-hero { padding: clamp(128px, 14vw, 180px) 0 clamp(56px, 7vw, 88px); }
+.ex-hero { padding: clamp(104px, 10vw, 128px) 0 clamp(56px, 7vw, 88px); }
 .ex-hero .h-sub { max-width: 54ch; font-size: 1.12rem; color: var(--ink-2); }
 .ex-stories { padding: clamp(64px, 8vw, 110px) 0; }
 .ex-ask .btn-row { margin-top: clamp(32px, 4vw, 48px); }

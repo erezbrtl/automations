@@ -1,0 +1,90 @@
+/* ==========================================================
+   bridge.css - the older components (site.css, workshop-fx.css) on the
+   new design: flat colour bands, the home typeface weights, the home
+   buttons and white cards. Load it last, after site.css and home.css,
+   on any page that still uses those components.
+
+   It works by mapping the old tokens (--on-dark, --hairline, --cta-2...)
+   onto each band's tokens, so a component that read "text on dark" now
+   reads "text on this band" - white on blue and red, navy on white.
+   ========================================================== */
+
+/* the old ground and its decorations are gone */
+.page-bg, .bloom-layer, .junction, .waves, .eyebrow { display: none !important; }
+
+/* every old section becomes a full-width band */
+.section {
+  max-width: none; margin: 0; border: 0; border-radius: 0; box-shadow: none;
+  background: var(--paper); padding-block: clamp(72px, 9vw, 120px);
+}
+.section > .wrap, .section > .roller { position: relative; }
+
+/* old tokens, read from the band the component sits on */
+.t-blue, .t-night, .t-white, .t-red {
+  --on-dark: var(--ink); --on-dark-soft: var(--ink-2); --on-dark-faint: var(--ink-3);
+  --hairline: var(--rule); --cta-glow: transparent; --cta-2: var(--cta);
+}
+
+/* type: the home scale and weights, aligned to the reading edge */
+.h-sect { font-size: clamp(2.2rem, 5.4vw, 4.8rem); font-weight: 800; line-height: 1.04; letter-spacing: -.01em; text-wrap: balance; }
+.h-sub { color: var(--ink-2); }
+.center { text-align: start; }
+.center .h-sub, .center .eyebrow { margin-inline: 0; }
+.center .btn-row { justify-content: flex-start; }
+.grad { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--signal); }
+.mark { background-image: none; color: var(--signal); padding: 0; margin: 0; }
+.lead-in { color: var(--ink-2); }
+
+/* buttons: the home set */
+.btn--cta {
+  background: var(--cta); border: 1.5px solid var(--cta); color: #fff; box-shadow: none; border-radius: 2px;
+}
+.btn--cta:hover { transform: none; box-shadow: none; color: var(--card-ink); border-color: #fff; }
+.btn--cta::before { background: #fff; }
+.btn--ghost, .btn--wa {
+  background: transparent; border: 1.5px solid var(--ink); color: var(--ink); border-radius: 2px;
+}
+.btn--ghost::before, .btn--wa::before { background: var(--ink); }
+.btn--ghost:hover, .btn--wa:hover { background: transparent; border-color: var(--ink); color: var(--paper); }
+.btn .ic { font-style: normal; }
+
+/* cards: white, flat, the same corner as the home cards */
+.form-card {
+  background: var(--card); color: var(--card-ink); border: 0; box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 2px;
+}
+.form-card .field input, .form-card .field textarea { background: transparent; color: var(--card-ink); }
+.form-card .btn--cta { --cta: #E0134E; }
+.form-card .btn--cta:hover { color: #fff; border-color: var(--card-ink); }
+.form-card .btn--cta::before { background: var(--card-ink); }
+.form-card a { color: var(--card-ink); }
+
+/* small components that carried a glow or glass */
+.pain, .lp-fact, .agenda li, .take-card, .faq-item, .lp-by, .demo, .frame, .roller-set li {
+  box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+}
+.t-white .pain, .t-white .lp-fact, .t-white .agenda li, .t-white .faq-item, .t-white .roller-set li {
+  background: #F3F1F8; border-color: var(--rule); color: var(--ink);
+}
+.t-blue .pain, .t-blue .lp-fact, .t-blue .agenda li, .t-blue .faq-item, .t-blue .roller-set li,
+.t-red .pain, .t-red .lp-fact, .t-red .agenda li, .t-red .faq-item, .t-red .roller-set li {
+  background: rgba(255, 255, 255, .07); border-color: var(--rule); color: var(--ink);
+}
+.pain i svg, .lp-fact i svg { stroke: currentColor; }
+.t-white .pain i, .t-white .lp-fact i { color: var(--signal); }
+
+/* labels and text inside the white card read as card text, on every band */
+.form-card label, .form-card .field label, .form-card h3, .form-card p { color: var(--card-ink); }
+.form-card .opt, .form-card .hint, .form-card .form-fine { color: var(--card-soft); }
+.form-card input::placeholder, .form-card textarea::placeholder { color: #8A91A8; }
+.form-card .err, .form-card .form-status.is-warn { color: #C40F43; }
+
+/* workshop facts strip: band text, a quiet plate */
+.lp-fact .t b { color: var(--ink); }
+.lp-fact .t span { color: var(--ink-2); }
+.lp-fact i { background: rgba(255, 255, 255, .1); color: var(--ink); }
+.t-white .lp-fact i { background: rgba(224, 19, 78, .1); color: var(--signal); }
+
+/* the six chores as compact rows, not tall empty tiles */
+.pain { min-height: 0; aspect-ratio: auto; padding: 18px 20px; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.05rem; border-radius: 14px; }
+.pain i { flex: none; }
