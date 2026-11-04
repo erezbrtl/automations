@@ -20,6 +20,8 @@
   var pages = ["workshop", "workshop-thanks", "thanks", "privacy",
                "accessibility", "resources/examples", "resources/processes"];
   var want = path.toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\.html$/, "");
+  if (want === "v1") { location.replace("/v1/index.html" + location.search + location.hash); return; }
+  if (want === "v2" || want === "v2/index") { location.replace("/" + location.search + location.hash); return; }
   if (pages.indexOf(want) !== -1) {
     location.replace("/" + want + ".html" + location.search + location.hash);
     return;
@@ -51,11 +53,11 @@
 
 <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/noto-sans-hebrew-900-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/noto-sans-hebrew-800-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
-<link rel="stylesheet" href="/assets/css/site.css">
-<noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="stylesheet" href="/assets/css/home.css">
+<script>document.documentElement.classList.add("js");</script>
 
 <script type="application/ld+json">
 {
@@ -119,348 +121,227 @@
 </head>
 <body>
 
-<div class="page-bg" aria-hidden="true">
-  <div class="bloom-layer" id="bloomLayer">
-  <span class="bloom bloom--blue"></span>
-  <span class="bloom bloom--violet"></span>
-  <span class="bloom bloom--mag1"></span>
-  <span class="bloom bloom--crim1"></span>
-  <span class="bloom bloom--violet2"></span>
-  <span class="bloom bloom--blue2"></span>
-  <span class="bloom bloom--mag2"></span>
-  <span class="bloom bloom--violet3"></span>
-  <span class="bloom bloom--crim2"></span>
-  <span class="bloom bloom--blue3"></span>
-  </div>
-</div>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
+<header class="top" id="siteHeader">
+  <div class="wrap top-in">
+    <a class="mark-brand" href="#top" aria-label="erezb.pro - לראש העמוד">
+      <img src="/assets/img/logo.svg" alt="" width="28" height="28">
+      <span>erezb.pro</span>
     </a>
-    <nav class="nav" aria-label="ניווט ראשי">
+    <nav class="top-nav" aria-label="ניווט ראשי">
       <a href="#about">מי אני?</a>
       <a href="#steps">איך נעבוד יחד</a>
       <a href="#pain">תהליכים אמיתיים</a>
     </nav>
+    <a class="top-cta" href="#contact" data-cta="header">לתיאום סדנה</a>
   </div>
 </header>
 
 <main id="main">
-<svg class="defs-only" width="0" height="0" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="jGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FF2E63"/>
-      <stop offset="0.55" stop-color="#B23BE0"/>
-      <stop offset="1" stop-color="#2F6BFF"/>
-    </linearGradient>
-  </defs>
-</svg>
 
+<!-- ============ HERO ============ -->
+<section class="hero t-blue" id="top">
+  <div class="wrap">
 
-<!-- ===== HERO ===== -->
-<section class="section hero bg-night" id="top">
-  <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <div class="wrap hero-stack center">
-    <span class="eyebrow rv">לעסקים קטנים, לצוותים ולארגונים</span>
-    <h1 class="rv">
-      <span class="lead-in">כמה מהעבודה שלכם מרגישה כמו <span class="keep">בזבוז זמן?</span></span>
-      <span class="l2">בואו נזהה את מה שחוזר <span class="keep">על עצמו</span> בעסק, <span class="mark">ונבנה לו פתרון.</span></span>
+    <p class="hero-lead" data-split>כמה מהעבודה שלכם מרגישה כמו בזבוז זמן?</p>
+    <h1 class="hero-title">
+      <span class="ht-line" data-split>בואו נזהה את מה</span>
+      <span class="ht-line" data-split>שחוזר על עצמו בעסק,</span>
+      <span class="ht-line ht-accent"><span data-split>ונבנה לו פתרון.</span>
+      </span>
     </h1>
-    <p class="hero-sub rv">סדנה מעשית של 3-4 שעות: לוקחים תהליך אמיתי מהעסק שלכם, מתכננים אותו ובונים לו <b>אוטומציה שעובדת.</b> בלי קוד.</p>
-    <!-- One line, read the way the page is read: a lead arrives on the
-         right and a task waits on the left, and the pulse travels between
-         them lighting each stop. It sits above the button rather than
-         below it: under the button it read as the answer to "איך זה
-         עובד?" and then sent the visitor somewhere else, while here it
-         illustrates the sentence above it and leaves the button to close
-         the block. It says its whole piece standing still - the motion
-         only gives it life. The station names are the ones on the Make
-         canvas. -->
-    <div class="hero-run">
-      <div class="runstrip rv" role="img" aria-label="שרשרת התהליך: פנייה נכנסת מהטופס באתר, ה-AI מסווג אותה וקובע דחיפות, מנסח טיוטת תשובה, הליד נרשם בגיליון ומחכה משימת מעקב.">
-        <ol class="run-line">
-          <li class="run-stop rs1"><span class="run-ico run-ico--hook"></span><span class="run-lab">פנייה מהטופס</span></li>
-          <li class="run-stop rs2"><span class="run-ico run-ico--ai"></span><span class="run-lab">סיווג ודחיפות</span></li>
-          <li class="run-stop rs3"><span class="run-ico run-ico--reply"></span><span class="run-lab">טיוטת תשובה</span></li>
-          <li class="run-stop rs4"><span class="run-ico run-ico--sheet"></span><span class="run-lab">שורה בגיליון</span></li>
-          <li class="run-stop rs5"><span class="run-ico run-ico--task"></span><span class="run-lab">משימת מעקב</span></li>
-        </ol>
-      </div>
+
+    <div class="hero-foot">
+      <p class="hero-sub" data-fade>לעסקים קטנים, לצוותים ולארגונים. סדנה מעשית של 3-4 שעות: לוקחים תהליך אמיתי מהעסק שלכם, מתכננים אותו ובונים לו <b>אוטומציה שעובדת.</b> בלי קוד.</p>
+      <a class="btn btn-ink" href="#steps" data-cta="hero" data-magnet><span>איך נעבוד יחד?</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
     </div>
 
-    <div class="btn-row rv">
-      <a class="btn btn--cta" href="#steps" data-cta="hero"><span class="ic" aria-hidden="true">←</span> איך נעבוד יחד?</a>
-    </div>
-  </div>
-
-  <!-- kept for a youtubeId in config, which unhides this and fills it with a
-       click to play facade. The drawn loop that used to live here is gone;
-       the strip above says the same thing without detaining anyone. -->
-  <div class="wrap hero-film" id="heroFilm" hidden>
-    <div class="video rv" id="video" hidden></div>
+    <!-- the same five stops the live page shows, drawn as a flow that runs -->
+    <figure class="flow" role="img" aria-label="שרשרת התהליך: פנייה נכנסת מהטופס באתר, ה-AI מסווג אותה וקובע דחיפות, מנסח טיוטת תשובה, הליד נרשם בגיליון ומחכה משימת מעקב.">
+      <svg class="flow-wire" viewBox="0 0 1000 20" preserveAspectRatio="none" aria-hidden="true">
+        <line class="wire-base" x1="0" y1="10" x2="1000" y2="10"/>
+      </svg>
+      <span class="flow-live" aria-hidden="true"></span>
+      <span class="flow-pulse" aria-hidden="true"></span>
+      <ol class="flow-stops">
+        <li><span class="fs-dot"></span><span class="fs-lab">פנייה מהטופס</span></li>
+        <li><span class="fs-dot"></span><span class="fs-lab">סיווג ודחיפות</span></li>
+        <li><span class="fs-dot"></span><span class="fs-lab">טיוטת תשובה</span></li>
+        <li><span class="fs-dot"></span><span class="fs-lab">שורה בגיליון</span></li>
+        <li><span class="fs-dot"></span><span class="fs-lab">משימת מעקב</span></li>
+      </ol>
+    </figure>
   </div>
 </section>
 
-<!-- ===== ABOUT ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-deep" id="about" data-stop>
-  <div class="wrap about-grid is-solo">
-    <div class="portrait rv" id="portrait" hidden>
+<!-- ============ ABOUT ============ -->
+<section class="about t-white" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <div class="photo-frame" data-clip>
+        <img src="/assets/img/erez-portrait.webp" alt="ארז ברטל" width="1600" height="2134" loading="lazy" decoding="async">
+      </div>
+      <p class="photo-cap">ארז ברטל · AI &amp; Automation</p>
     </div>
 
-    <div class="rv">
-      <span class="eyebrow">מי אני?</span>
-      <p class="about-name">ארז ברטל</p>
-      <p class="about-role">אני מגיע מעולם ההוראה והעיצוב, עם יותר מ-17 שנות ניסיון, ובשנים האחרונות עובד יותר ויותר בנקודת החיבור בין AI, אוטומציה, No-Code ומוצרים דיגיטליים.</p>
-      <p class="skills-lead">התחום שלי הוא נקודת החיבור בין:</p>
-      <ul class="skills rv" data-stagger>
-        <li class="skill">AI</li><li class="skill">Automation</li><li class="skill">No-Code</li>
-        <li class="skill">Digital Products</li><li class="skill">Design</li><li class="skill">Training</li>
+    <div class="about-text">
+      <h2 class="about-name" data-split>ארז ברטל</h2>
+      <p class="about-role" data-fade>אני מגיע מעולם ההוראה והעיצוב, עם יותר מ-17 שנות ניסיון, ובשנים האחרונות עובד יותר ויותר בנקודת החיבור בין AI, אוטומציה, No-Code ומוצרים דיגיטליים.</p>
+
+      <p class="skills-lead" data-fade>התחום שלי הוא נקודת החיבור בין:</p>
+      <ul class="skills" data-stagger>
+        <li>AI</li><li>Automation</li><li>No-Code</li>
+        <li>Digital Products</li><li>Design</li><li>Training</li>
       </ul>
-      <figure class="quote">
-        <blockquote>בעולם הזה של AI וסוכנים, הכי חשוב לדעת ללמוד טכנולוגיה חדשה במהירות, להבין איפה היא מייצרת ערך ולהפוך את הידע הזה ללמידה פרקטית.</blockquote>
-        <figcaption class="quote-by">האני מאמין שלי</figcaption>
+
+      <figure class="creed">
+        <blockquote data-scrub>בעולם הזה של AI וסוכנים, הכי חשוב לדעת ללמוד טכנולוגיה חדשה במהירות, להבין איפה היא מייצרת ערך ולהפוך את הידע הזה ללמידה פרקטית.</blockquote>
+        <figcaption>האני מאמין שלי</figcaption>
       </figure>
     </div>
   </div>
 
-  <!-- One sentence and the four places that back it. It says taught and
-       trained rather than naming them clients, since one of the four is not
-       a college and none of them bought an automation. The years are not
-       repeated here - the paragraph above already carries them - and the
-       count is written "יותר מ" to match it.
-       It sits outside the text column because four marks will not fit on one
-       line in 583px, and a row of four that wraps to three and one is worse
-       than no row at all. -->
-  <div class="wrap taught rv">
-    <p class="taught-lead">לימדתי והדרכתי יותר מ-<b>1,000</b> סטודנטים</p>
-    <ul class="taught-row">
-      <li><img class="lg lg--emeq" src="/assets/img/logos/emeq.png" alt="המכללה האקדמית עמק יזרעאל" width="238" height="91" loading="lazy" decoding="async"></li>
-      <li><img class="lg lg--braude" src="/assets/img/logos/braude.png" alt="המכללה האקדמית להנדסה אורט בראודה" width="237" height="74" loading="lazy" decoding="async"></li>
-      <li><img class="lg lg--netanya" src="/assets/img/logos/netanya.png" alt="המכללה האקדמית נתניה" width="236" height="46" loading="lazy" decoding="async"></li>
-      <li><img class="lg lg--hackeru" src="/assets/img/logos/hackeru.png" alt="HackerU" width="236" height="75" loading="lazy" decoding="async"></li>
+  <div class="wrap taught">
+    <p class="taught-lead">לימדתי והדרכתי יותר מ-<b class="count" data-count="1000">1,000</b> סטודנטים</p>
+    <ul class="taught-row" data-stagger>
+      <li><img src="/assets/img/logos/emeq.png" alt="המכללה האקדמית עמק יזרעאל" width="238" height="91" loading="lazy" decoding="async"></li>
+      <li><img src="/assets/img/logos/braude.png" alt="המכללה האקדמית להנדסה אורט בראודה" width="237" height="74" loading="lazy" decoding="async"></li>
+      <li><img src="/assets/img/logos/netanya.png" alt="המכללה האקדמית נתניה" width="236" height="46" loading="lazy" decoding="async"></li>
+      <li><img src="/assets/img/logos/hackeru.png" alt="HackerU" width="236" height="75" loading="lazy" decoding="async"></li>
     </ul>
   </div>
 </section>
 
-<!-- ===== THE PRODUCT: 3 STEPS ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-crimson" id="steps" data-stop>
-  <img class="waves waves--end" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <div class="wrap">
-    <div class="center rv">
-      <span class="eyebrow">סדנאות והדרכות</span>
-      <h2 class="h-sect">איך נעבוד <span class="grad nb">יחד?</span></h2>
-      <p class="h-sub">3 אפשרויות.<br class="phone-break"> אתם בוחרים מה הכי מתאים לכם.</p>
+<!-- ============ STEPS (pinned, horizontal on wide screens) ============ -->
+<section class="steps t-red" id="steps">
+  <div class="steps-pin">
+    <div class="wrap steps-head">
+      <h2 class="h2" data-split>איך נעבוד יחד?</h2>
+      <p class="h-sub">3 אפשרויות. אתם בוחרים מה הכי מתאים לכם.</p>
     </div>
 
-    <ul class="plans rv" data-stagger>
-      <li class="plan">
-        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v11H3z"/><path d="M12 15v5M8 20h8"/></svg></span>
+    <div class="steps-track" id="stepsTrack">
+      <article class="plan">
         <h3>הרצאה / סדנת מבוא</h3>
         <p class="plan-line">מפגש אחד שבו כל הצוות מבין מה AI באמת יכול לעשות בעסק.</p>
-        <p class="plan-dur"><b dir="ltr">60-90</b><span>דקות</span></p>
-        <a class="btn btn--ghost btn--wide" href="#contact" data-cta="plan-intro">לתיאום הרצאה</a>
-      </li>
+        <p class="plan-dur"><b dir="ltr">60-90</b> דקות</p>
+        <a class="btn btn-line" href="#contact" data-cta="plan-intro"><span>לתיאום הרצאה</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+      </article>
 
-      <li class="plan plan--core">
+      <article class="plan plan-core">
         <span class="plan-tag">הכי פופולארי</span>
-        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/><path d="M11 7h4a2 2 0 0 1 2 2v4"/></svg></span>
         <h3>הסדנה המעשית</h3>
         <p class="plan-line">בוחרים תהליך אמיתי מהעסק, מתכננים אותו, ובונים לו אוטומציה עובדת. יוצאים איתה בסוף היום.</p>
-        <p class="plan-dur"><b dir="ltr">3-4</b><span>שעות</span></p>
-        <a class="btn btn--cta btn--wide" href="#contact" data-cta="plan-workshop"><span class="ic" aria-hidden="true">←</span> לתיאום סדנה</a>
-      </li>
+        <p class="plan-dur"><b dir="ltr">3-4</b> שעות</p>
+        <a class="btn btn-accent" href="#contact" data-cta="plan-workshop" data-magnet><span>לתיאום סדנה</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+      </article>
 
-      <li class="plan">
-        <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M15 9h2a2 2 0 0 1 2 2v10"/><path d="M8 7h3M8 11h3M8 15h3"/></svg></span>
+      <article class="plan">
         <h3>הדרכה מותאמת לארגון</h3>
         <p class="plan-line">תוכנית שנבנית סביב התהליכים והמערכות שכבר יש לכם. גם למועצות ולקהילות עסקיות.</p>
-        <p class="plan-dur plan-dur--text"><b>לפי הצורך</b></p>
-        <a class="btn btn--ghost btn--wide" href="#contact" data-cta="plan-org">לקביעת פגישה</a>
-      </li>
-    </ul>
+        <p class="plan-dur"><b>לפי הצורך</b></p>
+        <a class="btn btn-line" href="#contact" data-cta="plan-org"><span>לקביעת פגישה</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+      </article>
 
-    <p class="order-note-sub">לא תלמדו כאן רשימת כלים שתתיישן, אלא בסיס שממנו תוכלו להמשיך לאן שתרצו: איך לזהות תהליך, לבחור לו פתרון ולבנות אותו. את הסדנה אני מעדכן כל הזמן, לפי הכלים והטכניקות הרלוונטיים באותו רגע.</p>
+      <aside class="plan plan-note">
+        <p>לא תלמדו כאן רשימת כלים שתתיישן, אלא בסיס שממנו תוכלו להמשיך לאן שתרצו: איך לזהות תהליך, לבחור לו פתרון ולבנות אותו. את הסדנה אני מעדכן כל הזמן, לפי הכלים והטכניקות הרלוונטיים באותו רגע.</p>
+      </aside>
+    </div>
   </div>
 </section>
 
-<!-- ===== PAIN ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-night" id="pain" data-stop>
+<!-- ============ PAIN ============ -->
+<section class="pain t-white" id="pain">
   <div class="wrap">
-    <div class="center rv">
-      <span class="eyebrow">המצב היום</span>
-      <h2 class="h-sect"><span class="lead-in">תחשבו על זה רגע.</span>כמה שעות בשבוע אתם מבזבזים בעסק <span class="grad">על פעולות סיזיפיות ומתסכלות?</span></h2>
-    </div>
+    <div class="pain-grid">
+      <div class="pain-main">
+      <h2 class="h2 pain-title"><span class="pt-lead" data-split>תחשבו על זה רגע.</span> <span data-split>כמה שעות בשבוע אתם מבזבזים בעסק על פעולות סיזיפיות ומתסכלות?</span></h2>
 
-    <ul class="pain-grid rv" data-stagger>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M2 4h20l-7 8v7l-6 3v-10z"/></svg></i>לידים ללא מעקב</li>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M4 2h11l5 5v15H4z"/><path d="M15 2v5h5"/><path d="M8 12h8M8 16h5"/></svg></i>כתיבת תוכן מאפס</li>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14"/><path d="M2 4l10 7 10-7"/></svg></i>סיכום מיילים ומסמכים</li>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 1 6 6v4l2 3H4l2-3V9a6 6 0 0 1 6-6z"/><path d="M9 19a3 3 0 0 0 6 0"/></svg></i>רדיפה אחרי לקוחות</li>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><rect x="2" y="3" width="9" height="11"/><rect x="13" y="9" width="9" height="11"/></svg></i>העתקת מידע בין מערכות</li>
-      <li class="pain"><i><svg viewBox="0 0 24 24"><path d="M2 3h13v9H7l-4 3v-3H2z"/><path d="M18 8h4v8h-2v3l-3-3h-4"/></svg></i>מענה חוזר לאותן שאלות</li>
-    </ul>
-
-    <p class="pain-note rv">אלה בדיוק סוגי התהליכים שאנחנו מחפשים <span class="mark">לשנות</span> בסדנה.</p>
-
-    <!-- the proof belongs beside the problem it answers, not a section away.
-         The nav points at the section rather than at this block: landing on a
-         lone button told the visitor nothing, while the section opens on the
-         question and walks them through the six kinds before offering it. The
-         id stays as a deep link. -->
-    <div class="pain-more center rv" id="examples">
-      <div class="btn-row">
-        <a class="btn btn--ghost btn--ai" href="/resources/examples.html" data-cta="examples"><span class="ic-ai" aria-hidden="true"></span>לדוגמאות של תהליכים אמיתיים</a>
+      <ol class="chores">
+        <li><span class="chore">לידים ללא מעקב</span></li>
+        <li><span class="chore">כתיבת תוכן מאפס</span></li>
+        <li><span class="chore">סיכום מיילים ומסמכים</span></li>
+        <li><span class="chore">רדיפה אחרי לקוחות</span></li>
+        <li><span class="chore">העתקת מידע בין מערכות</span></li>
+        <li><span class="chore">מענה חוזר לאותן שאלות</span></li>
+      </ol>
       </div>
     </div>
+
+    <div class="pain-end" id="examples">
+      <p class="pain-note" data-fade>אלה בדיוק סוגי התהליכים שאנחנו מחפשים <em>לשנות</em> בסדנה.</p>
+      <a class="btn btn-line" href="/resources/examples.html" data-cta="examples"><span>לדוגמאות של תהליכים אמיתיים</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+    </div>
   </div>
 </section>
 
-
-<!-- ===== WHO IT FITS ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-deep" id="fit" data-stop>
+<!-- ============ FIT ============ -->
+<section class="fit t-blue" id="fit">
   <div class="wrap">
-    <div class="center rv">
-      <h2 class="h-sect">למי מתאימה <span class="grad nb">הסדנה?</span></h2>
-    </div>
-    <div class="fit-grid rv">
-      <div class="fit-col fit-col--no">
+    <h2 class="h2" data-split>למי מתאימה הסדנה?</h2>
+    <div class="fit-grid">
+      <div class="fit-col fit-no">
         <p class="fit-head">לא צריך</p>
-        <ul class="fit-list rv" data-stagger>
-          <li>לדעת לתכנת</li>
-          <li>להבין ב-AI</li>
-          <li>להכיר Make או n8n</li>
-          <li>להגיע עם רעיון מוכן</li>
+        <ul>
+          <li><span>לדעת לתכנת</span></li>
+          <li><span>להבין ב-AI</span></li>
+          <li><span>להכיר Make או n8n</span></li>
+          <li><span>להגיע עם רעיון מוכן</span></li>
         </ul>
       </div>
-      <div class="fit-col fit-col--yes">
+      <div class="fit-col fit-yes">
         <p class="fit-head">כן צריך</p>
-        <ul class="fit-list rv" data-stagger>
-          <li>להכיר את העסק שלכם</li>
-          <li>לזהות משהו שחוזר על עצמו</li>
-          <li>להיות מוכנים לנסות דרך אחרת לעבוד</li>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg><span>להכיר את העסק שלכם</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg><span>לזהות משהו שחוזר על עצמו</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg><span>להיות מוכנים לנסות דרך אחרת לעבוד</span></li>
         </ul>
       </div>
     </div>
-    <p class="fit-note rv">אתם מביאים את העסק שלכם. <span class="keep">אני מביא</span> את <span class="mark">הכלים.</span></p>
+    <p class="fit-note" data-split>אתם מביאים את העסק שלכם. אני מביא את הכלים.</p>
   </div>
 </section>
 
-
-<!-- ===== FAQ =====
-     The page carries no prices by choice, which leaves a set of practical
-     questions unanswered. They get answered here, immediately before the
-     form, so nobody has to write in just to ask one of them. -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-night" id="faq" data-stop>
-  <div class="wrap">
-    <div class="center rv">
-      <span class="eyebrow">לפני שנדבר</span>
-      <h2 class="h-sect">שאלות <span class="grad nb">שנשאלות תמיד</span></h2>
+<!-- ============ FAQ ============ -->
+<section class="faq t-white" id="faq">
+  <div class="wrap faq-grid">
+    <div class="faq-side">
+      <h2 class="h2" data-split>שאלות שנשאלות תמיד</h2>
+      <p class="faq-more">לא מצאתם את השאלה שלכם? <a href="#contact" data-cta="faq">כתבו לי אותה</a></p>
     </div>
-
-    <div class="faq-list rv">
-      <details class="faq-item">
-        <summary><span>כמה זמן זה לוקח?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>תלוי בפורמט. הרצת מבוא היא 60-90 דקות ונועדה להבנה רחבה. הסדנה המעשית היא 3-4 שעות, ובה בונים. הדרכה לארגון נבנית לפי הצורך, והיקפה נקבע בשיחה.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>איפה זה מתקיים, וכמה אנשים משתתפים?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>אצלכם, או במקום שתבחרו. המיקום וגודל הקבוצה נקבעים בשיחה מראש, לפי מי משתתף ומה נוח לכם.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>צריך להביא מחשב? להתקין משהו מראש?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>מחשב נייד כן, כי הסדנה מעשית וכל אחד בונה בעצמו. להתקין לא צריך כלום - הכלים שנעבוד איתם רצים בדפדפן.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>אני לא יודע מה בעסק שלי מתאים לזה. זו בעיה?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>לא, זו נקודת הפתיחה של רוב המשתתפים. חלק מהסדנה הוא לעבור על העבודה היומיומית שלכם ולאתר מה חוזר על עצמו, איפה מידע נתקע ומה דורש יותר מדי נגיעות ידניות. את התהליך בוחרים שם, ביחד.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>עם מה יוצאים בסוף?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>עם אוטומציה אחת שבניתם בעצמכם והיא רצה. ועם השיטה: איך לזהות את התהליך הבא, ואיך לגשת אליו בלי לחכות לי.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>ומה אם יתברר שהתהליך שלי לא מתאים לאוטומציה?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>זו תשובה לגיטימית, והיא שווה את הזמן בפני עצמה. חלק מהעבודה הוא לדעת להגיד על תהליך שהוא לא מצדיק את המאמץ. בדרך כלל, בזמן שבודקים אותו, צף תהליך אחר שכן.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary><span>מה קורה אחרי הסדנה?</span><i aria-hidden="true"></i></summary>
-        <div class="faq-body">
-          <p>ממשיכים לבד עם מה שלמדתם. ואם תרצו שמישהו יבנה את הבא בתור, אפשר לדבר.</p>
-        </div>
-      </details>
+    <div class="faq-list">
+      <details class="qa"><summary><span>כמה זמן זה לוקח?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>תלוי בפורמט. הרצת מבוא היא 60-90 דקות ונועדה להבנה רחבה. הסדנה המעשית היא 3-4 שעות, ובה בונים. הדרכה לארגון נבנית לפי הצורך, והיקפה נקבע בשיחה.</p></div></details>
+      <details class="qa"><summary><span>איפה זה מתקיים, וכמה אנשים משתתפים?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>אצלכם, או במקום שתבחרו. המיקום וגודל הקבוצה נקבעים בשיחה מראש, לפי מי משתתף ומה נוח לכם.</p></div></details>
+      <details class="qa"><summary><span>צריך להביא מחשב? להתקין משהו מראש?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>מחשב נייד כן, כי הסדנה מעשית וכל אחד בונה בעצמו. להתקין לא צריך כלום - הכלים שנעבוד איתם רצים בדפדפן.</p></div></details>
+      <details class="qa"><summary><span>אני לא יודע מה בעסק שלי מתאים לזה. זו בעיה?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>לא, זו נקודת הפתיחה של רוב המשתתפים. חלק מהסדנה הוא לעבור על העבודה היומיומית שלכם ולאתר מה חוזר על עצמו, איפה מידע נתקע ומה דורש יותר מדי נגיעות ידניות. את התהליך בוחרים שם, ביחד.</p></div></details>
+      <details class="qa"><summary><span>עם מה יוצאים בסוף?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>עם אוטומציה אחת שבניתם בעצמכם והיא רצה. ועם השיטה: איך לזהות את התהליך הבא, ואיך לגשת אליו בלי לחכות לי.</p></div></details>
+      <details class="qa"><summary><span>ומה אם יתברר שהתהליך שלי לא מתאים לאוטומציה?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>זו תשובה לגיטימית, והיא שווה את הזמן בפני עצמה. חלק מהעבודה הוא לדעת להגיד על תהליך שהוא לא מצדיק את המאמץ. בדרך כלל, בזמן שבודקים אותו, צף תהליך אחר שכן.</p></div></details>
+      <details class="qa"><summary><span>מה קורה אחרי הסדנה?</span><i aria-hidden="true"></i></summary>
+        <div class="qa-body"><p>ממשיכים לבד עם מה שלמדתם. ואם תרצו שמישהו יבנה את הבא בתור, אפשר לדבר.</p></div></details>
     </div>
-
-    <p class="faq-more rv">לא מצאתם את השאלה שלכם? <a href="#contact" data-cta="faq">כתבו לי אותה</a></p>
   </div>
 </section>
 
-
-<!-- ===== CONTACT ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-crimson" id="contact" data-stop>
-  <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
-  <div class="wrap form-wrap">
-    <div class="rv">
-      <span class="eyebrow">בואו נבדוק</span>
-      <h2 class="h-sect">איזה תהליך בעסק שלכם <span class="grad nb">מבזבז לכם זמן?</span></h2>
+<!-- ============ CONTACT ============
+     The form keeps the live page's markup and ids, so the live page's own
+     script (site.js + config.js) sends it exactly the same way. -->
+<section class="contact t-blue" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-text">
+      <h2 class="h2" data-split>איזה תהליך בעסק שלכם מבזבז לכם זמן?</h2>
       <p class="h-sub">כתבו לי מה אתם עושים שוב ושוב. אני אסתכל ואגיד לכם אם לדעתי יש שם פוטנציאל לאוטומציה.</p>
     </div>
-
     <div>
-      <form class="form-card rv" id="checkForm" data-lead-form data-done="checkDone" data-next="/resources/processes.html" action="https://api.web3forms.com/submit" method="POST">
+      <form class="form-card" id="checkForm" data-lead-form data-done="checkDone" data-next="/resources/processes.html" action="https://api.web3forms.com/submit" method="POST">
         <div class="grid2">
           <div class="field">
             <label for="c-name">שם</label>
@@ -489,16 +370,12 @@
         <input type="hidden" name="from_name" value="automations.erezb.pro">
         <input type="hidden" name="redirect" data-redirect value="https://automations.erezb.pro/thanks.html">
         <div class="form-actions">
-          <button class="btn btn--cta btn--wide" type="submit"><span class="ic" aria-hidden="true">←</span> בואו נתקדם</button>
-          <a class="btn btn--wa btn--wide" href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener">
-            <span class="ic ic-wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path d="M8.5 7.8c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.8 1.9c.1.3 0 .5-.1.7l-.4.5c-.1.2-.3.3-.1.6a7 7 0 0 0 3.1 2.7c.3.1.5.1.7-.1l.6-.7c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.4.4v.5c0 .8-.8 1.6-1.7 1.6-1.6 0-4-1.1-5.7-2.8a9 9 0 0 1-2.4-4c-.2-1 .4-2 1.2-2.4z"/></svg></span>
-            וואטסאפ
-          </a>
+          <button class="btn btn-accent" type="submit"><span>בואו נתקדם</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></button>
+          <a class="btn btn-line" href="https://wa.me/972528657748" data-whatsapp data-wa-source="form" target="_blank" rel="noopener"><span>וואטסאפ</span></a>
         </div>
-        <p class="form-fine">שיחה של 20 דקות, בלי התחייבות. אחזור אליכם תוך יום עסקים אחד.<br><a href="/privacy.html">מדיניות פרטיות</a></p>
+        <p class="form-fine">שיחה של 20 דקות, בלי התחייבות. אחזור אליכם תוך יום עסקים אחד. <a href="/privacy.html">מדיניות פרטיות</a></p>
         <p class="form-status" role="status" data-status></p>
       </form>
-
       <div class="form-card form-done" id="checkDone" tabindex="-1">
         <h3>הפרטים התקבלו.</h3>
         <p>אחזור אליכם תוך יום עסקים אחד.</p>
@@ -507,49 +384,36 @@
   </div>
 </section>
 
-<!-- ===== FINAL ===== -->
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
-
-<section class="section bg-night final center" id="b2b" data-stop>
+<!-- ============ FINAL ============ -->
+<section class="final t-red" id="b2b">
   <div class="wrap">
-    <span class="eyebrow rv">לבעלי עסקים, מנהלים וארגונים</span>
-    <h2 class="rv"><span class="nb">לא צריך לדעת הכול על AI.</span> צריך <span class="mark">לדייק אותו לצרכים שלכם.</span></h2>
-    <div class="btn-row rv">
-      <a class="btn btn--cta" href="#contact" data-cta="closing"><span class="ic" aria-hidden="true">←</span> לתיאום סדנה</a>
+    <h2 class="final-title"><span data-split>לא צריך לדעת הכול על AI.</span> <span class="ft-accent" data-split>צריך לדייק אותו לצרכים שלכם.</span></h2>
+    <div class="final-row">
+      <a class="btn btn-accent btn-big" href="#contact" data-cta="closing" data-magnet><span>לתיאום סדנה</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+      <p class="final-after">ומה אחרי הסדנה? אם נמצא תהליך שכדאי להפוך לאוטומטי ואתם מעדיפים שמישהו יבנה אותו עבורכם - אפשר להמשיך משם.</p>
     </div>
-    <p class="final-after rv">ומה אחרי הסדנה? אם נמצא תהליך שכדאי להפוך לאוטומטי ואתם מעדיפים שמישהו יבנה אותו עבורכם - אפשר להמשיך משם.</p>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <a class="brand" href="#top">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
-    </a>
-    <nav class="footer-links" aria-label="ניווט תחתון">
+<footer class="foot t-night">
+  <div class="wrap foot-in">
+    <a class="mark-brand" href="#top"><img src="/assets/img/logo.svg" alt="" width="24" height="24"><span>erezb.pro</span></a>
+    <nav aria-label="ניווט תחתון">
       <a href="#contact" data-cta="footer">יצירת קשר</a>
       <a href="/accessibility.html">נגישות</a>
       <a href="/privacy.html">פרטיות</a>
     </nav>
-    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+    <p class="foot-meta">automations.erezb.pro · <span id="year">2026</span></p>
   </div>
 </footer>
 
-<!-- the floating slot carries the whatsapp shortcut only; the page makes
-     its offer inside the sections, so it is not repeated here -->
-<div class="float-cta" id="floatCta"></div>
-
-<button class="to-top" id="toTop" type="button" aria-label="חזרה לראש העמוד">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
-</button>
-
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/site.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
+<script src="/assets/js/home.js" defer></script>
 </body>
 </html>

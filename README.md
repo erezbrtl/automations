@@ -72,13 +72,16 @@ portraitUrl: "/assets/img/erez.jpg"  // צלמו לרוחב 4:5 והעלו לת�
 ## מבנה
 
 ```
-index.html                    עמוד הנחיתה (Hero, כאב, 3 שלבים, דוגמאות, מי אני, טופס, CTA)
+index.html                    עמוד הנחיתה (פתיחה, מי אני, 3 אפשרויות, כאב, למי מתאים, שאלות, טופס, סיום)
+assets/css/home.css           העיצוב של עמוד הנחיתה - פסים בכחול/לבן/אדום, טוקנים לכל פס
+assets/js/home.js             האנימציות של עמוד הנחיתה (GSAP 3.13 מ-jsDelivr)
+v1/index.html                 עמוד הנחיתה הקודם, לא מאונדקס, לחזרה אחורה
 resources/processes.html      רשימת 12 התהליכים (מותאמת להדפסה) - קיימת אך לא מקושרת מהעמוד
-assets/css/site.css           כל העיצוב - Design Tokens בראש הקובץ
+assets/css/site.css           העיצוב של שאר הדפים (ושל v1) - Design Tokens בראש הקובץ
 assets/css/fonts.css          @font-face לפונטים המאוחסנים מקומית
 assets/fonts/                 subsets (hebrew + latin) של הפונטים
 assets/js/config.js           ההגדרות שצריך לערוך
-assets/js/site.js             אינטראקציות: Reveal, ניווט פעיל, נגן יוטיוב, טפסים
+assets/js/site.js             אינטראקציות: Reveal, ניווט פעיל, נגן יוטיוב, טפסים (גם הטופס בעמוד הנחיתה)
 assets/img/                   favicon, גלי רקע ותמונת שיתוף (Open Graph)
 tools/fetch-fonts.py          משיכה מחדש של הפונטים מ-Google Fonts
 tools/og-cover.html           המקור לתמונת השיתוף
