@@ -455,7 +455,20 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* the light now comes from the field, so these grounds step aside */
 .hero { background: none; }
 .hero::before { display: none; }
-.fit { background: rgba(20, 11, 35, .55); }
+
+/* one ground for the whole page: every section sits on the same moving
+   light, separated by a hairline and space - no coloured bands.
+   Colour lives only in the light, the accents and the two white cards. */
+.steps, .fit, .contact, .final, .foot { background: transparent; }
+.steps, .pain, .fit, .faq, .contact, .final { border-top: 1px solid var(--rule); }
+.fit { border-block: 0; border-top: 1px solid var(--rule); }
+.final { color: var(--ink); }
+.final-title { color: var(--ink); }
+.ft-accent { color: var(--signal); }
+.final-after { color: var(--ink-2); }
+.final .btn-accent { --bg: var(--cta); --bd: var(--cta); color: #fff; --fill: #fff; }
+.final .btn-accent:hover { color: var(--card-ink); border-color: #fff; }
+.foot { border-top: 1px solid var(--rule); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; }
