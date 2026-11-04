@@ -572,3 +572,32 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .is-carried .lead-got[data-carry-only] { display: inline-flex; }
 /* a white card always uses the pink action colour, whatever band it sits on */
 .form-card { --cta: #E0134E; }
+
+/* ==========================================================
+   short pages: thanks, 404, privacy, accessibility, examples
+   ========================================================== */
+.doc { min-height: 72vh; padding: clamp(128px, 14vw, 180px) 0 clamp(80px, 10vw, 130px); }
+.doc-wrap { max-width: 760px; }
+.doc-wrap.center { text-align: start; }
+.doc .h2 { margin-bottom: 20px; }
+.doc .h-sub { max-width: 46ch; }
+.doc h2:not(.h2) { font-size: clamp(1.3rem, 2vw, 1.6rem); font-weight: 700; margin: 40px 0 10px; }
+.doc p { max-width: 66ch; color: var(--ink-2); }
+.doc p a, .doc-list a { color: var(--signal-ink); font-weight: 600; }
+.doc-list { margin: 8px 0 0; padding-inline-start: 1.2em; color: var(--ink-2); display: grid; gap: 8px; max-width: 66ch; }
+.doc-list li::marker { color: var(--signal); }
+.doc-meta { margin-top: 48px; font-size: .9rem; color: var(--ink-3) !important; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.err-addr { color: var(--ink-3); }
+.err-addr b { color: var(--ink); }
+
+/* examples: the story frames keep their own dark styling from site.css,
+   so they sit on the dark night band; hero and close use the home bands */
+.ex-hero { padding: clamp(128px, 14vw, 180px) 0 clamp(56px, 7vw, 88px); }
+.ex-hero .h-sub { max-width: 54ch; font-size: 1.12rem; color: var(--ink-2); }
+.ex-stories { padding: clamp(64px, 8vw, 110px) 0; }
+.ex-ask .btn-row { margin-top: clamp(32px, 4vw, 48px); }
+.ex-ask .btn-line { --bd: #fff; color: #fff; --fill: #fff; }
+.ex-ask .btn-line:hover { color: #B01252; }
+/* a page that opens on a white band gets a solid header, or its white menu vanishes */
+body:has(main > section.t-white:first-child) .top { background: #1A0B33; border-color: transparent; }
