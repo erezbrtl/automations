@@ -465,7 +465,23 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .t-white .taught-row img { filter: brightness(0); opacity: .7; }
 
 /* red band: the steps run on red; the side cards keep white text, the core card stays white */
-.t-red .plan { border-color: rgba(255, 255, 255, .25); }
+/* three options, three cards: the two outer ones sit on a darker plate of the
+   band's own red, the core one is white - all with the same edges and gaps */
+.t-red .steps-track { gap: 20px; }
+.t-red .plan {
+  background: #8E0B41; border: 1px solid rgba(255, 255, 255, .16); border-radius: 18px;
+  padding: 36px 32px 32px; margin: 0; box-shadow: 0 18px 40px -24px rgba(10, 6, 19, .55);
+}
+.t-red .plan-core { background: #fff; border-color: #fff; }
+.t-red .plan-note { background: none; border: 0; box-shadow: none; }
+@media (min-width: 1000px) {
+  .has-run .t-red .steps-track, .t-red.steps .has-run .steps-track { gap: 20px; }
+}
+@media (max-width: 999px) {
+  .t-red .steps-track { gap: 14px; }
+  .t-red .plan { padding: 28px 24px; }
+  .t-red .plan-note { padding: 18px 4px 0; }
+}
 .t-red .plan .btn-line:hover { color: #B01252; }
 .t-red .plan-tag { background: #1A0B33; }
 .t-red .plan-core .btn-accent { --bg: #E0134E; --bd: #E0134E; }
