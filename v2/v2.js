@@ -89,33 +89,6 @@
       return;
     }
 
-    /* ================= FIELD: the light travels with the reader ================= */
-    if (document.querySelector(".backdrop")) {
-      var W = function (f) { return function () { return window.innerWidth * f; }; };
-      var H = function (f) { return function () { return window.innerHeight * f; }; };
-      var journey = gsap.timeline({ defaults: { ease: "none" },
-        scrollTrigger: { trigger: doc, start: 0, end: "max", scrub: 1.6, invalidateOnRefresh: true } });
-      /* violet crosses to the empty side, then settles back; blue answers it;
-         magenta rises only as the page reaches its closing band */
-      journey.to(".orb--violet", { x: W(-.62), y: H(.34), duration: .5 }, 0)
-             .to(".orb--violet", { x: W(-.18), y: H(.06), duration: .5 }, .5)
-             .to(".orb--blue", { x: W(.58), y: H(-.12), duration: .6 }, 0)
-             .to(".orb--blue", { x: W(.3), y: H(.22), duration: .4 }, .6)
-             .to(".orb--magenta", { opacity: 1, y: H(-.78), x: W(-.2), duration: .45 }, .55);
-
-      /* the dot grid moves at a seventh of the scroll; it repeats every
-         26px, so it is wrapped and can run for any page length */
-      var dots = document.querySelector(".dots");
-      var setDots = gsap.quickSetter(dots, "y", "px");
-      ST.create({ start: 0, end: "max", onUpdate: function (self) { setDots(-((self.scroll() / 7) % 26)); } });
-
-      /* and each light breathes on its own, slowly, so the page is never quite still */
-      $(".orb i").forEach(function (el, i) {
-        gsap.to(el, { x: [36, -44, 28][i], y: [-28, 34, -22][i], scale: [1.08, 1.12, 1.06][i],
-          duration: [11, 13, 9][i], ease: "sine.inOut", yoyo: true, repeat: -1 });
-      });
-    }
-
     /* ================= HERO ================= */
     var hero = gsap.timeline({ defaults: { ease: "expo.out" }, delay: .15 });
 
@@ -135,10 +108,12 @@
     if (flow && pulse && live && window.matchMedia("(min-width: 721px)").matches) {
       var marks = [];
       var measure = function () {
-        var fr = flow.getBoundingClientRect();
+        /* the track runs from the first dot's centre to the last one's */
+        var right = flow.getBoundingClientRect().left + live.offsetLeft + live.offsetWidth;
+        var width = live.offsetWidth;
         marks = stops.map(function (li) {
           var d = li.querySelector(".fs-dot").getBoundingClientRect();
-          return (fr.right - (d.left + d.width / 2)) / fr.width;
+          return (right - (d.left + d.width / 2)) / width;
         });
       };
       measure();
@@ -146,7 +121,7 @@
 
       var state = { p: 0 };
       var paint = function () {
-        var w = flow.getBoundingClientRect().width;
+        var w = live.offsetWidth;
         gsap.set(pulse, { x: -state.p * w });
         gsap.set(live, { scaleX: state.p });
         stops.forEach(function (li, i) { li.classList.toggle("is-lit", state.p >= marks[i] - .005); });
@@ -231,7 +206,7 @@
       var chore = li.querySelector(".chore");
       var tl = gsap.timeline({ scrollTrigger: { trigger: li, start: "top 72%", end: "top 42%", scrub: .6 } });
       tl.fromTo(chore, { "--strike": 0 }, { "--strike": 1, ease: "none" })
-        .to(chore, { color: "#9C93B2", ease: "none" }, "<.3");
+        .to(chore, { color: getComputedStyle(chore).getPropertyValue("--ink-3").trim() || "#626B88", ease: "none" }, "<.3");
     });
 
     /* ================= FIT ================= */
