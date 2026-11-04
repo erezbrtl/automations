@@ -100,6 +100,35 @@
         .from(".flow-stops li", { y: 18, autoAlpha: 0, duration: .7, stagger: .08 }, "-=.6")
         .from(".flow-wire", { scaleX: 0, transformOrigin: "100% 50%", duration: 1.2, ease: "power3.inOut" }, "<");
 
+    /* the scenario behind the headline assembles itself, then runs */
+    var scenario = document.querySelector(".scenario");
+    if (scenario && c.wide) {
+      var links = $(".sc-link", scenario), pulses = $(".sc-pulse", scenario);
+      links.forEach(function (l) { var n = l.getTotalLength(); gsap.set(l, { strokeDasharray: n, strokeDashoffset: n }); });
+      hero.from(".sc-grid", { opacity: 0, duration: 1.6, ease: "power2.out" }, .2)
+          .from($(".sc-node", scenario), { scale: .4, autoAlpha: 0, transformOrigin: "50% 50%", duration: .8, ease: "back.out(1.6)", stagger: .14 }, .5)
+          .to(links, { strokeDashoffset: 0, duration: .7, ease: "power2.inOut", stagger: .16 }, .8);
+
+      /* a run: the trigger fires, the AI step, then both outputs at once */
+      var runs = gsap.timeline({ repeat: -1, repeatDelay: 1.4, paused: true });
+      pulses.forEach(function (pl, i) {
+        var n = pl.getTotalLength(), seg = 14;
+        gsap.set(pl, { strokeDasharray: seg + " " + (n + seg), strokeDashoffset: seg });
+        var at = i < 2 ? i * .55 : 1.1;
+        runs.set(pl, { opacity: 1 }, at)
+            .to(pl, { strokeDashoffset: -n, duration: .55, ease: "none" }, at)
+            .set(pl, { opacity: 0, strokeDashoffset: seg }, at + .55);
+      });
+      runs.to(".sc-node--ai circle", { attr: { r: 38 }, duration: .25, yoyo: true, repeat: 1, ease: "power2.out" }, .5);
+      hero.add(function () { runs.play(); }, 2);
+      ST.create({ trigger: ".hero", start: "top top", end: "bottom top",
+        onLeave: function () { runs.pause(); }, onEnterBack: function () { runs.play(); } });
+
+      /* it sits further back than the text, so it drifts slower */
+      gsap.to(scenario, { yPercent: 18, ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+    }
+
     /* the pulse: a lead travels the line and lights each stop it reaches */
     var flow = document.querySelector(".flow");
     var pulse = document.querySelector(".flow-pulse");
@@ -206,6 +235,22 @@
       tl.fromTo(chore, { "--strike": 0 }, { "--strike": 1, ease: "none" })
         .to(chore, { color: "#9C93B2", ease: "none" }, "<.3");
     });
+
+    /* ================= PAIN: the pile folds into one step ================= */
+    var pile = document.querySelector(".pile");
+    if (pile && c.wide) {
+      var back = $(".pile-card:not(.pile-top)", pile);
+      var top = pile.querySelector(".pile-top");
+      var fold = gsap.timeline({ scrollTrigger: { trigger: ".chores", start: "top 70%", end: "bottom 55%", scrub: .8 } });
+      fold.to(back, { x: 0, y: 0, opacity: 0, ease: "power1.in", stagger: { each: .12, from: "start" }, duration: 1 })
+          .to(top, { y: -8, duration: .4, ease: "power2.out" }, ">-0.2")
+          .add(function () { top.classList.toggle("is-done", fold.scrollTrigger.progress > .9); })
+          .to(top.querySelector(".pc-done"), { opacity: 1, scale: 1, duration: .4, ease: "back.out(2)" }, "<");
+      gsap.set(top.querySelector(".pc-done"), { scale: .6 });
+      fold.eventCallback("onUpdate", function () { top.classList.toggle("is-done", fold.progress() > .92); });
+      gsap.from(pile, { autoAlpha: 0, x: -40, duration: 1, ease: "expo.out",
+        scrollTrigger: { trigger: ".pain", start: "top 60%" } });
+    }
 
     /* ================= FIT ================= */
     var noItems = $(".fit-no li span");
