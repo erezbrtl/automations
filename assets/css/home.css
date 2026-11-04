@@ -501,3 +501,74 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
   *, *::before, *::after { transition-duration: .01ms !important; }
   .chore::after { --strike: 1; }
 }
+
+/* ==========================================================
+   checklist page (/resources/processes.html) - the step after the form.
+   Same bands, type and buttons as the home page; its own card for a
+   process you can tick.
+   ========================================================== */
+.pp-hero { padding: clamp(128px, 14vw, 180px) 0 clamp(64px, 8vw, 96px); }
+.pp-title { max-width: 16ch; }
+.pp-title .lead-in { display: block; font-weight: 500; font-size: .42em; color: var(--ink-2); margin-bottom: 16px; letter-spacing: 0; }
+.pp-accent { color: var(--signal); }
+.pp-hero .h-sub { max-width: 52ch; font-size: 1.12rem; }
+.lead-got { display: none; align-items: center; gap: 9px; margin: 0 0 22px; padding: 8px 14px; border-radius: 100px; background: rgba(255, 255, 255, .1); font-weight: 600; font-size: .95rem; }
+.is-carried .lead-got { display: inline-flex; }
+.lead-got svg { width: 15px; height: 15px; flex: none; stroke: currentColor; fill: none; stroke-width: 3.2; }
+
+.pp-list { padding: clamp(72px, 9vw, 120px) 0; }
+.proc-list { list-style: none; margin: 0 auto; padding: 0; max-width: 880px; display: grid; gap: 14px; }
+.proc {
+  position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr) 26px; gap: 4px 18px; align-items: start;
+  padding: 22px 24px; border: 1.5px solid var(--rule); border-radius: 16px; background: var(--paper);
+  transition: border-color .2s, background-color .2s, box-shadow .2s;
+}
+.proc:hover { border-color: rgba(16, 27, 61, .32); }
+.proc-n { grid-column: 1; grid-row: 1 / span 3; font-weight: 800; font-size: 1.5rem; line-height: 1.1; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.proc h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 1.18rem; font-weight: 700; }
+.proc > p { grid-column: 2; margin: 2px 0 0; color: var(--ink-2); font-size: 1rem; line-height: 1.6; }
+.proc .ask { color: var(--ink-3); font-size: .95rem; }
+.proc .ask::before { content: "לבדוק: "; font-weight: 600; color: var(--ink-2); }
+.proc-tick { position: absolute; opacity: 0; width: 0; height: 0; }
+.proc-hit { position: absolute; inset: 0; cursor: pointer; border-radius: inherit; }
+.proc-box {
+  grid-column: 3; grid-row: 1; width: 26px; height: 26px; border-radius: 8px; border: 1.5px solid var(--ink);
+  display: grid; place-items: center; background: var(--paper); transition: background-color .18s, border-color .18s;
+}
+.proc-box svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 3; opacity: 0; transition: opacity .18s; }
+.proc-tick:checked ~ .proc-box { background: var(--cta); border-color: var(--cta); }
+.proc-tick:checked ~ .proc-box svg { opacity: 1; }
+.proc-tick:focus-visible ~ .proc-box { outline: 2px solid var(--cta); outline-offset: 3px; }
+.proc:has(.proc-tick:checked) { border-color: var(--cta); background: #FFF5F8; box-shadow: 0 10px 30px -20px rgba(224, 19, 78, .7); }
+.proc:has(.proc-tick:checked) .proc-n { color: var(--cta); }
+@media (max-width: 560px) {
+  .proc { grid-template-columns: 2.2rem minmax(0, 1fr) 26px; gap: 4px 12px; padding: 18px 16px; }
+  .proc-n { font-size: 1.15rem; }
+}
+
+.pp-talk { padding: clamp(80px, 10vw, 130px) 0; }
+.pp-talk .h2 { font-size: clamp(2.2rem, 4.6vw, 4.2rem); }
+.pp-talk .pp-accent { color: #1A0B33; }
+.pp-talk .h-sub { color: var(--ink-2); }
+
+/* what site.js turns on when the visitor arrives from the home-page form */
+[data-carry-only] { display: none; }
+.is-carried [data-carry-only] { display: revert; }
+.is-carried [data-no-carry], .is-carried [data-carry-fields] { display: none; }
+.lead-known { display: none; }
+.is-carried .lead-known {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 22px;
+  padding: 14px 16px; border-radius: 12px; background: #F3F1F8;
+}
+.lead-known-k { font-size: .85rem; font-weight: 600; color: var(--card-soft); }
+.lead-known-v { font-weight: 700; color: var(--card-ink); }
+.lead-known-edit { margin-inline-start: auto; background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; font-weight: 600; color: var(--cta); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.pick-count { margin: 0 0 18px; font-size: .95rem; color: var(--card-soft); }
+.pick-count [data-pick-count]:empty { display: none; }
+.pick-count [data-pick-count].is-on { color: var(--cta); font-weight: 700; }
+.pick-count a { color: var(--card-ink); text-underline-offset: 3px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
+/* the carried-in badge is a pill, not a full-width block */
+.is-carried .lead-got[data-carry-only] { display: inline-flex; }
+/* a white card always uses the pink action colour, whatever band it sits on */
+.form-card { --cta: #E0134E; }
