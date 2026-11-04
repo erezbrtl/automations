@@ -398,7 +398,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .btn-line:hover { color: var(--paper); }
 .plan-tag { background: var(--cta); }
 
-.steps { background: var(--night); }
+.steps { background: rgba(26, 11, 51, .82); }
 .plan-core { background: var(--card); color: var(--card-ink); }
 .plan-core .plan-line, .plan-core .plan-dur { color: var(--card-soft); }
 .plan-core .plan-dur b { color: var(--cta); }
@@ -407,7 +407,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .plan-core .btn-accent:hover { color: #fff; border-color: var(--card-ink); }
 .plan-dur b[dir="ltr"] { text-align: right; }
 
-.contact { background: var(--night); }
+.contact { background: rgba(26, 11, 51, .82); }
 .form-card { background: var(--card); color: var(--card-ink); }
 .form-card .field input, .form-card .field textarea { color: var(--card-ink); border-color: var(--card-ink); }
 .form-card .field input:focus, .form-card .field textarea:focus { border-color: var(--cta); }
@@ -431,50 +431,31 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .fit { background: var(--paper-2); }
 
 /* ==========================================================
-   background scenes
+   the field: one fixed layer behind the whole page.
+   Three brand-coloured lights drift with the scroll and a dot grid
+   (the automation canvas) moves a little slower than the content.
+   Only transform and opacity ever animate.
    ========================================================== */
-/* hero: an automation scenario on a dotted canvas, behind the empty side */
-.scenario {
-  position: absolute; z-index: 0; pointer-events: none;
-  inset-inline-end: max(8px, calc((100vw - var(--max)) / 2));
-  top: 96px; width: min(36vw, 500px); height: auto; overflow: visible;
+.backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; width: 70vmax; height: 70vmax; margin: -35vmax 0 0 -35vmax; will-change: transform; }
+.orb i { position: absolute; inset: 0; border-radius: 50%; display: block; will-change: transform; }
+.orb--violet  { left: 82%; top: 8%; }
+.orb--blue    { left: 6%;  top: 46%; }
+.orb--magenta { left: 70%; top: 112%; opacity: 0; }
+.orb--violet i  { background: radial-gradient(closest-side, rgba(106, 28, 176, .55), rgba(106, 28, 176, 0)); }
+.orb--blue i    { background: radial-gradient(closest-side, rgba(31, 70, 216, .38), rgba(31, 70, 216, 0)); }
+.orb--magenta i { background: radial-gradient(closest-side, rgba(176, 18, 82, .5), rgba(176, 18, 82, 0)); }
+.dots {
+  position: absolute; inset: -40px 0 -40vh; will-change: transform;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, .13) 1px, transparent 1.4px);
+  background-size: 26px 26px; background-position: center top;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%);
+          mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%);
 }
-.hero .wrap { z-index: 1; }
-.sc-grid { opacity: .5; }
-.scenario pattern circle { fill: rgba(255, 255, 255, .16); }
-.sc-link { fill: none; stroke: rgba(255, 255, 255, .26); stroke-width: 1.5; stroke-linecap: round; }
-.sc-pulse { fill: none; stroke: var(--signal); stroke-width: 3; stroke-linecap: round; opacity: 0; }
-.sc-node circle { fill: var(--paper); stroke: rgba(255, 255, 255, .34); stroke-width: 1.5; }
-.sc-node--ai circle { stroke: var(--signal); stroke-width: 2; }
-.sc-ico { fill: rgba(255, 255, 255, .55); }
-.sc-ico--line { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.sc-node--ai .sc-ico { fill: var(--signal); }
-@media (max-width: 999px) { .scenario { display: none; } }
-
-/* pain: one chore, repeated, beside the question */
-.pain-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
-.pile { position: sticky; top: 170px; height: 220px; margin-top: 64px; }
-.pile-card {
-  position: absolute; inset-inline-start: 0; bottom: 0; width: min(100%, 320px);
-  display: grid; grid-template-columns: 36px 1fr; grid-template-rows: auto auto; column-gap: 14px; row-gap: 2px; align-items: center;
-  padding: 16px 18px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 14px;
-  /* opaque cards, so only a sliver of each one behind shows - no text bleeding through */
-  transform: translate(calc(var(--i) * -16px), calc(var(--i) * -11px));
-  filter: brightness(calc(1 - var(--i) * .06));
-}
-.pc-ico { grid-row: 1 / 3; width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 46, 99, .14); position: relative; }
-.pc-ico::after { content: ""; position: absolute; inset: 13px; border-radius: 50%; background: var(--signal); }
-.pc-t { font-weight: 600; font-size: 1rem; }
-.pc-s { font-size: .82rem; color: var(--ink-3); }
-.pc-done {
-  position: absolute; top: -12px; inset-inline-end: 14px; background: var(--cta); color: #fff;
-  font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 100px; opacity: 0;
-}
-.pile-top.is-done { border-color: var(--signal); }
-@media (max-width: 999px) {
-  .pain-grid { grid-template-columns: 1fr; }
-  .pile { display: none; }
-}
+/* the light now comes from the field, so these grounds step aside */
+.hero { background: none; }
+.hero::before { display: none; }
+.fit { background: rgba(20, 11, 35, .55); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; }

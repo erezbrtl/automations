@@ -19,6 +19,13 @@
 </head>
 <body>
 
+<div class="backdrop" aria-hidden="true">
+  <span class="orb orb--violet"><i></i></span>
+  <span class="orb orb--blue"><i></i></span>
+  <span class="orb orb--magenta"><i></i></span>
+  <div class="dots"></div>
+</div>
+
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -42,33 +49,6 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
-  <!-- background: the solution the headline promises, drawn the way an
-       automation canvas shows it - trigger, AI, router, two outputs -->
-  <svg class="scenario" viewBox="0 0 560 440" aria-hidden="true" focusable="false">
-    <defs>
-      <pattern id="dotgrid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5"/></pattern>
-      <radialGradient id="gridfade" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-      <mask id="gridmask"><rect width="560" height="440" fill="url(#gridfade)"/></mask>
-    </defs>
-    <rect class="sc-grid" width="560" height="440" fill="url(#dotgrid)" mask="url(#gridmask)"/>
-    <g class="sc-links">
-      <path class="sc-link" d="M446 210 C 410 210, 390 210, 352 210"/>
-      <path class="sc-link" d="M284 210 C 262 210, 250 210, 226 210"/>
-      <path class="sc-link" d="M170 196 C 140 160, 130 120, 98 112"/>
-      <path class="sc-link" d="M170 224 C 140 260, 130 300, 98 308"/>
-    </g>
-    <g class="sc-pulses">
-      <path class="sc-pulse" d="M446 210 C 410 210, 390 210, 352 210"/>
-      <path class="sc-pulse" d="M284 210 C 262 210, 250 210, 226 210"/>
-      <path class="sc-pulse" d="M170 196 C 140 160, 130 120, 98 112"/>
-      <path class="sc-pulse" d="M170 224 C 140 260, 130 300, 98 308"/>
-    </g>
-    <g class="sc-node" transform="translate(480 210)"><circle r="34"/><path class="sc-ico" d="M3 -14 L-8 2 H1 L-3 14 L8 -2 H-1 Z"/></g>
-    <g class="sc-node sc-node--ai" transform="translate(318 210)"><circle r="34"/><path class="sc-ico" d="M0 -14 C2 -4 4 -2 14 0 C4 2 2 4 0 14 C-2 4 -4 2 -14 0 C-4 -2 -2 -4 0 -14 Z"/></g>
-    <g class="sc-node" transform="translate(198 210)"><circle r="28"/><path class="sc-ico sc-ico--line" d="M10 0 H2 M2 0 L-9 -8 M2 0 L-9 8"/></g>
-    <g class="sc-node" transform="translate(68 104)"><circle r="30"/><path class="sc-ico sc-ico--line" d="M-11 -9 H11 V9 H-11 Z M-11 -3 H11 M-11 3 H11 M-3 -9 V9"/></g>
-    <g class="sc-node" transform="translate(68 316)"><circle r="30"/><path class="sc-ico sc-ico--line" d="M-11 -8 H11 V8 H-11 Z M-11 -8 L0 1 L11 -8"/></g>
-  </svg>
   <div class="wrap">
 
     <p class="hero-lead" data-split>כמה מהעבודה שלכם מרגישה כמו בזבוז זמן?</p>
@@ -193,20 +173,6 @@
         <li><span class="chore">העתקת מידע בין מערכות</span></li>
         <li><span class="chore">מענה חוזר לאותן שאלות</span></li>
       </ol>
-      </div>
-
-      <!-- background: the same chore, again and again, folding into one
-           step that runs by itself while the list above is struck off -->
-      <div class="pile" aria-hidden="true">
-        <div style="--i:8" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:7" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:6" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:5" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:4" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:3" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:2" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:1" class="pile-card"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span></div>
-        <div style="--i:0" class="pile-card pile-top"><span class="pc-ico"></span><span class="pc-t">ליד חדש מהאתר</span><span class="pc-s">להעתיק לגיליון · לשלוח הודעה · לתזכר</span><span class="pc-done">קורה לבד</span></div>
       </div>
     </div>
 
