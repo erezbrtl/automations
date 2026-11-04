@@ -18,7 +18,10 @@ preview — no rebuild or restart needed.
 - `assets/js/config.js` — site config: YouTube id, portrait image, form
   endpoint, contact email, WhatsApp number, GA4 id. Edit this before going live.
 - `assets/js/site.js` — all interactivity (form submission, video facade, etc.).
-- `assets/css/site.css` — styling.
+- `assets/css/site.css` — styling for every page except the home page.
+- `assets/css/home.css`, `assets/js/home.js` — the home page's own styling and
+  GSAP motion (GSAP 3.13 loads from jsDelivr). Its form is still sent by site.js.
+- `v1/index.html` — the previous home page, kept unindexed for rollback.
 - `privacy/`, `accessibility/`, `thanks/`, `resources/` — secondary static pages.
 
 ## Form submission
