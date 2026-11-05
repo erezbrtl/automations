@@ -96,7 +96,9 @@
       hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? 0 : "-=.95");
     });
 
-    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.6")
+    /* the line under the headline comes in after it, never before */
+    hero.from(".hero-coda", { y: 18, autoAlpha: 0, duration: .9 }, "-=.55");
+    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.5")
         .from(".flow-stops li", { y: 18, autoAlpha: 0, duration: .7, stagger: .08 }, "-=.6")
         .from(".flow-wire", { scaleX: 0, transformOrigin: "100% 50%", duration: 1.2, ease: "power3.inOut" }, "<");
 
@@ -209,21 +211,24 @@
         .to(chore, { color: getComputedStyle(chore).getPropertyValue("--ink-3").trim() || "#626B88", ease: "none" }, "<.3");
     });
 
-    /* ================= FIT ================= */
-    var noItems = $(".fit-no li span");
-    if (noItems.length) {
-      gsap.fromTo(noItems, { "--strike": 0 }, {
-        "--strike": 1, duration: .6, ease: "power2.inOut", stagger: .18,
-        scrollTrigger: { trigger: ".fit-no", start: "top 75%" }
+    /* ================= FIT =================
+       one sequence: each line comes in, then the "no" lines are struck
+       off and the "yes" lines get their tick, one after another */
+    var fitGrid = document.querySelector(".fit-grid");
+    if (fitGrid) {
+      var fitTl = gsap.timeline({ scrollTrigger: { trigger: fitGrid, start: "top 78%" } });
+      fitTl.from($(".fit-no li", fitGrid), { x: 28, autoAlpha: 0, duration: .55, ease: "power3.out", stagger: .1 })
+           .from($(".fit-yes li", fitGrid), { x: 28, autoAlpha: 0, duration: .55, ease: "power3.out", stagger: .1 }, "<.15");
+      var noItems = $(".fit-no li span", fitGrid);
+      if (noItems.length) {
+        fitTl.fromTo(noItems, { "--strike": 0 }, { "--strike": 1, duration: .5, ease: "power2.inOut", stagger: .16 }, "-=.1");
+      }
+      $(".fit-yes path", fitGrid).forEach(function (p, i) {
+        var l = p.getTotalLength();
+        gsap.set(p, { strokeDasharray: l, strokeDashoffset: l });
+        fitTl.to(p, { strokeDashoffset: 0, duration: .45, ease: "power2.out" }, i === 0 ? "<.2" : "-=.25");
       });
     }
-    $(".fit-yes path").forEach(function (p, i) {
-      var l = p.getTotalLength();
-      gsap.fromTo(p, { strokeDasharray: l, strokeDashoffset: l }, {
-        strokeDashoffset: 0, duration: .6, ease: "power2.out", delay: .4 + i * .18,
-        scrollTrigger: { trigger: ".fit-yes", start: "top 75%" }
-      });
-    });
 
     /* ================= FINAL ================= */
     if (c.wide) gsap.fromTo(".final-title", { xPercent: 6 }, { xPercent: -4, ease: "none",
