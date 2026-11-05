@@ -96,7 +96,9 @@
       hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? 0 : "-=.95");
     });
 
-    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.6")
+    /* the line under the headline comes in after it, never before */
+    hero.from(".hero-coda", { y: 18, autoAlpha: 0, duration: .9 }, "-=.55");
+    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.5")
         .from(".flow-stops li", { y: 18, autoAlpha: 0, duration: .7, stagger: .08 }, "-=.6")
         .from(".flow-wire", { scaleX: 0, transformOrigin: "100% 50%", duration: 1.2, ease: "power3.inOut" }, "<");
 
