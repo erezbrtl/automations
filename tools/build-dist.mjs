@@ -21,9 +21,6 @@ const ship = [
   "thanks.html",
   "404.html",
   "resources",
-  "workshop.html",
-  "workshop-thanks.html",
-  "workshop-classic.html",
   "v1",
 ];
 

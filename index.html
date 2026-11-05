@@ -17,11 +17,13 @@
   var path = location.pathname;
   if (path === "/" || path === "/index.html") { return; }
 
-  var pages = ["workshop", "workshop-thanks", "thanks", "privacy",
+  var pages = ["thanks", "privacy",
                "accessibility", "resources/examples", "resources/processes"];
   var want = path.toLowerCase().replace(/^\/+|\/+$/g, "").replace(/\.html$/, "");
   if (want === "v1") { location.replace("/v1/index.html" + location.search + location.hash); return; }
   if (want === "v2" || want === "v2/index") { location.replace("/" + location.search + location.hash); return; }
+  /* the workshop pages were retired; their old links land on the home page */
+  if (/^workshop(-thanks|-classic)?$/.test(want)) { location.replace("/" + location.search + location.hash); return; }
   if (pages.indexOf(want) !== -1) {
     location.replace("/" + want + ".html" + location.search + location.hash);
     return;
