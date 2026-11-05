@@ -129,7 +129,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* ==========================================================
    HERO
    ========================================================== */
-.hero { padding: 104px 0 64px; min-height: 100svh; display: flex; align-items: stretch; position: relative; }
+.hero { padding: 104px 0 56px; position: relative; }
 .hero::before { /* ruled lines, like a planning pad */
   content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
   background-image: linear-gradient(var(--rule) 1px, transparent 1px);
@@ -155,7 +155,8 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 
 /* the flow strip */
 /* the wire runs through the centres of the dots, above the labels */
-.flow { --ft: clamp(40px, 8vh, 88px); --dot: 18px; position: relative; margin: auto 0 0; padding-top: var(--ft); }
+/* the strip follows the button at a fixed distance, instead of being pushed to the bottom of a full screen */
+.flow { --ft: 0px; --dot: 18px; position: relative; margin: clamp(40px, 5vw, 64px) 0 0; padding-top: var(--ft); }
 .flow-wire { position: absolute; inset-inline: calc(var(--dot) / 2); top: calc(var(--ft) + var(--dot) / 2 - 10px); width: calc(100% - var(--dot)); height: 20px; overflow: visible; }
 .wire-base { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: .45; vector-effect: non-scaling-stroke; }
 .flow-live { position: absolute; inset-inline: calc(var(--dot) / 2); top: calc(var(--ft) + var(--dot) / 2 - 1.25px); height: 2.5px; background: var(--signal); transform-origin: right; transform: scaleX(0); }

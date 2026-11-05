@@ -88,3 +88,6 @@
 /* the six chores as compact rows, not tall empty tiles */
 .pain { min-height: 0; aspect-ratio: auto; padding: 18px 20px; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.05rem; border-radius: 14px; }
 .pain i { flex: none; }
+/* chore icons: a plain stroke icon in the accent, not a filled pill */
+.pain i { background: none !important; width: 22px; height: 22px; display: inline-grid; place-items: center; color: var(--signal); }
+.pain i svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
