@@ -602,3 +602,26 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .ex-ask .btn-line:hover { color: #B01252; }
 /* a page that opens on a white band gets a solid header, or its white menu vanishes */
 body:has(main > section.t-white:first-child) .top { background: #1A0B33; border-color: transparent; }
+
+/* ---------- review round: the new promise and its supports ---------- */
+.hero-coda { margin: 18px 0 0; font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; color: var(--ink); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero .hero-actions .btn-line { --bd: var(--ink); color: var(--ink); --fill: var(--ink); }
+.hero .hero-actions .btn-line:hover { color: var(--paper); }
+.flow-proof { margin-top: 22px; font-size: .95rem; color: var(--ink-2); }
+.flow-proof::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--signal); margin-inline-end: 10px; vertical-align: middle; }
+
+/* checklist: which processes fit in the workshop */
+.proc-fit {
+  display: inline-block; grid-column: 2; justify-self: start; margin-top: 6px;
+  font-size: .78rem; font-weight: 600; padding: 3px 9px; border-radius: 100px;
+  background: rgba(224, 19, 78, .1); color: #C40F43;
+}
+.proc-fit--build { background: rgba(16, 27, 61, .08); color: var(--card-soft, #5C6480); }
+.proc-legend { max-width: 880px; margin: 0 auto 22px; color: var(--ink-2); font-size: .95rem; line-height: 1.9; }
+.proc-legend .proc-fit { margin: 0 2px; vertical-align: 1px; }
+.pp-hero .btn-row { margin-top: 26px; }
+.pp-hero .btn-line { --bd: var(--ink); color: var(--ink); --fill: var(--ink); }
+.pp-hero .btn-line:hover { color: var(--paper); }
+/* a carried-in row keeps its own layout when it is revealed */
+.is-carried .btn-row[data-carry-only] { display: flex; }
