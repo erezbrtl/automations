@@ -39,6 +39,8 @@
 <!-- התנועה בעמוד הזה בלבד. להסרה: למחוק את שתי השורות האלה ואת שני הקבצים,
      או להעתיק את workshop-classic.html חזרה לכאן. -->
 <link rel="stylesheet" href="/assets/css/workshop-fx.css">
+<link rel="stylesheet" href="/assets/css/home.css">
+<link rel="stylesheet" href="/assets/css/bridge.css">
 <noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
 
 <!-- ==========================================================
@@ -82,6 +84,7 @@
   }
 }
 </script>
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body id="top">
 
@@ -112,7 +115,7 @@
      who is giving it, when, and where. The headline and the line under it
      answer the first, the strip under them answers the second, and the
      chips answer the last two - all above the fold, before the form. -->
-<section class="section bg-deep lp-hero" id="join">
+<section class="section lp-hero t-blue" id="join">
   <div class="wrap">
 
     <div class="lp-head rv">
@@ -194,7 +197,7 @@
 </section>
 
 <!-- ===== THE FIFTY MINUTES ===== -->
-<section class="section bg-night" id="agenda">
+<section class="section t-white" id="agenda">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">סדר היום</span>
@@ -217,7 +220,7 @@
      Lifted out of the hero so the hero ends on the form. It lands after
      the running order on purpose: you read what the fifty minutes hold,
      and then who is going to hold them. -->
-<section class="section bg-deep" id="who">
+<section class="section t-red" id="who">
   <div class="wrap">
     <div class="lp-by rv" data-fx-drift="-0.03">
       <div class="lp-by-main rv" data-stagger>
@@ -237,7 +240,7 @@
      decides whether the meeting is useful - a repeating process is - so the
      list runs past rather than standing still, and the line underneath
      catches everyone who did not find themselves in it. -->
-<section class="section bg-night" id="fit">
+<section class="section t-blue" id="fit">
   <div class="wrap center rv">
     <span class="eyebrow">למי זה מתאים</span>
     <h2 class="h-sect">למי המפגש הזה <span class="grad nb">מתאים?</span></h2>
@@ -328,7 +331,7 @@
      The moment the visitor says "that is me". It comes before any promise
      about the meeting, because a promise only lands on someone who has
      just recognised the problem it answers. -->
-<section class="section bg-night" id="known">
+<section class="section t-white" id="known">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">רגע לפני</span>
@@ -350,7 +353,7 @@
 </section>
 
 <!-- ===== WHAT YOU LEAVE WITH ===== -->
-<section class="section bg-deep" id="take">
+<section class="section t-blue" id="take">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">מה תיקחו מהמפגש</span>
@@ -385,7 +388,7 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section bg-night" id="faq">
+<section class="section t-white" id="faq">
   <div class="wrap">
     <div class="center rv">
       <h2 class="h-sect">לפני שתשאלו:</h2>
@@ -431,7 +434,7 @@
      The same registration, offered again once the questions are answered.
      No optional field here: someone who has read this far is deciding, not
      describing, and three boxes is the shortest the decision can be made. -->
-<section class="section bg-deep" id="join2">
+<section class="section t-red" id="join2">
   <div class="wrap">
     <h2 class="lp-form-head lp-form-head--solo rv">שלושה שדות ואתם בפנים:</h2>
 
@@ -479,23 +482,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <a class="brand" href="/">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
-    </a>
-    <nav class="footer-links" aria-label="ניווט תחתון">
-      <a href="/">האתר</a>
+<footer class="foot t-night">
+  <div class="wrap foot-in">
+    <a class="mark-brand" href="/"><img src="/assets/img/logo.svg" alt="" width="24" height="24"><span>erezb.pro</span></a>
+    <nav aria-label="ניווט תחתון">
+      <a href="/#contact" data-cta="footer">יצירת קשר</a>
       <a href="/accessibility.html">נגישות</a>
       <a href="/privacy.html">פרטיות</a>
     </nav>
-    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+    <p class="foot-meta">automations.erezb.pro · <span id="year">2026</span></p>
   </div>
 </footer>
 
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/home.js" defer></script>
 <script src="/assets/js/workshop-fx.js" defer></script>
 </body>
 </html>

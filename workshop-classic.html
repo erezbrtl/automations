@@ -32,6 +32,8 @@
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/home.css">
+<link rel="stylesheet" href="/assets/css/bridge.css">
 <noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
 
 <!-- ==========================================================
@@ -71,6 +73,7 @@
   }
 }
 </script>
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body id="top">
 
@@ -101,7 +104,7 @@
      who is giving it, when, and where. The headline and the line under it
      answer the first, the strip under them answers the second, and the
      chips answer the last two - all above the fold, before the form. -->
-<section class="section bg-deep lp-hero" id="join">
+<section class="section lp-hero t-blue" id="join">
   <div class="wrap">
 
     <div class="lp-head rv">
@@ -182,7 +185,7 @@
 </section>
 
 <!-- ===== THE FIFTY MINUTES ===== -->
-<section class="section bg-night" id="agenda">
+<section class="section t-white" id="agenda">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">סדר היום</span>
@@ -205,7 +208,7 @@
      Lifted out of the hero so the hero ends on the form. It lands after
      the running order on purpose: you read what the fifty minutes hold,
      and then who is going to hold them. -->
-<section class="section bg-deep" id="who">
+<section class="section t-red" id="who">
   <div class="wrap">
     <div class="lp-by rv">
       <div class="lp-by-main rv" data-stagger>
@@ -224,7 +227,7 @@
      The moment the visitor says "that is me". It comes before any promise
      about the meeting, because a promise only lands on someone who has
      just recognised the problem it answers. -->
-<section class="section bg-night" id="known">
+<section class="section t-white" id="known">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">רגע לפני</span>
@@ -246,7 +249,7 @@
 </section>
 
 <!-- ===== WHAT YOU LEAVE WITH ===== -->
-<section class="section bg-deep" id="take">
+<section class="section t-blue" id="take">
   <div class="wrap">
     <div class="center rv">
       <span class="eyebrow">מה תיקחו מהמפגש</span>
@@ -281,7 +284,7 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section bg-night" id="faq">
+<section class="section t-white" id="faq">
   <div class="wrap">
     <div class="center rv">
       <h2 class="h-sect">לפני שתשאלו:</h2>
@@ -324,7 +327,7 @@
 </section>
 
 <!-- ===== CLOSING ===== -->
-<section class="section bg-crimson final center" id="last">
+<section class="section final center t-red" id="last">
   <img class="waves waves--start" src="/assets/img/waves.svg" alt="" aria-hidden="true">
   <div class="wrap">
     <h2 class="rv"><span class="nb">שני, 2 בנובמבר, 20:30.</span> <span class="mark">חמישים דקות, חינם.</span></h2>
@@ -337,22 +340,20 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <a class="brand" href="/">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
-    </a>
-    <nav class="footer-links" aria-label="ניווט תחתון">
-      <a href="/">האתר</a>
+<footer class="foot t-night">
+  <div class="wrap foot-in">
+    <a class="mark-brand" href="/"><img src="/assets/img/logo.svg" alt="" width="24" height="24"><span>erezb.pro</span></a>
+    <nav aria-label="ניווט תחתון">
+      <a href="/#contact" data-cta="footer">יצירת קשר</a>
       <a href="/accessibility.html">נגישות</a>
       <a href="/privacy.html">פרטיות</a>
     </nav>
-    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+    <p class="foot-meta">automations.erezb.pro · <span id="year">2026</span></p>
   </div>
 </footer>
 
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/home.js" defer></script>
 </body>
 </html>

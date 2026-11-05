@@ -23,46 +23,41 @@
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
-<noscript><style>.rv,.rv[data-stagger]>*{opacity:1!important;transform:none!important}.demo-panel[hidden]{display:block!important}.demo-tabs{display:none!important}</style></noscript>
+<link rel="stylesheet" href="/assets/css/home.css">
+<link rel="stylesheet" href="/assets/css/bridge.css">
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<div class="page-bg" aria-hidden="true">
-  <span class="bloom bloom--violet"></span><span class="bloom bloom--crim1"></span>
-  <span class="bloom bloom--blue"></span><span class="bloom bloom--mag1"></span>
-</div>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand" href="/">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
+<header class="top" id="siteHeader">
+  <div class="wrap top-in">
+    <a class="mark-brand" href="/" aria-label="erezb.pro - לראש העמוד">
+      <img src="/assets/img/logo.svg" alt="" width="28" height="28">
+      <span>erezb.pro</span>
     </a>
-    <nav class="nav" aria-label="ניווט ראשי">
-      <a href="/#steps">איך נעבוד יחד</a>
+    <nav class="top-nav" aria-label="ניווט ראשי">
       <a href="/#about">מי אני?</a>
-      <a href="/#contact">יצירת קשר</a>
+      <a href="/#steps">איך נעבוד יחד</a>
+      <a href="/#pain">תהליכים אמיתיים</a>
     </nav>
+    <a class="top-cta" href="/#contact" data-cta="header">לתיאום סדנה</a>
   </div>
 </header>
 
 <main id="main">
 
-<section class="section bg-night" id="top">
-  <div class="wrap center">
-    <span class="eyebrow rv">דוגמאות</span>
-    <h1 class="h-sect rv"><span class="lead-in">ארבעה תהליכים אמיתיים,</span>דקה <span class="grad nb">אחר דקה.</span></h1>
+<section class="ex-hero t-blue" id="top">
+  <div class="wrap">
+    <h1 class="h2 pp-title"><span class="lead-in">ארבעה תהליכים אמיתיים,</span>דקה <span class="pp-accent">אחר דקה.</span></h1>
     <p class="h-sub rv">אלה לא תרחישים תיאורטיים. אלה סוגי התהליכים שאפשר לקחת מהעסק שלכם ולבדוק אם הם יכולים לרוץ לבד. בחרו תחום, ותראו איך זה נראה משלב לשלב.</p>
   </div>
 </section>
 
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
 
-<section class="section bg-deep" id="stories-sect">
+<section class="ex-stories t-night" id="stories-sect">
   <div class="wrap">
     <div class="demo rv" id="stories">
       <div class="demo-tabs" role="tablist" aria-label="תחומים">
@@ -98,44 +93,38 @@
   </div>
 </section>
 
-<div class="junction" aria-hidden="true">
-  <svg><path class="j-base"></path><path class="j-draw"></path><circle class="j-head" r="5"></circle></svg>
-  <span class="j-stop"></span>
-</div>
 
-<section class="section bg-night final center" id="ask">
+<section class="final t-red ex-ask" id="ask">
   <div class="wrap">
-    <h2 class="rv">יש לכם תהליך <span class="mark">שנראה כמו אחד מאלה?</span></h2>
+    <h2 class="final-title">יש לכם תהליך <span class="ft-accent">שנראה כמו אחד מאלה?</span></h2>
     <p class="h-sub rv">כתבו לי מה אתם עושים שוב ושוב. אני אסתכל ואגיד לכם אם לדעתי יש שם פוטנציאל לאוטומציה.</p>
-    <div class="btn-row rv">
-      <a class="btn btn--cta" href="/#contact" data-cta="examples-page"><span class="ic" aria-hidden="true">←</span> ספרו לי על התהליך שלכם</a>
-      <a class="btn btn--ghost" href="/">חזרה לעמוד הבית</a>
+    <div class="btn-row">
+      <a class="btn btn-accent" href="/#contact" data-cta="examples-page"><span>ספרו לי על התהליך שלכם</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
+      <a class="btn btn-line" href="/"><span>חזרה לעמוד הבית</span></a>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <a class="brand" href="/">
-      <img class="brand-logo" src="/assets/img/logo.svg" alt="" width="34" height="34">
-      <span class="brand-name">erezb.pro<span>AI &amp; Automation</span></span>
-    </a>
-    <nav class="footer-links" aria-label="ניווט תחתון">
-      <a href="/resources/processes.html">12 תהליכים לבדיקה</a>
+<footer class="foot t-night">
+  <div class="wrap foot-in">
+    <a class="mark-brand" href="/"><img src="/assets/img/logo.svg" alt="" width="24" height="24"><span>erezb.pro</span></a>
+    <nav aria-label="ניווט תחתון">
+      <a href="/#contact" data-cta="footer">יצירת קשר</a>
       <a href="/accessibility.html">נגישות</a>
       <a href="/privacy.html">פרטיות</a>
     </nav>
-    <p class="footer-meta">automations.erezb.pro · <span id="year">2026</span></p>
+    <p class="foot-meta">automations.erezb.pro · <span id="year">2026</span></p>
   </div>
 </footer>
 
-<button class="to-top" id="toTop" type="button" aria-label="חזרה לראש העמוד">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
-</button>
 
 <script src="/assets/js/config.js"></script>
-<script src="/assets/js/site.js"></script>
+<script src="/assets/js/site.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
+<script src="/assets/js/home.js" defer></script>
 </body>
 </html>

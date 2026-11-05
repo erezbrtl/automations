@@ -129,7 +129,7 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 /* ==========================================================
    HERO
    ========================================================== */
-.hero { padding: 132px 0 64px; min-height: 100svh; display: flex; align-items: stretch; position: relative; }
+.hero { padding: 104px 0 56px; position: relative; }
 .hero::before { /* ruled lines, like a planning pad */
   content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
   background-image: linear-gradient(var(--rule) 1px, transparent 1px);
@@ -155,7 +155,8 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 
 /* the flow strip */
 /* the wire runs through the centres of the dots, above the labels */
-.flow { --ft: clamp(40px, 8vh, 88px); --dot: 18px; position: relative; margin: auto 0 0; padding-top: var(--ft); }
+/* the strip follows the button at a fixed distance, instead of being pushed to the bottom of a full screen */
+.flow { --ft: 0px; --dot: 18px; position: relative; margin: clamp(40px, 5vw, 64px) 0 0; padding-top: var(--ft); }
 .flow-wire { position: absolute; inset-inline: calc(var(--dot) / 2); top: calc(var(--ft) + var(--dot) / 2 - 10px); width: calc(100% - var(--dot)); height: 20px; overflow: visible; }
 .wire-base { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: .45; vector-effect: non-scaling-stroke; }
 .flow-live { position: absolute; inset-inline: calc(var(--dot) / 2); top: calc(var(--ft) + var(--dot) / 2 - 1.25px); height: 2.5px; background: var(--signal); transform-origin: right; transform: scaleX(0); }
@@ -501,3 +502,103 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
   *, *::before, *::after { transition-duration: .01ms !important; }
   .chore::after { --strike: 1; }
 }
+
+/* ==========================================================
+   checklist page (/resources/processes.html) - the step after the form.
+   Same bands, type and buttons as the home page; its own card for a
+   process you can tick.
+   ========================================================== */
+.pp-hero { padding: clamp(104px, 10vw, 128px) 0 clamp(64px, 8vw, 96px); }
+.pp-title { max-width: 16ch; }
+.pp-title .lead-in { display: block; font-weight: 500; font-size: .42em; color: var(--ink-2); margin-bottom: 16px; letter-spacing: 0; }
+.pp-accent { color: var(--signal); }
+.pp-hero .h-sub { max-width: 52ch; font-size: 1.12rem; }
+.lead-got { display: none; align-items: center; gap: 9px; margin: 0 0 22px; padding: 8px 14px; border-radius: 100px; background: rgba(255, 255, 255, .1); font-weight: 600; font-size: .95rem; }
+.is-carried .lead-got { display: inline-flex; }
+.lead-got svg { width: 15px; height: 15px; flex: none; stroke: currentColor; fill: none; stroke-width: 3.2; }
+
+.pp-list { padding: clamp(72px, 9vw, 120px) 0; }
+.proc-list { list-style: none; margin: 0 auto; padding: 0; max-width: 880px; display: grid; gap: 14px; }
+.proc {
+  position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr) 26px; gap: 4px 18px; align-items: start;
+  padding: 22px 24px; border: 1.5px solid var(--rule); border-radius: 16px; background: var(--paper);
+  transition: border-color .2s, background-color .2s, box-shadow .2s;
+}
+.proc:hover { border-color: rgba(16, 27, 61, .32); }
+.proc-n { grid-column: 1; grid-row: 1 / span 3; font-weight: 800; font-size: 1.5rem; line-height: 1.1; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.proc h3 { grid-column: 2; grid-row: 1; margin: 0; font-size: 1.18rem; font-weight: 700; }
+.proc > p { grid-column: 2; margin: 2px 0 0; color: var(--ink-2); font-size: 1rem; line-height: 1.6; }
+.proc .ask { color: var(--ink-3); font-size: .95rem; }
+.proc .ask::before { content: "לבדוק: "; font-weight: 600; color: var(--ink-2); }
+.proc-tick { position: absolute; opacity: 0; width: 0; height: 0; }
+.proc-hit { position: absolute; inset: 0; cursor: pointer; border-radius: inherit; }
+.proc-box {
+  grid-column: 3; grid-row: 1; width: 26px; height: 26px; border-radius: 8px; border: 1.5px solid var(--ink);
+  display: grid; place-items: center; background: var(--paper); transition: background-color .18s, border-color .18s;
+}
+.proc-box svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 3; opacity: 0; transition: opacity .18s; }
+.proc-tick:checked ~ .proc-box { background: var(--cta); border-color: var(--cta); }
+.proc-tick:checked ~ .proc-box svg { opacity: 1; }
+.proc-tick:focus-visible ~ .proc-box { outline: 2px solid var(--cta); outline-offset: 3px; }
+.proc:has(.proc-tick:checked) { border-color: var(--cta); background: #FFF5F8; box-shadow: 0 10px 30px -20px rgba(224, 19, 78, .7); }
+.proc:has(.proc-tick:checked) .proc-n { color: var(--cta); }
+@media (max-width: 560px) {
+  .proc { grid-template-columns: 2.2rem minmax(0, 1fr) 26px; gap: 4px 12px; padding: 18px 16px; }
+  .proc-n { font-size: 1.15rem; }
+}
+
+.pp-talk { padding: clamp(80px, 10vw, 130px) 0; }
+.pp-talk .h2 { font-size: clamp(2.2rem, 4.6vw, 4.2rem); }
+.pp-talk .pp-accent { color: #1A0B33; }
+.pp-talk .h-sub { color: var(--ink-2); }
+
+/* what site.js turns on when the visitor arrives from the home-page form */
+[data-carry-only] { display: none; }
+.is-carried [data-carry-only] { display: revert; }
+.is-carried [data-no-carry], .is-carried [data-carry-fields] { display: none; }
+.lead-known { display: none; }
+.is-carried .lead-known {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 22px;
+  padding: 14px 16px; border-radius: 12px; background: #F3F1F8;
+}
+.lead-known-k { font-size: .85rem; font-weight: 600; color: var(--card-soft); }
+.lead-known-v { font-weight: 700; color: var(--card-ink); }
+.lead-known-edit { margin-inline-start: auto; background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; font-weight: 600; color: var(--cta); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.pick-count { margin: 0 0 18px; font-size: .95rem; color: var(--card-soft); }
+.pick-count [data-pick-count]:empty { display: none; }
+.pick-count [data-pick-count].is-on { color: var(--cta); font-weight: 700; }
+.pick-count a { color: var(--card-ink); text-underline-offset: 3px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
+/* the carried-in badge is a pill, not a full-width block */
+.is-carried .lead-got[data-carry-only] { display: inline-flex; }
+/* a white card always uses the pink action colour, whatever band it sits on */
+.form-card { --cta: #E0134E; }
+
+/* ==========================================================
+   short pages: thanks, 404, privacy, accessibility, examples
+   ========================================================== */
+.doc { min-height: 72vh; padding: clamp(104px, 10vw, 128px) 0 clamp(80px, 10vw, 130px); }
+.doc-wrap { max-width: 760px; }
+.doc-wrap.center { text-align: start; }
+.doc .h2 { margin-bottom: 20px; }
+.doc .h-sub { max-width: 46ch; }
+.doc h2:not(.h2) { font-size: clamp(1.3rem, 2vw, 1.6rem); font-weight: 700; margin: 40px 0 10px; }
+.doc p { max-width: 66ch; color: var(--ink-2); }
+.doc p a, .doc-list a { color: var(--signal-ink); font-weight: 600; }
+.doc-list { margin: 8px 0 0; padding-inline-start: 1.2em; color: var(--ink-2); display: grid; gap: 8px; max-width: 66ch; }
+.doc-list li::marker { color: var(--signal); }
+.doc-meta { margin-top: 48px; font-size: .9rem; color: var(--ink-3) !important; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.err-addr { color: var(--ink-3); }
+.err-addr b { color: var(--ink); }
+
+/* examples: the story frames keep their own dark styling from site.css,
+   so they sit on the dark night band; hero and close use the home bands */
+.ex-hero { padding: clamp(104px, 10vw, 128px) 0 clamp(56px, 7vw, 88px); }
+.ex-hero .h-sub { max-width: 54ch; font-size: 1.12rem; color: var(--ink-2); }
+.ex-stories { padding: clamp(64px, 8vw, 110px) 0; }
+.ex-ask .btn-row { margin-top: clamp(32px, 4vw, 48px); }
+.ex-ask .btn-line { --bd: #fff; color: #fff; --fill: #fff; }
+.ex-ask .btn-line:hover { color: #B01252; }
+/* a page that opens on a white band gets a solid header, or its white menu vanishes */
+body:has(main > section.t-white:first-child) .top { background: #1A0B33; border-color: transparent; }
