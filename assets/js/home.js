@@ -168,15 +168,7 @@
       });
     }
 
-    var count = document.querySelector("[data-count]");
-    if (count) {
-      var n = { v: 0 }, target = +count.getAttribute("data-count");
-      gsap.to(n, {
-        v: target, duration: 2.2, ease: "power3.out",
-        onUpdate: function () { count.textContent = Math.round(n.v).toLocaleString("en-US"); },
-        scrollTrigger: { trigger: count, start: "top 85%" }
-      });
-    }
+    /* the 1,500+ is printed as is: a number that counts up reads as a gimmick */
 
     /* ================= STEPS: sideways run, pinned ================= */
     var track = document.getElementById("stepsTrack");

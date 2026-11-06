@@ -597,7 +597,7 @@
     }
     if (CFG.contactEmail) {
       return "mailto:" + CFG.contactEmail +
-        "?subject=" + encodeURIComponent("פנייה מהאתר - בדיקת תהליך לאוטומציה") +
+        "?subject=" + encodeURIComponent("פנייה מהאתר: בדיקת תהליך לאוטומציה") +
         "&body=" + encodeURIComponent(body);
     }
     console.error("[site] לא מוגדר formEndpoint, לא whatsapp ולא contactEmail ב-assets/js/config.js - אי אפשר לקבל פניות.");
