@@ -98,11 +98,10 @@
 
     /* the line under the headline comes in after it, never before */
     hero.from(".hero-coda", { y: 18, autoAlpha: 0, duration: .9 }, "-=.55");
-    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.5")
-        .from(".flow-stops li", { y: 18, autoAlpha: 0, duration: .7, stagger: .08 }, "-=.6")
-        .from(".flow-wire", { scaleX: 0, transformOrigin: "100% 50%", duration: 1.2, ease: "power3.inOut" }, "<");
+    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.5");
 
-    /* the pulse: a lead travels the line and lights each stop it reaches */
+    /* the pulse, next to the form: one lead travels the line once, lighting
+       each stop it reaches, and the strip stays lit when it is done */
     var flow = document.querySelector(".flow");
     var pulse = document.querySelector(".flow-pulse");
     var live = document.querySelector(".flow-live");
@@ -111,7 +110,8 @@
       var marks = [];
       var measure = function () {
         /* the track runs from the first dot's centre to the last one's */
-        var right = flow.getBoundingClientRect().left + live.offsetLeft + live.offsetWidth;
+        /* the bar grows from its right edge, so that edge never moves */
+        var right = live.getBoundingClientRect().right;
         var width = live.offsetWidth;
         marks = stops.map(function (li) {
           var d = li.querySelector(".fs-dot").getBoundingClientRect();
@@ -128,16 +128,12 @@
         gsap.set(live, { scaleX: state.p });
         stops.forEach(function (li, i) { li.classList.toggle("is-lit", state.p >= marks[i] - .005); });
       };
-      var run = gsap.timeline({ repeat: -1, repeatDelay: .6, paused: true });
+      var run = gsap.timeline({ paused: true });
       run.set(pulse, { autoAlpha: 1 })
-         .fromTo(state, { p: 0 }, { p: 1, duration: 4.2, ease: "none", onUpdate: paint })
-         .to([pulse, live], { autoAlpha: 0, duration: .5 }, "+=.5")
-         .add(function () { state.p = 0; paint(); gsap.set(live, { autoAlpha: 1 }); });
-      hero.add(function () { run.play(); }, "-=.2");
-
-      /* stop burning frames once the hero is off screen */
-      ST.create({ trigger: ".hero", start: "top top", end: "bottom top",
-        onLeave: function () { run.pause(); }, onEnterBack: function () { run.play(); } });
+         .fromTo(state, { p: 0 }, { p: 1, duration: 3, ease: "none", onUpdate: paint })
+         .to(pulse, { autoAlpha: 0, duration: .3 });
+      ST.create({ trigger: flow, start: "top 85%", once: true,
+        onEnter: function () { measure(); run.play(); } });
     } else {
       stops.forEach(function (li) { li.classList.add("is-lit"); });
     }
