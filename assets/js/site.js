@@ -557,7 +557,7 @@
       var here = {};
       fields(form).forEach(function (field) { if (field.name) { here[field.name] = 1; } });
       Object.keys(form.carried).forEach(function (key) {
-        if (here[key] || data[key] || key === "source") { return; }
+        if (here[key] || data[key] || key === "source" || key === "sent") { return; }
         data[key] = form.carried[key];
       });
     }
@@ -640,6 +640,50 @@
     return held.data;
   }
 
+  /* One id per lead, minted on the first screen and sent with both sends,
+     so the webhook can tell "a new lead" from "more about the same lead". */
+  function newLeadId() {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+    } catch (err) { /* insecure context - fall through */ }
+    return "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  }
+
+  function encode(data) {
+    var body = new URLSearchParams();
+    Object.keys(data).forEach(function (key) { body.append(key, data[key]); });
+    return body;
+  }
+
+  /* A send that must not hold the visitor hostage: resolves true on a 2xx,
+     false on anything else, and false after ms whatever the network does.
+     keepalive lets it finish even if the page is already on its way out. */
+  function quietSend(data, ms) {
+    return new Promise(function (resolve) {
+      if (!CFG.formEndpoint) { resolve(false); return; }
+      var done = false;
+      var end = function (ok) { if (!done) { done = true; resolve(ok); } };
+      window.setTimeout(function () { end(false); }, ms);
+      try {
+        fetch(CFG.formEndpoint, { method: "POST", body: encode(data), keepalive: true })
+          .then(function (r) { end(r.ok); }, function () { end(false); });
+      } catch (err) { end(false); }
+    });
+  }
+
+  /* With the lead already sent, the checklist only adds to it. Nothing new
+     on this screen means nothing to send. */
+  function hasNews(form, data) {
+    var held = form.carried || {};
+    return Boolean(data.processes ||
+      (data.message && data.message !== (held.message || "")) ||
+      (data.email && data.email !== (held.email || "")) ||
+      (data.name && data.name !== (held.name || "")) ||
+      (data.phone && data.phone !== (held.phone || "")));
+  }
+
   /* only the answers travel; the endpoint's own fields belong to whichever
      form is doing the sending, not to the visitor */
   function carryPayload(form) {
@@ -682,19 +726,21 @@
     return held;
   }
 
-  /* Someone who typed their name and number and pressed send is a lead
-     whether or not they reach the end of the checklist. If they leave this
-     page still holding the details, the details go out on their way. */
+  /* The first screen normally sends the lead itself. This is the backstop
+     for when it could not: the details go out as the visitor leaves. And if
+     the lead is already in but something was ticked and never sent, that
+     goes out too, as an update to the same lead. */
   function guardCarry(form) {
     window.addEventListener("pagehide", function () {
-      if (form.dataset.sending || !carryRead()) { return; }
+      var held = carryRead();
+      if (form.dataset.sending || !held) { return; }
       if (!CFG.formEndpoint || typeof navigator.sendBeacon !== "function") { return; }
       var data = collect(form);
       if (!data.name || !data.phone) { return; }
-      var body = new URLSearchParams();
-      Object.keys(data).forEach(function (key) { body.append(key, data[key]); });
+      if (held.sent && !hasNews(form, data)) { return; }
+      data.stage = held.sent ? "processes" : "contact";
       carryDrop();
-      navigator.sendBeacon(CFG.formEndpoint, body);
+      navigator.sendBeacon(CFG.formEndpoint, encode(data));
     });
   }
 
@@ -748,7 +794,9 @@
 
   /* only ever called after a real 200 from the endpoint */
   function finish(form, doneEl) {
-    track("lead_submit", { form: form.id, page: window.location.pathname });
+    /* step one already counted this lead; the checklist only adds to it */
+    track(form.carried && form.carried.sent ? "lead_update" : "lead_submit",
+      { form: form.id, page: window.location.pathname });
     carryDrop();
     /* a form may name its own confirmation page - a workshop registration and
        a general enquiry do not deserve the same one, and a separate address is
@@ -817,16 +865,50 @@
       /* This form asks half the question and another page asks the rest, so
          the answers travel with the visitor instead of going down the wire
          twice. If they cannot be held, the send happens right here. */
+      var status = form.querySelector("[data-status]");
+      var button = form.querySelector('button[type="submit"]');
+
+      /* Step one sends the lead right away - name and number are a lead on
+         their own - and only then moves on to the checklist, carrying the
+         same id so whatever is ticked there updates this lead instead of
+         opening a second one. If the send fails the details still travel,
+         marked unsent, and the checklist sends them in full. */
       var next = form.getAttribute("data-next");
-      if (next && carrySave(carryPayload(form))) {
-        track("lead_carried", { form: form.id, next: next });
-        window.location.href = next;
+      if (next && !form.dataset.sending) {
+        var first = collect(form);
+        var held = carryPayload(form);
+        held.lead_id = first.lead_id = newLeadId();
+        first.stage = "contact";
+        form.dataset.sending = "1";
+        if (button) { button.disabled = true; }
+        if (status) {
+          status.classList.remove("is-warn");
+          status.classList.add("is-open");
+          status.textContent = "שולח...";
+        }
+        quietSend(first, 6000).then(function (sent) {
+          held.sent = sent;
+          track(sent ? "lead_submit" : "lead_unsent", { form: form.id, step: 1 });
+          if (carrySave(held)) {
+            window.location.href = next;
+            return;
+          }
+          /* nowhere to keep the details for the next screen */
+          delete form.dataset.sending;
+          if (button) { button.disabled = false; }
+          if (sent) { finish(form, done); return; }
+          offerHandoff(form, status, button, "endpoint-failed", "השליחה לא הגיעה ליעדה");
+        });
         return;
       }
 
-      var status = form.querySelector("[data-status]");
-      var button = form.querySelector('button[type="submit"]');
       var data = collect(form);
+      /* the checklist: an update to a lead that is already in, or - when
+         step one could not send - the whole lead */
+      if (form.carried) {
+        if (form.carried.sent && !hasNews(form, data)) { finish(form, done); return; }
+        data.stage = form.carried.sent ? "processes" : "contact";
+      }
 
       if (status) {
         status.textContent = "";
@@ -852,12 +934,9 @@
       /* form-encoded, deliberately: a JSON body makes the browser send a CORS
          preflight first, and an endpoint that answers that badly kills the
          send before it leaves. This shape needs no preflight at all. */
-      var body = new URLSearchParams();
-      Object.keys(data).forEach(function (key) { body.append(key, data[key]); });
-
       fetch(CFG.formEndpoint, {
         method: "POST",
-        body: body
+        body: encode(data)
       }).then(function (response) {
         if (settled) { return; }
         settled = true; window.clearTimeout(timer);
