@@ -91,3 +91,10 @@
 /* chore icons: a plain stroke icon in the accent, not a filled pill */
 .pain i { background: none !important; width: 22px; height: 22px; display: inline-grid; place-items: center; color: var(--signal); }
 .pain i svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
+
+/* type scale (review round 6.11): this page still reads site.css, which uses
+   five weights. Here they collapse to the three the rest of the site uses. */
+.story-head { font-weight: 800; }
+.story-time, .ai-chip, .demo .new, .pill-done, .ai-chip em, .f-row b { font-weight: 600; }
+.story-punch b { font-weight: 800; letter-spacing: 0; }
+.demo-note b, .demo b { font-weight: 600; }
