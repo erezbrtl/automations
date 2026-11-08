@@ -55,7 +55,6 @@
 
 <link rel="icon" href="/assets/img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/noto-sans-hebrew-800-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/noto-sans-hebrew-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/home.css">
@@ -123,7 +122,6 @@
 </head>
 <body>
 
-<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
 <a class="skip" href="#main">דילוג לתוכן</a>
 
@@ -315,6 +313,15 @@
   </div>
 </section>
 
+<section class="final t-red" id="b2b">
+  <div class="wrap">
+    <h2 class="final-title"><span data-split>לא צריך לדעת הכול על AI.</span> <span class="ft-accent" data-split>צריך לדייק אותו לצרכים שלכם.</span></h2>
+    <div class="final-row">
+      <p class="final-after">ומה אחרי הסדנה? אם נמצא תהליך שכדאי להפוך לאוטומטי ואתם מעדיפים שמישהו יבנה אותו עבורכם, אפשר להמשיך משם.</p>
+    </div>
+  </div>
+</section>
+
 <section class="contact t-blue" id="contact">
   <div class="wrap contact-grid">
     <div class="contact-text">
@@ -327,18 +334,18 @@
           <div class="field">
             <label for="c-name">שם</label>
             <input id="c-name" name="name" type="text" autocomplete="name" required>
-            <span class="err" data-err-for="c-name"></span>
+            <span class="err" id="c-name-err" data-err-for="c-name"></span>
           </div>
           <div class="field">
             <label for="c-phone">טלפון</label>
             <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
-            <span class="err" data-err-for="c-phone"></span>
+            <span class="err" id="c-phone-err" data-err-for="c-phone"></span>
           </div>
         </div>
         <div class="field">
           <label for="c-mail">אימייל <span class="opt">(לא חובה)</span></label>
           <input id="c-mail" name="email" type="email" autocomplete="email" dir="ltr">
-          <span class="err" data-err-for="c-mail"></span>
+          <span class="err" id="c-mail-err" data-err-for="c-mail"></span>
         </div>
         <div class="field">
           <label for="c-msg">התהליך שגוזל לכם זמן <span class="opt">(לא חובה)</span></label>
@@ -380,16 +387,6 @@
         <h3>הפרטים התקבלו.</h3>
         <p>אחזור אליכם תוך יום עסקים אחד.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="final t-red" id="b2b">
-  <div class="wrap">
-    <h2 class="final-title"><span data-split>לא צריך לדעת הכול על AI.</span> <span class="ft-accent" data-split>צריך לדייק אותו לצרכים שלכם.</span></h2>
-    <div class="final-row">
-      <a class="btn btn-accent btn-big" href="#contact" data-cta="closing" data-magnet><span>לתיאום סדנה</span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></a>
-      <p class="final-after">ומה אחרי הסדנה? אם נמצא תהליך שכדאי להפוך לאוטומטי ואתם מעדיפים שמישהו יבנה אותו עבורכם, אפשר להמשיך משם.</p>
     </div>
   </div>
 </section>

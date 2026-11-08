@@ -487,7 +487,14 @@
     var wrapper = field.closest(".field");
     var slot = wrapper ? wrapper.querySelector(".err") : null;
     if (wrapper) { wrapper.classList.toggle("has-error", Boolean(message)); }
-    if (slot) { slot.textContent = message || ""; }
+    if (slot) {
+      slot.textContent = message || "";
+      /* the message is read out with the field, not only seen next to it */
+      if (!slot.id) { slot.id = (field.id || field.name) + "-err"; }
+      var described = (field.getAttribute("aria-describedby") || "").split(" ").filter(Boolean);
+      if (described.indexOf(slot.id) === -1) { described.push(slot.id); }
+      field.setAttribute("aria-describedby", described.join(" "));
+    }
     if (message) { field.setAttribute("aria-invalid", "true"); }
     else { field.removeAttribute("aria-invalid"); }
   }
@@ -511,7 +518,9 @@
       if (field.type === "checkbox" || field.type === "radio") { return; }
       var value = field.value.trim();
       var message = "";
-      if (field.required && !value) { message = "שדה חובה"; }
+      if (field.required && !value) {
+        message = field.name === "name" ? "נא למלא שם" : field.type === "tel" ? "נא למלא טלפון" : "שדה חובה";
+      }
       else if (value && field.type === "email" && !EMAIL_RE.test(value)) { message = "אימייל לא תקין"; }
       else if (value && field.type === "tel" && !PHONE_RE.test(value)) { message = "טלפון לא תקין"; }
       setError(field, message);

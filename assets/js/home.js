@@ -6,7 +6,6 @@
 
   var doc = document.documentElement;
   var header = document.getElementById("siteHeader");
-  var bar = document.getElementById("progressBar");
 
   /* ---------- header: solid once scrolled, tucks away going down ---------- */
   var lastY = window.scrollY;
@@ -16,10 +15,6 @@
       header.classList.toggle("is-stuck", y > 24);
       header.classList.toggle("is-hidden", y > 400 && y > lastY + 2);
       if (y < lastY - 2) { header.classList.remove("is-hidden"); }
-    }
-    if (bar) {
-      var max = doc.scrollHeight - window.innerHeight;
-      bar.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
     }
     lastY = y;
   }
@@ -35,7 +30,7 @@
     var target = id ? document.getElementById(id) : null;
     if (!target && id !== "top") { return; }
     e.preventDefault();
-    var y = target ? target.getBoundingClientRect().top + window.scrollY - 84 : 0;
+    var y = target ? target.getBoundingClientRect().top + window.scrollY - 68 : 0;
     var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: Math.max(0, y), behavior: still ? "auto" : "smooth" });
     if (target) { target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); }
@@ -53,14 +48,16 @@
   var $ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
   /* words rise out of a mask; falls back to a plain fade without SplitText */
+  var splits = [];
   function splitWords(el) {
     if (!Split) { return [el]; }
     var s = Split.create(el, { type: "words", mask: "words", wordsClass: "split-word" });
+    splits.push(s);
     return s.words;
   }
 
   /* SplitText measures glyphs, so the choreography waits for the webfonts
-     (but never longer than 1.5s - a slow font is not worth a blank hero) */
+     (but never longer than 0.6s - a slow font is not worth a blank hero) */
   var started = false;
   function start() {
     if (started) { return; }
@@ -69,7 +66,7 @@
     doc.classList.add("is-ready");
   }
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(start); } else { start(); }
-  window.setTimeout(start, 1500);
+  window.setTimeout(start, 600);
 
   function choreograph() {
   /* run the whole page's choreography only when motion is welcome */
@@ -77,11 +74,9 @@
 
   mm.add({
     motion: "(prefers-reduced-motion: no-preference)",
-    still: "(prefers-reduced-motion: reduce)",
-    wide: "(min-width: 1000px)"
+    still: "(prefers-reduced-motion: reduce)"
   }, function (ctx) {
     var c = ctx.conditions;
-    var undo = function () { doc.classList.remove("has-run"); };
 
     if (c.still) {
       $(".chores").forEach(function (el) { el.classList.add("is-static"); });
@@ -90,15 +85,19 @@
     }
 
     /* ================= HERO ================= */
-    var hero = gsap.timeline({ defaults: { ease: "expo.out" }, delay: .15 });
+    /* short and done in under a second; the buttons are never held back.
+       Once it ends the words are unwrapped, so no mask clips a letter's tail */
+    var hero = gsap.timeline({
+      defaults: { ease: "expo.out" },
+      onComplete: function () { splits.forEach(function (s) { s.revert(); }); splits.length = 0; }
+    });
 
     $(".hero [data-split]").forEach(function (el, i) {
-      hero.from(splitWords(el), { yPercent: 110, duration: 1.1, stagger: .06 }, i === 0 ? 0 : "-=.95");
+      hero.from(splitWords(el), { yPercent: 110, duration: .7, stagger: .025 }, i * .08);
     });
 
     /* the line under the headline comes in after it, never before */
-    hero.from(".hero-coda", { y: 18, autoAlpha: 0, duration: .9 }, "-=.55");
-    hero.from(".hero-foot > *", { y: 26, autoAlpha: 0, duration: .9, stagger: .1 }, "-=.5");
+    hero.from([".hero-coda", ".hero-sub"], { y: 10, autoAlpha: 0, duration: .35, stagger: .05 }, .45);
 
     /* the pulse, next to the form: one lead travels the line once, lighting
        each stop it reaches, and the strip stays lit when it is done */
@@ -138,12 +137,6 @@
       stops.forEach(function (li) { li.classList.add("is-lit"); });
     }
 
-    /* the headline drifts apart a little as you leave the hero */
-    gsap.to(".hero-title", {
-      yPercent: -12, ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-    });
-
     /* ================= ABOUT ================= */
     var frame = document.querySelector("[data-clip]");
     if (frame) {
@@ -160,36 +153,16 @@
 
     /* the creed lights up word by word as it is read */
     var creed = document.querySelector("[data-scrub]");
-    if (creed && Split) {
+    /* on a phone the text is simply there; scrubbing it is work for the thumb */
+    if (creed && Split && window.matchMedia("(min-width: 721px)").matches) {
       var cw = Split.create(creed, { type: "words" }).words;
-      gsap.fromTo(cw, { opacity: .14 }, {
+      gsap.fromTo(cw, { opacity: .4 }, {
         opacity: 1, ease: "none", stagger: .1,
         scrollTrigger: { trigger: creed, start: "top 80%", end: "bottom 45%", scrub: true }
       });
     }
 
     /* the 1,500+ is printed as is: a number that counts up reads as a gimmick */
-
-    /* ================= STEPS: sideways run, pinned ================= */
-    var track = document.getElementById("stepsTrack");
-    if (c.wide && track) {
-      /* the sideways layout exists only while this run drives it, so a
-         reduced-motion or script-less visit keeps the stacked cards */
-      doc.classList.add("has-run");
-      var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
-      var side = gsap.to(track, {
-        x: function () { return distance(); }, ease: "none",
-        scrollTrigger: {
-          trigger: ".steps-pin", pin: true, scrub: 1, start: "top top",
-          end: function () { return "+=" + distance(); }, invalidateOnRefresh: true
-        }
-      });
-      /* the cards deal in as the section arrives */
-      gsap.from($(".plan", track), {
-        y: 80, autoAlpha: 0, stagger: .12, duration: 1.1, ease: "expo.out",
-        scrollTrigger: { trigger: ".steps", start: "top 60%" }
-      });
-    }
 
     /* ================= PAIN: chores struck off as you pass them ================= */
     $(".chores li").forEach(function (li) {
@@ -213,10 +186,6 @@
         scrollTrigger: { trigger: fitGrid, start: "top 78%" } });
     }
 
-    /* ================= FINAL ================= */
-    if (c.wide) gsap.fromTo(".final-title", { xPercent: 6 }, { xPercent: -4, ease: "none",
-      scrollTrigger: { trigger: ".final", start: "top bottom", end: "bottom top", scrub: true } });
-
     /* ================= magnetic buttons ================= */
     if (window.matchMedia("(hover: hover)").matches) {
       $("[data-magnet]").forEach(function (btn) {
@@ -230,7 +199,6 @@
         btn.addEventListener("mouseleave", function () { xTo(0); yTo(0); });
       });
     }
-    return undo;
   });
 
   /* ================= FAQ: height eased open and shut ================= */
