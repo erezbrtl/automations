@@ -200,22 +200,17 @@
     });
 
     /* ================= FIT =================
-       one sequence: each line comes in, then the "no" lines are struck
-       off and the "yes" lines get their tick, one after another */
+       the lines are simply there; only the marks are drawn, quickly:
+       an x beside each "no", a tick beside each "yes" */
     var fitGrid = document.querySelector(".fit-grid");
     if (fitGrid) {
-      var fitTl = gsap.timeline({ scrollTrigger: { trigger: fitGrid, start: "top 78%" } });
-      fitTl.from($(".fit-no li", fitGrid), { x: 28, autoAlpha: 0, duration: .55, ease: "power3.out", stagger: .1 })
-           .from($(".fit-yes li", fitGrid), { x: 28, autoAlpha: 0, duration: .55, ease: "power3.out", stagger: .1 }, "<.15");
-      var noItems = $(".fit-no li span", fitGrid);
-      if (noItems.length) {
-        fitTl.fromTo(noItems, { "--strike": 0 }, { "--strike": 1, duration: .5, ease: "power2.inOut", stagger: .16 }, "-=.1");
-      }
-      $(".fit-yes path", fitGrid).forEach(function (p, i) {
+      var fitMarks = $(".fit-col svg path", fitGrid);
+      fitMarks.forEach(function (p) {
         var l = p.getTotalLength();
         gsap.set(p, { strokeDasharray: l, strokeDashoffset: l });
-        fitTl.to(p, { strokeDashoffset: 0, duration: .45, ease: "power2.out" }, i === 0 ? "<.2" : "-=.25");
       });
+      gsap.to(fitMarks, { strokeDashoffset: 0, duration: .3, ease: "power2.out", stagger: .05,
+        scrollTrigger: { trigger: fitGrid, start: "top 78%" } });
     }
 
     /* ================= FINAL ================= */
