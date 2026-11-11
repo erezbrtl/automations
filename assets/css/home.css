@@ -468,6 +468,10 @@ a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .t-red .plan-tag { background: #1A0B33; }
 .t-red .plan-core .btn-accent { --bg: #E0134E; --bd: #E0134E; }
 .t-red .plan-core .plan-dur b { color: #E0134E; }
+/* the intro card sits on the site's blue band colour */
+.t-red .plan:first-child { background: #1A0B33; border-color: rgba(255, 255, 255, .14); }
+.t-red .plan:first-child .plan-line, .t-red .plan:first-child .plan-dur { color: #CFC6E2; }
+.t-red .plan:first-child .btn-line:hover { color: #1A0B33; }
 
 /* closing band on red: white headline, dark accent line, dark button */
 .final.t-red .final-title { color: #fff; }
