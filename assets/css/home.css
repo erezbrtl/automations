@@ -697,7 +697,7 @@ p, li, .qa-body p { text-wrap: pretty; }
 @media (max-width: 520px) { .hero-actions .btn { flex: 1 1 100%; justify-content: center; } }
 
 /* what each plan leaves you with */
-.plan-out-h { margin: 4px 0 -8px; font-weight: 600; font-size: var(--fs-small); line-height: var(--lh-small); }
+.plan-out-h { align-self: flex-start; margin: 4px 0 -4px; padding: 3px 12px; border: 1.5px solid currentColor; border-radius: 999px; font-weight: 600; font-size: var(--fs-small); line-height: var(--lh-small); }
 .plan-out { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: var(--fs-body); line-height: 1.45; }
 .plan-out li { position: relative; padding-inline-start: 22px; }
 .plan-out li::before { content: ""; position: absolute; inset-inline-start: 0; top: .55em; width: 12px; height: 6px; border-inline-start: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg) scaleX(-1); opacity: .9; }
