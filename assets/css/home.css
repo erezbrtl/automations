@@ -706,3 +706,17 @@ p, li, .qa-body p { text-wrap: pretty; }
 .t-red .plan-core .plan-out { color: #444E6E; }
 .t-red .plan-core .plan-out li::before { color: #E0134E; }
 .t-red .plan-core .plan-out-h { color: #101B3D; }
+
+/* plan cards, calmer: title, then its length as a small accent line, one line of
+   what it is, the outcomes, and the button pinned to the bottom */
+.steps .plan { gap: 0; }
+.steps .plan h3 { margin: 0; }
+.steps .plan-dur { margin: 10px 0 0; font-size: var(--fs-body); line-height: var(--lh-body); font-weight: var(--fw-strong); }
+.steps .plan-dur b { font-size: inherit; font-weight: inherit; margin-left: .25em; }
+.t-red .plan .plan-dur, .t-red .plan .plan-dur b { color: #fff; }
+.t-red .plan-core .plan-dur, .t-red .plan-core .plan-dur b { color: #E0134E; }
+.steps .plan-line { margin: 18px 0 0; }
+.steps .plan-out-h { margin: 28px 0 0; }
+.steps .plan-out { margin: 14px 0 32px; gap: 6px; }
+.steps .plan .btn { margin-top: auto; }
+.steps .plan-tag { margin-bottom: 14px; }
