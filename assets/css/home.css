@@ -720,3 +720,14 @@ p, li, .qa-body p { text-wrap: pretty; }
 .steps .plan-out { margin: 14px 0 32px; gap: 6px; }
 .steps .plan .btn { margin-top: auto; }
 .steps .plan-tag { margin-bottom: 14px; }
+
+/* the core plan leads: it stands taller than its neighbours, carries a deeper
+   shadow, and its tag is a filled pill */
+.steps.t-red .plan-core { box-shadow: 0 32px 64px -24px rgba(10, 6, 19, .75); z-index: 1; }
+.steps.t-red .plan-core .plan-tag { align-self: flex-start; background: #E0134E; color: #fff; padding: 4px 12px; border-radius: 999px; font-weight: 600; }
+.steps.t-red .plan-core .plan-dur { font-size: var(--fs-lead); }
+@media (min-width: 1000px) {
+  .steps.t-red .plan-core { margin-block: -24px; padding-block: 52px 56px; }
+  .steps.t-red .plan-note { margin-top: 28px; }
+}
+.steps .plan-dur + .plan-out-h { margin-top: 24px; }
