@@ -732,19 +732,29 @@ p, li, .qa-body p { text-wrap: pretty; }
 }
 .steps .plan-dur + .plan-out-h { margin-top: 24px; }
 
-/* hero: a bigger three-line title on the right, Erez's photo on the left.
-   The title is sized from its own column, so each line stays one line. */
+/* hero: a big, tight three-line title on the right; on wide screens a small
+   picture of the idea on the left - the same task done by hand three times a
+   day, then once, by itself. The title is sized from its own column, so each
+   line stays one line. */
 .hero-text { container-type: inline-size; }
-.hero-title { font-size: min(11.8cqi, 7.5rem); line-height: 1.04; }
+.hero-title { font-size: min(11.9cqi, 8.75rem); line-height: .98; }
 .ht-line { white-space: nowrap; }
-.hero-photo { margin: 0; overflow: hidden; border-radius: 8px; }
-.hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; border-radius: 8px; }
+.hero-art { display: none; }
 @media (min-width: 1000px) {
-  .hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 25vw, 380px); gap: clamp(32px, 4vw, 64px); align-items: center; }
-  .hero-photo { aspect-ratio: 3 / 4; }
+  .hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(250px, 22vw, 320px); gap: clamp(32px, 4vw, 64px); align-items: center; }
   .hero-foot { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero-art { display: flex; flex-direction: column; align-items: stretch; }
 }
-@media (max-width: 999px) {
-  .hero-photo { margin-top: 36px; aspect-ratio: 4 / 3; }
-  .hero-photo img { height: 100%; aspect-ratio: auto; }
-}
+.ha-lab { margin: 0 0 10px; font-size: var(--fs-small); font-weight: 600; color: var(--ink-3); }
+.ha-rep { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ha-rep li { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px dashed rgba(255, 255, 255, .22); border-radius: 8px; font-size: var(--fs-small); color: var(--ink-2); }
+.ha-rep li:nth-child(2) { opacity: .7; }
+.ha-rep li:nth-child(3) { opacity: .45; }
+.ha-rep svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ha-rep time { margin-inline-start: auto; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.ha-arrow { width: 24px; height: 56px; margin: 14px auto; display: block; fill: none; stroke: var(--signal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ha-auto { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; padding: 16px; border-radius: 8px; background: rgba(255, 255, 255, .06); border: 1.5px solid var(--signal); box-shadow: 0 0 0 6px rgba(255, 46, 99, .12), 0 20px 50px -20px rgba(255, 46, 99, .55); }
+.ha-ico { grid-row: span 2; width: 36px; height: 36px; border-radius: 50%; background: var(--signal); display: grid; place-items: center; }
+.ha-ico svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ha-auto b { font-size: var(--fs-small); line-height: 1.35; color: var(--ink); }
+.ha-note { font-size: var(--fs-small); color: var(--ink-2); }
