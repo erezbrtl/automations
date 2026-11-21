@@ -731,3 +731,20 @@ p, li, .qa-body p { text-wrap: pretty; }
   .steps.t-red .plan-note { margin-top: 28px; }
 }
 .steps .plan-dur + .plan-out-h { margin-top: 24px; }
+
+/* hero: a bigger three-line title on the right, Erez's photo on the left.
+   The title is sized from its own column, so each line stays one line. */
+.hero-text { container-type: inline-size; }
+.hero-title { font-size: min(11.8cqi, 7.5rem); line-height: 1.04; }
+.ht-line { white-space: nowrap; }
+.hero-photo { margin: 0; overflow: hidden; border-radius: 8px; }
+.hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; border-radius: 8px; }
+@media (min-width: 1000px) {
+  .hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 25vw, 380px); gap: clamp(32px, 4vw, 64px); align-items: center; }
+  .hero-photo { aspect-ratio: 3 / 4; }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 24px; }
+}
+@media (max-width: 999px) {
+  .hero-photo { margin-top: 36px; aspect-ratio: 4 / 3; }
+  .hero-photo img { height: 100%; aspect-ratio: auto; }
+}
