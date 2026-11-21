@@ -740,8 +740,17 @@ p, li, .qa-body p { text-wrap: pretty; }
 .ht-line { white-space: nowrap; }
 .hero-photo { display: none; margin: 0; overflow: hidden; border-radius: 8px; }
 .hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* wide screens: the photo fills the whole left side of the band, edge to edge
+   and top to bottom, and fades into the violet as it reaches the text */
 @media (min-width: 1000px) {
-  .hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(250px, 24vw, 340px); gap: clamp(32px, 4vw, 64px); align-items: center; }
+  .hero { overflow: hidden; }
+  .hero .wrap.hero-grid { position: static; display: grid; grid-template-columns: minmax(0, 1fr) 26vw; align-items: center; }
+  .hero-text { position: relative; z-index: 1; }
   .hero-foot { flex-direction: column; align-items: flex-start; gap: 24px; }
-  .hero-photo { display: block; aspect-ratio: 3 / 4; }
+  .hero-photo {
+    display: block; position: absolute; inset-block: 0; left: 0; width: 56vw; border-radius: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 35%, rgba(0, 0, 0, .55) 62%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 35%, rgba(0, 0, 0, .55) 62%, transparent 100%);
+  }
+  .hero-photo img { object-position: 30% 60%; }
 }
